@@ -10,7 +10,8 @@ const posts = published(markdownFiles);
   title='Blog'
   description='Blog posts about web development, design, and more.'
 >
-  <div>
+  <h1>Blog</h1>
+  <div class='-mt-8'>
     {posts.map((p) => <PostCard post={p} />)}
   </div>
 </Layout>

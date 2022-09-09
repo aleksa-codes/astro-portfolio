@@ -13,7 +13,8 @@
     "@astrojs/rss": "^1.0.0",
     "@fontsource/poppins": "^4.5.9",
     "astro": "^1.1.7",
-    "reading-time": "^1.5.0"
+    "reading-time": "^1.5.0",
+    "typewriter-effect": "^2.19.0"
   },
   "devDependencies": {
     "@astrojs/mdx": "^0.11.1",

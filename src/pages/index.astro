@@ -4,14 +4,16 @@ import Layout from '../components/layouts/Layout.astro';
 
 <Layout>
   <h1 class='flex flex-row items-center justify-start'>
-    Hello World
-    <!-- <img
+    <span id='typed'></span>
+    <span class='not-prose ml-4'>
+      <img
+        class='animate-waving-hand'
         src='/waving-hand.webp'
         alt='waving hand'
         width={48}
         height={48}
-        layout='fixed'
-      /> -->
+      />
+    </span>
   </h1>
   <h1 class='mb-[-48px] lg:mb-[-48px]'>My name is Aleksa</h1>
   <h2>
@@ -22,3 +24,15 @@ import Layout from '../components/layouts/Layout.astro';
     Computer Science Student and Web Developer.
   </div>
 </Layout>
+<script>
+  // @ts-ignore
+  import Typewriter from 'typewriter-effect/dist/core';
+
+  const typed = document.getElementById('typed');
+  const typewriter = new Typewriter(typed, {
+    loop: false,
+    autoStart: true
+  });
+
+  typewriter.typeString('Hello World').start();
+</script>

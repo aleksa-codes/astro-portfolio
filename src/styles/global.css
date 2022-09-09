@@ -1,63 +1,63 @@
 /* Custom component styles */
-.highlight:hover {
+[data-theme='winter'] .highlight:hover {
   box-shadow: #add9f4 0px -1rem 0px inset;
 }
-.highlight {
+[data-theme='winter'] .highlight {
   box-shadow: #add9f4 0px -0.5rem 0px inset;
   transition: box-shadow 0.3s ease-out 0s;
 }
 
-[data-theme='night'] .highlight:hover {
+.highlight:hover {
   box-shadow: #463aa1 0px -1rem 0px inset;
 }
 
-[data-theme='night'] .highlight {
+.highlight {
   box-shadow: #463aa1 0px -0.5rem 0px inset;
   transition: box-shadow 0.3s ease-out 0s;
 }
 
-.highlight-heading:hover {
+[data-theme='winter'] .highlight-heading:hover {
   box-shadow: #add9f4 0px -4rem 0px inset;
 }
-.highlight-heading {
+[data-theme='winter'] .highlight-heading {
   box-shadow: #add9f4 0px -1rem 0px inset;
   transition: box-shadow 0.3s ease-out 0s;
 }
 
-[data-theme='night'] .highlight-heading:hover {
+.highlight-heading:hover {
   box-shadow: #463aa1 0px -4rem 0px inset;
 }
 
-[data-theme='night'] .highlight-heading {
+.highlight-heading {
   box-shadow: #463aa1 0px -1rem 0px inset;
   transition: box-shadow 0.3s ease-out 0s;
 }
 
-.wave-t {
+[data-theme='winter'] .wave-t {
   @apply text-slate-200;
 }
-[data-theme='night'] .wave-t {
-  @apply text-gray-800;
+.wave-t {
+  @apply text-slate-800;
+}
+[data-theme='winter'] .wave-b {
+  @apply bg-slate-200;
 }
 .wave-b {
-  @apply bg-gray-200;
-}
-[data-theme='night'] .wave-b {
-  @apply bg-gray-800;
+  @apply bg-slate-800;
 }
 
-.footer-text-top {
+[data-theme='winter'] .footer-text-t {
   @apply text-slate-600;
 }
-[data-theme='night'] .footer-text-top {
-  @apply text-gray-300;
+.footer-text-t {
+  @apply text-slate-400;
 }
 
-.footer-text-bottom {
-  @apply text-slate-500;
+[data-theme='winter'] .footer-text-b {
+  @apply text-slate-600;
 }
-[data-theme='night'] .footer-text-bottom {
-  @apply text-gray-500;
+.footer-text-b {
+  @apply text-slate-400;
 }
 /* End for custom component styles */
 
