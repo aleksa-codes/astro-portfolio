@@ -1,0 +1,118 @@
+---
+import Layout from '../components/layouts/Layout.astro';
+import Date from '../components/utilities/Date.astro';
+import ReadTime from '../components/utilities/ReadTime.astro';
+// import rss from '@astrojs/rss';
+import { published } from '../data/post';
+export async function getStaticPaths() {
+  const markdownFiles = await Astro.glob('../posts/*.mdx');
+  const posts = published(markdownFiles);
+  // rss({
+  //   title: 'Astro Blog',
+  //   site: import.meta.env.SITE,
+  //   description: 'Astro Blog Feed',
+  //   stylesheet: true,
+  //   customData: `<language>en-us</language>`,
+  //   items: posts.map((post) => ({
+  //     link: post.
+  //     title: post
+  //     pubDate: post.frontmatter.pubDate
+  //   }))
+  // });
+  return posts.map((post) => {
+    return {
+      params: { post: post.slug },
+      props: { post }
+    };
+  });
+}
+// Destructure to get both `Astro.props.post` and `Astro.props.post.Content`
+const {
+  post: { Content },
+  post
+} = Astro.props;
+---
+
+<Layout
+  title={post.title}
+  description={post.description}
+  ogImage={post.img}
+  canonical={import.meta.env.SITE + post.slug}
+>
+  <div class='flex justify-center'>
+    <div class='py-6 prose lg:prose-lg'>
+      {
+        post.img && post.imgWidth && post.imgHeight ? (
+          <figure class='flex justify-center'>
+            <img
+              src={post.img}
+              alt={post.title}
+              width={post.imgWidth}
+              height={post.imgHeight}
+              class='rounded bg-base-200'
+            />
+          </figure>
+        ) : (
+          post.img && (
+            <figure class='flex justify-center'>
+              <img
+                src={post.img}
+                alt={post.title}
+                class='rounded bg-base-200'
+              />
+            </figure>
+          )
+        )
+      }
+      <h1>{post.title}</h1>
+      <!-- <div class='flex gap-3'>
+        <span class='badge badge-ghost'>
+          <Date date={post.date} />
+        </span>
+        {
+          post.author && (
+            <span class='text-sm text-base-content/70'>By {post.author}</span>
+          )
+        }
+      </div> -->
+      <div class='flex flex-row items-center gap-2 text-lg text-gray-500'>
+        <span>
+          <Date date={post.date} />
+        </span>
+        <!-- {
+          data.author && (
+            <span class='text-sm text-base-content/70'>
+              By {data.author}
+            </span>
+          )
+        } -->
+        <span>•</span>
+        <span>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            class='icon icon-tabler icon-tabler-book'
+            width='24'
+            height='24'
+            viewBox='0 0 24 24'
+            stroke-width='1.5'
+            stroke='currentColor'
+            fill='none'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+          >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
+            <path d='M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0'></path>
+            <path d='M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0'></path>
+            <line x1='3' y1='6' x2='3' y2='19'></line>
+            <line x1='12' y1='6' x2='12' y2='19'></line>
+            <line x1='21' y1='6' x2='21' y2='19'></line>
+          </svg>
+        </span>
+        <ReadTime slug={post.slug} />
+      </div>
+      <div>
+        <Content />
+      </div>
+    </div>
+  </div>
+</Layout>

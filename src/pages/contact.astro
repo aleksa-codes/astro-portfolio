@@ -1,0 +1,125 @@
+---
+import Layout from '../components/layouts/Layout.astro';
+import Avatar from '../components/utilities/Avatar.astro';
+---
+
+<Layout title='Contact' description='Contact me'>
+  <h1>Contact me</h1>
+  <div class='flex flex-col items-center h-full justify-center'>
+    <div class='mt-[-36px] flex flex-row items-center justify-center gap-4'>
+      <Avatar />
+      <p>
+        Feel free to reach out to me at any time, I am always interested in{' '}
+        <span class='highlight'>new stuff</span>!
+      </p>
+    </div>
+    <form
+      class='flex flex-col items-center justify-center w-full'
+      target='_blank'
+      action='https://formsubmit.co/9f2e38d7a97aa8e4fad043b4b83b9558'
+      method='POST'
+    >
+      <div class='flex flex-row items-center justify-between w-full gap-4'>
+        <div class='w-full'>
+          <label html-for='name-field'>
+            Name
+            <div id='name-field'>
+              <input
+                type='text'
+                name='name'
+                class='input input-bordered w-full'
+                placeholder='e.g. Bon Jovi'
+                required
+              />
+            </div>
+          </label>
+        </div>
+        <div class='w-full'>
+          <label html-for='email-field'>
+            Email
+            <div id='email-field'>
+              <input
+                type='email'
+                name='email'
+                class='input input-bordered w-full'
+                placeholder='e.g. bon.jovi@gmail.com'
+                required
+              />
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class='w-full'>
+        <label html-for='subject-field'>
+          Subject
+          <div id='subject-field'>
+            <input
+              type='text'
+              name='_subject'
+              class='input input-bordered w-full'
+              placeholder={`e.g. Let's Connect!`}
+              required
+            />
+          </div>
+        </label>
+      </div>
+      <div class='w-full'>
+        <label html-for='message-field'>
+          Message
+          <div id='message-field'>
+            <textarea
+              placeholder='Your Message Here'
+              class='textarea textarea-bordered w-full'
+              name='message'
+              rows={4}
+              required></textarea>
+          </div>
+        </label>
+      </div>
+      <div
+        class='flex flex-row items-center justify-start gap-2 w-full pt-2 md:pt-4'
+      >
+        <button type='submit' class='btn btn-primary gap-1'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            class='icon icon-tabler icon-tabler-send'
+            width='20'
+            height='20'
+            viewBox='0 0 24 24'
+            stroke-width='2'
+            stroke='currentColor'
+            fill='none'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+          >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
+            <line x1='10' y1='14' x2='21' y2='3'></line>
+            <path
+              d='M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5'
+            ></path>
+          </svg> Send
+        </button>
+        <button type='reset' class='btn gap-1'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            class='icon icon-tabler icon-tabler-eraser'
+            width='20'
+            height='20'
+            viewBox='0 0 24 24'
+            stroke-width='2'
+            stroke='currentColor'
+            fill='none'
+            stroke-linecap='round'
+            stroke-linejoin='round'
+          >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
+            <path
+              d='M19 19h-11l-4 -4a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9 9'
+            ></path>
+            <line x1='18' y1='12.3' x2='11.7' y2='6'></line>
+          </svg> Clear
+        </button>
+      </div>
+    </form>
+  </div>
+</Layout>

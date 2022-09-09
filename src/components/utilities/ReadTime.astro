@@ -1,0 +1,32 @@
+---
+import fs from 'fs';
+import matter from 'gray-matter';
+import path from 'path';
+import readingTime from 'reading-time';
+export interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props as Props;
+const getPost = () => {
+  const fileContents = fs.readFileSync(
+    path.join('src', 'posts', `${slug}.mdx`),
+    'utf8'
+  );
+  const { data, content } = matter(fileContents);
+  return {
+    ...data,
+    content,
+    slug
+  };
+};
+const readTime = () => {
+  const stats = readingTime(getPost().content);
+  // round minutes and return as string
+  return `${Math.round(stats.minutes)} min read`;
+};
+---
+
+<span>
+  {readTime()}
+</span>

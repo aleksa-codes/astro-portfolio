@@ -1,0 +1,71 @@
+/* Custom component styles */
+.highlight:hover {
+  box-shadow: #add9f4 0px -1rem 0px inset;
+}
+.highlight {
+  box-shadow: #add9f4 0px -0.5rem 0px inset;
+  transition: box-shadow 0.3s ease-out 0s;
+}
+
+[data-theme='night'] .highlight:hover {
+  box-shadow: #463aa1 0px -1rem 0px inset;
+}
+
+[data-theme='night'] .highlight {
+  box-shadow: #463aa1 0px -0.5rem 0px inset;
+  transition: box-shadow 0.3s ease-out 0s;
+}
+
+.highlight-heading:hover {
+  box-shadow: #add9f4 0px -4rem 0px inset;
+}
+.highlight-heading {
+  box-shadow: #add9f4 0px -1rem 0px inset;
+  transition: box-shadow 0.3s ease-out 0s;
+}
+
+[data-theme='night'] .highlight-heading:hover {
+  box-shadow: #463aa1 0px -4rem 0px inset;
+}
+
+[data-theme='night'] .highlight-heading {
+  box-shadow: #463aa1 0px -1rem 0px inset;
+  transition: box-shadow 0.3s ease-out 0s;
+}
+
+.wave-t {
+  @apply text-slate-200;
+}
+[data-theme='night'] .wave-t {
+  @apply text-gray-800;
+}
+.wave-b {
+  @apply bg-gray-200;
+}
+[data-theme='night'] .wave-b {
+  @apply bg-gray-800;
+}
+
+.footer-text-top {
+  @apply text-slate-600;
+}
+[data-theme='night'] .footer-text-top {
+  @apply text-gray-300;
+}
+
+.footer-text-bottom {
+  @apply text-slate-500;
+}
+[data-theme='night'] .footer-text-bottom {
+  @apply text-gray-500;
+}
+/* End for custom component styles */
+
+/* Custom utilities */
+html,
+body,
+#__next {
+  height: 100%;
+  min-height: 100vh;
+}
+/* End for custom utilities */

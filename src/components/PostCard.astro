@@ -1,0 +1,67 @@
+---
+import type { Post } from '../data/post';
+const post: Post = Astro.props.post;
+import Date from './utilities/Date.astro';
+import ReadTime from './utilities/ReadTime.astro';
+---
+
+<div
+  class='py-6 flex flex-col sm:flex-row-reverse gap-6 sm:gap-10 items-center'
+>
+  {
+    post.img && (
+      <a href={`/${post.slug}`} class='shrink-0'>
+        <img
+          src={post.img}
+          alt={post.title}
+          width='160'
+          height='160'
+          class='w-full sm:w-40 sm:h-40 rounded bg-base-200 object-cover'
+        />
+      </a>
+    )
+  }
+  <div class='flex flex-col'>
+    <h2 class='text-2xl font-bold !my-0'>
+      <a class='no-underline hover:underline' href={`/${post.slug}`}
+        >{post.title}
+      </a>
+    </h2>
+    <div class='flex flex-row items-center gap-2 text-sm text-gray-500 pt-2'>
+      <span>
+        <Date date={post.date} />
+      </span>
+      <!-- {
+        data.author && (
+          <span class='text-sm text-base-content/70'>
+            By {data.author}
+          </span>
+        )
+      } -->
+      <span>•</span>
+      <span>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          class='icon icon-tabler icon-tabler-book'
+          width='20'
+          height='20'
+          viewBox='0 0 24 24'
+          stroke-width='1.5'
+          stroke='currentColor'
+          fill='none'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+        >
+          <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
+          <path d='M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0'></path>
+          <path d='M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0'></path>
+          <line x1='3' y1='6' x2='3' y2='19'></line>
+          <line x1='12' y1='6' x2='12' y2='19'></line>
+          <line x1='21' y1='6' x2='21' y2='19'></line>
+        </svg>
+      </span>
+      <ReadTime slug={post.slug} />
+    </div>
+    <p class='text-sm text-base-content/70'>{post.desc}</p>
+  </div>
+</div>

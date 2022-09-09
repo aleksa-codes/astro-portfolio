@@ -10,6 +10,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^1.1.7"
+    "@astrojs/rss": "^1.0.0",
+    "@fontsource/poppins": "^4.5.9",
+    "astro": "^1.1.7",
+    "reading-time": "^1.5.0"
+  },
+  "devDependencies": {
+    "@astrojs/mdx": "^0.11.1",
+    "@astrojs/sitemap": "^1.0.0",
+    "@astrojs/tailwind": "^1.0.0",
+    "@tailwindcss/typography": "^0.5.7",
+    "daisyui": "^2.25.0",
+    "theme-change": "^2.2.0"
   }
 }

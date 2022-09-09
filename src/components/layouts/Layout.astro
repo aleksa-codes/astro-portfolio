@@ -1,0 +1,55 @@
+---
+import '../../styles/global.css';
+import Footer from '../Footer.astro';
+import Navbar from '../Navbar.astro';
+import SEO from '../SEO.astro';
+export interface Props {
+  title?: string;
+  description?: string;
+  siteName?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  twitterHandle?: string;
+}
+
+const {
+  title,
+  description,
+  siteName = 'aleksa.codes',
+  canonical,
+  ogImage,
+  ogType,
+  twitterHandle
+} = Astro.props as Props;
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='generator' content={Astro.generator} />
+    <script src='https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js'
+    ></script>
+    <script></script>
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap'
+      rel='stylesheet'
+    />
+    <SEO
+      {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle }}
+    />
+  </head><body class='flex flex-col items-center h-screen'>
+    <div class='w-full max-w-3xl flex-grow'>
+      <Navbar />
+      <div class='p-4'>
+        <div class='prose lg:prose-lg min-w-full'><slot /></div>
+      </div>
+    </div>
+    <Footer />
+  </body>
+</html>

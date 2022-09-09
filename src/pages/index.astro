@@ -1,15 +1,24 @@
 ---
+import Layout from '../components/layouts/Layout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <h1 class='flex flex-row items-center justify-start'>
+    Hello World
+    <!-- <img
+        src='/waving-hand.webp'
+        alt='waving hand'
+        width={48}
+        height={48}
+        layout='fixed'
+      /> -->
+  </h1>
+  <h1 class='mb-[-48px] lg:mb-[-48px]'>My name is Aleksa</h1>
+  <h2>
+    I design and build{' '}
+    <span class='highlight-heading'>things for the web.</span>
+  </h2>
+  <div class='opacity-80 text-xl font-semibold'>
+    Computer Science Student and Web Developer.
+  </div>
+</Layout>

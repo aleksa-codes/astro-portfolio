@@ -1,0 +1,16 @@
+---
+import { published } from '../../data/post';
+import PostCard from '../../components/PostCard.astro';
+import Layout from '../../components/layouts/Layout.astro';
+const markdownFiles = await Astro.glob('../../posts/*.mdx');
+const posts = published(markdownFiles);
+---
+
+<Layout
+  title='Blog'
+  description='Blog posts about web development, design, and more.'
+>
+  <div>
+    {posts.map((p) => <PostCard post={p} />)}
+  </div>
+</Layout>
