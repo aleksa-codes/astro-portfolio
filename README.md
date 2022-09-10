@@ -1,16 +1,14 @@
-# Astro Starter Kit: Minimal
+# Astro Tailwind DaisyUI Portfolio & MDX Blog
 
-```
-npm init astro -- --template minimal
-```
+Porfolio website with personal and contact inforamation, project showcase and a blog.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
+## aleksa.codes
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+[Demo](https://aleksa.vercel.app)
 
 ## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+Inside of this project, you'll see the following folders and files:
 
 ```
 /
@@ -18,7 +16,9 @@ Inside of your Astro project, you'll see the following folders and files:
 ├── src/
 │   └── pages/
 │       └── index.astro
+        ...
 └── package.json
+    ...
 ```
 
 Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
@@ -33,13 +33,15 @@ All commands are run from the root of the project, from a terminal:
 
 | Command                | Action                                           |
 | :--------------------- | :----------------------------------------------- |
-| `npm install`          | Installs dependencies                            |
-| `npm run dev`          | Starts local dev server at `localhost:3000`      |
-| `npm run build`        | Build your production site to `./dist/`          |
-| `npm run preview`      | Preview your build locally, before deploying     |
-| `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro --help` | Get help using the Astro CLI                     |
+| `yarn install`          | Installs dependencies                            |
+| `yarn dev`          | Starts local dev server at `localhost:3000`      |
+| `yarn build`        | Build your production site to `./dist/`          |
+| `yarn preview`      | Preview your build locally, before deploying     |
+| `yarn astro ...`    | Run CLI commands like `astro add`, `astro check` |
+| `yarn astro --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+** if you are using npm -> just use `npm run` instead of `yarn'
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 👀 Want to see it in action?
+
+Feel free to check it out at [aleksa.vercel.app](https://aleksa.vercel.app)
