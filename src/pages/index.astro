@@ -5,8 +5,16 @@ import Layout from '../components/layouts/Layout.astro';
 <Layout>
   <h1 class='flex flex-row items-center justify-start'>
     <span id='typed'></span>
-    <span class='not-prose ml-4 animate-waving-hand'>
-      <img src='/waving-hand.webp' alt='waving hand' width='48' height='48' />
+    <span class='not-prose ml-4 animate-waving-hand w-[48px] h-[48px]'>
+      <img
+        src='/src/assets/waving-hand.webp'
+        alt='waving hand'
+        class='w-full h-full'
+        srcset='
+          /src/assets/waving-hand.webp 1x,
+          /src/assets/waving-hand.webp 2x
+        '
+      />
     </span>
   </h1>
   <h1 class='mb-[-48px] lg:mb-[-48px]'>My name is Aleksa</h1>

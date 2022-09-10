@@ -1,8 +1,9 @@
 ---
 import type { Post } from '../data/post';
-const post: Post = Astro.props.post;
+import { Image } from '@astrojs/image/components';
 import Date from './utilities/Date.astro';
 import ReadTime from './utilities/ReadTime.astro';
+const post: Post = Astro.props.post;
 ---
 
 <div
@@ -11,11 +12,12 @@ import ReadTime from './utilities/ReadTime.astro';
   {
     post.img && (
       <a href={`/${post.slug}`} class='shrink-0'>
-        <img
+        <Image
           src={post.img}
           alt={post.title}
-          width='160'
-          height='160'
+          width={160}
+          height={160}
+          format={'webp'}
           class='w-full sm:w-40 sm:h-40 rounded bg-base-200 object-cover'
         />
       </a>

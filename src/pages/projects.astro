@@ -1,5 +1,6 @@
 ---
 import Layout from '../components/layouts/Layout.astro';
+import { Image } from '@astrojs/image/components';
 import { projects } from '../data/project';
 ---
 
@@ -96,11 +97,12 @@ import { projects } from '../data/project';
               </div>
             </div>
             <a href={demo} target='_blank' rel='noopener noreferrer'>
-              <img
+              <Image
                 src={img}
                 alt={name}
                 width={400}
                 height={300}
+                format={'webp'}
                 class='justify-center rounded-lg  hover:scale-105 hover:shadow-md transition-all duration-300 ease-in-out'
               />
             </a>

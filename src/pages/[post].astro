@@ -1,5 +1,6 @@
 ---
 import Layout from '../components/layouts/Layout.astro';
+import { Image } from '@astrojs/image/components';
 import Date from '../components/utilities/Date.astro';
 import ReadTime from '../components/utilities/ReadTime.astro';
 // import rss from '@astrojs/rss';
@@ -44,20 +45,22 @@ const {
       {
         post.img && post.imgWidth && post.imgHeight ? (
           <figure class='flex justify-center'>
-            <img
+            <Image
               src={post.img}
               alt={post.title}
               width={post.imgWidth}
               height={post.imgHeight}
+              format={'webp'}
               class='rounded bg-base-200'
             />
           </figure>
         ) : (
           post.img && (
             <figure class='flex justify-center'>
-              <img
+              <Image
                 src={post.img}
                 alt={post.title}
+                format={'webp'}
                 class='rounded bg-base-200'
               />
             </figure>
