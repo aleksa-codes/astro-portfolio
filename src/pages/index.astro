@@ -2,6 +2,18 @@
 import Layout from '../components/layouts/Layout.astro';
 ---
 
+<!-- <script>
+  // @ts-ignore
+  import Typewriter from 'typewriter-effect/dist/core';
+
+  const typed = document.getElementById('typed');
+  const typewriter = new Typewriter(typed, {
+    loop: false,
+    autoStart: true
+  });
+
+  typewriter.typeString('Hello World').start();
+</script> -->
 <Layout>
   <h1 class='flex flex-row items-center justify-start'>
     <span id='typed'></span>
@@ -27,12 +39,12 @@ import Layout from '../components/layouts/Layout.astro';
 <script>
   // @ts-ignore
   import Typewriter from 'typewriter-effect/dist/core';
-
-  const typed = document.getElementById('typed');
-  const typewriter = new Typewriter(typed, {
-    loop: false,
-    autoStart: true
+  document.addEventListener('DOMContentLoaded', () => {
+    const typed = document.getElementById('typed');
+    const tw = new Typewriter(typed, {
+      loop: false,
+      autoStart: true
+    });
+    tw.typeString('Hello World').start();
   });
-
-  typewriter.typeString('Hello World').start();
 </script>

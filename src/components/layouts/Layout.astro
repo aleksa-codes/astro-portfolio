@@ -47,7 +47,9 @@ const {
     <div class='w-full max-w-3xl flex-grow'>
       <Navbar />
       <div class='px-4 pt-4 md:pt-8'>
-        <div class='prose lg:prose-lg min-w-full'><slot /></div>
+        <div class='prose lg:prose-lg min-w-full animate-content-fade'>
+          <slot />
+        </div>
       </div>
     </div>
     <Footer />

@@ -20,20 +20,18 @@ module.exports = {
           '60%': { transform: 'rotate(0.0deg)' },
           '100%': { transform: 'rotate(0.0deg)' }
         },
-        fadein: {
-          '0%': { transform: 'rotate(0.0deg)' },
-          '10%': { transform: 'rotate(14deg)' },
-          '20%': { transform: 'rotate(-8deg)' },
-          '30%': { transform: 'rotate(14deg)' },
-          '40%': { transform: 'rotate(-4deg)' },
-          '50%': { transform: 'rotate(10.0deg)' },
-          '60%': { transform: 'rotate(0.0deg)' },
-          '100%': { transform: 'rotate(0.0deg)' }
+        fade: {
+          // goes from 0% to 100% opacity
+          '0%': { opacity: 0, transform: 'translateY(8px)' },
+          '100%': { opacity: 1, transform: 'translateY(0px)' }
         }
+      },
+      transitionTimingFunction: {
+        ease: 'cubic-bezier(0.61, 1, 0.88, 1)'
       },
       animation: {
         'waving-hand': 'wave 2s linear infinite 2s',
-        'content-fadein': 'fadein 2s linear infinite'
+        'content-fade': 'fade 0.4s ease'
       }
     }
   },
