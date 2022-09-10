@@ -33,8 +33,10 @@ const {
     <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='generator' content={Astro.generator} />
-    <script src='https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js'
-    ></script>
+    <script>
+      import { themeChange } from 'theme-change';
+      themeChange();
+    </script>
     <SEO
       {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle }}
     />
