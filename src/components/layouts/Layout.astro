@@ -1,9 +1,9 @@
 ---
-import Font from '../utilities/Font.astro';
+import '@fontsource/poppins/latin.css';
 import '../../styles/global.css';
+import SEO from '../SEO.astro';
 import Footer from '../Footer.astro';
 import Navbar from '../Navbar.astro';
-import SEO from '../SEO.astro';
 
 export interface Props {
   title?: string;
@@ -35,7 +35,6 @@ const {
     <meta name='generator' content={Astro.generator} />
     <script src='https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js'
     ></script>
-    <Font />
     <SEO
       {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle }}
     />
