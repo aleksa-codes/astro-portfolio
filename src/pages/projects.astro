@@ -6,9 +6,7 @@ import { projects } from '../data/project';
 <Layout title='Projects' description='A list of projects I have worked on.'>
   <h1>Projects</h1>
   <div class='flex flex-col gap-4 md:gap-4'>
-    {
-      /* map and add <div class='divider'></div> after each project except the last one */
-    }
+    <!-- map and add <div class='divider'></div> after each project except the last one  -->
     {
       projects.map(({ name, desc, tech, github, demo, img }, index, array) => (
         <div>
