@@ -6,7 +6,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'http://localhost:3000/',
+  site: 'https://astro-portfolio-tau.vercel.app/',
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
