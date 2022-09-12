@@ -3,8 +3,10 @@ import Layout from '../components/layouts/Layout.astro';
 ---
 
 <Layout>
-  <h1 class='flex flex-row items-center justify-start'>
-    <span id='typed'></span>
+  <div class='flex flex-row items-center justify-start mb-4 md:mb-8'>
+    <span
+      id='typed'
+      class='text-4xl lg:text-5xl font-extrabold text-base-content'></span>
     <span class='not-prose ml-3 animate-waving-hand w-[48px] h-[48px]'>
       <img
         src='/waving-hand.webp'
@@ -16,7 +18,7 @@ import Layout from '../components/layouts/Layout.astro';
         '
       />
     </span>
-  </h1>
+  </div>
   <h1 class='mb-[-48px] lg:mb-[-48px]'>My name is Aleksa</h1>
   <h2>
     I design and build{' '}
@@ -24,6 +26,10 @@ import Layout from '../components/layouts/Layout.astro';
   </h2>
   <div class='text-xl font-semibold'>
     Computer Science Student and Web Developer.
+  </div>
+  <div
+    class='w-[275px] h-[275px] lg:w-[350px] lg:h-[350px] xl:w-[400px] xl:h-[400px] 2xl:w-[450px] 2xl:h-[450px] mx-auto p-4 bg-laptop'
+  >
   </div>
 </Layout>
 <script>

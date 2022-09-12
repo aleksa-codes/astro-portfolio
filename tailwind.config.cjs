@@ -32,6 +32,9 @@ module.exports = {
       animation: {
         'waving-hand': 'wave 2s linear infinite 2s',
         'content-fade': 'fade 0.4s ease'
+      },
+      backgroundImage: {
+        laptop: "url('/laptop-animate.svg')"
       }
     }
   },
