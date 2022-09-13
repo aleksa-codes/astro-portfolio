@@ -21,16 +21,19 @@ module.exports = {
           '100%': { transform: 'rotate(0.0deg)' }
         },
         fade: {
-          // goes from 0% to 100% opacity
           '0%': { opacity: 0, transform: 'translateY(8px)' },
           '100%': { opacity: 1, transform: 'translateY(0px)' }
+        },
+        opacity: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 }
         }
       },
       transitionTimingFunction: {
         ease: 'cubic-bezier(0.61, 1, 0.88, 1)'
       },
       animation: {
-        'waving-hand': 'wave 2s linear infinite 2s',
+        'waving-hand': 'opacity 2.5s ease-in, wave 2s linear infinite 2s',
         'content-fade': 'fade 0.4s ease'
       },
       backgroundImage: {

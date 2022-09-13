@@ -96,7 +96,12 @@ import { projects } from '../data/project';
                 </a>
               </div>
             </div>
-            <a href={demo} target='_blank' rel='noopener noreferrer'>
+            <a
+              href={demo}
+              target='_blank'
+              rel='noopener noreferrer'
+              class='not-prose'
+            >
               <Image
                 src={img}
                 alt={name}
@@ -104,7 +109,7 @@ import { projects } from '../data/project';
                 width={400}
                 height={300}
                 format={'webp'}
-                class='justify-center rounded-lg  hover:scale-105 hover:shadow-md transition-all duration-300 ease-in-out'
+                class='rounded-lg  hover:scale-105 hover:shadow-md transition-all duration-300 ease-in-out'
               />
             </a>
           </div>

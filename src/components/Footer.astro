@@ -13,7 +13,7 @@ import { days } from '../data/day';
   </svg>
   <div class='wave-b'>
     <div
-      class='max-w-5xl mx-auto py-8 px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-3'
+      class='max-w-8xl mx-auto py-8 px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-3'
     >
       <div class=''></div>
       <div class='text-sm text-center mb-2 md:mb-0'>
@@ -26,13 +26,18 @@ import { days } from '../data/day';
             class='hover:underline'
           >
             aleksa</a
-          >{' '}• All rights reserved
+          >{' '}• illustration by{' '}<a
+            href='https://storyset.com/people'
+            target='_blank'
+            rel='noopener noreferrer'
+            class='hover:underline'>Storyset</a
+          >
         </div>
-        <div
+        <span
           class='flex md:flex-row mx-auto text-center justify-center footer-text-b'
         >
           ~ Have a great {days[new Date().getDay()]} ~
-        </div>
+        </span>
       </div>
     </div>
   </div>
