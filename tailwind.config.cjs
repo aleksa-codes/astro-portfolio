@@ -33,7 +33,7 @@ module.exports = {
         ease: 'cubic-bezier(0.61, 1, 0.88, 1)'
       },
       animation: {
-        'waving-hand': 'opacity 2.5s ease-in-out, wave 2s linear infinite 2s',
+        'waving-hand': 'opacity 3s ease-in-out, wave 2s linear infinite 2s',
         'content-fade': 'fade 0.4s ease'
       },
       backgroundImage: {
