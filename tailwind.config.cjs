@@ -6,6 +6,9 @@ module.exports = {
 
   theme: {
     extend: {
+      future: {
+        hoverOnlyWhenSupported: true
+      },
       fontFamily: {
         sans: ['"Poppins"', 'sans-serif']
       },
