@@ -6,7 +6,7 @@ import image from '@astrojs/image';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://aleksa.vercel.app',
+  site: 'https://aleksa.codes',
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
