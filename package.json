@@ -20,9 +20,9 @@
   "devDependencies": {
     "@astrojs/mdx": "^0.11.1",
     "@astrojs/sitemap": "^1.0.0",
-    "@astrojs/tailwind": "^1.0.0",
+    "@astrojs/tailwind": "^2.0.0",
     "@tailwindcss/typography": "^0.5.7",
     "daisyui": "^2.25.0",
-    "theme-change": "^2.0.2"
+    "theme-change": "^2.2.0"
   }
 }
