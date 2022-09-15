@@ -5,7 +5,7 @@ export const projects = [
     tech: ['HTML', 'CSS', 'JavaScript'],
     github: 'https://github.com/aleksastojsic',
     demo: 'https://example.com',
-    img: 'https://picsum.photos/600/800'
+    img: 'https://picsum.photos/800/600'
   },
   {
     name: 'Project #2',
@@ -13,7 +13,7 @@ export const projects = [
     tech: ['HTML', 'CSS', 'JavaScript'],
     github: 'https://github.com/aleksastojsic',
     demo: 'https://example.com',
-    img: 'https://picsum.photos/600/800'
+    img: 'https://picsum.photos/800/600'
   },
   {
     name: 'Project #3',
@@ -21,6 +21,6 @@ export const projects = [
     tech: ['HTML', 'CSS', 'JavaScript'],
     github: 'https://github.com/aleksastojsic',
     demo: 'https://example.com',
-    img: 'https://picsum.photos/600/800'
+    img: 'https://picsum.photos/800/600'
   }
 ];
