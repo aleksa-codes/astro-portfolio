@@ -4,7 +4,7 @@ Porfolio website with personal and contact inforamation, project showcase and a 
 
 ## aleksa.codes
 
-[Demo](https://aleksa.vercel.app)
+[Demo](https://aleksa.codes)
 
 ## 🚀 Project Structure
 
@@ -44,4 +44,4 @@ All commands are run from the root of the project, from a terminal:
 
 ## 👀 Want to see it in action?
 
-Feel free to check it out at [aleksa.vercel.app](https://aleksa.vercel.app)
+Feel free to check it out at [aleksa.vercel.app](https://aleksa.codes)
