@@ -31,17 +31,17 @@ Any static assets, like images, can be placed in the `public/` directory.
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `yarn install`          | Installs dependencies                            |
+| Command             | Action                                           |
+| :------------------ | :----------------------------------------------- |
+| `yarn install`      | Installs dependencies                            |
 | `yarn dev`          | Starts local dev server at `localhost:3000`      |
 | `yarn build`        | Build your production site to `./dist/`          |
 | `yarn preview`      | Preview your build locally, before deploying     |
 | `yarn astro ...`    | Run CLI commands like `astro add`, `astro check` |
 | `yarn astro --help` | Get help using the Astro CLI                     |
 
-** if you are using npm -> just use `npm run` instead of `yarn'
+\*\* if you are using npm -> just use `npm run` instead of `yarn'
 
 ## 👀 Want to see it in action?
 
-Feel free to check it out at [aleksa.vercel.app](https://aleksa.codes)
+Feel free to check it out at [aleksa.codes](https://aleksa.codes)
