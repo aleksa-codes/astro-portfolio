@@ -1,10 +1,5 @@
 ---
 import { days } from '../data/day';
-const getCurrentDay = () => {
-  const today = new Date();
-  const day = today.getDay();
-  return days[day];
-};
 ---
 
 <footer class='w-full' aria-labelledby='footer-heading'>
@@ -39,11 +34,21 @@ const getCurrentDay = () => {
           >
         </div>
         <span
+          id='footer-message'
           class='flex md:flex-row mx-auto text-center justify-center footer-text-b'
         >
-          ~ Have a great {getCurrentDay()} ~
         </span>
       </div>
     </div>
   </div>
 </footer>
+<script define:vars={{ days }}>
+  function getCurrentDay() {
+    const today = new Date();
+    const day = today.getDay();
+    return days[day];
+  }
+  const day = getCurrentDay();
+  const footerMessage = document.getElementById('footer-message');
+  footerMessage.innerHTML = `~ Have a great ${day}! ~`;
+</script>
