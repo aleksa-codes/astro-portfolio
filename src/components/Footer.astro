@@ -1,5 +1,10 @@
 ---
 import { days } from '../data/day';
+const getCurrentDay = () => {
+  const today = new Date();
+  const day = today.getDay();
+  return days[day];
+};
 ---
 
 <footer class='w-full' aria-labelledby='footer-heading'>
@@ -36,7 +41,7 @@ import { days } from '../data/day';
         <span
           class='flex md:flex-row mx-auto text-center justify-center footer-text-b'
         >
-          ~ Have a great {days[new Date().getDay()]} ~
+          ~ Have a great {getCurrentDay()} ~
         </span>
       </div>
     </div>
