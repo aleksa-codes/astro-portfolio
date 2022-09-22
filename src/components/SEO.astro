@@ -12,7 +12,7 @@ export interface Props {
 const DOMAIN = 'https://aleksa.codes';
 const DEFAULT_OG_IMAGE = 'https://i.postimg.cc/50B1zKt3/aleksa-codes.png';
 const {
-  title = 'Home',
+  title = 'aleksa.codes',
   description = "Aleksa is a web developer that works on the user interface design and frontend development. He's passionate about design, coding and building things for the web.",
   siteName = 'aleksa.codes',
   canonical = DOMAIN,
@@ -23,7 +23,7 @@ const {
 ---
 
 {
-  title === 'Home' ? (
+  title === 'aleksa.codes' ? (
     <title>{`${siteName}`}</title>
   ) : (
     <title>{`${title} | ${siteName}`}</title>
