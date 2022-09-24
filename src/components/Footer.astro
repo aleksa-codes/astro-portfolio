@@ -36,13 +36,14 @@ import { days } from '../data/day';
         <div
           id='footer-message'
           class='flex md:flex-row mx-auto text-center justify-center footer-text-b'
+          set:html={`~ Have a great ${days[new Date().getDay()]} ~`}
         >
         </div>
       </div>
     </div>
   </div>
 </footer>
-<script define:vars={{ days }} is:inline>
+<!-- <script define:vars={{ days }} is:raw>
   function getCurrentDay() {
     const today = new Date();
     const day = today.getDay();
@@ -51,4 +52,4 @@ import { days } from '../data/day';
   const day = getCurrentDay();
   const footerMessage = document.getElementById('footer-message');
   footerMessage.innerHTML = `~ Have a great ${day}! ~`;
-</script>
+</script> -->
