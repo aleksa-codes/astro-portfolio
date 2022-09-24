@@ -36,6 +36,7 @@ import { days } from '../data/day';
         <div
           id='footer-message'
           class='flex md:flex-row mx-auto text-center justify-center footer-text-b'
+          set:html={`~ Have a great ${days[new Date().getDay()]} ~`}
         >
         </div>
       </div>
@@ -50,5 +51,5 @@ import { days } from '../data/day';
   }
   const day = getCurrentDay();
   const footerMessage = document.getElementById('footer-message');
-  footerMessage.innerText = `~ Have a great ${day} ~`;
+  footerMessage.innerHTML = `~ Have a great ${day} ~`;
 </script>
