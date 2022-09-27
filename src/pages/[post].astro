@@ -3,23 +3,11 @@ import Layout from '../components/layouts/Layout.astro';
 import { Image } from '@astrojs/image/components';
 import Date from '../components/utilities/Date.astro';
 import ReadTime from '../components/utilities/ReadTime.astro';
-// import rss from '@astrojs/rss';
-import { published } from '../data/post';
-export async function getStaticPaths() {
+import { published, getRSS } from '../data/post';
+export async function getStaticPaths({ rss }: { rss: any }) {
   const markdownFiles = await Astro.glob('../posts/*.mdx');
   const posts = published(markdownFiles);
-  // rss({
-  //   title: 'Astro Blog',
-  //   site: import.meta.env.SITE,
-  //   description: 'Astro Blog Feed',
-  //   stylesheet: true,
-  //   customData: `<language>en-us</language>`,
-  //   items: posts.map((post) => ({
-  //     link: post.
-  //     title: post
-  //     pubDate: post.frontmatter.pubDate
-  //   }))
-  // });
+  rss(getRSS(markdownFiles));
   return posts.map((post) => {
     return {
       params: { post: post.slug },
