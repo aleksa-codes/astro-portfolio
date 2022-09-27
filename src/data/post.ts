@@ -35,9 +35,11 @@ export function published(posts: MarkdownInstance[]): Post[] {
 
 export function getRSS(posts: MarkdownInstance[]) {
   return {
-    title: 'Astro Blog',
-    description: 'Astro Blog Feed',
-    stylesheet: true,
+    title: 'Blog Posts (from aleksa.codes)',
+    description:
+      'Beginner friendly developer content, with a focus on React, TypeScript, Next.js, Astro, Tailwind CSS and more.',
+    site: import.meta.env.SITE,
+    stylesheet: '/rss/styles.xsl',
     customData: `<language>en-us</language>`,
     items: published(posts).map((post: Post) => ({
       title: post.title,
