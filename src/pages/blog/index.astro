@@ -10,7 +10,7 @@ const posts = published(markdownFiles);
   title='Blog'
   description='Blog posts about web development, design, and more.'
 >
-  <h1>Blog (under construction 🚧)</h1>
+  <h1>Blog <span class='text-xl'>(under construction 🚧)</span></h1>
   <div class='-mt-8'>
     {posts.map((p) => <PostCard post={p} />)}
   </div>
