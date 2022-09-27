@@ -68,38 +68,43 @@ const {
           )
         )
       }
-      <h1>{post.title}</h1>
-      <div class='flex flex-row items-center gap-2 text-base sm:text-lg'>
-        <span>
-          <Date date={post.date} />
-        </span>
-        <span>•</span>
-        <span>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            class='icon icon-tabler icon-tabler-book'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            stroke-width='1.5'
-            stroke='currentColor'
-            fill='none'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-          >
-            <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
-            <path d='M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0'></path>
-            <path d='M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0'></path>
-            <line x1='3' y1='6' x2='3' y2='19'></line>
-            <line x1='12' y1='6' x2='12' y2='19'></line>
-            <line x1='21' y1='6' x2='21' y2='19'></line>
-          </svg>
-        </span>
-        <ReadTime slug={post.slug} />
+      <div class='text-center'>
+        <h1>{post.title}</h1>
+        <div
+          class='flex flex-row items-center justify-center gap-2 text-base sm:text-lg'
+        >
+          <span>
+            <Date date={post.date} />
+          </span>
+          <span>•</span>
+          <span>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              class='icon icon-tabler icon-tabler-book'
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              stroke-width='1.5'
+              stroke='currentColor'
+              fill='none'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+            >
+              <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
+              <path d='M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0'></path>
+              <path d='M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0'></path>
+              <line x1='3' y1='6' x2='3' y2='19'></line>
+              <line x1='12' y1='6' x2='12' y2='19'></line>
+              <line x1='21' y1='6' x2='21' y2='19'></line>
+            </svg>
+          </span>
+          <ReadTime slug={post.slug} />
+        </div>
       </div>
       <div>
         <Content />
         <hr />
+        <h2>Comments</h2>
         <script
           src='https://utteranc.es/client.js'
           repo='aleksastojsic/astro-portfolio'
