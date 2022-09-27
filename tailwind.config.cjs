@@ -27,16 +27,17 @@ module.exports = {
           '0%': { opacity: 0, transform: 'translateY(8px)' },
           '100%': { opacity: 1, transform: 'translateY(0px)' }
         },
-        opacity: {
-          '0%': { opacity: 0 },
-          '100%': { opacity: 1 }
+        scale: {
+          '0%': { scale: 0 },
+          '70%': { scale: 0 },
+          '100%': { scale: 1 }
         }
       },
       transitionTimingFunction: {
         ease: 'cubic-bezier(0.61, 1, 0.88, 1)'
       },
       animation: {
-        'waving-hand': 'opacity 3s ease-in-out, wave 2s linear infinite 2s',
+        'waving-hand': 'scale 3s ease-in-out, wave 2s linear infinite 2s',
         'content-fade': 'fade 0.4s ease'
       },
       backgroundImage: {
