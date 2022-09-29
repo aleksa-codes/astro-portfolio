@@ -6,7 +6,7 @@ import { navItems } from '../data/nav';
 <div class='navbar bg-base-100 pt-4 sticky top-0 z-50 opacity-[0.925]'>
   <div class='flex-1'>
     <a
-      class='p-2 hover:underline md:text-2xl font-bold flex gap-4 items-center'
+      class='flex items-center gap-4 p-2 font-bold hover:underline md:text-2xl'
       href='/'
     >
       <!-- If you want your image before the site title, uncomment img below and remove pt-4 from the 1st parent div above
@@ -15,7 +15,7 @@ import { navItems } from '../data/nav';
     </a>
   </div>
   <div class='flex-none'>
-    <ul class='menu menu-horizontal p-0 hidden md:flex'>
+    <ul class='hidden p-0 menu menu-horizontal md:flex'>
       {
         navItems.map(({ href, label }: { href: string; label: string }) => (
           <li>
@@ -102,7 +102,7 @@ import { navItems } from '../data/nav';
     <div class='dropdown dropdown-end md:hidden'>
       <label tabindex={0} class='btn btn-ghost btn-square'>
         <svg
-          class='first:w-6 h-6 stroke-current'
+          class='h-6 stroke-current first:w-6'
           xmlns='http://www.w3.org/2000/svg'
           width='24'
           height='24'
@@ -120,7 +120,7 @@ import { navItems } from '../data/nav';
       </label>
       <ul
         tabindex={0}
-        class='dropdown-content menu p-2 bg-base-200 rounded-box w-52 menu-compact'
+        class='p-2 dropdown-content menu bg-base-200 rounded-box w-52 menu-compact'
       >
         {
           navItems.map(({ href, label }: { href: string; label: string }) => (
@@ -129,7 +129,7 @@ import { navItems } from '../data/nav';
             </li>
           ))
         }
-        <div class='flex flex-row justify-center items-center'>
+        <div class='flex flex-row items-center justify-center'>
           <div
             class='tooltip tooltip-secondary tooltip-bottom'
             data-tip='Resume'

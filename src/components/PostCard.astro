@@ -7,7 +7,7 @@ const post: Post = Astro.props.post;
 ---
 
 <div
-  class='py-0 sm:py-4 flex flex-col sm:flex-row-reverse sm:gap-10 items-center'
+  class='flex flex-col items-center py-0 sm:py-4 sm:flex-row-reverse sm:gap-10'
 >
   {
     post.img && (
@@ -18,7 +18,7 @@ const post: Post = Astro.props.post;
           width={160}
           height={160}
           format={'webp'}
-          class='w-full sm:w-40 sm:h-40 rounded bg-base-200 object-cover'
+          class='object-cover w-full rounded sm:w-40 sm:h-40 bg-base-200'
         />
       </a>
     )
@@ -31,7 +31,7 @@ const post: Post = Astro.props.post;
         >{post.title}
       </a>
     </h2>
-    <div class='flex flex-row items-center gap-2 text-sm pt-2'>
+    <div class='flex flex-row items-center gap-2 pt-2 text-sm'>
       <span>
         <Date date={post.date} />
       </span>

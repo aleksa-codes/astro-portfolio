@@ -50,7 +50,7 @@ import { projects } from '../data/project';
                   href={demo}
                   target='_blank'
                   rel='noopener noreferrer'
-                  class='hover:text-primary no-underline flex flex-row items-center'
+                  class='flex flex-row items-center no-underline hover:text-primary'
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -75,7 +75,7 @@ import { projects } from '../data/project';
                   href={github}
                   target='_blank'
                   rel='noopener noreferrer'
-                  class='hover:text-primary no-underline flex flex-row items-center'
+                  class='flex flex-row items-center no-underline hover:text-primary'
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -109,23 +109,23 @@ import { projects } from '../data/project';
                 width={400}
                 height={300}
                 format={'webp'}
-                class='rounded-lg  hover:scale-105 hover:shadow-md transition-all duration-300 ease-in-out'
+                class='transition-all duration-300 ease-in-out rounded-lg hover:scale-105 hover:shadow-md'
               />
             </a>
           </div>
-          {index !== array.length - 1 && <div class='divider py-4 md:py-8' />}
+          {index !== array.length - 1 && <div class='py-4 divider md:py-8' />}
         </div>
       ))
     }
 
     <div
-      class='flex flex-row justify-center items-center w-full pt-12 md:pt-16'
+      class='flex flex-row items-center justify-center w-full pt-12 md:pt-16'
     >
       <a
         href='https://github.com/aleksastojsic'
         target='_blank'
         rel='noopener noreferrer'
-        class='btn flex flex-row items-center justify-center hover:scale-105 hover:shadow-md transition-all duration-300 ease-in-out text-slate-300'
+        class='flex flex-row items-center justify-center transition-all duration-300 ease-in-out btn hover:scale-105 hover:shadow-md text-slate-300'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'

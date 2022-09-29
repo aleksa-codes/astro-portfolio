@@ -5,7 +5,7 @@ import { days } from '../data/day';
 <footer class='w-full' aria-labelledby='footer-heading'>
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 200'>
     <path
-      class='wave-t scale-y-75'
+      class='scale-y-75 wave-t'
       fill='currentColor'
       fill-opacity='1'
       d='M0,192L34.3,181.3C68.6,171,137,149,206,160C274.3,171,343,213,411,213.3C480,213,549,171,617,165.3C685.7,160,754,192,823,218.7C891.4,245,960,267,1029,256C1097.1,245,1166,203,1234,186.7C1302.9,171,1371,181,1406,186.7L1440,192L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z'
@@ -13,10 +13,10 @@ import { days } from '../data/day';
   </svg>
   <div class='wave-b'>
     <div
-      class='max-w-8xl mx-auto py-8 px-4 lg:px-0 grid grid-cols-1 lg:grid-cols-3'
+      class='grid grid-cols-1 px-4 py-8 mx-auto max-w-8xl lg:px-0 lg:grid-cols-3'
     >
       <div class=''></div>
-      <div class='text-sm text-center mb-2 md:mb-0'>
+      <div class='mb-2 text-sm text-center md:mb-0'>
         <div class='mb-2 font-medium footer-text-t'>
           © 2022 Code by{' '}
           <a
@@ -36,14 +36,14 @@ import { days } from '../data/day';
         <!-- set:html example -->
         <!-- <div
           id='footer-message'
-          class='flex md:flex-row mx-auto text-center justify-center footer-text-b'
+          class='flex justify-center mx-auto text-center md:flex-row footer-text-b'
           set:html={`~ Have a great ${days[new Date().getDay()]} ~`}
         >
         </div> -->
         <!-- innerHtml example -->
         <div
           id='footer-message'
-          class='flex md:flex-row mx-auto text-center justify-center footer-text-b'
+          class='flex justify-center mx-auto text-center md:flex-row footer-text-b'
         >
         </div>
       </div>

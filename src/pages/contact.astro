@@ -5,7 +5,7 @@ import Avatar from '../components/utilities/Avatar.astro';
 
 <Layout title='Contact' description='Contact me'>
   <h1>Contact me</h1>
-  <div class='flex flex-col items-center h-full justify-center'>
+  <div class='flex flex-col items-center justify-center h-full'>
     <div
       class='mt-[-24px] flex flex-col sm:flex-row items-start sm:items-center justify-center gap-4'
     >
@@ -16,7 +16,7 @@ import Avatar from '../components/utilities/Avatar.astro';
       </p>
     </div>
     <form
-      class='w-full flex flex-col items-center justify-center gap-2'
+      class='flex flex-col items-center justify-center w-full gap-2'
       target='_blank'
       action='https://formsubmit.co/9f2e38d7a97aa8e4fad043b4b83b9558'
       method='POST'
@@ -29,7 +29,7 @@ import Avatar from '../components/utilities/Avatar.astro';
               <input
                 type='text'
                 name='name'
-                class='input input-bordered w-full'
+                class='w-full input input-bordered'
                 placeholder='e.g. Bon Jovi'
                 required
               />
@@ -43,7 +43,7 @@ import Avatar from '../components/utilities/Avatar.astro';
               <input
                 type='email'
                 name='email'
-                class='input input-bordered w-full'
+                class='w-full input input-bordered'
                 placeholder='e.g. bon.jovi@gmail.com'
                 required
               />
@@ -58,7 +58,7 @@ import Avatar from '../components/utilities/Avatar.astro';
             <input
               type='text'
               name='_subject'
-              class='input input-bordered w-full'
+              class='w-full input input-bordered'
               placeholder={`e.g. Let's Connect!`}
               required
             />
@@ -71,17 +71,17 @@ import Avatar from '../components/utilities/Avatar.astro';
           <div id='message-field'>
             <textarea
               placeholder='Your Message Here'
-              class='textarea textarea-bordered w-full'
+              class='w-full textarea textarea-bordered'
               name='message'
               rows={4}
               required></textarea>
           </div>
         </label>
       </div>
-      <div class='flex flex-row items-center justify-start gap-4 w-full'>
+      <div class='flex flex-row items-center justify-start w-full gap-4'>
         <button
           type='submit'
-          class='btn btn-secondary gap-1 hover:text-slate-300'
+          class='gap-1 btn btn-secondary hover:text-slate-300'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -102,7 +102,7 @@ import Avatar from '../components/utilities/Avatar.astro';
             ></path>
           </svg> Send
         </button>
-        <button type='reset' class='btn gap-1 text-slate-300'>
+        <button type='reset' class='gap-1 btn text-slate-300'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             class='icon icon-tabler icon-tabler-eraser'
