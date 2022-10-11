@@ -41,7 +41,3 @@ All commands are run from the root of the project, from a terminal:
 | `yarn astro --help` | Get help using the Astro CLI                     |
 
 \*\* if you are using npm -> just use `npm run` instead of `yarn`
-
-## 👀 Want to see it in action?
-
-Feel free to check it out at [aleksa.codes](https://aleksa.codes)
