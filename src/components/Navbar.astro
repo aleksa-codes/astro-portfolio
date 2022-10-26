@@ -11,7 +11,7 @@ import { navItems } from '../data/nav';
     >
       <!-- If you want your image before the site title, uncomment img below and remove pt-4 from the 1st parent div above
         <img src="https://api.lorem.space/image/face?w=96&h=96" width="48" height="48" alt="Astro Blog" class="rounded-full bg-base-200 md:w-12 md:h-12 w-9 h-9">  -->
-      aleksa.codes
+      <span id='typed-logo'>aleksa.codes</span>
     </a>
   </div>
   <div class='flex-none'>
@@ -216,3 +216,15 @@ import { navItems } from '../data/nav';
     </div>
   </div>
 </div>
+<script>
+  // @ts-ignore
+  import Typewriter from 'typewriter-effect/dist/core';
+  document.addEventListener('DOMContentLoaded', () => {
+    const typed = document.getElementById('typed-logo');
+    const tw = new Typewriter(typed, {
+      loop: false,
+      autoStart: true
+    });
+    tw.typeString('aleksa.codes').start();
+  });
+</script>

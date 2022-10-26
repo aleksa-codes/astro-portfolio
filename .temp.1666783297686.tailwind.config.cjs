@@ -32,23 +32,16 @@ module.exports = {
           '70%': { scale: 0 },
           '100%': { scale: 1 }
         },
-        boxshadow: {
-          '0%, 100%': { 'box-shadow': '#463aa1 0px -1rem 0px inset' },
-          '50%': { 'box-shadow': '#463aa1 0px -2.25rem 0px inset' }
-        },
-        winterboxshadow: {
-          '0%, 100%': { 'box-shadow': '#add9f4 0px -1rem 0px inset' },
-          '50%': { 'box-shadow': '#add9f4 0px -2.25rem 0px inset' }
-        }
+        box-shadow: {
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(0, 123, 255, 0.5)' },
+          '50%': { boxShadow: '0 0 0 10px rgba(0, 123, 255, 0)' }
       },
       transitionTimingFunction: {
         ease: 'cubic-bezier(0.61, 1, 0.88, 1)'
       },
       animation: {
         'waving-hand': 'scale 3s ease-in-out, wave 2.5s linear infinite 2s',
-        'content-fade': 'fade 0.4s ease',
-        'box-shadow': 'boxshadow 2s ease-in-out 2s',
-        'winter-box-shadow': 'winterboxshadow 2s ease-in-out 2s'
+        'content-fade': 'fade 0.4s ease'
       },
       backgroundImage: {
         laptop: "url('/laptop-animate.svg')"
@@ -56,8 +49,6 @@ module.exports = {
     }
   },
   daisyui: {
-    themes: ['night', 'winter'],
-    darkTheme: 'winter'
-  },
-  darkMode: ['class', '[data-theme="winter"]']
+    themes: ['night', 'winter']
+  }
 };
