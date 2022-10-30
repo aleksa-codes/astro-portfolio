@@ -39,7 +39,9 @@ const {
       {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle }}
     />
   </head>
-  <body class='flex flex-col items-center h-screen'>
+  <body
+    class='flex flex-col items-center min-h-screen antialiased scrollbar scrollbar-thumb-secondary scrollbar-track-slate-800 dark:scrollbar-thumb-sky-200 dark:scrollbar-track-slate-200 overflow-x-hidden overflow-y-scroll'
+  >
     <div class='flex-grow w-full max-w-3xl'>
       <Navbar />
       <div class='px-4 pt-4 md:pt-8'>
@@ -58,7 +60,7 @@ const {
       data-message='Thanks for visiting. Made with 💻 and ☕.'
       data-color='#FF813F'
       data-position='Right'
-      data-x_margin='8'
+      data-x_margin='24'
       data-y_margin='8'
     ></script>
   </body>
