@@ -1,4 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Custom component styles */
+@layer base {
+  body {
+    @apply scrollbar-accent;
+  }
+}
+
+@layer components {
+  .scrollbar-accent {
+    @apply scrollbar scrollbar-thumb-secondary scrollbar-track-slate-800 dark:scrollbar-thumb-indigo-300 dark:scrollbar-track-slate-200 scrollbar-thumb-rounded-md;
+  }
+}
+
 [data-theme='winter'] .highlight:hover {
   box-shadow: #add9f4 0px -1rem 0px inset;
 }
