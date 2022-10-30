@@ -3,7 +3,7 @@
 module.exports = {
   content: ['./src/**/*.{astro,html,svelte,vue,js,ts,jsx,tsx}'],
   plugins: [
-    require('tailwind-scrollbar'),
+    require('tailwind-scrollbar')({ nocompatible: true }),
     require('@tailwindcss/typography'),
     require('daisyui')
   ],
