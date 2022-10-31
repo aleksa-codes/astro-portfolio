@@ -87,7 +87,8 @@ body {
 
 /* hide #bmc-wbtn on small screens */
 @media only screen and (max-width: 480px) {
-  #bmc-wbtn {
+  #bmc-wbtn,
+  #bmc-wbtn + div {
     display: none !important;
   }
 }
