@@ -21,19 +21,19 @@ import { navItems } from '../data/nav';
           <li>
             <a
               href={href}
-              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current'
+              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3 p-3'
             >
               {label}
             </a>
           </li>
         ))
       }
-      <div class='tooltip tooltip-success tooltip-bottom' data-tip='Resume'>
+      <li class='tooltip tooltip-success tooltip-bottom' data-tip='Resume'>
         <a
-          class='btn btn-square btn-ghost'
           href='https://aleksa-codes.github.io/resume/'
           target='_blank'
           rel='noopener noreferrer'
+          class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3'
           aria-label='Resume'
         >
           <svg
@@ -55,14 +55,14 @@ import { navItems } from '../data/nav';
             <path d='M4.5 17l-1.5 5l3 -1.5l3 1.5l-1.5 -5'></path>
           </svg>
         </a>
-      </div>
-      <div class='tooltip tooltip-info tooltip-bottom' data-tip='GitHub'>
+      </li>
+      <li class='tooltip tooltip-info tooltip-bottom' data-tip='GitHub'>
         <a
-          class='btn btn-square btn-ghost'
           href='https://github.com/aleksa-codes'
           target='_blank'
           rel='noopener noreferrer'
           aria-label='GitHub Profile'
+          class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -82,12 +82,12 @@ import { navItems } from '../data/nav';
             ></path>
           </svg>
         </a>
-      </div>
-      <div class='tooltip tooltip-warning tooltip-bottom' data-tip='RSS'>
+      </li>
+      <li class='tooltip tooltip-warning tooltip-bottom' data-tip='RSS'>
         <a
-          class='btn btn-square btn-ghost'
           href='/rss.xml'
           aria-label='RSS Feed'
+          class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -107,9 +107,11 @@ import { navItems } from '../data/nav';
             <path d='M4 11a9 9 0 0 1 9 9'></path>
           </svg>
         </a>
-      </div>
+      </li>
+      <li>
+        <DarkMode />
+      </li>
     </ul>
-    <DarkMode />
     <div class='dropdown dropdown-end md:hidden'>
       <label tabindex={0} class='btn btn-ghost btn-square'>
         <svg
@@ -136,17 +138,23 @@ import { navItems } from '../data/nav';
         {
           navItems.map(({ href, label }: { href: string; label: string }) => (
             <li>
-              <a href={href}>{label}</a>
+              <a
+                class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3'
+                href={href}
+              >
+                {label}
+              </a>
             </li>
           ))
         }
-        <div class='flex flex-row items-center justify-around'>
+        <li class='flex flex-row items-center justify-around'>
           <div class='tooltip tooltip-info tooltip-bottom' data-tip='Resume'>
             <a
-              class='btn btn-square btn-ghost'
               href='https://aleksa-codes.github.io/resume/'
               target='_blank'
               rel='noopener noreferrer'
+              aria-label='Resume'
+              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -171,10 +179,11 @@ import { navItems } from '../data/nav';
           </div>
           <div class='tooltip tooltip-info tooltip-bottom' data-tip='GitHub'>
             <a
-              class='btn btn-square btn-ghost'
               href='https://github.com/aleksastojsic'
               target='_blank'
               rel='noopener noreferrer'
+              aria-label='GitHub Profile'
+              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -196,7 +205,11 @@ import { navItems } from '../data/nav';
             </a>
           </div>
           <div class='tooltip tooltip-info tooltip-bottom' data-tip='RSS'>
-            <a class='btn btn-square btn-ghost' href='/rss.xml'>
+            <a
+              href='/rss.xml'
+              aria-label='RSS Feed'
+              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current'
+            >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 class='icon icon-tabler icon-tabler-rss'
@@ -216,7 +229,7 @@ import { navItems } from '../data/nav';
               </svg>
             </a>
           </div>
-        </div>
+        </li>
       </ul>
     </div>
   </div>
