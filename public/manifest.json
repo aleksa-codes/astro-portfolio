@@ -1,6 +1,20 @@
 {
   "name": "aleksa.codes",
+  "short_name": "aleksa.codes",
+  "display": "standalone",
+  "orientation": "portrait",
+  "description": "Aleksa's personal website",
+  "theme_color": "#463aa1",
+  "background_color": "#463aa1",
+  "scope": "/",
+  "start_url": "/",
   "icons": [
+    {
+      "src": "/icons/maskable_icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
     {
       "src": "icons/windows11/SmallTile.scale-100.png",
       "sizes": "71x71"
