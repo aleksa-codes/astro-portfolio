@@ -55,7 +55,7 @@ module.exports = {
         'winter-box-shadow': 'winterboxshadow 2s ease-in-out 2s'
       },
       backgroundImage: {
-        laptop: "url('/laptop-animate.svg')"
+        laptop: "url('/assets/laptop-animate.svg')"
       }
     }
   },
