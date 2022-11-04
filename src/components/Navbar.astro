@@ -28,12 +28,13 @@ import { navItems } from '../data/nav';
           </li>
         ))
       }
-      <div class='tooltip tooltip-success tooltip-bottom' data-tip='Resume'>
+      <li class='tooltip tooltip-success tooltip-bottom' data-tip='Resume'>
         <a
           class='btn btn-square btn-ghost'
           href='https://aleksa-codes.github.io/resume/'
           target='_blank'
           rel='noopener noreferrer'
+          aria-label='Resume'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -54,13 +55,14 @@ import { navItems } from '../data/nav';
             <path d='M4.5 17l-1.5 5l3 -1.5l3 1.5l-1.5 -5'></path>
           </svg>
         </a>
-      </div>
-      <div class='tooltip tooltip-info tooltip-bottom' data-tip='GitHub'>
+      </li>
+      <li class='tooltip tooltip-info tooltip-bottom' data-tip='GitHub'>
         <a
           class='btn btn-square btn-ghost'
           href='https://github.com/aleksa-codes'
           target='_blank'
           rel='noopener noreferrer'
+          aria-label='GitHub Profile'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -80,9 +82,13 @@ import { navItems } from '../data/nav';
             ></path>
           </svg>
         </a>
-      </div>
-      <div class='tooltip tooltip-warning tooltip-bottom' data-tip='RSS'>
-        <a class='btn btn-square btn-ghost' href='/rss.xml'>
+      </li>
+      <li class='tooltip tooltip-warning tooltip-bottom' data-tip='RSS'>
+        <a
+          class='btn btn-square btn-ghost'
+          href='/rss.xml'
+          aria-label='RSS Feed'
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             class='icon icon-tabler icon-tabler-rss'
@@ -101,7 +107,7 @@ import { navItems } from '../data/nav';
             <path d='M4 11a9 9 0 0 1 9 9'></path>
           </svg>
         </a>
-      </div>
+      </li>
     </ul>
     <DarkMode />
     <div class='dropdown dropdown-end md:hidden'>
