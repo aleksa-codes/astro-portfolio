@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* #add9f4 - old blue */
 /* Custom component styles */
+/* #add9f4 - old blue color */
 @layer base {
   body {
     @apply scrollbar-accent;
