@@ -13,7 +13,7 @@ const DOMAIN = 'https://aleksa.codes';
 const DEFAULT_OG_IMAGE = 'https://aleksa.codes/assets/aleksa-codes-og.png';
 const {
   title = 'aleksa.codes',
-  description = 'Web developer working on user interface design and frontend development. Aleksa is passionate about coding, building things for the web and anything tech related.',
+  description = 'JavaScript web developer working on user interface design and front-end development. Aleksa is passionate about coding, building things for the web and anything tech related.',
   siteName = 'aleksa.codes',
   canonical = DOMAIN,
   ogImage = DEFAULT_OG_IMAGE,
@@ -44,7 +44,9 @@ const {
 
 <meta
   name='title'
-  content={title === 'aleksa.codes' ? 'Aleksa Codes' : `${title} | ${siteName}`}
+  content={title === 'aleksa.codes'
+    ? 'aleksa.codes | Web Developer'
+    : `${title} | ${siteName}`}
 />
 <meta name='description' content={description} />
 
