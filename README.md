@@ -14,7 +14,7 @@
 - Buy me a coffe button ( on desktop ) ☕
 
 Google Lighthouse scores are all 💯 ( sometimes 97-98 performance for mobile ).
-I've also added service worker to pass PWA check as well, just for fun.
+I've also added service worker to pass PWA check as well, just for fun, so it is also installable on all devices ✔
 
 ## Demo
 
