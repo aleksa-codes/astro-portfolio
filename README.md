@@ -1,19 +1,19 @@
 # Astro • Tailwind • DaisyUI • Portfolio & MDX Blog
 
-Porfolio website with personal and contact inforamation, projects showcase and a blog.
+👉 Porfolio website with personal and contact inforamation, projects showcase and a blog.
 
 - Responsive
-- Night Mode
+- Night Mode 🌚
 - RSS feed
-- .mdx files for blog posts ( .md if no React )
+- .mdx files for blog posts ( .md if no React ) 💻
 - Calculate read time for the posts
-- Posts comments section
+- Posts comments section 💬
 - Draft posts
-- Contact form
+- Contact form 📬
 - Socials & Resume
-- Buy me a coffe button ( on desktop )
+- Buy me a coffe button ( on desktop ) ☕
 
-Google Lighthouse scores are all 100 ( sometimes 97-98 performance for mobile ).
+Google Lighthouse scores are all 💯 ( sometimes 97-98 performance for mobile ).
 I've also added service worker to pass PWA check as well, just for fun.
 
 ## Demo
