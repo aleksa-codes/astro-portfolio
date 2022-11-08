@@ -1,10 +1,24 @@
-# Astro Tailwind DaisyUI Portfolio & MDX Blog
+# Astro • Tailwind • DaisyUI • Portfolio & MDX Blog
 
-Porfolio website with personal and contact inforamation, project showcase and a blog.
+👉 Porfolio website with personal and contact inforamation, projects showcase and a blog.
 
-## aleksa.codes
+- Responsive
+- Night Mode 🌚
+- RSS feed
+- .mdx files for blog posts ( .md if no React ) 💻
+- Calculate read time for the posts
+- Posts comments section 💬
+- Draft posts
+- Contact form 📬
+- Socials & Resume
+- Buy me a coffe button ( on desktop ) ☕
 
-[Demo](https://aleksa.codes)
+Google Lighthouse scores are all 💯 ( sometimes 97-98 performance for mobile ).
+I've also added service worker to pass PWA check as well, just for fun, so it is also installable on all devices ✔
+
+## Demo
+
+Demo for this project is available @ [aleksa.codes](https://aleksa.codes)
 
 ## 🚀 Project Structure
 
