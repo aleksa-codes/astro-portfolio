@@ -13,6 +13,9 @@ module.exports = {
       future: {
         hoverOnlyWhenSupported: true
       },
+      screens: {
+        xs: '480px'
+      },
       fontFamily: {
         sans: ['"Poppins"', 'sans-serif']
       },
