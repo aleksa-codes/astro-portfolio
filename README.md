@@ -6,7 +6,8 @@ Porfolio website with personal and contact inforamation, projects showcase and a
 - Night Mode
 - RSS feed
 - .mdx files for blog posts ( .md if no React )
-- Calculates read time for the posts
+- Calculate read time for the posts
+- Posts comments section
 - Draft posts
 - Contact form
 - Socials & Resume
