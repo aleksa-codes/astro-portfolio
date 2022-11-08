@@ -1,6 +1,6 @@
 # Astro • Tailwind • DaisyUI • Portfolio & MDX Blog
 
-Porfolio website with personal and contact inforamation, project showcase and a blog.
+Porfolio website with personal and contact inforamation, projects showcase and a blog.
 
 - Responsive
 - Night Mode
