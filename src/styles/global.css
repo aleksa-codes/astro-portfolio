@@ -3,6 +3,34 @@
 @tailwind utilities;
 
 /* Custom component styles */
+/* Copy to clipboard */
+pre[class*='astro-code'] {
+  position: relative;
+  margin: 5px 0;
+  padding: 2.25rem 0 1.75rem 1rem;
+
+  /* more stuff */
+}
+
+pre[class*='astro-code'] button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  font-size: 0.9rem;
+  padding: 0.15rem;
+  background-color: #828282;
+
+  border-radius: 5px;
+  text-shadow: #c4c4c4 0 0 2px;
+  color: #fff;
+}
+
+pre[class*='astro-code'] button:hover {
+  cursor: pointer;
+  background-color: #999999;
+}
+/* End copy to clipboard */
 /* #add9f4 - old blue color */
 @layer base {
   body {
