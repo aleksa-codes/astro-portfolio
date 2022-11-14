@@ -96,12 +96,12 @@
     unist-util-visit "^4.1.0"
     vfile "^5.3.2"
 
-"@astrojs/mdx@^0.11.5":
-  version "0.11.5"
-  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-0.11.5.tgz#73195e86446cfc8006d6d30640eec83bbf72c5af"
-  integrity sha512-zSlMX5unK4aIfg6NeYzlw0erLtvKpk71FWo11jYsMmmajYSU2JUk6maKWewERXGuVoY2YpC4W4Fl5dPn6jYGdQ==
+"@astrojs/mdx@^0.11.6":
+  version "0.11.6"
+  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-0.11.6.tgz#07cdc2ae1994ee24fd8cd3973f8075b8808b8982"
+  integrity sha512-MEi8CZuz4vXn74/jCb0CMOAKEqd6nsLrShYfE+ddb1//14CwuaVGbXN7V6/zGj8ZvBhFk/darBbNpJBmzfbI6A==
   dependencies:
-    "@astrojs/prism" "^1.0.1"
+    "@astrojs/prism" "^1.0.2"
     "@mdx-js/mdx" "^2.1.2"
     "@mdx-js/rollup" "^2.1.1"
     acorn "^8.8.0"
@@ -133,10 +133,10 @@
     uvu "^0.5.0"
     vfile-message "^3.0.0"
 
-"@astrojs/prism@^1.0.0", "@astrojs/prism@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@astrojs/prism/-/prism-1.0.1.tgz#a7a778f9e3814885f587d8074a15452947ab4252"
-  integrity sha512-HxEFslvbv+cfOs51q/C7aMVFuW3EAGg0d1xXU/0e/QeScDzfrp5Ra4SOb8mV082SgENVjtVvet4zR84t3at4VQ==
+"@astrojs/prism@^1.0.0", "@astrojs/prism@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@astrojs/prism/-/prism-1.0.2.tgz#f01cad9007a46dc006d129d99653bd1652657ecf"
+  integrity sha512-o3cUVoAuALDqdN5puNlsN2eO4Yi1kDh68YO8V7o6U4Ts+J/mMayzlJ7JsgYAmob0xrf/XnADVgu8khfMv/w3uA==
   dependencies:
     prismjs "^1.28.0"
 
@@ -1649,12 +1649,7 @@ acorn@^7.0.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-acorn@^8.0.0, acorn@^8.7.1, acorn@^8.8.0:
-  version "8.8.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.0.tgz#88c0187620435c7f6015803f5539dae05a9dbea8"
-  integrity sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==
-
-acorn@^8.5.0:
+acorn@^8.0.0, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.0:
   version "8.8.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.1.tgz#0a3f9cbecc4ec3bea6f0a80b66ae8dd2da250b73"
   integrity sha512-7zFpHzhnqYKrkYdUjF1HI1bzd0VygEGX8lFk4k5zVMqHEoES+P+7TKI+EvLO9WVMJ8eekdO0aDEK044xTXwPPA==
