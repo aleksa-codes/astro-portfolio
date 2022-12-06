@@ -20,6 +20,7 @@ export interface Props {
   ogImage?: string;
   ogType?: string;
   twitterHandle?: string;
+  slug?: string;
 }
 
 const {
@@ -29,14 +30,15 @@ const {
   canonical,
   ogImage,
   ogType,
-  twitterHandle
+  twitterHandle,
+  slug
 } = Astro.props as Props;
 ---
 
 <html lang='en'>
   <head>
     <SEO
-      {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle }}
+      {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle, slug }}
     />
     <script>
       if ('serviceWorker' in navigator) {

@@ -7,6 +7,7 @@ export interface Props {
   ogImage?: string;
   ogType?: string;
   twitterHandle?: string;
+  slug?: string;
 }
 
 const DOMAIN = 'https://aleksa.codes';
@@ -18,7 +19,8 @@ const {
   canonical = DOMAIN,
   ogImage = DEFAULT_OG_IMAGE,
   ogType = 'website',
-  twitterHandle = '@aleksacodes'
+  twitterHandle = '@aleksacodes',
+  slug = undefined
 } = Astro.props as Props;
 ---
 
@@ -59,8 +61,16 @@ const {
     : `${title} | ${siteName}`}
 />
 <meta property='og:description' content={description} />
-<meta property='og:image' content={ogImage ? ogImage : DEFAULT_OG_IMAGE} />
-<meta property='og:image:alt' content='Aleksa Codes Social Image' />
+<meta
+  property='og:image'
+  content={slug !== undefined ? `/assets/posts/${slug}.png` : ogImage}
+/>
+<meta
+  property='og:image:alt'
+  content={slug !== undefined
+    ? `Blog Post Social Image`
+    : 'Aleksa Codes Social Image'}
+/>
 
 <meta property='twitter:card' content='summary_large_image' />
 <meta property='twitter:url' content={canonical} />
@@ -72,8 +82,16 @@ const {
 />
 <meta property='twitter:creeator' content={twitterHandle} />
 <meta property='twitter:description' content={description} />
-<meta property='twitter:image' content={ogImage ? ogImage : DEFAULT_OG_IMAGE} />
-<meta property='twitter:image:alt' content='Aleksa Codes Social Image' />
+<meta
+  property='twitter:image'
+  content={slug !== undefined ? `/assets/posts/${slug}.png` : ogImage}
+/>
+<meta
+  property='twitter:image:alt'
+  content={slug !== undefined
+    ? `Blog Post Social Image`
+    : 'Aleksa Codes Social Image'}
+/>
 
 <link rel='canonical' href={canonical ?? DOMAIN} />
 <link rel='icon' type='image/x-icon' href='/favicon.ico' />
