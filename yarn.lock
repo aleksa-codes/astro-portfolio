@@ -1636,10 +1636,18 @@ astring@^1.8.0:
   resolved "https://registry.yarnpkg.com/astring/-/astring-1.8.3.tgz#1a0ae738c7cc558f8e5ddc8e3120636f5cebcb85"
   integrity sha512-sRpyiNrx2dEYIMmUXprS8nlpRg2Drs8m9ElX9vVEXaCB4XEAJhKfs7IcX0IwShjuOAjLR6wzIrgoptz1n19i1A==
 
-astro-og-image@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/astro-og-image/-/astro-og-image-1.0.7.tgz#a47e48e610539f20a7838dd5c161126bd02b2332"
-  integrity sha512-3o78/YLDx+HFwqBjO/p103uNjxL93gTcYvninBCyoiiNV8axN48UNANjeTnRXLKsMUMdon/L3Fn4Cavl2I2F4A==
+astro-og-canvas@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/astro-og-canvas/-/astro-og-canvas-0.1.5.tgz#fb179a60a6e444b1afd3af2d07dedbe68c793f99"
+  integrity sha512-5fzA7pVRhlh4t4tuX73TwYsP9phb5S+UU1Hhzu/D5GsP3djwuDpw8sTLohIxxsKbvWErko4HCvU2qDMtCoX7KA==
+  dependencies:
+    canvaskit-wasm "^0.37.0"
+    entities "^4.4.0"
+
+astro-og-image@1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/astro-og-image/-/astro-og-image-1.0.8.tgz#34a45a1989afe84be2d89c42c4a79e7b47de526c"
+  integrity sha512-o0B28AEfmM7z1R7/KVnFL/HchWaTxqCN4hG5ZjL+dOC7yWbehIkxzJCbNdVY0OsTHUjx1SvXfhQIw4DPH1PoBA==
   dependencies:
     puppeteer "^15.1.1"
 
@@ -1902,6 +1910,11 @@ caniuse-lite@^1.0.30001407:
   version "1.0.30001409"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001409.tgz#6135da9dcab34cd9761d9cdb12a68e6740c5e96e"
   integrity sha512-V0mnJ5dwarmhYv8/MzhJ//aW68UpvnQBXv8lJ2QUsvn2pHcmAuNtu8hQEDz37XnA1iE+lRR9CIfGWWpgJ5QedQ==
+
+canvaskit-wasm@^0.37.0:
+  version "0.37.2"
+  resolved "https://registry.yarnpkg.com/canvaskit-wasm/-/canvaskit-wasm-0.37.2.tgz#add4321d720cae23f895644ed8f45757e03d6011"
+  integrity sha512-212imazRF98gLOTiU4JAXM7xDvaknI7jaPtAg4ETXGW5rLQs6pomgIvVPUSfoKnQVTdGgzj+B4e+/u0Da20aGg==
 
 ccount@^2.0.0:
   version "2.0.1"
@@ -2264,6 +2277,11 @@ end-of-stream@^1.1.0, end-of-stream@^1.4.1:
   integrity sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==
   dependencies:
     once "^1.4.0"
+
+entities@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-4.4.0.tgz#97bdaba170339446495e653cfd2db78962900174"
+  integrity sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA==
 
 es-abstract@^1.19.0, es-abstract@^1.19.1, es-abstract@^1.19.5:
   version "1.20.4"
