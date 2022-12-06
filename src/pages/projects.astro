@@ -106,12 +106,7 @@ import { projects } from '../data/project';
                 </a>
               </div>
             </div>
-            <a
-              href={demo}
-              target='_blank'
-              rel='noopener noreferrer'
-              class='not-prose'
-            >
+            <label for={'my-modal-' + index}>
               <Image
                 src={img}
                 alt={name}
@@ -119,9 +114,84 @@ import { projects } from '../data/project';
                 width={400}
                 height={300}
                 format={'webp'}
-                class='transition-all duration-300 ease-in-out rounded-lg hover:scale-105 hover:shadow-md'
+                class='transition-all shadow-md duration-300 ease-in-out rounded-lg hover:scale-105 hover:shadow-lg cursor-pointer'
               />
-            </a>
+            </label>
+
+            <input
+              type='checkbox'
+              id={'my-modal-' + index}
+              class='modal-toggle'
+            />
+            <label for={'my-modal-' + index} class='modal cursor-pointer'>
+              <label class='modal-box w-11/12 max-w-4xl'>
+                <label
+                  for={'my-modal-' + index}
+                  class='btn btn-sm btn-circle absolute right-2 top-2'
+                >
+                  ✕
+                </label>
+                <Image
+                  src={img}
+                  alt={name}
+                  srcset={img + ' 1x,' + img + ' 2x'}
+                  width={1000}
+                  height={800}
+                  format={'webp'}
+                  class='rounded-lg shadow-md'
+                />
+                <div class='flex flex-row justify-center items-center gap-4'>
+                  <a
+                    href={demo}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    class='flex flex-row items-center no-underline btn btn-secondary hover:text-slate-300'
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      class='icon icon-tabler icon-tabler-external-link'
+                      width='32'
+                      height='32'
+                      viewBox='0 0 24 24'
+                      stroke-width='2'
+                      stroke='currentColor'
+                      fill='none'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                    >
+                      <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+                      <path d='M11 7h-5a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-5' />
+                      <line x1='10' y1='14' x2='20' y2='4' />
+                      <polyline points='15 4 20 4 20 9' />
+                    </svg>
+                    <span class='ml-1'>Demo</span>
+                  </a>
+                  <a
+                    href={github}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    class='flex flex-row items-center no-underline btn text-slate-300'
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      class='icon icon-tabler icon-tabler-brand-github'
+                      width='32'
+                      height='32'
+                      viewBox='0 0 24 24'
+                      stroke-width='2'
+                      stroke='currentColor'
+                      fill='none'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                    >
+                      <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+                      <path d='M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5' />
+                    </svg>
+                    <span class='ml-1'>Source</span>
+                  </a>
+                </div>
+              </label>
+            </label>
           </div>
           {index !== array.length - 1 && <div class='py-4 divider md:py-8' />}
         </div>
