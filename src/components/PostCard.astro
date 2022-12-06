@@ -15,10 +15,10 @@ const post: Post = Astro.props.post;
         <Image
           src={post.img}
           alt={post.title}
-          width={160}
-          height={160}
+          width={post.imgWidth}
+          height={post.imgHeight}
           format={'webp'}
-          class='object-cover w-full rounded sm:w-40 sm:h-40 bg-base-200'
+          class='object-cover w-full rounded sm:w-52 sm:h-40 bg-base-200'
         />
       </a>
     )
