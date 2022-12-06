@@ -1,0 +1,133 @@
+---
+title: "Getting Started with TypeScript: Beginner's Guide"
+date: 2022-08-23T16:23:21.000Z
+author: Aleksa
+desc: "In this beginner's guide, we'll cover the basics of TypeScript and how to get started using it with React. Whether you're new to TypeScript or just looking to refresh your knowledge, this post has you covered."
+img: https://picsum.photos/500/500
+imgWidth: 500
+imgHeight: 500
+---
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Basics of TypeScript](#basics-of-typescript)
+3. [Setting up TypeScript](#setting-up-typescript)
+4. [Writing TypeScript code](#writing-typescript-code)
+5. [Conclusion](#conclusion)
+
+## Introduction
+
+TypeScript is a popular programming language that adds static typing to JavaScript, making it easier to write and maintain large-scale applications. In this beginner's guide, we'll cover the basics of TypeScript and how to get started using it in your own projects. Whether you're new to TypeScript or just looking to refresh your knowledge, this post has you covered.
+
+## Basics of TypeScript
+
+TypeScript is a statically-typed language, which means that variables, functions, and classes in TypeScript have types that are checked at compile time. This allows the TypeScript compiler to catch type errors before your code is run, ensuring that your code is correct and reliable.
+
+Here is an example of a simple function written in TypeScript:
+
+```typescript
+function add(x: number, y: number): number {
+  return x + y;
+}
+```
+
+In this example, the `add` function takes two arguments, `x` and `y`, which are both numbers. The `: number` syntax after each argument indicates the type of the argument, and the `: number` after the function name indicates the return type of the function.
+
+TypeScript also has a powerful type system that allows you to define custom types and interfaces, which can be used to ensure that your code is consistent and predictable. For example, you could define a `Person` interface like this:
+
+```typescript
+interface Person {
+  name: string;
+  age: number;
+  isMale: boolean;
+}
+```
+
+This interface defines the structure of a `Person` object, with three properties: `name`, `age`, and `isMale`. The `: string`, `: number`, and `: boolean` syntax after each property indicates the type of the property.
+
+Now, if you want to create a function that takes a `Person` object as an argument, you can use the `Person` interface to specify the type of the argument:
+
+```typescript
+function greet(person: Person) {
+  console.log(`Hello, ${person.name}!`);
+}
+```
+
+## Setting up TypeScript
+
+To use TypeScript in your own projects, you'll need to install the TypeScript compiler and set up your project to use it. The easiest way to do this is to use the `npm` package manager, which is included with Node.js.
+
+First, make sure you have Node.js installed on your system. Then, open a terminal or command prompt and navigate to the directory where you want to create your project. Run the following command to create a new `package.json` file for your project:
+
+```
+npm init -y
+```
+
+This will create a `package.json` file with default values, which you can edit later to customize your project. Next, run the following command to install the TypeScript compiler:
+
+```
+npm install --save-dev typescript
+```
+
+This will install the TypeScript compiler and add it to your `package.json` file as a development dependency. To use the TypeScript compiler, you'll need to create a `tsconfig.json` file in the root of your project. This file specifies the settings for the TypeScript compiler, such as the version of TypeScript to use and the options for type checking.
+
+You can create a `tsconfig.json` file manually, or you can use the `tsc` command to generate a default `tsconfig.json` file:
+
+```
+npx tsc --init
+```
+
+This will create a `tsconfig.json` file with default settings. You can edit this file to customize the compiler options, such as enabling strict type checking or setting the target JavaScript version.
+
+## Writing TypeScript code
+
+Once you have the TypeScript compiler set up, you can start writing TypeScript code in your project. TypeScript code is written in `.ts` files, which are then compiled to `.js` files that can be run in a JavaScript runtime.
+
+To create a new `.ts` file, simply create a new file with a `.ts` extension in your project directory. For example, you could create a `main.ts` file like this:
+
+```typescript
+// main.ts
+
+function add(x: number, y: number): number {
+  return x + y;
+}
+
+console.log(add(1, 2)); // Output: 3
+```
+
+This is a simple TypeScript file that defines a `add` function and uses it to log the result of adding 1 and 2 to the console. To compile this file to JavaScript, you can use the `tsc` command:
+
+```
+tsc main.ts
+```
+
+This will compile the `main.ts` file to a `main.js` file in the same directory. The `.js` file will contain the JavaScript equivalent of the TypeScript code, with type annotations and other TypeScript-specific syntax removed.
+
+To run the compiled JavaScript code, you'll need to use a JavaScript runtime, such as Node.js. To do this, you can use the `node` command followed by the name of the `.js` file:
+
+```
+node main.js
+```
+
+This will run the `main.js` file in the Node.js runtime, and you should see the output of the `add` function in the console.
+
+Alternatively, you can use the `ts-node` package to run TypeScript code directly without compiling it to JavaScript first. To do this, you'll need to install the `ts-node` package using `npm`:
+
+```
+npm install --save-dev ts-node
+```
+
+Then, you can run TypeScript code using the `ts-node` command:
+
+```
+ts-node main.ts
+```
+
+This will execute the `main.ts` file directly using the `ts-node` runtime, which allows you to write and run TypeScript code without the need to compile it to JavaScript first.
+
+## Conclusion
+
+In this beginner's guide, we covered the basics of TypeScript and how to get started using it in your own projects. We discussed the basics of TypeScript syntax and type checking, and we walked through the process of setting up the TypeScript compiler and writing and running TypeScript code.
+
+If you're new to TypeScript, this guide should give you a good foundation for working with the language and taking advantage of its static typing and powerful type system. To learn more about TypeScript and its features, check out the official TypeScript documentation.
