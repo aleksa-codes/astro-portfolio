@@ -21,7 +21,7 @@ export default defineConfig({
     image(),
     astroOGImage({
       config: {
-        path: 'src/posts'
+        path: './src/posts'
         // change this value to the folder where your posts are
         // NOTE: index.md file will not get proccesed, so please avoid it
       }
