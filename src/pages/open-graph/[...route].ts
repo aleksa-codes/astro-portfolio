@@ -16,7 +16,11 @@ export const { getStaticPaths, get } = OGImageRoute({
     title: page.frontmatter.title,
     bgGradient: [
       [18, 18, 18],
-      [9, 9, 9]
+      [18, 18, 18],
+      [18, 18, 18],
+      [32, 32, 32],
+      [32, 32, 32],
+      [64, 64, 64]
     ],
     logo: {
       path: './public/icons/android/android-launchericon-192-192.png'
