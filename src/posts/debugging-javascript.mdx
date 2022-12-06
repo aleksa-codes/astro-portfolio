@@ -13,9 +13,8 @@ imgHeight: 500
 1. [Introduction](#introduction)
 2. [Common Mistakes and Pitfalls in JavaScript](#common-mistakes-and-pitfalls-in-javascript)
 3. [Techniques for Debugging](#techniques-for-debugging)
-4. [Tools for Debugging](#tools-for-debugging)
-5. [Best Practices for Debugging](#best-practices-for-debugging)
-6. [Conclusion](#conclusion)
+4. [Best Practices for Debugging](#best-practices-for-debugging)
+5. [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -96,46 +95,11 @@ Once the code has paused at the breakpoint, you can step through the code line b
 
 This can be a more powerful and precise way to debug your code, as it allows you to pause the execution of the code at any point and examine the state of the program in detail.
 
-## Tools for Debugging
-
 In addition to the techniques mentioned above, there are also a number of tools that can help you debug your JavaScript code.
 
-The most basic tool is the browser's developer tools. All modern web browsers have built-in developer tools that allow you to inspect the HTML, CSS, and JavaScript of a web page, as well as to run JavaScript code in the browser's console. For example, the following code shows how to use the Chrome DevTools to debug a simple web page that calculates and displays the average of two numbers:
+The most basic tool is the browser's developer tools. All modern web browsers have built-in developer tools that allow you to inspect the HTML, CSS, and JavaScript of a web page, as well as to run JavaScript code in the browser's console.
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Debugging Example</title>
-  </head>
-  <body>
-    <h1>Debugging Example</h1>
-    <p>
-      The average of <span id="x">3</span> and <span id="y">4</span> is
-      <span id="z">3.5</span>.
-    </p>
-
-    <script>
-      function average(x, y) {
-        return (x + y) / 2;
-      }
-
-      var x = document.getElementById('x').innerText;
-      var y = document.getElementById('y').innerText;
-
-      var z = average(x, y);
-
-      document.getElementById('z').innerText = z;
-    </script>
-  </body>
-</html>
-```
-
-To use the developer tools, you first need to open the web page in the browser and then open the developer tools by pressing `F12` on the keyboard, or by clicking on the "Tools" menu and selecting "Developer Tools".
-
-Once the code has paused at the breakpoint, you can step through the code line by line using the "Step Over" (`F10`), "Step Into" (`F11`), and "Step Out" (`Shift + F11`) buttons. You can also inspect the values of variables by hovering over them with the mouse, or by using the "Watch" window to view and edit the values of variables.
-
-This can be a more powerful and precise way to debug your code, as it allows you to pause the execution of the code at any point and examine the state of the program in detail.
+To use the developer tools, you first need to open the web page in the browser and then open the developer tools by pressing `F12` on the keyboard, or by clicking on the "Tools" menu and selecting "Developer Tools". Once the developer tools are open, you can use the "Console" tab to run JavaScript code and view the output.
 
 ## Best Practices for Debugging
 
