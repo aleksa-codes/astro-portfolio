@@ -5,7 +5,7 @@ export const projects = [
     tech: ['React', 'Next.js', 'Thin.dev', 'Tailwind CSS'],
     github: 'https://github.com/aleksa-codes/next-day-todo-app',
     demo: 'https://nextday.aleksa.codes',
-    img: '/assets/nextday.aleksa.codes_.png'
+    img: '/assets/nextday.aleksa.codes_.webp'
   },
   {
     name: 'Next Meal',
@@ -13,7 +13,7 @@ export const projects = [
     tech: ['React', 'Next.js', 'Tailwind CSS', 'daisyUI'],
     github: 'https://github.com/aleksa-codes/my-next-meal-pwa',
     demo: 'https://nextmeal.aleksa.codes',
-    img: '/assets/nextmeal.aleksa.codes_.png'
+    img: '/assets/nextmeal.aleksa.codes_.webp'
   },
   {
     name: 'Hello Fresh Clone',
@@ -21,6 +21,6 @@ export const projects = [
     tech: ['Astro', 'HTML', 'Tailwind CSS', 'TypeScript'],
     github: 'https://github.com/aleksa-codes/hello-fresh-clone',
     demo: 'https://aleksa-codes.github.io/hello-fresh-clone',
-    img: '/assets/aleksa-codes.github.io_hello-fresh-clone_.png'
+    img: '/assets/aleksa-codes.github.io_hello-fresh-clone_.webp'
   }
 ];
