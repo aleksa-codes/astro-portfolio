@@ -4,6 +4,9 @@ dist/
 # dependencies
 node_modules/
 
+# posts og images
+posts/
+
 # logs
 npm-debug.log*
 yarn-debug.log*
