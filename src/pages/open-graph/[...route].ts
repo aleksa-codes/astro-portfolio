@@ -14,6 +14,10 @@ export const { getStaticPaths, get } = OGImageRoute({
   // could read values from frontmatter.
   getImageOptions: (path, page) => ({
     title: page.frontmatter.title,
+    bgGradient: [
+      [18, 18, 18],
+      [9, 9, 9]
+    ],
     logo: {
       path: './public/icons/android/android-launchericon-192-192.png'
     }
