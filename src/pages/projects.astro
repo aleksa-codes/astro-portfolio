@@ -21,7 +21,7 @@ import { projects } from '../data/project';
                 index % 2 === 0 ? 'md:text-left' : 'md:text-right'
               }`}
             >
-              <div class='flex flex-col'>
+              <div class='flex flex-col not-prose'>
                 <div
                   class={`text-3xl font-bold text-base-content text-center ${
                     index % 2 === 0 ? 'md:text-left' : 'md:text-right'
@@ -29,7 +29,17 @@ import { projects } from '../data/project';
                 >
                   {name}
                 </div>
-                <p class='text-base'>{desc}</p>
+                <ul class='text-base list-none py-3'>
+                  {desc.split('.').map((sentence, index, array) => (
+                    <span>
+                      {index !== array.length - 1 ? (
+                        <li class='py-1'>{sentence}.</li>
+                      ) : (
+                        sentence
+                      )}
+                    </span>
+                  ))}
+                </ul>
               </div>
               <div
                 class={`flex gap-4 flex-row justify-start  ${

@@ -1,26 +1,26 @@
 export const projects = [
   {
-    name: 'Project #1',
-    desc: 'Laudantium iste repellat et. Et officiis corporis. At est placeat voluptas aut. Soluta dolor quae quae tempora. Voluptatibus quibusdam natus. Facilis ea repellendus expedita voluptatum rerum autem.',
-    tech: ['HTML', 'CSS', 'JavaScript'],
-    github: 'https://github.com/aleksa-codes',
-    demo: 'https://example.com',
-    img: 'https://picsum.photos/800/600'
+    name: 'Next Day',
+    desc: "To-Do web application to manage task lists and tasks with the 'Pomodoro' focus timer for each of them. Users can create an account or log in with Google. CRUD operations are available for tasks and task lists. Deployed on Vercel.",
+    tech: ['React', 'Next.js', 'Thin.dev', 'Tailwind CSS'],
+    github: 'https://github.com/aleksa-codes/next-day-todo-app',
+    demo: 'https://nextday.aleksa.codes',
+    img: '/assets/nextday.aleksa.codes_.png'
   },
   {
-    name: 'Project #2',
-    desc: 'Laudantium iste repellat et. Et officiis corporis. At est placeat voluptas aut. Soluta dolor quae quae tempora. Voluptatibus quibusdam natus. Facilis ea repellendus expedita voluptatum rerum autem.',
-    tech: ['HTML', 'CSS', 'JavaScript'],
-    github: 'https://github.com/aleksa-codes',
-    demo: 'https://example.com',
-    img: 'https://picsum.photos/800/600'
+    name: 'Next Meal',
+    desc: "Progressive Web App that generates a random meal with a recipe, giving you ideas when you can't decide what to eat. Application is fetching data from the 'TheMealDB' API. Deployed on Vercel and installable on any device.",
+    tech: ['React', 'Next.js', 'Tailwind CSS', 'daisyUI'],
+    github: 'https://github.com/aleksa-codes/my-next-meal-pwa',
+    demo: 'https://nextmeal.aleksa.codes',
+    img: '/assets/nextmeal.aleksa.codes_.png'
   },
   {
-    name: 'Project #3',
-    desc: 'Laudantium iste repellat et. Et officiis corporis. At est placeat voluptas aut. Soluta dolor quae quae tempora.',
-    tech: ['HTML', 'CSS', 'JavaScript'],
-    github: 'https://github.com/aleksa-codes',
-    demo: 'https://example.com',
-    img: 'https://picsum.photos/800/600'
+    name: 'Hello Fresh Clone',
+    desc: 'Clone of the Hello Fresh, meal service, website. Practiced using Aastro for static site generation and Tailwind CSS for styling. Deployed on GitHub Pages.',
+    tech: ['Astro', 'HTML', 'Tailwind CSS', 'TypeScript'],
+    github: 'https://github.com/aleksa-codes/hello-fresh-clone',
+    demo: 'https://aleksa-codes.github.io/hello-fresh-clone',
+    img: '/assets/aleksa-codes.github.io_hello-fresh-clone_.png'
   }
 ];
