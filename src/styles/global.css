@@ -84,31 +84,24 @@ pre[class*='astro-code'] button:hover {
   transition: box-shadow 0.3s ease-out 0s;
 }
 
-[data-theme='winter'] .wave-t {
-  @apply text-slate-200;
-}
-.wave-t {
-  @apply text-slate-800;
-}
-[data-theme='winter'] .wave-b {
-  @apply bg-slate-200;
-}
+.wave-t,
 .wave-b {
+  @apply text-slate-800;
   @apply bg-slate-800;
 }
-
-[data-theme='winter'] .footer-text-t {
-  @apply text-slate-600;
-}
-.footer-text-t {
-  @apply text-slate-400;
+[data-theme='winter'] .wave-t,
+[data-theme='winter'] .wave-b {
+  @apply text-slate-200;
+  @apply bg-slate-200;
 }
 
-[data-theme='winter'] .footer-text-b {
-  @apply text-slate-600;
-}
+.footer-text-t,
 .footer-text-b {
   @apply text-slate-400;
+}
+[data-theme='winter'] .footer-text-t,
+[data-theme='winter'] .footer-text-b {
+  @apply text-slate-600;
 }
 /* End for custom component styles */
 

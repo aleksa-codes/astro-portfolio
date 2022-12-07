@@ -1,10 +1,11 @@
 ---
 const { date } = Astro.props;
-const formattedDate = new Intl.DateTimeFormat('en-US', {
+const dateObject = new Date(date);
+const formattedDate = dateObject.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
-}).format(Date.parse(date));
+});
 ---
 
 <time datetime={date}>{formattedDate}</time>

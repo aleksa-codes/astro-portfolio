@@ -17,21 +17,25 @@ export type Post = {
 };
 
 export function single(post: MarkdownInstance): Post {
-  const slug = post.file.split('/').reverse()[0].replace('.mdx', '');
+  const filePathArray = post.file.split('/');
+  const slug = filePathArray.pop()?.replace('.mdx', '');
   return {
     ...post.frontmatter,
     Content: post.Content,
-    slug: slug,
-    draft: post.file.split('/').reverse()[1] === 'drafts',
+    slug,
+    draft: filePathArray.pop() === 'drafts',
     timestamp: new Date(post.frontmatter.date).valueOf()
   };
 }
 
 export function published(posts: MarkdownInstance[]): Post[] {
   return posts
-    .filter((post) => post.frontmatter.title)
-    .map((post) => single(post))
-    .filter((post) => MODE === 'development' || !post.draft)
+    .filter(
+      (post) =>
+        post.frontmatter.title &&
+        (MODE === 'development' || !post.frontmatter.draft)
+    )
+    .map(single)
     .sort((a, b) => b.timestamp - a.timestamp);
 }
 

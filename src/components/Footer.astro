@@ -49,6 +49,7 @@ import { days } from '../data/day';
     return days[day];
   }
   const day = getCurrentDay();
-  const footerMessage = document.getElementById('footer-message');
-  footerMessage.innerText = `~ Have a great ${day} ~`;
+  document.getElementById(
+    'footer-message'
+  ).innerText = `~ Have a great ${day} ~`;
 </script>

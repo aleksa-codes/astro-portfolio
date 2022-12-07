@@ -9,10 +9,9 @@ export interface Props {
 
 const { slug } = Astro.props as Props;
 const getPost = () => {
-  const fileContents = fs.readFileSync(
-    path.join('src', 'posts', `${slug}.mdx`),
-    'utf8'
-  );
+  // read the file only once and store the result in a variable
+  const filePath = path.join('src', 'posts', `${slug}.mdx`);
+  const fileContents = fs.readFileSync(filePath, 'utf8');
   const { data, content } = matter(fileContents);
   return {
     ...data,

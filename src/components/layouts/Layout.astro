@@ -81,12 +81,10 @@ const {
     <script>
       // Helper function
       let domReady = (cb: any) => {
-        document.readyState === 'interactive' ||
-        document.readyState === 'complete'
+        document.readyState === 'interactive'
           ? cb()
-          : document.addEventListener('DOMContentLoaded', cb);
+          : window.addEventListener('DOMContentLoaded', cb);
       };
-
       domReady(() => {
         // Display body when DOM is loaded
         document.body.style.visibility = 'visible';
