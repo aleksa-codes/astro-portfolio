@@ -113,6 +113,9 @@ pre[class*='astro-code'] button:hover {
 /* End for custom component styles */
 
 /* Custom utilities */
+html {
+  visibility: hidden;
+}
 html,
 body {
   height: 100%;
