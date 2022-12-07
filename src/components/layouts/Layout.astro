@@ -37,11 +37,16 @@ const {
 
 <html lang='en'>
   <head>
-    <script src='https://cdn.jsdelivr.net/npm/theme-change@2.2.0/index.js'
-    ></script>
+    <style>
+      html {
+        visibility: hidden;
+      }
+    </style>
     <SEO
       {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle, slug }}
     />
+    <script src='https://cdn.jsdelivr.net/npm/theme-change@2.2.0/index.js'
+    ></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
