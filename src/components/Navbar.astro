@@ -241,8 +241,7 @@ import { navItems } from '../data/nav';
   // @ts-ignore
   import Typewriter from 'typewriter-effect/dist/core';
   document.addEventListener('DOMContentLoaded', () => {
-    const typed = document.getElementById('typed-logo');
-    const tw = new Typewriter(typed, {
+    const tw = new Typewriter(document.querySelector('#typed-logo'), {
       loop: false,
       autoStart: true
     });
