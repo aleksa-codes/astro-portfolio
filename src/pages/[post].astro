@@ -32,7 +32,7 @@ const {
     <div class='flex flex-col min-w-full py-4 prose break-words lg:prose-lg'>
       {
         post.img && post.imgWidth && post.imgHeight ? (
-          <figure class='flex justify-center'>
+          <div class='flex justify-center'>
             <Image
               src={post.img}
               alt={post.title}
@@ -42,10 +42,10 @@ const {
               srcset={post.img + ' 1x,' + post.img + ' 2x'}
               class='rounded bg-base-200'
             />
-          </figure>
+          </div>
         ) : (
           post.img && (
-            <figure class='flex justify-center'>
+            <div class='flex justify-center'>
               <Image
                 src={post.img}
                 alt={post.title}
@@ -53,7 +53,7 @@ const {
                 srcset={post.img + ' 1x,' + post.img + ' 2x'}
                 class='rounded bg-base-200'
               />
-            </figure>
+            </div>
           )
         )
       }
