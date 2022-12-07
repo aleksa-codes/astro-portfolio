@@ -36,10 +36,10 @@ const {
             <Image
               src={post.img}
               alt={post.title}
-              srcset={post.img + ' 1x,' + post.img + ' 2x'}
               width={post.imgWidth}
               height={post.imgHeight}
               format={'webp'}
+              srcset={post.img + ' 1x,' + post.img + ' 2x'}
               class='rounded bg-base-200'
             />
           </figure>
@@ -50,6 +50,7 @@ const {
                 src={post.img}
                 alt={post.title}
                 format={'webp'}
+                srcset={post.img + ' 1x,' + post.img + ' 2x'}
                 class='rounded bg-base-200'
               />
             </figure>
