@@ -37,11 +37,6 @@ const {
 
 <html lang='en'>
   <head>
-    <style>
-      html {
-        visibility: visible;
-      }
-    </style>
     <script src='https://cdn.jsdelivr.net/npm/theme-change@2.2.0/index.js'
     ></script>
     <script
@@ -68,6 +63,7 @@ const {
     />
   </head>
   <body
+    style='visibility: hidden;'
     class='flex flex-col items-center min-h-screen antialiased overflow-x-hidden overflow-y-scroll'
   >
     <script>
@@ -82,5 +78,19 @@ const {
       </div>
     </div>
     <Footer />
+    <script>
+      // Helper function
+      let domReady = (cb: any) => {
+        document.readyState === 'interactive' ||
+        document.readyState === 'complete'
+          ? cb()
+          : document.addEventListener('DOMContentLoaded', cb);
+      };
+
+      domReady(() => {
+        // Display body when DOM is loaded
+        document.body.style.visibility = 'visible';
+      });
+    </script>
   </body>
 </html>
