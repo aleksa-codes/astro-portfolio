@@ -46,8 +46,16 @@ import { projects } from '../data/project';
                   index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                 }`}
               >
-                <p class='text-base font-bold highlight w-fit'>
-                  {tech.join(' • ')}
+                <p class='text-base font-bold w-fit'>
+                  {tech.map((tech, index, array) => (
+                    <span>
+                      {index !== array.length - 1 ? (
+                        <span class='highlight'>{tech} • </span>
+                      ) : (
+                        <span class='highlight'>{tech}</span>
+                      )}
+                    </span>
+                  ))}
                 </p>
               </div>
 

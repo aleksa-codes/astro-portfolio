@@ -8,8 +8,8 @@ pre[class*='astro-code'] {
   position: relative;
   margin: 5px 0;
   padding: 2.25rem 0 1.75rem 1rem;
-
-  /* more stuff */
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 pre[class*='astro-code'] button {
@@ -29,6 +29,12 @@ pre[class*='astro-code'] button {
 pre[class*='astro-code'] button:hover {
   cursor: pointer;
   background-color: #6b6b6b;
+}
+@media screen and (max-width: 600px) {
+  pre[class*='astro-code'] button {
+    font-size: 0.8rem;
+    padding: 0.1rem;
+  }
 }
 /* End copy to clipboard */
 /* #add9f4 - old blue color */
