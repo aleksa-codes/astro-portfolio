@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
-  content: ['./src/**/*.{astro,html,svelte,vue,js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{astro,html,js,ts,jsx,tsx}'],
   plugins: [
     require('tailwind-scrollbar')({ nocompatible: true }),
     require('@tailwindcss/typography'),
