@@ -37,6 +37,17 @@ const {
 
 <html lang='en'>
   <head>
+    <script>
+      0;
+    </script>
+    <style>
+      html {
+        visibility: visible;
+      }
+    </style>
+    <SEO
+      {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle, slug }}
+    />
     <script src='https://cdn.jsdelivr.net/npm/theme-change@2.2.0/index.js'
     ></script>
     <script>
@@ -46,15 +57,6 @@ const {
         });
       }
     </script>
-    <style>
-      html {
-        visibility: hidden;
-      }
-    </style>
-
-    <SEO
-      {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle, slug }}
-    />
   </head>
   <body
     class='flex flex-col items-center min-h-screen antialiased overflow-x-hidden overflow-y-scroll'
