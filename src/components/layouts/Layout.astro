@@ -37,16 +37,8 @@ const {
 
 <html lang='en'>
   <head>
-    <style>
-      html {
-        visibility: hidden;
-      }
-    </style>
     <script src='https://cdn.jsdelivr.net/npm/theme-change@2.2.0/index.js'
     ></script>
-    <SEO
-      {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle, slug }}
-    />
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -54,6 +46,15 @@ const {
         });
       }
     </script>
+    <style>
+      html {
+        visibility: hidden;
+      }
+    </style>
+
+    <SEO
+      {...{ title, description, siteName, canonical, ogImage, ogType, twitterHandle, slug }}
+    />
   </head>
   <body
     class='flex flex-col items-center min-h-screen antialiased overflow-x-hidden overflow-y-scroll'

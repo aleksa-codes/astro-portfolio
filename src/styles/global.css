@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-  visibility: visible !important;
+  visibility: visible;
 }
 html,
 body {
