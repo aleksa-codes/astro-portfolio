@@ -70,13 +70,13 @@ Next, we will define the `@keyframes` for each of these animations:
 
 @keyframes move {
   0% {
-    transform: translateX(-12px);
+    transform: translateX(-8px);
   }
   50% {
-    transform: translateX(12px);
+    transform: translateX(8px);
   }
   100% {
-    transform: translateX(-12px);
+    transform: translateX(-8px);
   }
 }
 
@@ -148,7 +148,7 @@ for (let i = 0; i < flakes; i++) {
   flake.style.fontSize = `${Math.floor(Math.random() * 30) + 10}px`;
   flake.style.color = colors[Math.floor(Math.random() * colors.length)];
   flake.style.animationDelay = `${Math.random() * 12}s`;
-  container?.appendChild(flake);
+  container.appendChild(flake);
   snowflakes.push(flake);
 }
 ```
@@ -157,6 +157,29 @@ In the code above, we are creating a new `div` element for each snowflake and se
 
 Once we have created a snowflake element, we add it to the page by appending it to the container element. We also add a reference to the snowflake element to the `snowflakes` array.
 
+The final code looks like this:
+
+```js
+const snow = ['❄', '❅', '❆'];
+const colors = ['#aaa', '#bbb', '#ccc', '#ddd', '#eee'];
+const flakes = 16;
+const container = document.querySelector('.snow');
+const containerWidth = container?.clientWidth;
+const snowflakes = [];
+for (let i = 0; i < flakes; i++) {
+  const flake = document.createElement('div');
+  flake.innerHTML = snow[Math.floor(Math.random() * snow.length)];
+  flake.classList.add('snowflake');
+  flake.style.position = 'absolute';
+  flake.style.left = `${Math.random() * containerWidth}px`;
+  flake.style.fontSize = `${Math.floor(Math.random() * 30) + 10}px`;
+  flake.style.color = colors[Math.floor(Math.random() * colors.length)];
+  flake.style.animationDelay = `${Math.random() * 12}s`;
+  container.appendChild(flake);
+  snowflakes.push(flake);
+}
+```
+
 ## Using the Effect on Your Page
 
 To use the snowfall effect on your page, you will need to add the CSS and JavaScript code above to your stylesheet and script file, respectively.
@@ -164,7 +187,21 @@ To use the snowfall effect on your page, you will need to add the CSS and JavaSc
 Once you have done that, you can add the following HTML to your page where you want the snowfall effect to appear:
 
 ```html
-<div class="snow"></div>
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8" />
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <-- css -->
+  <link rel="stylesheet" href="style.css" />
+
+  <body>
+    <-- div with class -->
+    <div class="snow"></div>
+    <-- js -->
+    <script src="snow.js"></script>
+  </body>
+</html>
 ```
 
 ## Conclusion
