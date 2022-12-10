@@ -119,3 +119,58 @@ body {
   }
 }
 /* End for custom utilities */
+
+/* snow */
+.snow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.snowflake {
+  opacity: 0;
+  animation: fall 12s ease-out infinite, move 3s ease-in-out infinite,
+    fade-in 1s ease-in forwards;
+}
+
+@keyframes fall {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100%;
+  }
+}
+@keyframes move {
+  0% {
+    transform: translateX(-12px);
+  }
+  50% {
+    transform: translateX(12px);
+  }
+  100% {
+    transform: translateX(-12px);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
