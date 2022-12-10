@@ -147,13 +147,13 @@ body {
 }
 @keyframes move {
   0% {
-    transform: translateX(-12px);
+    transform: translateX(-8px);
   }
   50% {
-    transform: translateX(12px);
+    transform: translateX(8px);
   }
   100% {
-    transform: translateX(-12px);
+    transform: translateX(-8px);
   }
 }
 
