@@ -26,26 +26,14 @@ So grab your favorite hot drink, get comfortable, and let's get started! With a 
 
 ## The CSS
 
-The first thing we need to do is create the `.snow` class, which will be applied to a `div` element on our page. This class will give the snowfall effect its container, and ensure that it takes up the entire width and height of the page.
-
-```css
-.snow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-}
-```
-
-Next, we will create the `.snowflake` class, which will be applied to each individual snowflake. This class will handle the animation of the snowflakes falling, as well as giving them a slight side-to-side movement to make them look more realistic.
+First, we will create the `.snowflake` class, which will be applied to each individual snowflake. This class will handle the animation of the snowflakes falling, as well as giving them a slight side-to-side movement to make them look more realistic.
 
 ```css
 .snowflake {
   opacity: 0;
-  animation: fall 12s ease-out infinite, move 3s ease-in-out infinite,
+  pointer-events: none;
+  z-index: 999;
+  animation: fall 12s ease-out infinite, move 4s ease-in-out infinite,
     fade-in 1s ease-in forwards;
 }
 ```
@@ -110,7 +98,7 @@ const colors = ['#aaa', '#bbb', '#ccc', '#ddd', '#eee'];
 const flakes = 24;
 ```
 
-Then we need to grab a reference to the `div` element on our page that has the `.snow` class applied to it. We will store this reference in a variable called `container`.
+Then we need to grab a reference to the `html` or `body` element on our page that has the `.snow` class applied to it. We will store this reference in a variable called `container`.
 
 ```js
 // snowflake container
@@ -189,14 +177,15 @@ Once you have done that, you can add the following HTML to your page where you w
 ```html
 <!DOCTYPE html>
 <html lang="en">
-  <meta charset="UTF-8" />
-  <title>Page Title</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <-- css -->
-  <link rel="stylesheet" href="style.css" />
-  <body>
-    <-- div with class -->
-    <div class="snow"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <-- css -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <-- put class snow in body tag or html -->
+  <body class="snow">
     <-- js -->
     <script src="snow.js"></script>
   </body>
