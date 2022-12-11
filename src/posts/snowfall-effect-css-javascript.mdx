@@ -26,15 +26,24 @@ So grab your favorite hot drink, get comfortable, and let's get started! With a 
 
 ## The CSS
 
-First, we will create the `.snowflake` class, which will be applied to each individual snowflake. This class will handle the animation of the snowflakes falling, as well as giving them a slight side-to-side movement to make them look more realistic.
+First, we need need to write some styles for out container element. This element will be used to hold all of the snowflakes that we create. We will apply the `.snow` class to this element.
+
+```css
+.snow {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+```
+
+Then, we will create the `.snowflake` class, which will be applied to each individual snowflake. This class will handle the animation of the snowflakes falling, as well as giving them a slight side-to-side movement to make them look more realistic.
 
 ```css
 .snowflake {
   opacity: 0;
-  pointer-events: none;
-  z-index: 999;
   animation: fall 12s ease-out infinite, move 4s ease-in-out infinite,
     fade-in 1s ease-in forwards;
+  pointer-events: none;
 }
 ```
 
