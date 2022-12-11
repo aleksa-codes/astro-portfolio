@@ -35,7 +35,7 @@ const {
 } = Astro.props as Props;
 ---
 
-<html lang='en' class='snow'>
+<html lang='en' class=''>
   <head>
     <script src='https://cdn.jsdelivr.net/npm/theme-change@2.2.0/index.js' defer
     ></script>
@@ -55,6 +55,7 @@ const {
     style='visibility: hidden;'
     class='flex flex-col items-center min-h-screen antialiased overflow-x-hidden overflow-y-scroll'
   >
+    <div class='snow'></div>
     <!-- some weird fix for mozilla firefox fouc -->
     <script>
       0;

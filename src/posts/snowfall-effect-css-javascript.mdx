@@ -30,8 +30,13 @@ First, we need need to write some styles for out container element. This element
 
 ```css
 .snow {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+  z-index: 999;
   overflow: hidden;
 }
 ```
@@ -43,7 +48,6 @@ Then, we will create the `.snowflake` class, which will be applied to each indiv
   opacity: 0;
   animation: fall 12s ease-out infinite, move 4s ease-in-out infinite,
     fade-in 1s ease-in forwards;
-  pointer-events: none;
 }
 ```
 
@@ -193,8 +197,9 @@ Once you have done that, you can add the following HTML to your page where you w
     <-- css -->
     <link rel="stylesheet" href="style.css" />
   </head>
-  <-- put class snow in body tag or html -->
-  <body class="snow">
+  <body>
+    <-- apply .snow contaienr class here -->
+    <div class="snow"></div>
     <-- js -->
     <script src="snow.js"></script>
   </body>
