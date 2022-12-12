@@ -168,3 +168,25 @@ body {
     opacity: 1;
   }
 }
+
+/* Scroll indicator styles */
+.progress::-moz-progress-bar {
+  background-color: #0f1729;
+}
+
+.progress::-webkit-progress-bar {
+  background-color: #0f1729;
+}
+
+[data-theme='winter'] .progress::-moz-progress-bar {
+  background-color: #fff;
+}
+
+[data-theme='winter'] .progress::-webkit-progress-bar {
+  background-color: #fff;
+}
+
+.progress {
+  opacity: 0.5;
+  display: none;
+}
