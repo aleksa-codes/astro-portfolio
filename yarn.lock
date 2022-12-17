@@ -96,10 +96,10 @@
     unist-util-visit "^4.1.0"
     vfile "^5.3.2"
 
-"@astrojs/mdx@^0.13.0":
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-0.13.0.tgz#41267b26ac5b000b09d94c1ab269124e54ff08d1"
-  integrity sha512-2D/O5AjCBQQ/PLx3P/WysACdFxz97iQPu55hy9pc+u04a+fMFuVdKm9ftWXpsNHL2SXbKb7uRpcuFw93FnRNDw==
+"@astrojs/mdx@^0.12.1":
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-0.12.2.tgz#106cbe802548d61cea046e30a9f5feaa6c45406d"
+  integrity sha512-rv4f2h0zdQVu+dA8mPfCs3zp0j8CECJ11a9DijxcIcSZusou6CZ1N4KWMLlQYVKl8bOA5h0VzL/IvToh9A+dnA==
   dependencies:
     "@astrojs/prism" "^1.0.2"
     "@mdx-js/mdx" "^2.1.2"
@@ -140,7 +140,7 @@
   dependencies:
     prismjs "^1.28.0"
 
-"@astrojs/rss@^1.2.1":
+"@astrojs/rss@^1.1.0":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@astrojs/rss/-/rss-1.2.1.tgz#e53b7b5e9403c6e026f607e4c4b5f14baf5d645a"
   integrity sha512-ZgCunS6ECuPpxBznBYE+ONf23rcp+OWZ5IyDKFAcVZCWEq8Bh0rVYa9p8u6cU9WOTK56JRQTuwcVZYndmExNtw==
@@ -1631,7 +1631,7 @@ astro-og-canvas@^0.1.5:
     canvaskit-wasm "^0.37.0"
     entities "^4.4.0"
 
-astro@^1.7.1:
+astro@^1.6.14:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/astro/-/astro-1.7.1.tgz#bc92ad46aa93bf4e21e9ac63d793e59d87f1835f"
   integrity sha512-ENfHAm8/zYPgO5G1KJtCzt+hnTJaYdfjYqFWBB9PcBdxlHOOQvOd1zWCVX+uOvwKe8+ASUHXyyyULh3qlB5UUQ==
@@ -2068,7 +2068,7 @@ cssesc@^3.0.0:
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
 
-daisyui@^2.45.0:
+daisyui@^2.43.0:
   version "2.45.0"
   resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-2.45.0.tgz#38fce0129b4db9c5063781c588c5be11d29aa791"
   integrity sha512-hAWs7vQLxsWXCd3KMLAMBrZPO6OdU0gIDfOKGmZlyM0ro/pW3J2eGEaBs90Dy8w8L6wD/w1s8Ujd7zG8TYtD3g==
