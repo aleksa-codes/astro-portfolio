@@ -99,19 +99,19 @@ const {
         <hr />
         <h2>Comments</h2>
         <script
+          is:inline
           src='https://utteranc.es/client.js'
           repo='aleksa-codes/astro-portfolio'
           issue-term='og:title'
           label='comment✨💬✨'
           theme='dark-blue'
           crossorigin='anonymous'
-          async
         ></script>
       </div>
     </div>
   </div>
 </Layout>
-<script src='/src/utils/copytoclipboard.ts'></script>
+<script src='../scripts/copytoclipboard.ts'></script>
 <script>
   const progress = document.querySelector('.progress') as HTMLProgressElement;
   const totalHeight = document.body.scrollHeight - window.innerHeight;

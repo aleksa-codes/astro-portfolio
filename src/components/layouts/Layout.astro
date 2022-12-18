@@ -37,7 +37,9 @@ const {
 
 <html lang='en' class=''>
   <head>
-    <script src='https://cdn.jsdelivr.net/npm/theme-change@2.2.0/index.js' defer
+    <script
+      is:inline
+      src='https://cdn.jsdelivr.net/npm/theme-change@2.2.0/index.js'
     ></script>
     <script>
       if ('serviceWorker' in navigator) {
@@ -69,11 +71,11 @@ const {
       </div>
     </div>
     <Footer />
-    <script src='/src/utils/snow.ts'></script>
-    <script src='/src/utils/fouc.ts'></script>
+    <script src='../../scripts/fouc.ts'></script>
+    <script src='../../scripts/snow.ts'></script>
     <!-- Buy me a coffee -->
     <script
-      async
+      is:inline
       data-name='BMC-Widget'
       data-cfasync='false'
       src='https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js'
