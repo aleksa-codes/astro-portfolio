@@ -66,10 +66,10 @@
     vscode-languageserver-types "^3.17.1"
     vscode-uri "^3.0.3"
 
-"@astrojs/markdown-remark@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@astrojs/markdown-remark/-/markdown-remark-1.1.3.tgz#9fa985a532622043f0863c20f01c6ed01eca31e2"
-  integrity sha512-6MDuQXbrp2fZBYBIqD+0jvSqYAukiMTte6oLNHiEYsLf3KIMlVAZj6dDgUJakgL7cQ4fmzWb0HUqzVpxAsasLw==
+"@astrojs/markdown-remark@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@astrojs/markdown-remark/-/markdown-remark-1.2.0.tgz#2ec7375a5e7b59ea712fb5a9d1f4ac9cbe075acb"
+  integrity sha512-Cb+uhSuukyfERknfJ8K4iJLeKJaiZWi1BTwPS4fzw0bc9kGKe5VeTRzd2E25+vaMnRTk0tN/y6QfYEMMN3Q97g==
   dependencies:
     "@astrojs/micromark-extension-mdx-jsx" "^1.0.3"
     "@astrojs/prism" "^1.0.0"
@@ -96,11 +96,12 @@
     unist-util-visit "^4.1.0"
     vfile "^5.3.2"
 
-"@astrojs/mdx@^0.13.0":
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-0.13.0.tgz#41267b26ac5b000b09d94c1ab269124e54ff08d1"
-  integrity sha512-2D/O5AjCBQQ/PLx3P/WysACdFxz97iQPu55hy9pc+u04a+fMFuVdKm9ftWXpsNHL2SXbKb7uRpcuFw93FnRNDw==
+"@astrojs/mdx@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-0.14.0.tgz#ad8b662ed6a486bf7df0618ff138bcfaa3e4719b"
+  integrity sha512-lmNh/7CeQmdZ0OCbnDnoDxQTKWleFdlT5YkjsutGIOhabY0xgCcWwb1Rbs/9m4vvTdCkp9zsZdRzUKEPFPbcsA==
   dependencies:
+    "@astrojs/markdown-remark" "^1.2.0"
     "@astrojs/prism" "^1.0.2"
     "@mdx-js/mdx" "^2.1.2"
     "@mdx-js/rollup" "^2.1.1"
@@ -140,10 +141,10 @@
   dependencies:
     prismjs "^1.28.0"
 
-"@astrojs/rss@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@astrojs/rss/-/rss-1.2.1.tgz#e53b7b5e9403c6e026f607e4c4b5f14baf5d645a"
-  integrity sha512-ZgCunS6ECuPpxBznBYE+ONf23rcp+OWZ5IyDKFAcVZCWEq8Bh0rVYa9p8u6cU9WOTK56JRQTuwcVZYndmExNtw==
+"@astrojs/rss@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@astrojs/rss/-/rss-2.0.0.tgz#11434f304a77eef012742f6a9be12264cdb53651"
+  integrity sha512-qXsmyq2HhnKRA85US6GLelT47VLhdtS0bNq88umqfB2uneB9vWHSLnOJjhN9rv0mUSQjsFYytF4IEznfmNnpkQ==
   dependencies:
     fast-xml-parser "^4.0.8"
 
@@ -1535,7 +1536,7 @@ acorn@^7.0.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-acorn@^8.0.0, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.0:
+acorn@^8.0.0, acorn@^8.5.0, acorn@^8.7.1, acorn@^8.8.0, acorn@^8.8.1:
   version "8.8.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.1.tgz#0a3f9cbecc4ec3bea6f0a80b66ae8dd2da250b73"
   integrity sha512-7zFpHzhnqYKrkYdUjF1HI1bzd0VygEGX8lFk4k5zVMqHEoES+P+7TKI+EvLO9WVMJ8eekdO0aDEK044xTXwPPA==
@@ -1631,14 +1632,14 @@ astro-og-canvas@^0.1.5:
     canvaskit-wasm "^0.37.0"
     entities "^4.4.0"
 
-astro@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/astro/-/astro-1.7.2.tgz#9401c82049d057b7e5bf3b3961b266001a97d201"
-  integrity sha512-svgkfJUBcNzWV9YeoAGv+T96HjSK1j1xy1CbUA4JALU99WEvmJ1tFZBSrd1+m5xW9MuNOleSViGTfXhHfUaH9A==
+astro@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/astro/-/astro-1.8.0.tgz#bfb23d7d64a1111e05576b70a5d90fdb6dbc89de"
+  integrity sha512-MZIJveOC1OCIA0w2XmxjDtKviAEuYdF142DVq0VApInE1lm+CvAoyMgJs0a1h4mydD2vgQZpTjPhYKJIdxDjOA==
   dependencies:
     "@astrojs/compiler" "^0.31.0"
     "@astrojs/language-server" "^0.28.3"
-    "@astrojs/markdown-remark" "^1.1.3"
+    "@astrojs/markdown-remark" "^1.2.0"
     "@astrojs/telemetry" "^1.0.1"
     "@astrojs/webapi" "^1.1.1"
     "@babel/core" "^7.18.2"
@@ -1652,6 +1653,7 @@ astro@^1.7.2:
     "@types/babel__core" "^7.1.19"
     "@types/html-escaper" "^3.0.0"
     "@types/yargs-parser" "^21.0.0"
+    acorn "^8.8.1"
     boxen "^6.2.1"
     ci-info "^3.3.1"
     common-ancestor-path "^1.0.1"
@@ -1661,6 +1663,7 @@ astro@^1.7.2:
     devalue "^4.2.0"
     diff "^5.1.0"
     es-module-lexer "^1.1.0"
+    estree-walker "^3.0.1"
     execa "^6.1.0"
     fast-glob "^3.2.11"
     github-slugger "^1.4.0"
@@ -2472,7 +2475,7 @@ estree-walker@^2.0.2:
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
   integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
 
-estree-walker@^3.0.0:
+estree-walker@^3.0.0, estree-walker@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-3.0.1.tgz#c2a9fb4a30232f5039b7c030b37ead691932debd"
   integrity sha512-woY0RUD87WzMBUiZLx8NsYr23N5BKsOMZHhu2hoNRVh6NXGfoiT1KOL8G3UHlJAnEDGmfa5ubNA/AacfG+Kb0g==
@@ -5179,10 +5182,10 @@ synckit@^0.8.4:
     "@pkgr/utils" "^2.3.1"
     tslib "^2.4.0"
 
-tailwind-scrollbar@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/tailwind-scrollbar/-/tailwind-scrollbar-2.0.1.tgz#f08721173d513f1406a44601640b79726e3f9728"
-  integrity sha512-OcR7qHBbux4k+k6bWqnEQFYFooLK/F4dhkBz6nvswIoaA9ancZ5h20e0tyV7ifSWLDCUBtpG+1NHRA8HMRH/wg==
+tailwind-scrollbar@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tailwind-scrollbar/-/tailwind-scrollbar-2.1.0.tgz#46e0b8788cef75387f9d163a5ec82b8cacd66c44"
+  integrity sha512-zpvY5mDs0130YzYjZKBiDaw32rygxk5RyJ4KmeHjGnwkvbjm/PszON1m4Bbt2DkMRIXlXsfNevykAESgURN4KA==
 
 tailwindcss@^3, tailwindcss@^3.2.4:
   version "3.2.4"
