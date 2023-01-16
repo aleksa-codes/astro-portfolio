@@ -25,7 +25,7 @@
     "workbox-build": "^6.5.4"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.8",
+    "@tailwindcss/typography": "^0.5.9",
     "tailwind-scrollbar": "^2.1.0"
   }
 }
