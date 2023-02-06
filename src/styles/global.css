@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* fonts */
+@font-face {
+  font-family: 'SegoeScript';
+  src: url('/fonts/segoesc-webfont.woff2') format('woff2'), url('/fonts/segoesc-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* Custom component styles */
 /* Copy to clipboard */
 pre[class*='astro-code'] {
@@ -133,8 +141,7 @@ body {
 }
 .snowflake {
   opacity: 0;
-  animation: fall 12s ease-out infinite, move 4s ease-in-out infinite,
-    fade-in 1s ease-in forwards;
+  animation: fall 12s ease-out infinite, move 4s ease-in-out infinite, fade-in 1s ease-in forwards;
 }
 
 @keyframes fall {
