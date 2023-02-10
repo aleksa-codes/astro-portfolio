@@ -16,7 +16,7 @@
     "@astrojs/sitemap": "^1.0.1",
     "@astrojs/tailwind": "^3.0.1",
     "@fontsource/poppins": "^4.5.10",
-    "astro": "^2.0.9",
+    "astro": "^2.0.10",
     "astro-og-canvas": "^0.1.6",
     "daisyui": "^2.50.0",
     "reading-time": "^1.5.0",
