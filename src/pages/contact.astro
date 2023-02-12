@@ -13,8 +13,12 @@ import Avatar from '../components/utilities/Avatar.astro';
     <div class='mt-[-24px] mb-4 flex flex-col sm:flex-row items-start justify-center sm:items-center gap-4 w-full'>
       <div class='flex flex-row items-center justify-center w-full xs:w-1/2'>
         <!-- Avater based on if it is winter or not -->
-        <Avatar id='avatar' />
-        <WinterAvatar id='winter-avatar' />
+        <div id='avatar'>
+          <Avatar />
+        </div>
+        <div id='winter-avatar'>
+          <WinterAvatar />
+        </div>
       </div>
       <p class='w-full'>
         Feel free to reach out to me at any time, I am always interested in <span class='highlight'>things</span>. Thank
@@ -120,15 +124,14 @@ import Avatar from '../components/utilities/Avatar.astro';
   </div>
   <script>
     // Based on if it is winter or not, show the correct avatar, fix possibly null error
-    const winterAvatar = document.querySelector('#winter-avatar');
-    const avatar = document.querySelector('#avatar');
+    const winterAvatar = document.getElementById('winter-avatar');
+    const avatar = document.getElementById('avatar');
     const date = new Date();
     const month = date.getMonth();
+    // remove from DOM if not winter
     if (month < 2 || month > 10) {
-      // remove the avatar
       avatar?.remove();
     } else {
-      // remove the winter avatar
       winterAvatar?.remove();
     }
   </script>
