@@ -1,5 +1,6 @@
 ---
 import Layout from '../components/layouts/Layout.astro';
+import WinterAvatar from '../components/utilities/WinterAvatar.astro';
 import Avatar from '../components/utilities/Avatar.astro';
 ---
 
@@ -9,16 +10,19 @@ import Avatar from '../components/utilities/Avatar.astro';
 >
   <h1>Contact me</h1>
   <div class='flex flex-col items-center justify-center h-full'>
-    <div
-      class='mt-[-24px] mb-4 flex flex-col sm:flex-row items-start justify-center sm:items-center gap-4 w-full'
-    >
+    <div class='mt-[-24px] mb-4 flex flex-col sm:flex-row items-start justify-center sm:items-center gap-4 w-full'>
       <div class='flex flex-row items-center justify-center w-full xs:w-1/2'>
-        <Avatar />
+        <!-- Avater based on if it is winter or not -->
+        <div class='avatar'>
+          <Avatar />
+        </div>
+        <div class='winter-avatar'>
+          <WinterAvatar />
+        </div>
       </div>
       <p class='w-full'>
-        Feel free to reach out to me at any time, I am always interested in <span
-          class='highlight'>things</span
-        >. Thank you!
+        Feel free to reach out to me at any time, I am always interested in <span class='highlight'>things</span>. Thank
+        you!
       </p>
     </div>
     <form
@@ -32,13 +36,7 @@ import Avatar from '../components/utilities/Avatar.astro';
           <label html-for='name-field'>
             Name
             <div id='name-field'>
-              <input
-                type='text'
-                name='name'
-                class='w-full input input-bordered'
-                placeholder='e.g. Bon Jovi'
-                required
-              />
+              <input type='text' name='name' class='w-full input input-bordered' placeholder='e.g. Bon Jovi' required />
             </div>
           </label>
         </div>
@@ -85,10 +83,7 @@ import Avatar from '../components/utilities/Avatar.astro';
         </label>
       </div>
       <div class='flex flex-row items-center justify-start w-full gap-4'>
-        <button
-          type='submit'
-          class='gap-1 btn btn-secondary hover:text-slate-300'
-        >
+        <button type='submit' class='gap-1 btn btn-secondary hover:text-slate-300'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             class='icon icon-tabler icon-tabler-send'
@@ -103,9 +98,7 @@ import Avatar from '../components/utilities/Avatar.astro';
           >
             <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
             <line x1='10' y1='14' x2='21' y2='3'></line>
-            <path
-              d='M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5'
-            ></path>
+            <path d='M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5'></path>
           </svg> Send
         </button>
         <button type='reset' class='gap-1 btn text-slate-300'>
@@ -122,13 +115,25 @@ import Avatar from '../components/utilities/Avatar.astro';
             stroke-linejoin='round'
           >
             <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
-            <path
-              d='M19 19h-11l-4 -4a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9 9'
-            ></path>
+            <path d='M19 19h-11l-4 -4a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9 9'></path>
             <line x1='18' y1='12.3' x2='11.7' y2='6'></line>
           </svg> Clear
         </button>
       </div>
     </form>
   </div>
+  <script>
+    // Based on if it is winter or not, show the correct avatar, fix possibly null error
+    const winterAvatar = document.querySelector('.winter-avatar');
+    const avatar = document.querySelector('.avatar');
+    const date = new Date();
+    const month = date.getMonth();
+    if (month < 2 || month > 10) {
+      // remove the avatar
+      avatar?.remove();
+    } else {
+      // remove the winter avatar
+      winterAvatar?.remove();
+    }
+  </script>
 </Layout>
