@@ -13,9 +13,9 @@ import Avatar from '../components/utilities/Avatar.astro';
     <div class='mt-[-24px] mb-4 flex flex-col sm:flex-row items-start justify-center sm:items-center gap-4 w-full'>
       <div class='flex flex-row items-center justify-center w-full xs:w-1/2'>
         <!-- Avater based on if it is winter or not -->
-        <div class='avatar'>
+        <!-- <div class='avatar'>
           <Avatar />
-        </div>
+        </div> -->
         <div class='winter-avatar'>
           <WinterAvatar />
         </div>
@@ -122,7 +122,7 @@ import Avatar from '../components/utilities/Avatar.astro';
       </div>
     </form>
   </div>
-  <script>
+  <!-- <script>
     // Based on if it is winter or not, show the correct avatar, fix possibly null error
     const winterAvatar = document.querySelector('.winter-avatar');
     const avatar = document.querySelector('.avatar');
@@ -135,5 +135,5 @@ import Avatar from '../components/utilities/Avatar.astro';
       // remove the winter avatar
       winterAvatar?.remove();
     }
-  </script>
+  </script> -->
 </Layout>
