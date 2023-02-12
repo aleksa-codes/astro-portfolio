@@ -1,14 +1,11 @@
 ---
-import DarkMode from './DarkMode.astro';
-import { navItems } from '../data/nav';
+import DarkMode from './DarkMode.astro'
+import { navItems } from '../data/nav'
 ---
 
 <div class='navbar bg-base-100 pt-4 sticky top-0 z-50 opacity-[0.925]'>
   <div class='flex-1'>
-    <a
-      class='flex items-center gap-4 p-2 font-bold hover:underline md:text-2xl'
-      href='/'
-    >
+    <a class='flex items-center gap-4 p-2 font-bold hover:underline md:text-2xl' href='/'>
       <!-- for image before the site title, uncomment img below and remove pt-4 from the 1st parent div above
         <img src="https://api.lorem.space/image/face?w=96&h=96" width="48" height="48" alt="Astro Blog" class="rounded-full bg-base-200 md:w-12 md:h-12 w-9 h-9">  -->
       <span id='typed-logo'></span>
@@ -30,7 +27,7 @@ import { navItems } from '../data/nav';
       }
       <li class='tooltip tooltip-success tooltip-bottom' data-tip='Resume'>
         <a
-          href='https://aleksa-codes.github.io/resume/'
+          href='https://aleksa-codes.github.io/resume'
           target='_blank'
           rel='noopener noreferrer'
           class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3 rounded-md'
@@ -134,10 +131,7 @@ import { navItems } from '../data/nav';
           <line x1='3' y1='18' x2='21' y2='18'></line>
         </svg>
       </label>
-      <ul
-        tabindex={0}
-        class='p-2 dropdown-content menu bg-base-200 rounded-box w-52 menu-compact'
-      >
+      <ul tabindex={0} class='p-2 dropdown-content menu bg-base-200 rounded-box w-52 menu-compact'>
         {
           navItems.map(({ href, label }: { href: string; label: string }) => (
             <li>
@@ -153,7 +147,7 @@ import { navItems } from '../data/nav';
         <li class='flex flex-row items-center justify-around'>
           <div class='tooltip tooltip-info tooltip-bottom' data-tip='Resume'>
             <a
-              href='https://aleksa-codes.github.io/resume/'
+              href='https://aleksa-codes.github.io/resume'
               target='_blank'
               rel='noopener noreferrer'
               aria-label='Resume'
@@ -173,8 +167,7 @@ import { navItems } from '../data/nav';
               >
                 <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
                 <path d='M14 3v4a1 1 0 0 0 1 1h4'></path>
-                <path d='M5 8v-3a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5'
-                ></path>
+                <path d='M5 8v-3a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5'></path>
                 <circle cx='6' cy='14' r='3'></circle>
                 <path d='M4.5 17l-1.5 5l3 -1.5l3 1.5l-1.5 -5'></path>
               </svg>
@@ -182,7 +175,7 @@ import { navItems } from '../data/nav';
           </div>
           <div class='tooltip tooltip-info tooltip-bottom' data-tip='GitHub'>
             <a
-              href='https://github.com/aleksastojsic'
+              href='https://github.com/aleksa-codes'
               target='_blank'
               rel='noopener noreferrer'
               aria-label='GitHub Profile'
@@ -239,12 +232,12 @@ import { navItems } from '../data/nav';
 </div>
 <!-- <script src='../scripts/typewriter.ts'></script> -->
 <script>
-  import Typewriter from 'typewriter-effect/dist/core';
+  import Typewriter from 'typewriter-effect/dist/core'
   document.addEventListener('DOMContentLoaded', () => {
     const tw = new Typewriter(document.querySelector('#typed-logo'), {
       loop: false,
       autoStart: true
-    });
-    tw.typeString('aleksa.codes').start();
-  });
+    })
+    tw.typeString('aleksa.codes').start()
+  })
 </script>
