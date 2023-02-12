@@ -5,6 +5,7 @@
 - Responsive
 - Night Mode 🌚
 - RSS feed
+- Auto generate blog posts OG images ( requries to build locally first, then deploy )
 - .mdx files for blog posts ( .md if no React ) 💻
 - Calculate read time for the posts
 - Posts comments section 💬
@@ -16,6 +17,7 @@
 Google Lighthouse scores are all 💯 ( sometimes 97-98 performance for mobile ).
 I've also added service worker to pass PWA check as well, just for fun, so it is also installable on all devices ✔
 
+Feel free to contribute, open issues or PRs.
 ## Demo
 
 Demo for this project is available @ [aleksa.codes](https://aleksa.codes)
