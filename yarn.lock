@@ -34,10 +34,10 @@
   resolved "https://registry.yarnpkg.com/@astrojs/compiler/-/compiler-1.1.0.tgz#ab77b1c9ed5dfa30588c99346974fb3038b96833"
   integrity sha512-C4kTwirys+HafufMqaxCbML2wqkGaXJM+5AekXh/v1IIOnMIdcEON9GBYsG6qa8aAmLhZ58aUZGPhzcA3Dx7Uw==
 
-"@astrojs/image@^0.14.1":
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/@astrojs/image/-/image-0.14.1.tgz#19476de928f3846f078397c3c42e1e6aac8053dd"
-  integrity sha512-tRswPnPJVqStGXh+5mWtvh7+qi+jABcGkm9BFdP2Hh8Ya8KAgO0ICPjDG3Fppcz5G2JIZ50B3ajXiyWuuRIQJw==
+"@astrojs/image@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@astrojs/image/-/image-0.15.0.tgz#04f2ec2e199f8332c75f33eb0e435325f8e52587"
+  integrity sha512-Dw47TNCF1dkX3gM1jEmtov4aLR/N5XNzTyToRv99OJZmAAY7J19DN+FUaCHYj3gsiF9N5FekhgOeKu1v4A5DgA==
   dependencies:
     "@altano/tiny-async-pool" "^1.0.2"
     http-cache-semantics "^4.1.0"
@@ -83,15 +83,15 @@
     unist-util-visit "^4.1.0"
     vfile "^5.3.2"
 
-"@astrojs/mdx@^0.16.0":
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-0.16.0.tgz#74bf1a9d8049d2eff75986ac0a7717263fc7c706"
-  integrity sha512-HNk0FhNNthI7+pLmheJyPVU36dXE5l+9UwmmnrMV6COHNZIO2t+pnWnsushEDYZjpkYITDwnXKnQAtD8Mqj4xw==
+"@astrojs/mdx@^0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-0.17.0.tgz#0f4ba5c84a6c96c2623ba5321420d7a90584cef5"
+  integrity sha512-vy4m/mwzdfDK4jC9wraFLMVwx13eXBPC8r7nkO5s8YlcFX6IDcl2LKPurP3+/ibpTei9IPQLIZOufXRDO96SYg==
   dependencies:
     "@astrojs/markdown-remark" "^2.0.1"
     "@astrojs/prism" "^2.0.0"
-    "@mdx-js/mdx" "^2.1.2"
-    "@mdx-js/rollup" "^2.1.1"
+    "@mdx-js/mdx" "^2.3.0"
+    "@mdx-js/rollup" "^2.3.0"
     acorn "^8.8.0"
     es-module-lexer "^0.10.5"
     estree-util-visit "^1.2.0"
@@ -1255,7 +1255,7 @@
   resolved "https://registry.yarnpkg.com/@ljharb/has-package-exports-patterns/-/has-package-exports-patterns-0.0.2.tgz#c1718939b65efa1f45f53686c2fcfa992b9fb68f"
   integrity sha512-4/RWEeXDO6bocPONheFe6gX/oQdP/bEpv0oL4HqjPP5DCenBSt0mHgahppY49N0CpsaqffdwPq+TlX9CYOq2Dw==
 
-"@mdx-js/mdx@^2.0.0", "@mdx-js/mdx@^2.1.2":
+"@mdx-js/mdx@^2.0.0":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-2.2.1.tgz#611af1b68135c94eb467eb07e006fa1d8eebe029"
   integrity sha512-hZ3ex7exYLJn6FfReq8yTvA6TE53uW9UHJQM9IlSauOuS55J9y8RtA7W+dzp6Yrzr00/U1sd7q+Wf61q6SfiTQ==
@@ -1278,10 +1278,33 @@
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
-"@mdx-js/rollup@^2.1.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@mdx-js/rollup/-/rollup-2.2.1.tgz#6a463c7839b15fdefa1b7bb06858c126f9cbee20"
-  integrity sha512-wpGeK9iO7gPEIyC/ZTiggLY/MkEWDj5IWSsjlpkefgjb5RbmUukXU6/D2rHA+VAopxigS3NlaIL2ctpYBi4fmg==
+"@mdx-js/mdx@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-2.3.0.tgz#d65d8c3c28f3f46bb0e7cb3bf7613b39980671a9"
+  integrity sha512-jLuwRlz8DQfQNiUCJR50Y09CGPq3fLtmtUQfVrj79E0JWu3dvsVcxVIcfhR5h0iXu+/z++zDrYeiJqifRynJkA==
+  dependencies:
+    "@types/estree-jsx" "^1.0.0"
+    "@types/mdx" "^2.0.0"
+    estree-util-build-jsx "^2.0.0"
+    estree-util-is-identifier-name "^2.0.0"
+    estree-util-to-js "^1.1.0"
+    estree-walker "^3.0.0"
+    hast-util-to-estree "^2.0.0"
+    markdown-extensions "^1.0.0"
+    periscopic "^3.0.0"
+    remark-mdx "^2.0.0"
+    remark-parse "^10.0.0"
+    remark-rehype "^10.0.0"
+    unified "^10.0.0"
+    unist-util-position-from-estree "^1.0.0"
+    unist-util-stringify-position "^3.0.0"
+    unist-util-visit "^4.0.0"
+    vfile "^5.0.0"
+
+"@mdx-js/rollup@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@mdx-js/rollup/-/rollup-2.3.0.tgz#9dbdfc64e3ce4a1af041da963e1cb6f2b6450cbf"
+  integrity sha512-wLvRfJS/M4UmdqTd+WoaySEE7q4BIejYf1xAHXYvtT1du/1Tl/z2450Gg2+Hu7fh05KwRRiehiTP9Yc/Dtn0fA==
   dependencies:
     "@mdx-js/mdx" "^2.0.0"
     "@rollup/pluginutils" "^5.0.0"
@@ -1674,10 +1697,10 @@ astro-og-canvas@^0.1.6:
     canvaskit-wasm "^0.37.0"
     entities "^4.4.0"
 
-astro@^2.0.10:
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/astro/-/astro-2.0.10.tgz#89d8991c002256f0b2eb31f8144b82f4923527ef"
-  integrity sha512-Jg2JYPA6Nlip27So1+O0p9VFL98H+LiDLEt+F65e6536LkWE5oiV0fDSbK8aI8hKeCvOQzLiEZiD21eXbug0XQ==
+astro@^2.0.13:
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/astro/-/astro-2.0.13.tgz#c96ec552a1a6fa9b12406f763f334498ccca7ca2"
+  integrity sha512-TyRFn6VpWiiYKhogt3W7O3eU05YQ61rlOU/Vwr/USZkHVLFXnEtWYFVcBYXoQ8cKXfEdc4JIZMmk923UzsMlZg==
   dependencies:
     "@astrojs/compiler" "^1.1.0"
     "@astrojs/language-server" "^0.28.3"
@@ -2104,10 +2127,10 @@ cssesc@^3.0.0:
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
 
-daisyui@^2.50.0:
-  version "2.50.0"
-  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-2.50.0.tgz#4a7916596b686f1713ac622b629b6bfba2986d1d"
-  integrity sha512-KiqRvqMXi9rgoH84M8D69gXPg6x+cbdiaHqm8pFHOsXXN1rTl/+OcCKkSnkEwTtIge9VJVDGU6l4B8/n+Juc5g==
+daisyui@^2.50.1:
+  version "2.50.1"
+  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-2.50.1.tgz#ac41353f4d67e10f1b0144f02dc47c77fe9c08d7"
+  integrity sha512-Z4GuU/ZknYoHt7qfDQSC5rrxMJ6ffNV9baQfCSbo5J/clC1DBppfrqLJXS8A3NPBRo2GbbpKwdA1ZdThWdpBtQ==
   dependencies:
     color "^4.2"
     css-selector-tokenizer "^0.8.0"
@@ -5031,10 +5054,10 @@ tailwindcss@^3:
     quick-lru "^5.1.1"
     resolve "^1.22.1"
 
-tailwindcss@^3.2.6:
-  version "3.2.6"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.2.6.tgz#9bedbc744a4a85d6120ce0cc3db024c551a5c733"
-  integrity sha512-BfgQWZrtqowOQMC2bwaSNe7xcIjdDEgixWGYOd6AL0CbKHJlvhfdbINeAW76l1sO+1ov/MJ93ODJ9yluRituIw==
+tailwindcss@^3.2.7:
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.2.7.tgz#5936dd08c250b05180f0944500c01dce19188c07"
+  integrity sha512-B6DLqJzc21x7wntlH/GsZwEXTBttVSl1FtCzC8WP4oBc/NKef7kaax5jeihkkCEWc831/5NDJ9gRNDK6NEioQQ==
   dependencies:
     arg "^5.0.2"
     chokidar "^3.5.3"
