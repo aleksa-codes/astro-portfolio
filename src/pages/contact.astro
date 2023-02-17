@@ -1,7 +1,5 @@
 ---
 import Layout from '../components/layouts/Layout.astro';
-import WinterAvatar from '/assets/WinterAvatar.svg';
-import Avatar from '/assets/Avatar.svg';
 ---
 
 <Layout
@@ -13,8 +11,8 @@ import Avatar from '/assets/Avatar.svg';
     <div class='mt-[-24px] mb-4 flex flex-col sm:flex-row items-start justify-center sm:items-center gap-4 w-full'>
       <div class='flex flex-row items-center justify-center w-full xs:w-1/2'>
         <!-- Avater based on if it is winter or not -->
-        <img class='avatar m-0' src={Avatar} alt='Avatar' />
-        <img class='winter-avatar m-0' src={WinterAvatar} alt='Winter Avatar' />
+        <img class='avatar m-0' src='/assets/Avatar.svg' alt='Avatar' />
+        <img class='winter-avatar m-0' src='/assets/WinterAvatar.svg' alt='Winter Avatar' />
       </div>
       <p class='w-full'>
         Feel free to reach out to me at any time, I am always interested in <span class='highlight'>things</span>. Thank
