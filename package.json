@@ -13,7 +13,7 @@
     "@astrojs/image": "^0.15.0",
     "@astrojs/mdx": "^0.17.0",
     "@astrojs/rss": "^2.1.1",
-    "@astrojs/sitemap": "^1.0.1",
+    "@astrojs/sitemap": "^1.1.0",
     "@astrojs/tailwind": "^3.0.1",
     "@fontsource/poppins": "^4.5.10",
     "astro": "^2.0.14",
