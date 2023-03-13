@@ -121,10 +121,10 @@
     fast-xml-parser "^4.0.8"
     kleur "^4.1.5"
 
-"@astrojs/sitemap@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@astrojs/sitemap/-/sitemap-1.0.1.tgz#8afbc003d3be4bffccac04b682cf65a319870205"
-  integrity sha512-qexepZPH6/dLToI/njxr2FjvyxJU0HBAnQRNzEggF0ok811oSNC6su1DkyW2VKp0TNPbWoujuSbcb1yFOjnAqA==
+"@astrojs/sitemap@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@astrojs/sitemap/-/sitemap-1.2.0.tgz#9081886720f0ad553f5c55eb6b8744da6274fb7f"
+  integrity sha512-v4Esbchc7QcbDilDcZ80BrW29o7SoWnuX80dndH+rE92cpiRwdJw5w1bfI17mtmjlt3NjgFxyjVB93ycD9s66A==
   dependencies:
     sitemap "^7.1.1"
     zod "^3.17.3"
