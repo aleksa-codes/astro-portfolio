@@ -15,8 +15,9 @@ import Layout from '../components/layouts/Layout.astro';
         <img class='winter-avatar m-0' src='/assets/WinterAvatar.svg' alt='Winter Avatar' />
       </div>
       <p class='w-full'>
-        Feel free to reach out to me at any time, I am always interested in <span class='highlight'>things</span>. Thank
-        you!
+        Feel free to reach out to me at any time, I am always interested in new <span class='highlight'
+          >ideas and opportunities!</span
+        >
       </p>
     </div>
     <form
@@ -68,7 +69,7 @@ import Layout from '../components/layouts/Layout.astro';
           Message
           <div id='message-field'>
             <textarea
-              placeholder='Your Message Here'
+              placeholder='Your Message'
               class='w-full textarea textarea-bordered resize-none'
               name='message'
               rows={4}
@@ -120,12 +121,7 @@ import Layout from '../components/layouts/Layout.astro';
     // Based on if it is winter or not, show the correct avatar
     const winterAvatar = document.querySelector('.winter-avatar');
     const avatar = document.querySelector('.avatar');
-    const date = new Date();
-    const month = date.getMonth();
-    if (month === 11 || month === 0 || month === 1) {
-      avatar?.classList.add('hidden');
-    } else {
-      winterAvatar?.classList.add('hidden');
-    }
+    const isWinter = [11, 0, 1].includes(new Date().getMonth());
+    isWinter ? avatar?.classList.add('hidden') : winterAvatar?.classList.add('hidden');
   </script>
 </Layout>
