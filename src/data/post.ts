@@ -23,6 +23,7 @@ export function single(post: MarkdownInstance): Post {
     ...post.frontmatter,
     Content: post.Content,
     slug,
+    ogImage: `${import.meta.env.SITE}/posts/${slug}.png`,
     draft: filePathArray.pop() === 'drafts',
     timestamp: new Date(post.frontmatter.date).valueOf()
   };

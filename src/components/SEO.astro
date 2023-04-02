@@ -17,20 +17,14 @@ const {
   description = "As a junior React developer, Aleksa is skilled in building user interfaces and front-end applications using the popular JavaScript library. Passionate about coding and dedicated to creating visually appealing and user-friendly experiences, Aleksa is constantly seeking to improve and expand their skills. Explore Aleksa's (or Alexa's) portfolio to see their work and learn more about their capabilities as a web developer.",
   siteName = 'aleksa.codes',
   canonical = DOMAIN,
-  ogImage = DEFAULT_OG_IMAGE,
+  ogImage,
   ogType = 'website',
   twitterHandle = '@aleksacodes',
   slug = undefined
 } = Astro.props as Props;
 ---
 
-{
-  title === 'aleksa.codes' ? (
-    <title>{`${siteName}`}</title>
-  ) : (
-    <title>{`${title} | ${siteName}`}</title>
-  )
-}
+{title === 'aleksa.codes' ? <title>{`${siteName}`}</title> : <title>{`${title} | ${siteName}`}</title>}
 
 <meta charset='UTF-8' />
 <meta http-equiv='X-UA-Compatible' content='IE=edge' />
@@ -44,53 +38,25 @@ const {
 <meta name='robots' content='index,follow' />
 <meta name='googlebot' content='index,follow' />
 
-<meta
-  name='title'
-  content={title === 'aleksa.codes'
-    ? 'aleksa.codes | Web Developer'
-    : `${title} | ${siteName}`}
-/>
+<meta name='title' content={title === 'aleksa.codes' ? 'aleksa.codes | Web Developer' : `${title} | ${siteName}`} />
 <meta name='description' content={description} />
 
 <meta property='og:type' content={ogType} />
 <meta property='og:url' content={canonical} />
-<meta
-  property='og:title'
-  content={title === 'aleksa.codes'
-    ? 'Portfolio & Blog'
-    : `${title} | ${siteName}`}
-/>
+<meta property='og:title' content={title === 'aleksa.codes' ? 'Portfolio & Blog' : `${title} | ${siteName}`} />
 <meta property='og:description' content={description} />
-<meta
-  property='og:image'
-  content={slug !== undefined ? `/assets/posts/${slug}.png` : ogImage}
-/>
-<meta
-  property='og:image:alt'
-  content={slug !== undefined
-    ? title + 'Social Image'
-    : 'Aleksa Codes Social Image'}
-/>
+<meta property='og:image' content={slug !== undefined ? ogImage : DEFAULT_OG_IMAGE} />
+<meta property='og:image:alt' content={slug !== undefined ? title + 'Social Image' : 'Aleksa Codes Social Image'} />
 
 <meta property='twitter:card' content='summary_large_image' />
 <meta property='twitter:url' content={canonical} />
-<meta
-  property='twitter:title'
-  content={title === 'aleksa.codes'
-    ? 'Portfolio & Blog'
-    : `${title} | ${siteName}`}
-/>
+<meta property='twitter:title' content={title === 'aleksa.codes' ? 'Portfolio & Blog' : `${title} | ${siteName}`} />
 <meta property='twitter:creator' content={twitterHandle} />
 <meta property='twitter:description' content={description} />
-<meta
-  property='twitter:image'
-  content={slug !== undefined ? `/assets/posts/${slug}.png` : ogImage}
-/>
+<meta property='twitter:image' content={slug !== undefined ? ogImage : DEFAULT_OG_IMAGE} />
 <meta
   property='twitter:image:alt'
-  content={slug !== undefined
-    ? title + 'Social Image'
-    : 'Aleksa Codes Social Image'}
+  content={slug !== undefined ? title + 'Social Image' : 'Aleksa Codes Social Image'}
 />
 
 <link rel='canonical' href={canonical ?? DOMAIN} />
@@ -104,12 +70,7 @@ const {
 <link rel='apple-touch-icon' sizes='144x144' href='/icons/ios/144.png' />
 <link rel='apple-touch-icon' sizes='152x152' href='/icons/ios/152.png' />
 <link rel='apple-touch-icon' sizes='180x180' href='/icons/ios/180.png' />
-<link
-  rel='icon'
-  type='image/png'
-  sizes='192x192'
-  href='/icons/android/192.png'
-/>
+<link rel='icon' type='image/png' sizes='192x192' href='/icons/android/192.png' />
 <link rel='icon' type='image/png' sizes='32x32' href='/icons/ios/32.png' />
 <link rel='icon' type='image/png' sizes='96x96' href='/icons/ios/96.png' />
 <link rel='icon' type='image/png' sizes='16x16' href='/icons/ios/16.png' />

@@ -3,6 +3,7 @@ dist/
 
 # dependencies
 node_modules/
+tina/
 
 # logs
 npm-debug.log*
