@@ -12,15 +12,11 @@ import { days } from '../data/day';
     ></path>
   </svg>
   <div class='wave-b'>
-    <div
-      class='grid grid-cols-1 px-4 py-8 mx-auto max-w-8xl lg:px-0 lg:grid-cols-3'
-    >
+    <div class='grid grid-cols-1 px-4 py-8 mx-auto max-w-8xl lg:px-0 lg:grid-cols-3'>
       <div class=''></div>
-      <div
-        class='text-xs xs:text-sm text-center flex flex-col justify-center items-center gap-2'
-      >
+      <div class='text-xs xs:text-sm text-center flex flex-col justify-center items-center gap-2'>
         <div class='font-medium footer-text-t'>
-          © 2022 Code by{' '}
+          © <span id='current-year'></span> Code by{' '}
           <a
             href='https://github.com/aleksa-codes/astro-portfolio'
             target='_blank'
@@ -35,23 +31,9 @@ import { days } from '../data/day';
             class='hover:underline'>Storyset</a
           >
         </div>
-        <div
-          id='footer-message'
-          class='flex justify-center mx-auto text-center md:flex-row footer-text-b'
-        >
-        </div>
-        <a
-          href='https://astro.build'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='mt-6'
-        >
-          <img
-            src='https://astro.badg.es/v1/built-with-astro.svg'
-            alt='Built with Astro'
-            width='150'
-            height='27.5'
-          />
+        <div id='footer-message' class='flex justify-center mx-auto text-center md:flex-row footer-text-b'></div>
+        <a href='https://astro.build' target='_blank' rel='noopener noreferrer' class='mt-6'>
+          <img src='https://astro.badg.es/v1/built-with-astro.svg' alt='Built with Astro' width='150' height='27.5' />
         </a>
       </div>
     </div>
@@ -64,7 +46,8 @@ import { days } from '../data/day';
     return days[day];
   }
   const day = getCurrentDay();
-  document.getElementById(
-    'footer-message'
-  ).innerText = `~ Have a great ${day} ~`;
+  document.getElementById('footer-message').innerText = `~ Have a great ${day} ~`;
+
+  const currentYear = new Date().getFullYear();
+  document.getElementById('current-year').innerText = currentYear;
 </script>
