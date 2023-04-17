@@ -18,7 +18,7 @@
     "@astrojs/tailwind": "^3.1.1",
     "@fontsource/poppins": "^4.5.10",
     "@tinacms/cli": "^1.5.5",
-    "astro": "^2.2.2",
+    "astro": "^2.3.0",
     "astro-og-canvas": "^0.1.7",
     "daisyui": "^2.51.5",
     "reading-time": "^1.5.0",
