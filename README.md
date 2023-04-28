@@ -24,7 +24,7 @@ Demo for this project is available @ [aleksa.codes](https://aleksa.codes)
 
 ## 🚀 Project Structure
 
-Inside of this project, you'll see the following folders and files:
+Inside of this project, you'll find the following directories and files:
 
 ```
 /
@@ -47,13 +47,14 @@ Any static assets, like images, can be placed in the `public/` directory.
 
 All commands are run from the root of the project, from a terminal:
 
-| Command             | Action                                           |
-| :------------------ | :----------------------------------------------- |
-| `yarn install`      | Installs dependencies                            |
-| `yarn dev`          | Starts local dev server at `localhost:3000`      |
-| `yarn build`        | Build your production site to `./dist/`          |
-| `yarn preview`      | Preview your build locally, before deploying     |
-| `yarn astro ...`    | Run CLI commands like `astro add`, `astro check` |
-| `yarn astro --help` | Get help using the Astro CLI                     |
+| Command             | Action                   
+| :------------------ | :-----------------------------------------------------------|
+| `yarn install`      | Installs dependencies                                       |
+| `yarn start`        | Starts local dev server at `localhost:3000` without tinaCMS |
+| `yarn dev`          | Starts local dev server at `localhost:3000` with tinaCMS    |
+| `yarn build`        | Build your production site to `./dist/`                     |
+| `yarn preview`      | Preview your build locally, before deploying                |
+| `yarn astro ...`    | Run CLI commands like `astro add`, `astro check`, etc.      |
+| `yarn astro --help` | Get help using the Astro CLI                                |
 
-\*\* if you are using npm -> just use `npm run` instead of `yarn`
+\*\* if you are using npm instead of yarn, just replace `yarn` with `npm run` in the commands above.
