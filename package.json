@@ -17,7 +17,7 @@
     "@astrojs/sitemap": "^1.2.2",
     "@astrojs/tailwind": "^3.1.1",
     "@fontsource/poppins": "^4.5.10",
-    "@tinacms/cli": "^1.5.8",
+    "@tinacms/cli": "^1.5.11",
     "astro": "^2.3.2",
     "astro-og-canvas": "^0.1.8",
     "daisyui": "^2.51.6",
