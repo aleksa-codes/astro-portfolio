@@ -22,6 +22,8 @@ Feel free to contribute, open issues or PRs.
 
 Demo for this project is available @ [aleksa.codes](https://aleksa.codes)
 
+The was websiste inspired and built on top of: https://daisy-blog.netlify.app/ by [@saadeghi](https://github.com/saadeghi) the creator of daisyUI.
+
 ## 🚀 Project Structure
 
 Inside of this project, you'll find the following directories and files:
