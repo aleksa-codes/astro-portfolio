@@ -1,6 +1,6 @@
 ---
-import DarkMode from './DarkMode.astro'
-import { navItems } from '../data/nav'
+import DarkMode from './DarkMode.astro';
+import { navItems } from '../data/nav';
 ---
 
 <div class='navbar bg-base-100 pt-4 sticky top-0 z-50 opacity-[0.925]'>
@@ -12,13 +12,13 @@ import { navItems } from '../data/nav'
     </a>
   </div>
   <div class='flex-none'>
-    <ul class='hidden p-0 menu menu-horizontal md:flex'>
+    <ul class='hidden p-0 menu menu-horizontal md:flex gap-1'>
       {
         navItems.map(({ href, label }: { href: string; label: string }) => (
           <li>
             <a
               href={href}
-              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3 rounded-md'
+              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-2 rounded-md leading-8 font-semibold'
             >
               {label}
             </a>
@@ -230,14 +230,4 @@ import { navItems } from '../data/nav'
     </div>
   </div>
 </div>
-<!-- <script src='../scripts/typewriter.ts'></script> -->
-<script>
-  import Typewriter from 'typewriter-effect/dist/core'
-  document.addEventListener('DOMContentLoaded', () => {
-    const tw = new Typewriter(document.querySelector('#typed-logo'), {
-      loop: false,
-      autoStart: true
-    })
-    tw.typeString('aleksa.codes').start()
-  })
-</script>
+<script src='../scripts/typewriter.ts'></script>
