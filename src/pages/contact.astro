@@ -31,7 +31,13 @@ import Layout from '../components/layouts/Layout.astro';
           <label html-for='name-field'>
             Name
             <div id='name-field'>
-              <input type='text' name='name' class='w-full input input-bordered' placeholder='e.g. Bon Jovi' required />
+              <input
+                type='text'
+                name='name'
+                class='w-full input border-gray-700 dark:border-gray-300'
+                placeholder='e.g. Bon Jovi'
+                required
+              />
             </div>
           </label>
         </div>
@@ -42,7 +48,7 @@ import Layout from '../components/layouts/Layout.astro';
               <input
                 type='email'
                 name='email'
-                class='w-full input input-bordered'
+                class='w-full input border-gray-700 dark:border-gray-300'
                 placeholder='e.g. bon.jovi@gmail.com'
                 required
               />
@@ -57,7 +63,7 @@ import Layout from '../components/layouts/Layout.astro';
             <input
               type='text'
               name='_subject'
-              class='w-full input input-bordered'
+              class='w-full input border-gray-700 dark:border-gray-300'
               placeholder={`e.g. Let's Connect!`}
               required
             />
@@ -70,7 +76,7 @@ import Layout from '../components/layouts/Layout.astro';
           <div id='message-field'>
             <textarea
               placeholder='Your Message'
-              class='w-full textarea textarea-bordered resize-none'
+              class='w-full textarea resize-none border-gray-700 dark:border-gray-300'
               name='message'
               rows={4}
               required></textarea>
