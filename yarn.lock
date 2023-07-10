@@ -2051,10 +2051,10 @@
     aria-hidden "^1.1.3"
     tabbable "^6.0.1"
 
-"@fontsource/poppins@^5.0.4":
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.4.tgz#15d81b0d63081b6a9be0a04adbb8c1e802a68e24"
-  integrity sha512-9D7qztWP7prwrBMCf7pTbKDAfRG6KT1P9kEGimMUfRfznvfBIZ9H+y9Sr2vrE1O1Ybn4F8rrFZaLjtTxJZcTng==
+"@fontsource/poppins@^5.0.5":
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.5.tgz#6a198e164f89c916ad80e1798deddb6837a0cdeb"
+  integrity sha512-Y/AGmD6iavfobRb7f2l49q0dQSyisvRrUfJ7F0AWOlTNFty8bbnPBbg+5Qsq5EN6xWaIAn++50aLfOCEe7zu3w==
 
 "@formatjs/ecma402-abstract@1.14.3":
   version "1.14.3"
