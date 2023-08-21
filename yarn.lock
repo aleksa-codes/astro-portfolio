@@ -2051,10 +2051,10 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.1.1.tgz#1a5b1959a528e374e8037c4396c3e825d6cf4a83"
   integrity sha512-m0G6wlnhm/AX0H12IOWtK8gASEMffnX08RtKkCgTdHb9JpHKGloI7icFfLg9ZmQeavcvR0PKmzxClyuFPSjKWw==
 
-"@fontsource/poppins@^5.0.6":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.6.tgz#fc57dd6ced50b6e54119bc5b85b9c0b6d853747e"
-  integrity sha512-psKEpo0Kt4/Y1XpzrmfTrZcyzMMis3Nzysu4HI3PIBifdnza8eEzvDkDNt6GiF2ynGnp9tAvJnDfg++ZZLHicA==
+"@fontsource/poppins@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.8.tgz#a1c5540aedb3719a36eba5c7c5dfaa3aed3c9f80"
+  integrity sha512-P8owfYWluoUY5Nyzk4gT/L6LmLmseP6ezFWhj6VBUa5pRIdnCvNJpoQ6i/vhekjtJOfqX6nKlB+LCttoUl2GQQ==
 
 "@formatjs/ecma402-abstract@1.14.3":
   version "1.14.3"
