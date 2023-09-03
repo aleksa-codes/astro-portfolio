@@ -1,5 +1,6 @@
 type MarkdownInstance = import('astro').MarkdownInstance<any>;
-// Which mode is the environment running in? https://vitejs.dev/guide/env-and-mode.html#intellisense-for-typescript
+type MDXComponent = import('astro').MDXInstance<any>;
+// Vite import.meta.env fix: https://dev.to/yanagisawahidetoshi/mastering-environment-variables-in-vitetypescriptreact-1odi
 const { MODE } = import.meta.env;
 
 export type Post = {
@@ -16,9 +17,9 @@ export type Post = {
   imgHeight: number;
 };
 
-export function single(post: MarkdownInstance): Post {
+export function single(post: MarkdownInstance | MDXComponent): Post {
   const filePathArray = post.file.split('/');
-  const slug = filePathArray.pop()?.replace('.mdx', '');
+  const slug = filePathArray.pop()?.replace(/\.(md|mdx)$/, '');
   return {
     ...post.frontmatter,
     Content: post.Content,
@@ -29,18 +30,14 @@ export function single(post: MarkdownInstance): Post {
   };
 }
 
-export function published(posts: MarkdownInstance[]): Post[] {
+export function published(posts: (MarkdownInstance | MDXComponent)[]): Post[] {
   return posts
-    .filter(
-      (post) =>
-        post.frontmatter.title &&
-        (MODE === 'development' || !post.frontmatter.draft)
-    )
+    .filter((post) => post.frontmatter.title && (MODE === 'development' || !post.frontmatter.draft))
     .map(single)
     .sort((a, b) => b.timestamp - a.timestamp);
 }
 
-export function getRSS(posts: MarkdownInstance[]) {
+export function getRSS(posts: (MarkdownInstance | MDXComponent)[]): any {
   return {
     stylesheet: '/rss/styles.xsl',
     title: 'Blog Posts (from aleksa.codes)',

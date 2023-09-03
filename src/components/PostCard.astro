@@ -1,6 +1,6 @@
 ---
 import type { Post } from '../data/post';
-import { Image } from '@astrojs/image/components';
+import { Image } from 'astro:assets'
 import Date from './utilities/Date.astro';
 import ReadTime from './utilities/ReadTime.astro';
 const post: Post = Astro.props.post;
@@ -16,7 +16,7 @@ const post: Post = Astro.props.post;
           width={post.imgWidth}
           height={post.imgHeight}
           format={'webp'}
-          class='object-cover w-full rounded sm:w-52 sm:h-40 bg-base-200'
+          class='object-cover w-full rounded sm:w-64 sm:h-[10.5rem] bg-base-content/20'
         />
       </a>
     )

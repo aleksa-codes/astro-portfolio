@@ -1,7 +1,7 @@
 ---
 title: 'Creating a Snowfall Effect with CSS and JavaScript'
 date: 2022-12-10T12:34:56.000Z
-author: Aleksa
+author: 'Aleksa'
 desc: 'In this blog post, we will go over how to create a snowfall effect using CSS and JavaScript. This effect can be used to add a wintery touch to your website, making it perfect for the holiday season.'
 img: '/assets/thumbnails/pexels-kristin-vogt-54200.jpg'
 imgWidth: 640
@@ -46,7 +46,9 @@ Then, we will create the `.snowflake` class, which will be applied to each indiv
 ```css
 .snowflake {
   opacity: 0;
-  animation: fall 12s ease-out infinite, move 4s ease-in-out infinite,
+  animation:
+    fall 12s ease-out infinite,
+    move 4s ease-in-out infinite,
     fade-in 1s ease-in forwards;
 }
 ```
@@ -188,7 +190,7 @@ To use the snowfall effect on your page, you will need to add the CSS and JavaSc
 Once you have done that, you can add the following HTML to your page where you want the snowfall effect to appear:
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />

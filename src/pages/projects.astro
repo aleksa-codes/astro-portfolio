@@ -1,6 +1,6 @@
 ---
 import Layout from '../components/layouts/Layout.astro';
-import { Image } from '@astrojs/image/components';
+import { Image } from 'astro:assets'
 import { projects } from '../data/project';
 ---
 
@@ -154,7 +154,7 @@ import { projects } from '../data/project';
                     href={demo}
                     target='_blank'
                     rel='noopener noreferrer'
-                    class='flex flex-row items-center no-underline btn btn-secondary hover:text-slate-300'
+                    class='flex flex-row items-center no-underline btn btn-secondary'
                   >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
@@ -179,7 +179,7 @@ import { projects } from '../data/project';
                     href={github}
                     target='_blank'
                     rel='noopener noreferrer'
-                    class='flex flex-row items-center no-underline btn text-slate-300'
+                    class='flex flex-row items-center no-underline btn'
                   >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'

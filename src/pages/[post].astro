@@ -1,6 +1,6 @@
 ---
 import Layout from '../components/layouts/Layout.astro';
-import { Image } from '@astrojs/image/components';
+import { Image } from 'astro:assets'
 import Date from '../components/utilities/Date.astro';
 import ReadTime from '../components/utilities/ReadTime.astro';
 import { published } from '../data/post';
@@ -156,8 +156,11 @@ const {
   const progress = document.querySelector('.progress') as HTMLProgressElement;
   const totalHeight = document.body.scrollHeight - window.innerHeight;
   window.onscroll = function () {
-    const progressHeight = (window.pageYOffset / totalHeight) * 100;
+    const progressHeight = (window.scrollY / totalHeight) * 100;
     progress.value = progressHeight;
     progress.style.display = 'block';
+    if (progressHeight === 0) {
+      progress.style.display = 'none';
+    }
   };
 </script>
