@@ -1,6 +1,6 @@
 import { OGImageRoute } from 'astro-og-canvas';
 
-export const { getStaticPaths, get } = OGImageRoute({
+export const { getStaticPaths, GET } = OGImageRoute({
   // Tell us the name of your dynamic route segment.
   // In this case it’s `route`, because the file is named `[...route].ts`.
   param: 'route',
