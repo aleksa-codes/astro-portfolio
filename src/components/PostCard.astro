@@ -16,7 +16,7 @@ const post: Post = Astro.props.post;
           width={post.imgWidth}
           height={post.imgHeight}
           format={'webp'}
-          class='object-cover w-full rounded sm:w-64 sm:h-[10.5rem] bg-base-content/20'
+          class='object-cover w-full rounded sm:w-64 sm:h-[10.5rem] bg-base-content/20 transition-all shadow-md duration-300 ease-out hover:scale-105 hover:shadow-lg cursor-pointer'
         />
       </a>
     )
