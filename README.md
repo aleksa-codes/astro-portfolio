@@ -10,6 +10,7 @@
 - Calculate read time for the posts
 - Posts comments section 💬
 - Draft posts
+- Local CMS
 - Contact form 📬
 - Socials & Resume
 - Buy me a coffee button ( on desktop ) ☕
@@ -50,14 +51,14 @@ Any static assets, like images, can be placed in the `public/` directory.
 
 All commands are run from the root of the project, from a terminal:
 
-| Command             | Action                   
-| :------------------ | :-----------------------------------------------------------|
-| `yarn install`      | Installs dependencies                                       |
-| `yarn start`        | Starts local dev server at `localhost:3000` without TinaCMS |
-| `yarn dev`          | Starts local dev server at `localhost:3000` with TinaCMS    |
-| `yarn build`        | Build your production site to `./dist/`                     |
-| `yarn preview`      | Preview your build locally, before deploying                |
-| `yarn astro ...`    | Run CLI commands like `astro add`, `astro check`, etc.      |
-| `yarn astro --help` | Get help using the Astro CLI                                |
+| Command             | Action                                                                                       |
+| :------------------ | :------------------------------------------------------------------------------------------- |
+| `yarn install`      | Installs dependencies                                                                        |
+| `yarn dev`          | Starts local dev server at `localhost:4321`                                                  |
+| `yarn cms`          | Starts local dev server at `localhost:4321` and TinaCMS at `localhost:4321/admin/index.html` |
+| `yarn build`        | Build your production site to `./dist/` and build Open Graph images for posts                |
+| `yarn preview`      | Preview your build locally, before deploying                                                 |
+| `yarn astro ...`    | Run CLI commands like `astro add`, `astro check`, etc.                                       |
+| `yarn astro --help` | Get help using the Astro CLI                                                                 |
 
 \*\* If you are using npm instead of yarn, just replace `yarn` with `npm run` in the commands above.
