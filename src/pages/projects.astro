@@ -1,10 +1,13 @@
 ---
 import Layout from '../components/layouts/Layout.astro';
-import { Image } from 'astro:assets'
+import { Image } from 'astro:assets';
 import { projects } from '../data/project';
 ---
 
-<Layout title='Projects' description="Discover the diverse range of projects developed by Aleksa, a skilled junior React developer. From visually appealing user interfaces to user-friendly web applications, Aleksa's (or Alexa's) portfolio showcases their expertise and commitment to creating top-quality work. Explore Aleksa's portfolio to see their creations and learn about their capabilities as a React developer.">
+<Layout
+  title='Projects'
+  description="Discover the diverse range of projects developed by Aleksa, a skilled junior React developer. From visually appealing user interfaces to user-friendly web applications, Aleksa's (or Alexa's) portfolio showcases their expertise and commitment to creating top-quality work. Explore Aleksa's portfolio to see their creations and learn about their capabilities as a React developer."
+>
   <h1>Projects</h1>
   <div class='flex flex-col'>
     <!-- map and add <div class='divider'></div> after each project except the last one  -->
@@ -12,46 +15,38 @@ import { projects } from '../data/project';
       projects.map(({ name, desc, tech, github, demo, img }, index, array) => (
         <div>
           <div
-            class={`flex flex-col-reverse justify-between items-center md:gap-8 ${
+            class={`flex flex-col-reverse items-center justify-between md:gap-8 ${
               index % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'
             }`}
           >
             <div
-              class={`flex flex-col w-full md:w-1/2 text-left ${
-                index % 2 === 0 ? 'md:text-left' : 'md:text-right'
-              }`}
+              class={`flex w-full flex-col text-left md:w-1/2 ${index % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}
             >
-              <div class='flex flex-col not-prose'>
+              <div class='not-prose flex flex-col'>
                 <div
-                  class={`text-3xl font-bold text-base-content text-center ${
+                  class={`text-center text-3xl font-bold text-base-content ${
                     index % 2 === 0 ? 'md:text-left' : 'md:text-right'
                   }`}
                 >
                   {name}
                 </div>
-                <ul class='text-base list-none py-2'>
+                <ul class='list-none py-2 text-base'>
                   {desc.split('.').map((sentence, index, array) => (
-                    <span>
-                      {index !== array.length - 1 ? (
-                        <li class='py-1'>{sentence}.</li>
-                      ) : (
-                        sentence
-                      )}
-                    </span>
+                    <span>{index !== array.length - 1 ? <li class='py-1'>{sentence}.</li> : sentence}</span>
                   ))}
                 </ul>
               </div>
               <div
-                class={`flex gap-4 flex-row justify-start  ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
+                class={`flex flex-row justify-start gap-4 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
               >
-                <p class='text-base font-bold w-fit'>
+                <p class='w-fit text-base font-bold'>
                   {tech.map((tech, index, array) => (
                     <span>
                       {index !== array.length - 1 ? (
-                        <span class='highlight'>{tech}</span>
-                        <span> • </span>
+                        <>
+                          <span class='highlight'>{tech}</span>
+                          <span> • </span>
+                        </>
                       ) : (
                         <span class='highlight'>{tech}</span>
                       )}
@@ -61,7 +56,7 @@ import { projects } from '../data/project';
               </div>
 
               <div
-                class={`flex gap-4 flex-row justify-start text-base ${
+                class={`flex flex-row justify-start gap-4 text-base ${
                   index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                 }`}
               >
@@ -123,21 +118,14 @@ import { projects } from '../data/project';
                 width={400}
                 height={300}
                 format={'webp'}
-                class='transition-all shadow-md duration-300 ease-out rounded-lg hover:scale-105 hover:shadow-lg cursor-pointer'
+                class='cursor-pointer rounded-lg shadow-md transition-all duration-300 ease-out hover:scale-105 hover:shadow-lg'
               />
             </label>
 
-            <input
-              type='checkbox'
-              id={'my-modal-' + index}
-              class='modal-toggle'
-            />
+            <input type='checkbox' id={'my-modal-' + index} class='modal-toggle' />
             <label for={'my-modal-' + index} class='modal cursor-pointer'>
-              <label class='modal-box w-11/12 max-w-4xl bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 border dark:border-gray-200 border-indigo-900'>
-                <label
-                  for={'my-modal-' + index}
-                  class='btn btn-sm btn-circle absolute right-2 top-2'
-                >
+              <label class='modal-box w-11/12 max-w-4xl border border-indigo-900 bg-opacity-60 bg-clip-padding backdrop-blur-xl backdrop-filter dark:border-gray-200'>
+                <label for={'my-modal-' + index} class='btn btn-circle btn-sm absolute right-2 top-2'>
                   ✕
                 </label>
                 <Image
@@ -149,12 +137,12 @@ import { projects } from '../data/project';
                   format={'webp'}
                   class='rounded-lg shadow-md'
                 />
-                <div class='flex flex-row justify-center items-center gap-4'>
+                <div class='flex flex-row items-center justify-center gap-4'>
                   <a
                     href={demo}
                     target='_blank'
                     rel='noopener noreferrer'
-                    class='flex flex-row items-center no-underline btn btn-secondary'
+                    class='btn btn-secondary flex flex-row items-center no-underline'
                   >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
@@ -179,7 +167,7 @@ import { projects } from '../data/project';
                     href={github}
                     target='_blank'
                     rel='noopener noreferrer'
-                    class='flex flex-row items-center no-underline btn'
+                    class='btn flex flex-row items-center no-underline'
                   >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
@@ -207,14 +195,12 @@ import { projects } from '../data/project';
       ))
     }
 
-    <div
-      class='flex flex-row items-center justify-center w-full pt-16'
-    >
+    <div class='flex w-full flex-row items-center justify-center pt-16'>
       <a
         href='https://github.com/aleksa-codes'
         target='_blank'
         rel='noopener noreferrer'
-        class='btn btn-neutral flex flex-row gap-2 items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-md'
+        class='btn btn-neutral flex flex-row items-center justify-center gap-2 transition-all duration-300 hover:scale-105 hover:shadow-md'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'

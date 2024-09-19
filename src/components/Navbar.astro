@@ -3,7 +3,7 @@ import DarkMode from './DarkMode.astro';
 import { navItems } from '../data/nav';
 ---
 
-<div class='navbar bg-base-100 pt-4 pb-2 sticky top-0 z-50 opacity-[0.925] md:pt-6 md:pb-4'>
+<div class='navbar sticky top-0 z-50 bg-base-100 pb-2 pt-4 opacity-[0.925] md:pb-4 md:pt-6'>
   <div class='flex-1'>
     <a class='flex items-center gap-4 p-2 font-bold hover:underline md:text-2xl' href='/'>
       <!-- for image before the site title, uncomment img below and remove pt-4 from the 1st parent div above
@@ -12,25 +12,25 @@ import { navItems } from '../data/nav';
     </a>
   </div>
   <div class='flex-none'>
-    <ul class='hidden p-0 menu menu-horizontal md:flex gap-1'>
+    <ul class='menu menu-horizontal hidden gap-1 p-0 md:flex'>
       {
         navItems.map(({ href, label }: { href: string; label: string }) => (
           <li>
             <a
               href={href}
-              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current rounded-md leading-8 font-semibold w-20 flex items-center justify-center'
+              class='flex w-20 items-center justify-center rounded-md font-semibold leading-8 hover:bg-base-content/20 hover:text-current active:bg-base-content/30 active:text-current'
             >
               {label}
             </a>
           </li>
         ))
       }
-      <li class='tooltip tooltip-success tooltip-bottom' data-tip='Resume'>
+      <li class='tooltip tooltip-bottom tooltip-success' data-tip='Resume'>
         <a
           href='https://aleksa-codes.github.io/resume'
           target='_blank'
           rel='noopener noreferrer'
-          class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3 rounded-md'
+          class='rounded-md p-3 hover:bg-base-content/20 hover:text-current active:bg-base-content/30 active:text-current'
           aria-label='Resume'
         >
           <svg
@@ -53,13 +53,13 @@ import { navItems } from '../data/nav';
           </svg>
         </a>
       </li>
-      <li class='tooltip tooltip-info tooltip-bottom' data-tip='GitHub'>
+      <li class='tooltip tooltip-bottom tooltip-info' data-tip='GitHub'>
         <a
           href='https://github.com/aleksa-codes'
           target='_blank'
           rel='noopener noreferrer'
           aria-label='GitHub Profile'
-          class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3 rounded-md'
+          class='rounded-md p-3 hover:bg-base-content/20 hover:text-current active:bg-base-content/30 active:text-current'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -80,11 +80,11 @@ import { navItems } from '../data/nav';
           </svg>
         </a>
       </li>
-      <li class='tooltip tooltip-warning tooltip-bottom' data-tip='RSS'>
+      <li class='tooltip tooltip-bottom tooltip-warning' data-tip='RSS'>
         <a
           href='/rss.xml'
           aria-label='RSS Feed'
-          class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3 rounded-md'
+          class='rounded-md p-3 hover:bg-base-content/20 hover:text-current active:bg-base-content/30 active:text-current'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -113,7 +113,7 @@ import { navItems } from '../data/nav';
       <DarkMode />
     </div>
     <div class='dropdown dropdown-end md:hidden'>
-      <label tabindex={0} class='btn btn-ghost btn-square'>
+      <label tabindex={0} class='btn btn-square btn-ghost'>
         <svg
           class='h-6 stroke-current first:w-6'
           xmlns='http://www.w3.org/2000/svg'
@@ -131,12 +131,12 @@ import { navItems } from '../data/nav';
           <line x1='3' y1='18' x2='21' y2='18'></line>
         </svg>
       </label>
-      <ul tabindex={0} class='p-2 dropdown-content menu bg-base-200 rounded-box w-52 menu-compact'>
+      <ul tabindex={0} class='menu-compact menu dropdown-content w-52 rounded-box bg-base-200 p-2'>
         {
           navItems.map(({ href, label }: { href: string; label: string }) => (
             <li>
               <a
-                class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current p-3'
+                class='p-3 hover:bg-base-content/20 hover:text-current active:bg-base-content/30 active:text-current'
                 href={href}
               >
                 {label}
@@ -145,13 +145,13 @@ import { navItems } from '../data/nav';
           ))
         }
         <li class='flex flex-row items-center justify-around'>
-          <div class='tooltip tooltip-info tooltip-bottom' data-tip='Resume'>
+          <div class='tooltip tooltip-bottom tooltip-info' data-tip='Resume'>
             <a
               href='https://aleksa-codes.github.io/resume'
               target='_blank'
               rel='noopener noreferrer'
               aria-label='Resume'
-              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current'
+              class='hover:bg-base-content/20 hover:text-current active:bg-base-content/30 active:text-current'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -173,13 +173,13 @@ import { navItems } from '../data/nav';
               </svg>
             </a>
           </div>
-          <div class='tooltip tooltip-info tooltip-bottom' data-tip='GitHub'>
+          <div class='tooltip tooltip-bottom tooltip-info' data-tip='GitHub'>
             <a
               href='https://github.com/aleksa-codes'
               target='_blank'
               rel='noopener noreferrer'
               aria-label='GitHub Profile'
-              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current'
+              class='hover:bg-base-content/20 hover:text-current active:bg-base-content/30 active:text-current'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -200,11 +200,11 @@ import { navItems } from '../data/nav';
               </svg>
             </a>
           </div>
-          <div class='tooltip tooltip-info tooltip-bottom' data-tip='RSS'>
+          <div class='tooltip tooltip-bottom tooltip-info' data-tip='RSS'>
             <a
               href='/rss.xml'
               aria-label='RSS Feed'
-              class='active:bg-base-content/30 active:text-current hover:bg-base-content/20 hover:text-current'
+              class='hover:bg-base-content/20 hover:text-current active:bg-base-content/30 active:text-current'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'

@@ -31,7 +31,7 @@ const {
   ogImage,
   ogType,
   twitterHandle,
-  slug
+  slug,
 } = Astro.props as Props;
 ---
 
@@ -50,17 +50,17 @@ const {
 
   <body
     style='visibility: hidden;'
-    class='flex flex-col items-center min-h-screen antialiased overflow-x-hidden overflow-y-scroll'
+    class='flex min-h-screen flex-col items-center overflow-x-hidden overflow-y-scroll antialiased'
   >
     <div class='snow'></div>
     <!-- some weird fix for mozilla firefox FOUC -->
     <script>
       0;
     </script>
-    <div class='flex-grow w-full max-w-3xl'>
+    <div class='w-full max-w-3xl flex-grow'>
       <Navbar />
       <div class='px-4 pt-4'>
-        <div class='min-w-full prose lg:prose-lg animate-content-fade'>
+        <div class='prose min-w-full animate-content-fade lg:prose-lg'>
           <slot />
         </div>
       </div>
@@ -82,7 +82,6 @@ const {
       data-color='#fb923c'
       data-position='Right'
       data-x_margin='8'
-      data-y_margin='8'
-    ></script>
+      data-y_margin='8'></script>
   </body>
 </html>

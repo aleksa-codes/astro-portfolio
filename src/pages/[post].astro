@@ -1,6 +1,6 @@
 ---
 import Layout from '../components/layouts/Layout.astro';
-import { Image } from 'astro:assets'
+import { Image } from 'astro:assets';
 import Date from '../components/utilities/Date.astro';
 import ReadTime from '../components/utilities/ReadTime.astro';
 import { published } from '../data/post';
@@ -10,14 +10,14 @@ export async function getStaticPaths() {
   return posts.map((post) => {
     return {
       params: { post: post.slug },
-      props: { post }
+      props: { post },
     };
   });
 }
 // Destructure to get both `Astro.props.post` and `Astro.props.post.Content`
 const {
   post: { Content },
-  post
+  post,
 } = Astro.props;
 ---
 
@@ -28,9 +28,9 @@ const {
   canonical={import.meta.env.SITE + '/' + post.slug}
   slug={post.slug}
 >
-  <progress class='progress progress-secondary sticky w-full top-16 z-50' max='100' value='0'></progress>
+  <progress class='progress progress-secondary sticky top-16 z-50 w-full' max='100' value='0'></progress>
   <div class='flex justify-center'>
-    <div class='flex flex-col min-w-full py-4 prose break-words lg:prose-lg'>
+    <div class='prose flex min-w-full flex-col break-words py-4 lg:prose-lg'>
       {
         post.img && post.imgWidth && post.imgHeight ? (
           <div class='flex justify-center'>
@@ -100,8 +100,7 @@ const {
           issue-term='og:title'
           label='comment✨💬✨'
           theme='dark-blue'
-          crossorigin='anonymous'
-        ></script>
+          crossorigin='anonymous'></script>
       </div>
     </div>
   </div>

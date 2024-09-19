@@ -26,7 +26,7 @@ export function single(post: MarkdownInstance | MDXComponent): Post {
     slug,
     ogImage: `${import.meta.env.SITE}/assets/posts/${slug}.png`,
     draft: filePathArray.pop() === 'drafts',
-    timestamp: new Date(post.frontmatter.date).valueOf()
+    timestamp: new Date(post.frontmatter.date).valueOf(),
   };
 }
 
@@ -49,7 +49,7 @@ export function getRSS(posts: (MarkdownInstance | MDXComponent)[]): any {
       title: post.title,
       description: post.desc,
       link: post.slug,
-      pubDate: post.date
-    }))
+      pubDate: post.date,
+    })),
   };
 }

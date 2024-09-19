@@ -5,7 +5,9 @@
 /* fonts */
 @font-face {
   font-family: 'SegoeScript';
-  src: url('/fonts/segoesc-webfont.woff2') format('woff2'), url('/fonts/segoesc-webfont.woff') format('woff');
+  src:
+    url('/fonts/segoesc-webfont.woff2') format('woff2'),
+    url('/fonts/segoesc-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -54,7 +56,7 @@ pre[class*='astro-code'] button:hover {
 
 @layer components {
   .scrollbar-accent {
-    @apply scrollbar scrollbar-thumb-secondary scrollbar-track-slate-800 dark:scrollbar-thumb-indigo-300 dark:scrollbar-track-slate-200 scrollbar-thumb-rounded-md;
+    @apply scrollbar scrollbar-track-slate-800 scrollbar-thumb-secondary scrollbar-thumb-rounded-md dark:scrollbar-track-slate-200 dark:scrollbar-thumb-indigo-300;
   }
 }
 
@@ -141,7 +143,10 @@ body {
 }
 .snowflake {
   opacity: 0;
-  animation: fall 12s ease-out infinite, move 4s ease-in-out infinite, fade-in 1s ease-in forwards;
+  animation:
+    fall 12s ease-out infinite,
+    move 4s ease-in-out infinite,
+    fade-in 1s ease-in forwards;
 }
 
 @keyframes fall {

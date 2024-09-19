@@ -20,11 +20,11 @@ export const { getStaticPaths, GET } = OGImageRoute({
       [18, 18, 18],
       [32, 32, 32],
       [32, 32, 32],
-      [64, 64, 64]
+      [64, 64, 64],
     ],
     logo: {
-      path: './public/icons/android/android-launchericon-192-192.png'
-    }
+      path: './public/icons/android/android-launchericon-192-192.png',
+    },
     // There are a bunch more options you can use here!
-  })
+  }),
 });

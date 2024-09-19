@@ -7,9 +7,9 @@ import Layout from '../components/layouts/Layout.astro';
   description='Looking to collaborate with or hire a talented junior React developer? Aleksa is skilled in building user interfaces and front-end applications using the popular JavaScript library, and is always looking to improve and expand their skills. Visit the contact page to get in touch and learn more about how Aleksa (or Alexa) can bring their expertise to your project.'
 >
   <h1>Contact me</h1>
-  <div class='flex flex-col items-center justify-center h-full'>
-    <div class='mt-[-24px] mb-4 flex flex-col sm:flex-row items-start justify-center sm:items-center gap-4 w-full'>
-      <div class='flex flex-row items-center justify-center w-full xs:w-1/2'>
+  <div class='flex h-full flex-col items-center justify-center'>
+    <div class='mb-4 mt-[-24px] flex w-full flex-col items-start justify-center gap-4 sm:flex-row sm:items-center'>
+      <div class='flex w-full flex-row items-center justify-center xs:w-1/2'>
         <!-- Avater based on if it is winter or not -->
         <img class='avatar m-0' src='/assets/Avatar.svg' alt='Avatar' />
         <img class='winter-avatar m-0' src='/assets/WinterAvatar.svg' alt='Winter Avatar' />
@@ -22,12 +22,12 @@ import Layout from '../components/layouts/Layout.astro';
     </div>
     <!-- Use your e-mail or check "Invisible emails" section at: https://formsubmit.co/documentation PLEASE DON NOT USE MY STRING ID -->
     <form
-      class='flex flex-col items-center justify-center w-full gap-2'
+      class='flex w-full flex-col items-center justify-center gap-2'
       target='_blank'
       action='https://formsubmit.co/d4aea92274000f3a15f8e9eba584e72f'
       method='POST'
     >
-      <div class='flex flex-row items-center justify-between w-full gap-4'>
+      <div class='flex w-full flex-row items-center justify-between gap-4'>
         <div class='w-full'>
           <label html-for='name-field'>
             Name
@@ -35,7 +35,7 @@ import Layout from '../components/layouts/Layout.astro';
               <input
                 type='text'
                 name='name'
-                class='w-full input border-gray-700 dark:border-gray-300'
+                class='input w-full border-gray-700 dark:border-gray-300'
                 placeholder='e.g. Bon Jovi'
                 required
               />
@@ -49,7 +49,7 @@ import Layout from '../components/layouts/Layout.astro';
               <input
                 type='email'
                 name='email'
-                class='w-full input border-gray-700 dark:border-gray-300'
+                class='input w-full border-gray-700 dark:border-gray-300'
                 placeholder='e.g. bon.jovi@gmail.com'
                 required
               />
@@ -64,7 +64,7 @@ import Layout from '../components/layouts/Layout.astro';
             <input
               type='text'
               name='_subject'
-              class='w-full input border-gray-700 dark:border-gray-300'
+              class='input w-full border-gray-700 dark:border-gray-300'
               placeholder={`e.g. Let's Connect!`}
               required
             />
@@ -77,15 +77,15 @@ import Layout from '../components/layouts/Layout.astro';
           <div id='message-field'>
             <textarea
               placeholder='Your Message'
-              class='w-full textarea resize-none border-gray-700 dark:border-gray-300'
+              class='textarea w-full resize-none border-gray-700 dark:border-gray-300'
               name='message'
               rows={4}
               required></textarea>
           </div>
         </label>
       </div>
-      <div class='flex flex-row items-center justify-start w-full gap-4'>
-        <button type='submit' class='gap-1 btn btn-secondary hover:text-slate-300'>
+      <div class='flex w-full flex-row items-center justify-start gap-4'>
+        <button type='submit' class='btn btn-secondary gap-1 hover:text-slate-300'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             class='icon icon-tabler icon-tabler-send'
@@ -103,7 +103,7 @@ import Layout from '../components/layouts/Layout.astro';
             <path d='M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5'></path>
           </svg> Send
         </button>
-        <button type='reset' class='gap-1 btn'>
+        <button type='reset' class='btn gap-1'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             class='icon icon-tabler icon-tabler-eraser'
