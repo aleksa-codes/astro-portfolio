@@ -1,8 +1,5 @@
 # Astro • Tailwind • DaisyUI • Portfolio & MDX Blog
 
-## ⚠️ **Important Notice:** 
-At some point Astro had a major breaking change and I was not able to upgrade and keep up with new versions. Once I find time, I will rebuild the portfolio using the latest dependencies! ✨
-
 👉 Portfolio website with personal and contact information, project showcase, and a blog.
 
 - Responsive
