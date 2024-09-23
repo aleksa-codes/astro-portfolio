@@ -102,10 +102,10 @@
     unist-util-visit-parents "^6.0.1"
     vfile "^6.0.2"
 
-"@astrojs/mdx@^3.1.6":
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-3.1.6.tgz#1cf8a9269a902b749f4d2ae9d5147bd9d97efcd2"
-  integrity sha512-YCEIvNgoQG3oVhe9codH4TX6zjvkl7KGla19yZO5RCnvjv2d9zyrfWqJ98I6/m18PbEY3k8Wjvha0IIf5eZ2sQ==
+"@astrojs/mdx@^3.1.7":
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/@astrojs/mdx/-/mdx-3.1.7.tgz#f93ca0b21696c900a89573c48e4e6ba3923721c8"
+  integrity sha512-8lGdCt+S0TrZgQpbcP3fQJc4cTeacAirtz9TpAMtHCWrQGW8slKt3WG4/0N+bhZgYRC4h5AT5drzFz+y3wvmsg==
   dependencies:
     "@astrojs/markdown-remark" "5.2.0"
     "@mdx-js/mdx" "^3.0.1"
@@ -3927,10 +3927,10 @@ astro-og-canvas@^0.5.3:
     deterministic-object-hash "^2.0.2"
     entities "^4.4.0"
 
-astro@^4.15.7:
-  version "4.15.7"
-  resolved "https://registry.yarnpkg.com/astro/-/astro-4.15.7.tgz#7c5b248581c63f705aab5e8109c90b8777bc862f"
-  integrity sha512-RGZjGpLcR3jcnXA1+g56i73O77krmqs7VjpoBOfk9UVP8Js5T2YSeUBAyComOUb6vj31wEw1vgRgOEN0MzYc8w==
+astro@^4.15.8:
+  version "4.15.8"
+  resolved "https://registry.yarnpkg.com/astro/-/astro-4.15.8.tgz#046190f8c9c719b278c13f5e8e35943bf178a7b2"
+  integrity sha512-pdXjtRF6O1xChiPAUF32R7oVRTW7AK1/Oy/JqPNhLfbelO0l6C7cLdSEuSLektwOEnMhOVXqccetjBs7HPaoxA==
   dependencies:
     "@astrojs/compiler" "^2.10.3"
     "@astrojs/internal-helpers" "0.4.1"
@@ -3978,7 +3978,6 @@ astro@^4.15.7:
     ora "^8.1.0"
     p-limit "^6.1.0"
     p-queue "^8.0.1"
-    path-to-regexp "6.2.2"
     preferred-pm "^4.0.0"
     prompts "^2.4.2"
     rehype "^13.0.1"
@@ -8902,11 +8901,6 @@ path-to-regexp@0.1.10:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.10.tgz#67e9108c5c0551b9e5326064387de4763c4d5f8b"
   integrity sha512-7lf7qcQidTku0Gu3YDPc8DJ1q7OOucfa/BSsIwjuh56VU7katFvuM8hULfkwB3Fns/rsVF7PwPKVw1sl5KQS9w==
-
-path-to-regexp@6.2.2:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.2.2.tgz#324377a83e5049cbecadc5554d6a63a9a4866b36"
-  integrity sha512-GQX3SSMokngb36+whdpRXE+3f9V8UzyAorlYvOGx87ufGHehNTn5lCxrKtLyZ4Yl/wEKnNnr98ZzOwwDZV5ogw==
 
 path-type@^4.0.0:
   version "4.0.0"
