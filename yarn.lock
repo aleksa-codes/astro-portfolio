@@ -4221,10 +4221,10 @@ astro-og-canvas@^0.5.4:
     deterministic-object-hash "^2.0.2"
     entities "^4.4.0"
 
-astro@^4.16.10:
-  version "4.16.10"
-  resolved "https://registry.yarnpkg.com/astro/-/astro-4.16.10.tgz#8495947d6e405104f312ee06643a44078c22fc0c"
-  integrity sha512-a+nB4bZE50NXHLzVXUHtx/lYct2Aa8kbqZnWNrWqkU97RuhBuWJ5H5/LQbKRnBWGvqChKfJBiMWJe53TY9ieYQ==
+astro@^4.16.13:
+  version "4.16.13"
+  resolved "https://registry.yarnpkg.com/astro/-/astro-4.16.13.tgz#2d723348651ed1cff5936cc3e077104846a7befc"
+  integrity sha512-Mtd76+BC0zLWqoXpf9xc731AhdH4MNh5JFHYdLRvSH0Nqn48hA64dPGh/cWsJvh/DZFmC0NTZusM1Qq2gyNaVg==
   dependencies:
     "@astrojs/compiler" "^2.10.3"
     "@astrojs/internal-helpers" "0.4.1"
@@ -7277,7 +7277,7 @@ jake@^10.8.5:
     filelist "^1.0.4"
     minimatch "^3.1.2"
 
-jiti@^1.21.0:
+jiti@^1.21.0, jiti@^1.21.6:
   version "1.21.6"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.6.tgz#6c7f7398dd4b3142767f9a168af2f317a428d268"
   integrity sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==
@@ -9653,7 +9653,7 @@ postcss-load-config@^4.0.1, postcss-load-config@^4.0.2:
     lilconfig "^3.0.0"
     yaml "^2.3.4"
 
-postcss-nested@^6.0.1:
+postcss-nested@^6.0.1, postcss-nested@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/postcss-nested/-/postcss-nested-6.2.0.tgz#4c2d22ab5f20b9cb61e2c5c5915950784d068131"
   integrity sha512-HQbt28KulC5AJzG+cZtj9kvKB93CFCdLvog1WFLf1D+xmMvPGlBstkpTEZfK5+AN9hfJocyBFCNiqyS48bpgzQ==
@@ -9668,7 +9668,7 @@ postcss-selector-parser@6.0.10:
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
 
-postcss-selector-parser@^6.0.11, postcss-selector-parser@^6.1.1:
+postcss-selector-parser@^6.0.11, postcss-selector-parser@^6.1.1, postcss-selector-parser@^6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.1.2.tgz#27ecb41fb0e3b6ba7a1ec84fff347f734c7929de"
   integrity sha512-Q8qQfPiZ+THO/3ZrOrO0cJJKfpYCagtMUkXbnEfmgUjwXg6z/WBeOyS9APBBPCTSiDV+s4SwQGu8yFsiMRIudg==
@@ -10454,7 +10454,7 @@ resolve-from@^4.0.0:
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-4.0.0.tgz#4abcd852ad32dd7baabfe9b40e00a36db5f392e6"
   integrity sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==
 
-resolve@^1.1.7, resolve@^1.14.2, resolve@^1.22.1, resolve@^1.22.2:
+resolve@^1.1.7, resolve@^1.14.2, resolve@^1.22.1, resolve@^1.22.2, resolve@^1.22.8:
   version "1.22.8"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.22.8.tgz#b6c87a9f2aa06dfab52e3d70ac8cde321fa5a48d"
   integrity sha512-oKWePCxqpd6FlLvGV1VU0x7bkPmmCNolxzjMf4NczoDnQcIWrAF+cPtZn5i6n+RfD2d9i0tzpKnG6Yk168yIyw==
@@ -11255,7 +11255,7 @@ stylis@^4.1.2:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.3.4.tgz#ca5c6c4a35c4784e4e93a2a24dc4e9fa075250a4"
   integrity sha512-osIBl6BGUmSfDkyH2mB7EFvCJntXDrLhKjHTRj/rK6xLH0yuPrHULDRQzKokSOD4VoorhtKpfcfW1GAntu8now==
 
-sucrase@^3.32.0:
+sucrase@^3.32.0, sucrase@^3.35.0:
   version "3.35.0"
   resolved "https://registry.yarnpkg.com/sucrase/-/sucrase-3.35.0.tgz#57f17a3d7e19b36d8995f06679d121be914ae263"
   integrity sha512-8EbVDiu9iN/nESwxeSxDKe0dunta1GOlHufmSSXxMD2z2/tMZpDMpvXQGsc+ajGo8y2uYUmixaSRUc/QPoQ0GA==
@@ -11316,7 +11316,7 @@ tailwind-scrollbar@^3.1.0:
   resolved "https://registry.yarnpkg.com/tailwind-scrollbar/-/tailwind-scrollbar-3.1.0.tgz#ff7596407b6da5209261d8ff03860ab9206a59e3"
   integrity sha512-pmrtDIZeHyu2idTejfV59SbaJyvp1VRjYxAjZBH0jnyrPRo6HL1kD5Glz8VPagasqr6oAx6M05+Tuw429Z8jxg==
 
-tailwindcss@^3.4.13, tailwindcss@^3.4.14:
+tailwindcss@^3.4.13:
   version "3.4.14"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.4.14.tgz#6dd23a7f54ec197b19159e91e3bb1e55e7aa73ac"
   integrity sha512-IcSvOcTRcUtQQ7ILQL5quRDg7Xs93PdJEk1ZLbhhvJc7uj/OAhYOnruEiwnGgBvUtaUAJ8/mhSw1o8L2jCiENA==
@@ -11343,6 +11343,34 @@ tailwindcss@^3.4.13, tailwindcss@^3.4.14:
     postcss-selector-parser "^6.0.11"
     resolve "^1.22.2"
     sucrase "^3.32.0"
+
+tailwindcss@^3.4.15:
+  version "3.4.15"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.4.15.tgz#04808bf4bf1424b105047d19e7d4bfab368044a9"
+  integrity sha512-r4MeXnfBmSOuKUWmXe6h2CcyfzJCEk4F0pptO5jlnYSIViUkVmsawj80N5h2lO3gwcmSb4n3PuN+e+GC1Guylw==
+  dependencies:
+    "@alloc/quick-lru" "^5.2.0"
+    arg "^5.0.2"
+    chokidar "^3.6.0"
+    didyoumean "^1.2.2"
+    dlv "^1.1.3"
+    fast-glob "^3.3.2"
+    glob-parent "^6.0.2"
+    is-glob "^4.0.3"
+    jiti "^1.21.6"
+    lilconfig "^2.1.0"
+    micromatch "^4.0.8"
+    normalize-path "^3.0.0"
+    object-hash "^3.0.0"
+    picocolors "^1.1.1"
+    postcss "^8.4.47"
+    postcss-import "^15.1.0"
+    postcss-js "^4.0.1"
+    postcss-load-config "^4.0.2"
+    postcss-nested "^6.2.0"
+    postcss-selector-parser "^6.1.2"
+    resolve "^1.22.8"
+    sucrase "^3.35.0"
 
 tar-fs@^2.0.0:
   version "2.1.1"
