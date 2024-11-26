@@ -17,23 +17,23 @@
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.2",
     "@fontsource/poppins": "^5.1.0",
-    "@tinacms/cli": "^1.6.11",
-    "astro": "^4.16.13",
+    "@tinacms/cli": "^1.6.12",
+    "astro": "^4.16.15",
     "astro-og-canvas": "^0.5.4",
     "daisyui": "^4.12.14",
     "reading-time": "^1.5.0",
     "tailwindcss": "^3.4.15",
-    "tinacms": "^2.4.0",
+    "tinacms": "^2.5.0",
     "typewriter-effect": "^2.21.0",
     "workbox-build": "^7.3.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
-    "@types/node": "^22.9.0",
-    "prettier": "^3.3.3",
+    "@types/node": "^22.10.0",
+    "prettier": "^3.4.1",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-tailwindcss": "^0.6.8",
+    "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwind-scrollbar": "^3.1.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   }
 }
