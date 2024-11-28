@@ -18,7 +18,7 @@
     "@astrojs/tailwind": "^5.1.2",
     "@fontsource/poppins": "^5.1.0",
     "@tinacms/cli": "^1.6.12",
-    "astro": "^4.16.15",
+    "astro": "^4.16.16",
     "astro-og-canvas": "^0.5.4",
     "daisyui": "^4.12.14",
     "reading-time": "^1.5.0",
@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
-    "@types/node": "^22.10.0",
+    "@types/node": "^22.10.1",
     "prettier": "^3.4.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.9",
