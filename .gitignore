@@ -19,3 +19,5 @@ pnpm-debug.log*
 
 .astro/
 .vscode/
+node_modules
+.env
