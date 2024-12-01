@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c34814ce-fdb3-4e9d-94e0-eb3d05e6245a/deploy-status)](https://app.netlify.com/sites/scarlett-danger-studio/deploys)
 # Astro • Tailwind CSS • DaisyUI • Portfolio & MDX Blog
 
 👉 A responsive portfolio website featuring a project showcase, personal information, and a rich blogging platform.
