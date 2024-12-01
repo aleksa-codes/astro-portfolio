@@ -25,7 +25,8 @@
     "tailwindcss": "^3.4.15",
     "tinacms": "^2.5.0",
     "typewriter-effect": "^2.21.0",
-    "workbox-build": "^7.3.0"
+    "workbox-build": "^7.3.0",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
