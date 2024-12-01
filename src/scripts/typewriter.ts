@@ -4,5 +4,5 @@ document.addEventListener('DOMContentLoaded', () => {
     loop: false,
     autoStart: true,
   });
-  tw.typeString(`Scarlett Danger's Studio`).start();
+  tw.typeString(`My name is Scarlett Danger`).start();
 });
