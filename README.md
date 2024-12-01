@@ -4,7 +4,7 @@
 
 ## 🌐 Demo
 
-Check out a live demo at [aleksa.codes](https://aleksa.codes)
+Check out a live demo at [scarlettdanger.studio](https://scarlettdanger.studio)
 
 This portfolio/blog is inspired by [daisy-blog](https://github.com/saadeghi/daisy-blog) by [@saadeghi](https://github.com/saadeghi), the creator of DaisyUI.
 

@@ -29,7 +29,7 @@ pre[class*='astro-code'] button {
 
   font-size: 0.9rem;
   padding: 0.15rem;
-  background-color: #525252;
+  background-color: #352626;
 
   border-radius: 5px;
   text-shadow: #c4c4c4 0 0 2px;
@@ -38,7 +38,7 @@ pre[class*='astro-code'] button {
 
 pre[class*='astro-code'] button:hover {
   cursor: pointer;
-  background-color: #6b6b6b;
+  background-color: #352626;
 }
 @media screen and (max-width: 600px) {
   pre[class*='astro-code'] button {
@@ -60,37 +60,37 @@ pre[class*='astro-code'] button:hover {
   }
 }
 
-[data-theme='winter'] .highlight:hover {
+[data-theme='coffee'] .highlight:hover {
   box-shadow: #c7d2fe 0px -1.25rem 0px inset;
 }
-[data-theme='winter'] .highlight {
+[data-theme='coffee'] .highlight {
   box-shadow: #c7d2fe 0px -0.5rem 0px inset;
   transition: box-shadow 0.3s ease-out 0s;
 }
 
 .highlight:hover {
-  box-shadow: #463aa1 0px -1.25rem 0px inset;
+  box-shadow: #a33e3e 0px -1.25rem 0px inset;
 }
 
 .highlight {
-  box-shadow: #463aa1 0px -0.5rem 0px inset;
+  box-shadow: #a33e3e 0px -0.5rem 0px inset;
   transition: box-shadow 0.3s ease-out 0s;
 }
 
-[data-theme='winter'] .highlight-heading:hover {
+[data-theme='coffee'] .highlight-heading:hover {
   box-shadow: #c7d2fe 0px -2.25rem 0px inset;
 }
-[data-theme='winter'] .highlight-heading {
+[data-theme='coffee'] .highlight-heading {
   box-shadow: #c7d2fe 0px -1rem 0px inset;
   transition: box-shadow 0.3s ease-out 0s;
 }
 
 .highlight-heading:hover {
-  box-shadow: #463aa1 0px -2.25rem 0px inset;
+  box-shadow: #a33e3e 0px -2.25rem 0px inset;
 }
 
 .highlight-heading {
-  box-shadow: #463aa1 0px -1rem 0px inset;
+  box-shadow: #a33e3e 0px -1rem 0px inset;
   transition: box-shadow 0.3s ease-out 0s;
 }
 
@@ -99,8 +99,8 @@ pre[class*='astro-code'] button:hover {
   @apply text-slate-800;
   @apply bg-slate-800;
 }
-[data-theme='winter'] .wave-t,
-[data-theme='winter'] .wave-b {
+[data-theme='coffee'] .wave-t,
+[data-theme='coffee'] .wave-b {
   @apply text-slate-200;
   @apply bg-slate-200;
 }
@@ -109,8 +109,8 @@ pre[class*='astro-code'] button:hover {
 .footer-text-b {
   @apply text-slate-400;
 }
-[data-theme='winter'] .footer-text-t,
-[data-theme='winter'] .footer-text-b {
+[data-theme='coffee'] .footer-text-t,
+[data-theme='coffee'] .footer-text-b {
   @apply text-slate-600;
 }
 /* End for custom component styles */
@@ -183,18 +183,18 @@ body {
 
 /* Scroll indicator styles */
 .progress::-moz-progress-bar {
-  background-color: #0f1729;
+  background-color: #000000;
 }
 
 .progress::-webkit-progress-bar {
-  background-color: #0f1729;
+  background-color: #000000;
 }
 
-[data-theme='winter'] .progress::-moz-progress-bar {
+[data-theme='coffee'] .progress::-moz-progress-bar {
   background-color: #fff;
 }
 
-[data-theme='winter'] .progress::-webkit-progress-bar {
+[data-theme='coffee'] .progress::-webkit-progress-bar {
   background-color: #fff;
 }
 

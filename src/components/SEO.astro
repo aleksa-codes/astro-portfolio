@@ -10,21 +10,21 @@ export interface Props {
   slug?: string;
 }
 
-const DOMAIN = 'https://aleksa.codes';
+const DOMAIN = 'https://scarlettdanger.studio';
 const DEFAULT_OG_IMAGE = 'https://aleksa.codes/assets/aleksa-codes-og.png';
 const {
-  title = 'aleksa.codes',
-  description = "Aleksa is junior React developer, skilled in building user interfaces and front-end applications using the popular JavaScript library. Passionate about coding and dedicated to creating visually appealing and user-friendly experiences, Aleksa is constantly seeking to improve and expand their skills. Explore Aleksa's (or Alexa's) portfolio to see their work and learn more about their capabilities as a web developer.",
-  siteName = 'aleksa.codes',
+  title = 'scarlettdanger.studio',
+  description = "Scarlett Danger is the world's first spy rapper. She is also a programmer, OSINT investigator, and hacker.",
+  siteName = 'scarlettdanger.studio',
   canonical = DOMAIN,
   ogImage,
   ogType = 'website',
-  twitterHandle = '@aleksacodes',
+  twitterHandle = '@scarlett_danger',
   slug = undefined,
 } = Astro.props as Props;
 ---
 
-{title === 'aleksa.codes' ? <title>{`${siteName}`}</title> : <title>{`${title} | ${siteName}`}</title>}
+{title === 'scarlettdanger.studio' ? <title>{`${siteName}`}</title> : <title>{`${title} | ${siteName}`}</title>}
 
 <meta charset='UTF-8' />
 <meta http-equiv='X-UA-Compatible' content='IE=edge' />
@@ -38,19 +38,19 @@ const {
 <meta name='robots' content='index,follow' />
 <meta name='googlebot' content='index,follow' />
 
-<meta name='title' content={title === 'aleksa.codes' ? 'aleksa.codes | Web Developer' : `${title} | ${siteName}`} />
+<meta name='title' content={title === 'scarlettdanger.studio' ? 'scarlettdanger.studio | Spy Rapper' : `${title} | ${siteName}`} />
 <meta name='description' content={description} />
 
 <meta property='og:type' content={ogType} />
 <meta property='og:url' content={canonical} />
-<meta property='og:title' content={title === 'aleksa.codes' ? 'Portfolio & Blog' : `${title} | ${siteName}`} />
+<meta property='og:title' content={title === 'scarlettdanger.studio' ? 'Portfolio & Blog' : `${title} | ${siteName}`} />
 <meta property='og:description' content={description} />
 <meta property='og:image' content={slug !== undefined ? ogImage : DEFAULT_OG_IMAGE} />
 <meta property='og:image:alt' content={slug !== undefined ? title + 'Social Image' : 'Aleksa Codes Social Image'} />
 
 <meta property='twitter:card' content='summary_large_image' />
 <meta property='twitter:url' content={canonical} />
-<meta property='twitter:title' content={title === 'aleksa.codes' ? 'Portfolio & Blog' : `${title} | ${siteName}`} />
+<meta property='twitter:title' content={title === 'scarlettdanger.studio' ? 'Portfolio & Blog' : `${title} | ${siteName}`} />
 <meta property='twitter:creator' content={twitterHandle} />
 <meta property='twitter:description' content={description} />
 <meta property='twitter:image' content={slug !== undefined ? ogImage : DEFAULT_OG_IMAGE} />

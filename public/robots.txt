@@ -2,5 +2,5 @@
 # Full syntax: https://developers.google.com/search/docs/advanced/robots/create-robots-txt
 User-agent: *
 Disallow:
-Host: https://aleksa.codes/
-Sitemap: https://aleksa.codes/sitemap-index.xml
+Host: https://scarlettdanger.studio/
+Sitemap: https://scarlettdanger.studio/sitemap-index.xml

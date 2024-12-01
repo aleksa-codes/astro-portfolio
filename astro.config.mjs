@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://aleksa.codes',
+  site: 'https://scarlettdanger.studio',
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
