@@ -77,10 +77,10 @@ pre[class*='astro-code'] button:hover {
   transition: box-shadow 0.3s ease-out 0s;
 }
 
-[data-theme='coffee'] .highlight-heading:hover {
+[data-theme='black'] .highlight-heading:hover {
   box-shadow: #c7d2fe 0px -2.25rem 0px inset;
 }
-[data-theme='coffee'] .highlight-heading {
+[data-theme='black'] .highlight-heading {
   box-shadow: #c7d2fe 0px -1rem 0px inset;
   transition: box-shadow 0.3s ease-out 0s;
 }
@@ -97,12 +97,12 @@ pre[class*='astro-code'] button:hover {
 .wave-t,
 .wave-b {
   @apply text-slate-800;
-  @apply bg-slate-800;
+  @apply bg-red-900;
 }
-[data-theme='coffee'] .wave-t,
-[data-theme='coffee'] .wave-b {
-  @apply text-slate-200;
-  @apply bg-slate-200;
+[data-theme='black'] .wave-t,
+[data-theme='black'] .wave-b {
+  @apply text-slate-600;
+  @apply bg-red-800;
 }
 
 .footer-text-t,

@@ -1,7 +1,7 @@
 export const navItems = [
   {
     href: '/about',
-    label: 'About',
+    label: 'Bio',
   },
   // {
   //   href: '/projects',

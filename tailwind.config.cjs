@@ -63,7 +63,7 @@ module.exports = {
     }
   },
   daisyui: {
-    themes: ['night', 'winter', 'coffee']
+    themes: ['black']
   },
-  darkMode: ['class', '[data-theme="coffee"]']
+  darkMode: ['class', '[data-theme="black"]']
 };
