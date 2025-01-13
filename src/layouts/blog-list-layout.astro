@@ -1,0 +1,173 @@
+---
+import Layout from '@/layouts/layout.astro';
+import Breadcrumb from '@/components/breadcrumb.astro';
+import { tagToSlug } from '@/lib/utils';
+import type { CollectionEntry } from 'astro:content';
+import Button from '@/components/ui/button.astro';
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+
+interface Props {
+  title: string;
+  description: string;
+  page: {
+    data: CollectionEntry<'blog'>[];
+    currentPage: number;
+    lastPage: number;
+    url: {
+      prev?: string;
+      next?: string;
+    };
+  };
+  allTags: string[];
+}
+
+const { title, description, page, allTags } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <section class='relative flex bg-forest bg-cover bg-center bg-no-repeat py-16 md:bg-fixed'>
+    <div class='absolute inset-0 size-full bg-background/80'></div>
+    <div class='container z-0'>
+      <Breadcrumb />
+      <div class='mx-auto max-w-2xl text-center'>
+        <h1 class='text-4xl font-bold tracking-tight text-foreground sm:text-5xl'>{title}</h1>
+        <p class='mt-4 text-lg text-muted-foreground'>{description}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class='bg-background py-16 sm:py-20'>
+    <div class='container'>
+      <div class='grid grid-cols-1 gap-8 lg:grid-cols-3'>
+        <!-- Main Content -->
+        <div class='lg:col-span-2'>
+          <div class='grid grid-cols-1 gap-8 md:grid-cols-2'>
+            {
+              page.data.map((post) => (
+                <article class='rounded-2xl bg-muted p-8 transition-shadow hover:shadow-lg'>
+                  <div class='space-y-6'>
+                    {post.data.thumbnail && (
+                      <div class='relative aspect-[16/9] overflow-hidden rounded-lg'>
+                        <a href={`/blog/${post.id}`} class='block'>
+                          <Image
+                            src={post.data.thumbnail}
+                            alt={post.data.title}
+                            format={'webp'}
+                            quality={'max'}
+                            class='absolute inset-0 size-full object-cover transition-transform duration-300 hover:scale-110'
+                          />
+                        </a>
+                      </div>
+                    )}
+                    <div class='space-y-4'>
+                      <h2 class='text-2xl font-bold tracking-tight text-foreground'>
+                        <a href={`/blog/${post.id}`} class='hover:text-primary'>
+                          {post.data.title}
+                        </a>
+                      </h2>
+                      <div class='flex items-center gap-4 text-muted-foreground'>
+                        <time datetime={post.data.date.toISOString()}>
+                          {post.data.date.toLocaleDateString('en-us', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </time>
+                        <span>•</span>
+                        <span>{post.data.author}</span>
+                      </div>
+                      <p class='text-muted-foreground'>{post.data.description}</p>
+                      {post.data.tags?.length > 0 && (
+                        <div class='flex flex-wrap gap-2'>
+                          {post.data.tags.map((tag) => (
+                            <Button href={`/blog/${tagToSlug(tag)}`} variant='outline' size='sm' class='text-sm'>
+                              {tag}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+
+          <!-- Pagination Controls -->
+          {
+            page.lastPage > 1 && (
+              <div class='mt-12 flex items-center justify-center gap-2'>
+                <Button
+                  href={page.url.prev || '#'}
+                  variant='outline'
+                  size='icon'
+                  disabled={!page.url.prev}
+                  aria-label='Previous Page'
+                >
+                  <Icon name='lucide:chevron-left' />
+                </Button>
+                <div class='h-10 rounded-md border border-border px-4 py-2 text-sm'>
+                  Page {page.currentPage} of {page.lastPage}
+                </div>
+                <Button
+                  href={page.url.next || '#'}
+                  variant='outline'
+                  size='icon'
+                  disabled={!page.url.next}
+                  aria-label='Next Page'
+                >
+                  <Icon name='lucide:chevron-right' />
+                </Button>
+              </div>
+            )
+          }
+        </div>
+
+        <!-- Sidebar -->
+        <div class='h-full lg:pb-[88px]'>
+          <div class='space-y-8 rounded-2xl bg-muted p-8 lg:sticky lg:top-20'>
+            <!-- Categories -->
+            <div class='space-y-4'>
+              <h2 class='text-xl font-bold'>Categories</h2>
+              <div class='flex flex-wrap gap-2'>
+                {
+                  allTags.map((tag) => (
+                    <Button href={`/blog/${tagToSlug(tag)}`} variant='outline' size='sm' class='text-sm'>
+                      {tag}
+                    </Button>
+                  ))
+                }
+              </div>
+            </div>
+
+            <div class='h-px bg-border'></div>
+
+            <!-- Subscribe -->
+            <div class='space-y-4'>
+              <h2 class='text-xl font-bold'>Subscribe</h2>
+              <p class='text-muted-foreground'>Sign up to receive the latest news and offers from Forest Designs.</p>
+              <form class='relative'>
+                <input
+                  type='email'
+                  placeholder='Email address...'
+                  class='w-full rounded-md border border-border/40 bg-background px-4 py-2.5 pr-12 text-sm ring-offset-background placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20'
+                  required
+                />
+                <Button
+                  type='submit'
+                  variant='ghost'
+                  size='icon'
+                  class='absolute right-2 top-1/2 size-8 -translate-y-1/2'
+                  aria-label='Subscribe to newsletter'
+                >
+                  <Icon name='lucide:arrow-right' />
+                </Button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

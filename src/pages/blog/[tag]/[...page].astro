@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import { tagToSlug } from '@/lib/utils';
+import BlogListLayout from '@/layouts/blog-list-layout.astro';
+
+export async function getStaticPaths({ paginate }: any) {
+  const posts = await getCollection('blog');
+
+  const allTags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
+
+  return allTags.flatMap((tag) => {
+    const filteredPosts = posts.filter((post) => post.data.tags?.includes(tag));
+    const sortedPosts = filteredPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    return paginate(sortedPosts, {
+      params: { tag: tagToSlug(tag) },
+      props: { allTags, tag },
+      pageSize: 6,
+    });
+  });
+}
+
+const { page, allTags, tag } = Astro.props;
+// const { tag } = Astro.params;
+---
+
+<BlogListLayout title={`Blog - ${tag}`} description={`Browse all posts related to ${tag}`} {page} {allTags} />

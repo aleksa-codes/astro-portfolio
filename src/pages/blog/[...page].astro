@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import BlogListLayout from '@/layouts/blog-list-layout.astro';
+
+export async function getStaticPaths({ paginate }: any) {
+  const posts = await getCollection('blog');
+
+  const allTags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
+  const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  return paginate(sortedPosts, {
+    pageSize: 6,
+    props: { allTags },
+  });
+}
+
+const { page, allTags } = Astro.props;
+---
+
+<BlogListLayout title='Blog' description='Insights, updates, and stories from our team' {page} {allTags} />

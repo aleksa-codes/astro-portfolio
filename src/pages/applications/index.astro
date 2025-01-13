@@ -1,0 +1,268 @@
+---
+import Layout from '@/layouts/layout.astro';
+import { Icon } from 'astro-icon/components';
+import Breadcrumb from '@/components/breadcrumb.astro';
+import Button from '@/components/ui/button.astro';
+
+const features = [
+  {
+    title: 'Custom Web Applications',
+    description: 'Tailored solutions that automate your business processes and improve efficiency.',
+    icon: 'lucide:code',
+  },
+  {
+    title: 'Cloud Integration',
+    description: 'Seamless integration with cloud services and third-party APIs.',
+    icon: 'lucide:cloud',
+  },
+  {
+    title: 'Scalable Architecture',
+    description: 'Built to grow with your business needs and user base.',
+    icon: 'lucide:layers',
+  },
+  {
+    title: 'Real-time Updates',
+    description: 'Live data synchronization for collaborative applications.',
+    icon: 'lucide:refresh-cw',
+  },
+  {
+    title: 'Security First',
+    description: 'Enterprise-grade security with data encryption and authentication.',
+    icon: 'lucide:shield',
+  },
+  {
+    title: 'API Integration',
+    description: 'Connect with existing systems and third-party services.',
+    icon: 'lucide:plug',
+  },
+];
+
+const appTypes = [
+  {
+    title: 'CRM Systems',
+    description: 'Custom customer relationship management solutions',
+    icon: 'lucide:users',
+  },
+  {
+    title: 'ERP Software',
+    description: 'Enterprise resource planning applications',
+    icon: 'lucide:building',
+  },
+  {
+    title: 'Booking Systems',
+    description: 'Appointment and reservation management',
+    icon: 'lucide:calendar',
+  },
+];
+
+const developmentProcess = [
+  {
+    step: '01',
+    title: 'Requirements Analysis',
+    description: 'Deep dive into your business processes and needs',
+  },
+  {
+    step: '02',
+    title: 'Architecture Design',
+    description: 'Planning scalable and maintainable solution',
+  },
+  {
+    step: '03',
+    title: 'Development & Testing',
+    description: 'Agile development with continuous testing',
+  },
+  {
+    step: '04',
+    title: 'Deployment & Support',
+    description: 'Smooth launch and ongoing maintenance',
+  },
+];
+
+const caseStudies = [
+  {
+    title: 'Healthcare Management System',
+    description: 'Custom EHR system with patient portal',
+    results: '45% reduction in administrative tasks',
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1000',
+  },
+  {
+    title: 'Real Estate Platform',
+    description: 'Property management solution',
+    results: '200% increase in agent efficiency',
+    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1000',
+  },
+];
+
+const techFeatures = [
+  {
+    category: 'Frontend',
+    items: ['React/Next.js', 'TypeScript', 'Tailwind CSS'],
+    icon: 'lucide:layout',
+  },
+  {
+    category: 'Backend',
+    items: ['Node.js', 'Python', 'PostgreSQL'],
+    icon: 'lucide:server',
+  },
+  {
+    category: 'DevOps',
+    items: ['Docker', 'AWS', 'CI/CD'],
+    icon: 'lucide:settings',
+  },
+];
+---
+
+<Layout
+  title='Applications'
+  description='Transform your business with custom web applications. Modern, scalable, and secure solutions for enterprise needs.'
+>
+  <div class='flex-1'>
+    <section class='relative flex bg-forest bg-cover bg-center bg-no-repeat py-16 md:bg-fixed'>
+      <div class='absolute inset-0 size-full bg-background/80'></div>
+      <div class='container z-0'>
+        <Breadcrumb />
+        <div class='mx-auto max-w-4xl text-center'>
+          <h1 class='text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl'>
+            Custom Web Applications
+          </h1>
+          <p class='mt-6 text-lg text-muted-foreground sm:text-xl'>
+            Transform your business with custom web applications that streamline operations and enhance user experience.
+          </p>
+          <div class='mt-8 flex justify-center gap-4'>
+            <Button href='#contact' size='lg'>Start Your Project</Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Application Types -->
+    <section class='bg-muted py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>
+            Custom Applications for Every Need
+          </h2>
+          <p class='mt-4 text-lg text-muted-foreground'>From simple automation tools to complex enterprise systems</p>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            appTypes.map((type) => (
+              <div class='rounded-2xl bg-background p-8'>
+                <div class='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
+                  <Icon name={type.icon} class='h-6 w-6 text-primary' />
+                </div>
+                <h3 class='mt-6 text-xl font-semibold text-foreground'>{type.title}</h3>
+                <p class='mt-2 text-muted-foreground'>{type.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Development Process -->
+    <section class='bg-background py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Our Development Process</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>
+            Agile methodology for predictable delivery and quality results
+          </p>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4'>
+          {
+            developmentProcess.map((step) => (
+              <div class='relative rounded-2xl bg-muted p-8'>
+                <span class='absolute -top-4 left-4 text-5xl font-bold text-primary'>{step.step}</span>
+                <h3 class='mt-4 text-xl font-semibold text-foreground'>{step.title}</h3>
+                <p class='mt-2 text-muted-foreground'>{step.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class='bg-background py-16 sm:py-20 md:py-24 lg:py-32'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Enterprise-Grade Solutions</h2>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            features.map((feature) => (
+              <div class='rounded-2xl bg-muted p-8'>
+                <div class='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
+                  <Icon name={feature.icon} class='h-6 w-6 text-primary' />
+                </div>
+                <h3 class='mt-6 text-xl font-semibold text-foreground'>{feature.title}</h3>
+                <p class='mt-2 text-muted-foreground'>{feature.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section class='bg-muted py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Success Stories</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>Real solutions for real businesses</p>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2'>
+          {
+            caseStudies.map((study) => (
+              <div class='overflow-hidden rounded-2xl bg-background'>
+                <img src={study.image} alt={study.title} class='h-48 w-full object-cover' />
+                <div class='p-6'>
+                  <h3 class='text-xl font-semibold text-foreground'>{study.title}</h3>
+                  <p class='mt-2 text-muted-foreground'>{study.description}</p>
+                  <p class='text-success mt-4'>{study.results}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Stack -->
+    <section class='bg-background py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>
+            Enterprise-Grade Technology Stack
+          </h2>
+          <p class='mt-4 text-lg text-muted-foreground'>Modern technologies for robust and scalable applications</p>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-3'>
+          {
+            techFeatures.map((tech) => (
+              <div class='rounded-2xl bg-muted p-8'>
+                <div class='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
+                  <Icon name={tech.icon} class='h-6 w-6 text-primary' />
+                </div>
+                <h3 class='mt-6 text-xl font-semibold text-foreground'>{tech.category}</h3>
+                <ul class='mt-4 space-y-2'>
+                  {tech.items.map((item) => (
+                    <li class='flex items-center gap-2'>
+                      <Icon name='lucide:check' class='h-4 w-4 text-primary' />
+                      <span class='text-muted-foreground'>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

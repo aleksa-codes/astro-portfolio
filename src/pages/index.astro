@@ -1,0 +1,30 @@
+---
+import { siteConfig } from '@/config/site.config';
+import Layout from '@/layouts/layout.astro';
+import Hero from '@/components/sections/Hero.astro';
+import ClientLogos from '@/components/sections/ClientLogos.astro';
+import About from '@/components/sections/About.astro';
+import Portfolio from '@/components/sections/Portfolio.astro';
+import Pricing from '@/components/sections/Pricing.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+---
+
+<Layout title={siteConfig.name} description={siteConfig.description}>
+  <Hero />
+  <ClientLogos />
+  <About />
+  <Portfolio />
+  <Pricing />
+  <FAQ />
+</Layout>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.hash.substring(1));
+  const tokenTypes = ['invite_token', 'confirmation_token', 'recovery_token', 'email_change_token'];
+
+  tokenTypes.forEach((tokenType) => {
+    if (urlParams.has(tokenType)) {
+      window.location.href = `/admin/#${tokenType}=${urlParams.get(tokenType)}`;
+    }
+  });
+</script>
