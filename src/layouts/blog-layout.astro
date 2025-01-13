@@ -1,0 +1,86 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Breadcrumb from '@/components/breadcrumb.astro';
+import Layout from '@/layouts/layout.astro';
+import { siteConfig } from '@/config/site.config';
+import { Image } from 'astro:assets';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, date, author, thumbnail, tags } = post.data;
+
+// Generate OG image URL
+const ogImage = new URL(`/open-graph/${post.id}.png`, Astro.url).toString();
+
+// Format date for display
+const readableDate = date.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Layout
+  title={title}
+  description={description}
+  image={ogImage}
+  ogType='article'
+  twitterCreator={siteConfig.twitter.creator}
+  twitterSite={siteConfig.twitter.site}
+  schema={{
+    type: 'BlogPosting',
+    date,
+    author,
+    tags,
+  }}
+>
+  <section class='bg-muted py-16'>
+    <div class='container'>
+      <Breadcrumb />
+      <div class='mx-auto max-w-3xl'>
+        <h1 class='text-4xl font-bold tracking-tight text-foreground sm:text-5xl'>{title}</h1>
+        <div class='mt-6 flex items-center gap-4 text-muted-foreground'>
+          <time datetime={date.toISOString()}>{readableDate}</time>
+          <span>•</span>
+          <span>{author}</span>
+        </div>
+        {
+          thumbnail && (
+            <div class='relative mt-8 aspect-[16/9] overflow-hidden rounded-lg'>
+              <Image
+                src={thumbnail}
+                alt={title}
+                format={'webp'}
+                quality={'max'}
+                class='absolute inset-0 size-full object-cover'
+              />
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class='bg-background py-16 sm:py-20'>
+    <div class='container'>
+      <article
+        class='prose prose-slate mx-auto w-full max-w-none dark:prose-invert lg:prose-lg prose-headings:font-bold prose-headings:tracking-tight prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-p:text-muted-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:text-muted-foreground prose-strong:text-foreground prose-code:bg-muted prose-pre:!bg-muted prose-img:rounded-lg prose-hr:border-muted-foreground/20'
+      >
+        <slot />
+      </article>
+
+      {
+        tags?.length > 0 && (
+          <div class='mx-auto mt-8 flex flex-wrap gap-2'>
+            {tags.map((tag) => (
+              <span class='rounded-full bg-muted px-3 py-1 text-sm text-muted-foreground'>{tag}</span>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>

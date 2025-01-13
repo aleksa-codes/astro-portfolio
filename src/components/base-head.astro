@@ -1,0 +1,177 @@
+---
+import '@/styles/global.css';
+import { Head } from 'astro-capo';
+import { siteConfig } from '@/config/site.config';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalURL?: URL;
+  ogType?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+  charset?: string;
+  languageAlternates?: Array<{ href: string; hrefLang: string }>;
+  locale?: string;
+  siteName?: string;
+  twitterCreator?: string;
+  twitterSite?: string;
+  schema?: {
+    type: string;
+    date?: Date;
+    author?: string;
+    tags?: string[];
+  };
+}
+
+const {
+  title,
+  description,
+  image = siteConfig.defaultOgImage,
+  canonicalURL,
+  ogType = 'website',
+  noindex = false,
+  nofollow = false,
+  charset = 'UTF-8',
+  languageAlternates = [],
+  locale = siteConfig.defaultLocale,
+  siteName = siteConfig.name,
+  twitterCreator,
+  twitterSite,
+  schema,
+} = Astro.props;
+
+const pageTitle = Astro.url.pathname === '/' ? siteConfig.name : `${title} | ${siteConfig.name}`;
+const baseUrl = Astro.site ?? Astro.url;
+const defaultCanonicalUrl = new URL(Astro.url.pathname + Astro.url.search, baseUrl);
+
+// Helper function to find navigation item by path
+const findNavigationItem = (path: string) => {
+  return siteConfig.navigation.find((item) => item.href === path);
+};
+
+// Generate breadcrumb items for structured data
+const generateBreadcrumbList = () => {
+  const pathSegments = Astro.url.pathname.split('/').filter(Boolean);
+  const items = [{ name: 'Home', item: baseUrl.toString() }];
+  let accumPath = '';
+
+  pathSegments.forEach((segment) => {
+    accumPath += `/${segment}`;
+    const navItem = findNavigationItem(accumPath);
+    const name = navItem ? navItem.label : segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+    items.push({
+      name,
+      item: new URL(accumPath, baseUrl).toString(),
+    });
+  });
+
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.item,
+    })),
+  };
+};
+
+// Generate page/article structured data
+const pageSchema = {
+  '@type': schema?.type || 'WebPage',
+  '@id': canonicalURL || defaultCanonicalUrl,
+  url: canonicalURL || defaultCanonicalUrl,
+  name: title,
+  description: description,
+  image: new URL(image, baseUrl).toString(),
+  inLanguage: locale,
+  isPartOf: {
+    '@type': 'WebSite',
+    '@id': baseUrl.toString(),
+    name: siteName,
+    description: siteConfig.description,
+    url: baseUrl.toString(),
+  },
+  ...(schema?.author && {
+    author: {
+      '@type': 'Person',
+      name: schema.author,
+    },
+  }),
+  ...(schema?.date && {
+    datePublished: schema.date.toISOString(),
+    dateModified: schema.date.toISOString(),
+  }),
+  ...(schema?.tags?.length && { keywords: schema.tags.join(', ') }),
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [pageSchema, generateBreadcrumbList()],
+};
+---
+
+<Head>
+  <meta charset={charset} />
+  <meta name='viewport' content='width=device-width' />
+
+  <title>{pageTitle}</title>
+
+  <link rel='preload' href='/fonts/roboto-flex.woff2' as='font' type='font/woff2' crossorigin />
+
+  <link rel='preload' href='/forest-bg.webp' as='image' type='image/webp' />
+
+  <link rel='alternate' type='application/rss+xml' title=`${siteName} Web Feed` href={new URL('rss.xml', baseUrl)} />
+
+  <script is:inline>
+    const applyTheme = (isDark) => document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+
+    const getThemePreference = () => {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        applyTheme(e.matches);
+      });
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+
+    applyTheme(getThemePreference() === 'dark');
+
+    // If View Transition is enabled:
+    // document.addEventListener('astro:before-swap', (e) => {
+    //   applyTheme(getThemePreference() === 'dark');
+    // });
+  </script>
+
+  <link rel='icon' type='image/x-icon' href='/favicons/favicon.ico' />
+  <link rel='sitemap' href='/sitemap-index.xml' />
+
+  <link rel='canonical' href={canonicalURL || defaultCanonicalUrl} />
+  {languageAlternates.map(({ href, hrefLang }) => <link rel='alternate' href={href} hreflang={hrefLang} />)}
+  <meta name='robots' content={`${noindex ? 'noindex' : 'index'}, ${nofollow ? 'nofollow' : 'follow'}`} />
+
+  <meta name='description' content={description} />
+  <meta name='generator' content={Astro.generator} />
+
+  <meta property='og:type' content={ogType} />
+  <meta property='og:url' content={canonicalURL || defaultCanonicalUrl} />
+  <meta property='og:title' content={pageTitle} />
+  <meta property='og:description' content={description} />
+  <meta property='og:image' content={new URL(image, baseUrl)} />
+  <meta property='og:locale' content={locale} />
+  <meta property='og:site_name' content={siteName} />
+
+  <meta name='twitter:card' content='summary_large_image' />
+  <meta name='twitter:url' content={canonicalURL || defaultCanonicalUrl} />
+  <meta name='twitter:title' content={pageTitle} />
+  <meta name='twitter:description' content={description} />
+  <meta name='twitter:image' content={new URL(image, baseUrl)} />
+  <meta name='twitter:image:alt' content={description} />
+  {twitterCreator && <meta name='twitter:creator' content={twitterCreator} />}
+  {twitterSite && <meta name='twitter:site' content={twitterSite} />}
+
+  {structuredData && <script is:inline type='application/ld+json' set:html={JSON.stringify(structuredData)} />}
+</Head>

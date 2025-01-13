@@ -1,0 +1,70 @@
+---
+import Button from '@/components/ui/button.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<Button
+  id='snow-toggle'
+  aria-label='Toggle snow effect'
+  variant='outline'
+  size='icon'
+  class='invisible relative overflow-hidden bg-transparent'
+>
+  <span class='sr-only'>Toggle snow effect</span>
+  <Icon
+    id='snow-on'
+    name='lucide:snowflake'
+    class='absolute -translate-y-4 transform opacity-0 transition-transform duration-300'
+  />
+  <div id='snow-off' class='absolute transform transition-transform duration-300'>
+    <Icon name='lucide:snowflake' />
+    <Icon name='lucide:circle-off' class='absolute inset-0 text-destructive' />
+  </div>
+</Button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const isWinter = [11, 0, 1].includes(new Date().getMonth());
+    if (!isWinter) return;
+
+    const snowToggle = document.getElementById('snow-toggle');
+    if (!snowToggle) return;
+
+    snowToggle.classList.remove('invisible');
+
+    // Get stored preference or default to true
+    let showSnow = localStorage.getItem('snowEffect') !== 'false';
+
+    // Update UI based on snow state
+    function updateUI(snow: boolean) {
+      const snowOn = document.getElementById('snow-on');
+      const snowOff = document.getElementById('snow-off');
+      if (!snowOn || !snowOff) return;
+
+      if (!snow) {
+        snowOn.classList.remove('opacity-0', '-translate-y-4');
+        snowOff.classList.add('opacity-0', 'translate-y-4');
+      } else {
+        snowOn.classList.add('opacity-0', '-translate-y-4');
+        snowOff.classList.remove('opacity-0', 'translate-y-4');
+      }
+    }
+
+    // Dispatch custom event
+    function dispatchSnowEvent(show: boolean) {
+      window.dispatchEvent(new CustomEvent('snowEffectChange', { detail: show }));
+    }
+
+    // Initial state
+    updateUI(showSnow);
+    dispatchSnowEvent(showSnow);
+
+    // Handle toggle click
+    snowToggle.addEventListener('click', () => {
+      showSnow = !showSnow;
+      localStorage.setItem('snowEffect', String(showSnow));
+      updateUI(showSnow);
+      dispatchSnowEvent(showSnow);
+    });
+  });
+</script>

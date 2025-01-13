@@ -1,0 +1,54 @@
+---
+import Navbar from '@/components/navbar.astro';
+import CTA from '@/components/sections/CTA.astro';
+import Footer from '@/components/footer.astro';
+import TailwindIndicator from '@/components/tailwind-indicator.astro';
+import BaseHead from '@/components/base-head.astro';
+import Snow from '@/components/snow.astro';
+import ChatWidget from '@/components/chat-widget.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  ogType?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+  twitterCreator?: string;
+  twitterSite?: string;
+  schema?: {
+    type: string;
+    date?: Date;
+    author?: string;
+    tags?: string[];
+  };
+}
+
+const { title, description, image, ogType, schema, noindex, nofollow, twitterCreator, twitterSite } = Astro.props;
+---
+
+<!doctype html>
+<html lang='en'>
+  <BaseHead
+    title={title}
+    description={description}
+    image={image}
+    ogType={ogType}
+    noindex={noindex}
+    nofollow={nofollow}
+    twitterCreator={twitterCreator}
+    twitterSite={twitterSite}
+    schema={schema}
+  />
+  <body class='max-w-screen min-h-screen overflow-x-hidden antialiased'>
+    <Navbar />
+    <Snow />
+    <main>
+      <slot />
+    </main>
+    <CTA />
+    <ChatWidget />
+    <Footer />
+    <TailwindIndicator />
+  </body>
+</html>

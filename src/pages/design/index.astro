@@ -1,0 +1,201 @@
+---
+import Layout from '@/layouts/layout.astro';
+import Pricing from '@/components/sections/Pricing.astro';
+import { Icon } from 'astro-icon/components';
+import Breadcrumb from '@/components/breadcrumb.astro';
+import Button from '@/components/ui/button.astro';
+
+const testimonials = [
+  {
+    quote:
+      "I was looking for a local web designer and found Forest Designs. Finding someone without a referral and trusting they can complete the job is difficult. Thankfully they did an excellent job, and completed the new website quickly. They just didn't build the site, they did research and went to extra work to ensure the site turned out great.",
+    author: 'Klawiter Construction',
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1000',
+  },
+  {
+    quote:
+      "Forest Designs is an absolute godsend! They have been so helpful, and are so creative/responsive, that we can't imagine how we even had a web presence before connecting with CSWD.",
+    author: 'Jeremy Higgins',
+    company: 'Calvary Community Church',
+    image: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1000',
+  },
+  {
+    quote:
+      "YES, YES, YES! Forest Designs is fantastic... They heard my needs and were in tune with my vision, and took it beyond what I could have imagined. They are responsive, efficient and detail oriented. I couldn't be happier with the outcome of my website.",
+    author: 'Danielle Japenga',
+    company: 'Mind Empowerment',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000',
+  },
+];
+
+const features = [
+  {
+    title: 'Easy, secure sign-up',
+    description:
+      'Sign up quickly and securely through Stripe. If we cannot accept your request, we will issue a full-refund.',
+    icon: 'lucide:shield-check',
+  },
+  {
+    title: 'Ridiculously fast designs',
+    description:
+      'Our typical turn-around time for the initial design is 1–2 business days. The more info you provide, the faster we can go.',
+    icon: 'lucide:zap',
+  },
+  {
+    title: 'Streamlined development',
+    description: 'Our typical turn-around time for a full website is 1–2 weeks.',
+    icon: 'lucide:rocket',
+  },
+];
+
+const faqs = [
+  {
+    question: 'Can I talk to someone before I buy?',
+    answer:
+      'Of course! You can give us a call or email us to discuss if Forest Designs is a good fit for your business.',
+  },
+  {
+    question: "What if I don't like the design?",
+    answer:
+      "If you aren't 100% satisified with your initial design, let us know and we'll remake it. We'll work with you as long as it takes to capture your vision.",
+  },
+  {
+    question: "I think it's too expensive for just a website.",
+    answer:
+      'A hand-coded website can be more expensive than a page-builder website, yes. That said, several of our clients were quoted for thousands more by cookie-cutter agencies that were going to spin an overused template for them.',
+  },
+  {
+    question: 'Will my SEO improve if I switch to Forest Designs?',
+    answer:
+      "We use keyword-researched writing and build websites with structured metadata to maximize your SEO. As a result, our Cedar Rapids customers notice anywhere from a slight to a marked improvement in their SEO. However, Google's recent algorithm updates put the nail in the coffin of easy SEO. If you want to do well in the search results, you need both a great website and active work on your off-site SEO.",
+  },
+];
+---
+
+<Layout
+  title='Design'
+  description='Forest Designs offers a new way to do web design. We turn web design into a productized service. No lengthy email chains. No contracts. Simply sign up and we start designing within 48 hours.'
+>
+  <div class='flex-1'>
+    <!-- Hero Section -->
+    <section class='relative flex bg-forest bg-cover bg-center bg-no-repeat py-16 md:bg-fixed'>
+      <div class='absolute inset-0 size-full bg-background/80'></div>
+      <div class='container z-0'>
+        <Breadcrumb />
+        <div class='mx-auto max-w-4xl text-center'>
+          <h1 class='text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl'>
+            Your website isn't months away—it's days away
+          </h1>
+          <p class='mt-6 text-lg text-muted-foreground sm:text-xl'>
+            Traditional agencies are broken. Emails. Meetings. Constant setbacks. Constant delays. And that's just to
+            launch your website. What about the headache of maintaining and updating the website yourself?
+          </p>
+          <p class='mt-4 text-lg text-muted-foreground sm:text-xl'>
+            Forest Designs streamlined everything about website design so you can put your site on autopilot and focus
+            on your business.
+          </p>
+          <div class='mt-8 flex justify-center gap-4'>
+            <Button href='#pricing' size='lg'> Sign Up </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class='bg-background py-16 sm:py-20 md:py-24 lg:py-32'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>A new way to do design.</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>
+            We turned web design into a productized service. No lengthy email chains. No contracts. Simply sign up and
+            we start designing within 48 hours.
+          </p>
+          <p class='mt-4 text-lg text-muted-foreground'>
+            We launch, host, and maintain your website for you. Updating text or images on your site is as simple as
+            sending an email.
+          </p>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            features.map((feature) => (
+              <div class='rounded-2xl bg-muted p-8'>
+                <div class='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
+                  <Icon name={feature.icon} class='h-6 w-6 text-primary' />
+                </div>
+                <h3 class='mt-6 text-xl font-semibold text-foreground'>{feature.title}</h3>
+                <p class='mt-2 text-muted-foreground'>{feature.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class='bg-muted py-16 sm:py-20 md:py-24 lg:py-32'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>
+            Hear from some of our current clients.
+          </h2>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            testimonials.map((testimonial) => (
+              <div class='flex flex-col rounded-2xl bg-background p-8'>
+                <div class='flex-1'>
+                  <p class='text-lg italic text-muted-foreground'>"{testimonial.quote}"</p>
+                </div>
+                <div class='mt-8 flex items-center gap-4'>
+                  <img src={testimonial.image} alt={testimonial.author} class='h-12 w-12 rounded-full object-cover' />
+                  <div>
+                    <p class='font-medium text-foreground'>{testimonial.author}</p>
+                    {testimonial.company && <p class='text-sm text-muted-foreground'>{testimonial.company}</p>}
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class='bg-background py-16 sm:py-20 md:py-24 lg:py-32'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Questions</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>
+            What can we answer for you? Because we do things differently, we're used to answering questions. We'll
+            address the most frequent ones to save you time.
+          </p>
+        </div>
+
+        <div class='mx-auto mt-16 max-w-3xl divide-y divide-muted-foreground/10'>
+          {
+            faqs.map((faq) => (
+              <div class='py-6'>
+                <details class='group [&_summary::-webkit-details-marker]:hidden'>
+                  <summary class='flex cursor-pointer items-center justify-between gap-1.5 text-lg font-medium text-foreground hover:text-accent'>
+                    <span>{faq.question}</span>
+                    <span class='shrink-0 transition duration-300 group-open:-rotate-180'>
+                      <Icon name='lucide:chevron-down' class='h-5 w-5' />
+                    </span>
+                  </summary>
+                  <p class='mt-4 text-muted-foreground'>{faq.answer}</p>
+                </details>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class='mt-16 text-center'>
+          <Button href='#pricing' size='lg'> Sign Up </Button>
+        </div>
+      </div>
+    </section>
+    <Pricing background='muted' />
+  </div>
+</Layout>

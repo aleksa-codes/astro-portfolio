@@ -1,0 +1,277 @@
+---
+import Layout from '@/layouts/layout.astro';
+import Pricing from '@/components/sections/Pricing.astro';
+import { Icon } from 'astro-icon/components';
+import Breadcrumb from '@/components/breadcrumb.astro';
+import Button from '@/components/ui/button.astro';
+
+const features = [
+  {
+    title: 'Custom Website Design',
+    description: 'Unique, hand-crafted designs that reflect your brand identity and business goals.',
+    icon: 'lucide:palette',
+  },
+  {
+    title: 'Mobile Responsive',
+    description: 'Websites that look and function perfectly on all devices and screen sizes.',
+    icon: 'lucide:smartphone',
+  },
+  {
+    title: 'SEO Optimized',
+    description: 'Built with search engines in mind to help improve your online visibility.',
+    icon: 'lucide:search',
+  },
+  {
+    title: 'Performance Optimization',
+    description: 'Lightning-fast websites optimized for speed and core web vitals.',
+    icon: 'lucide:gauge',
+  },
+  {
+    title: 'Content Management',
+    description: 'Easy-to-use CMS for updating your website content.',
+    icon: 'lucide:edit-3',
+  },
+  {
+    title: 'Analytics Integration',
+    description: 'Built-in tracking and reporting to monitor your website performance.',
+    icon: 'lucide:bar-chart',
+  },
+];
+
+const portfolioItems = [
+  {
+    title: 'E-commerce Website',
+    description: 'Full-featured online store with custom product layouts',
+    image: 'https://images.unsplash.com/photo-1661956602116-aa6865609028?q=80&w=1000',
+  },
+  {
+    title: 'Corporate Website',
+    description: 'Professional business presence with modern design',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000',
+  },
+  {
+    title: 'Restaurant Website',
+    description: 'Interactive menu and reservation system',
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000',
+  },
+];
+
+const processSteps = [
+  {
+    step: '01',
+    title: 'Discovery',
+    description: 'We analyze your business needs and target audience.',
+  },
+  {
+    step: '02',
+    title: 'Design',
+    description: 'Create a custom design that matches your brand.',
+  },
+  {
+    step: '03',
+    title: 'Development',
+    description: 'Build your website using modern technologies.',
+  },
+  {
+    step: '04',
+    title: 'Launch',
+    description: 'Test, optimize, and deploy your website.',
+  },
+];
+
+const industries = [
+  {
+    name: 'E-commerce',
+    description: 'Online stores with secure payment processing',
+    icon: 'lucide:shopping-cart',
+  },
+  {
+    name: 'Healthcare',
+    description: 'HIPAA-compliant medical websites',
+    icon: 'lucide:heart-pulse',
+  },
+  {
+    name: 'Real Estate',
+    description: 'Property listing and management sites',
+    icon: 'lucide:home',
+  },
+];
+
+const metrics = [
+  {
+    number: '99%',
+    label: 'Page Speed Score',
+  },
+  {
+    number: '100%',
+    label: 'Mobile Responsive',
+  },
+  {
+    number: '50%',
+    label: 'Avg. Traffic Increase',
+  },
+];
+---
+
+<Layout
+  title='Websites'
+  description='Expert website development services offering custom designs, responsive layouts, and SEO optimization. Transform your online presence with our professional web solutions.'
+>
+  <div class='flex-1'>
+    <section class='relative flex bg-forest bg-cover bg-center bg-no-repeat py-16 md:bg-fixed'>
+      <div class='absolute inset-0 size-full bg-background/80'></div>
+      <div class='container z-0'>
+        <Breadcrumb />
+        <div class='mx-auto max-w-4xl text-center'>
+          <h1 class='text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl'>
+            Websites That Drive Results
+          </h1>
+          <p class='mt-6 text-lg text-muted-foreground sm:text-xl'>
+            From simple business websites to complex e-commerce solutions, we create websites that convert visitors into
+            customers.
+          </p>
+          <div class='mt-8 flex justify-center gap-4'>
+            <Button href='#pricing' size='lg'>Get Started</Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class='bg-muted py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Our Website Development Process</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>A streamlined approach to delivering exceptional websites</p>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4'>
+          {
+            processSteps.map((step) => (
+              <div class='relative rounded-2xl bg-background p-8'>
+                <span class='absolute -top-4 left-4 text-5xl font-bold text-primary'>{step.step}</span>
+                <h3 class='mt-4 text-xl font-semibold text-foreground'>{step.title}</h3>
+                <p class='mt-2 text-muted-foreground'>{step.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class='bg-background py-16 sm:py-20 md:py-24 lg:py-32'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>
+            Everything You Need in a Modern Website
+          </h2>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            features.map((feature) => (
+              <div class='rounded-2xl bg-muted p-8'>
+                <div class='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
+                  <Icon name={feature.icon} class='h-6 w-6 text-primary' />
+                </div>
+                <h3 class='mt-6 text-xl font-semibold text-foreground'>{feature.title}</h3>
+                <p class='mt-2 text-muted-foreground'>{feature.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class='bg-muted py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Industries We Serve</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>Specialized website solutions for your industry</p>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            industries.map((industry) => (
+              <div class='rounded-2xl bg-background p-8'>
+                <div class='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
+                  <Icon name={industry.icon} class='h-6 w-6 text-primary' />
+                </div>
+                <h3 class='mt-6 text-xl font-semibold text-foreground'>{industry.name}</h3>
+                <p class='mt-2 text-muted-foreground'>{industry.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class='bg-background py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Website Performance Metrics</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>Our websites are built for speed, security, and success</p>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-3'>
+          {
+            metrics.map((metric) => (
+              <div class='text-center'>
+                <p class='text-4xl font-bold text-primary'>{metric.number}</p>
+                <p class='mt-2 text-lg text-muted-foreground'>{metric.label}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class='bg-muted py-16 sm:py-20 md:py-24 lg:py-32'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Our Recent Work</h2>
+        </div>
+
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            portfolioItems.map((item) => (
+              <div class='overflow-hidden rounded-2xl bg-background'>
+                <img src={item.image} alt={item.title} class='h-48 w-full object-cover' />
+                <div class='p-6'>
+                  <h3 class='text-xl font-semibold text-foreground'>{item.title}</h3>
+                  <p class='mt-2 text-muted-foreground'>{item.description}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <Pricing background='background' />
+
+    <section class='bg-muted py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-3xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Built for Search Engines</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>
+            Every website we build is optimized for search engines, helping you rank higher and attract more visitors
+          </p>
+          <ul class='mt-8 space-y-4 text-left'>
+            <li class='flex items-center gap-3'>
+              <Icon name='lucide:check' class='h-5 w-5 text-primary' />
+              <span>Schema markup for better search visibility</span>
+            </li>
+            <li class='flex items-center gap-3'>
+              <Icon name='lucide:check' class='h-5 w-5 text-primary' />
+              <span>Optimized meta tags and content structure</span>
+            </li>
+            <li class='flex items-center gap-3'>
+              <Icon name='lucide:check' class='h-5 w-5 text-primary' />
+              <span>Mobile-first design for better rankings</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

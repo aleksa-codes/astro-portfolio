@@ -1,0 +1,40 @@
+---
+// Dynamic logo loading
+const logos = import.meta.glob<{ default: ImageMetadata }>('@/assets/logos/*.{svg,png,jpg,jpeg}');
+
+const loadedLogos = await Promise.all(
+  Object.entries(logos).map(async ([path, loader]) => {
+    const { default: logo } = await loader();
+    // Extract name from file path (e.g., '/src/assets/logos/vercel.svg' -> 'vercel')
+    const name = path.split('/').pop()?.split('.')[0] ?? '';
+    return { name, logo };
+  }),
+);
+---
+
+<section class='border-y border-border bg-muted py-8'>
+  <div class='container'>
+    <h2 class='mb-8 text-center text-base font-semibold uppercase tracking-wide text-muted-foreground'>
+      Trusted by industry leaders worldwide
+    </h2>
+    <div
+      class='flex gap-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent_100%)]'
+    >
+      {
+        Array(5)
+          .fill(null)
+          .map((_) => (
+            <div class='flex shrink-0 animate-logo-cloud gap-8'>
+              {loadedLogos.map(({ name, logo }) => (
+                <img
+                  src={logo.src}
+                  alt={`${name} logo`}
+                  class='m-2 h-6 opacity-60 brightness-0 transition-all duration-300 hover:scale-110 hover:opacity-100 dark:invert'
+                />
+              ))}
+            </div>
+          ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,114 @@
+---
+import { Icon } from 'astro-icon/components';
+import Button from '@/components/ui/button.astro';
+import { cn } from '@/lib/utils';
+
+const plans = [
+  {
+    name: 'Single-Page',
+    description: 'Hand-designed and coded landing page with built-in contact form.',
+    features: [
+      { text: 'Website design and development', icon: 'lucide:code' },
+      { text: 'Branding and logo design', icon: 'lucide:palette' },
+      { text: 'Average 1–2 week delivery', icon: 'lucide:calendar' },
+      { text: 'Hosting and maintenance included', icon: 'lucide:server' },
+      { text: 'Cancel anytime (no questions asked)', icon: 'lucide:check-circle' },
+    ],
+    recommended: false,
+    href: 'contact?package=single-page',
+    cta: 'Get Started',
+    ctaSubtext: 'Questions? Give us a call',
+  },
+  {
+    name: 'Standard',
+    description: 'Classic 5-Page website with contact form and on-site SEO.',
+    features: [
+      { text: 'Everything in the single-page plan and...', icon: 'lucide:check' },
+      { text: 'Google Business Profile setup', icon: 'lucide:map-pin' },
+      { text: 'Google Analytics installation', icon: 'lucide:bar-chart' },
+      { text: 'Optional Blog CMS integration', icon: 'lucide:file-text' },
+    ],
+    recommended: true,
+    href: 'contact?package=standard',
+    cta: 'Get Started',
+    ctaSubtext: 'Questions? Give us a call',
+  },
+  {
+    name: 'Pro',
+    description: 'For enterprise clients with larger website needs.',
+    features: [
+      { text: 'Everything in the standard plan and...', icon: 'lucide:check' },
+      { text: 'Average 4–6 week delivery', icon: 'lucide:calendar' },
+      { text: 'Custom CMS options', icon: 'lucide:settings' },
+      { text: 'Dedicated support engineer', icon: 'lucide:headphones' },
+    ],
+    recommended: false,
+    href: 'contact?package=pro',
+    cta: 'Get Started',
+    ctaSubtext: 'Questions? Give us a call',
+  },
+];
+
+interface Props {
+  background?: 'muted' | 'background';
+}
+
+const { background } = Astro.props;
+---
+
+<section
+  id='pricing'
+  class={cn('bg-background py-16 sm:py-20 md:py-24 lg:py-32', background === 'muted' && 'bg-muted')}
+>
+  <div class='container'>
+    <div class='mx-auto max-w-2xl text-center'>
+      <span class='text-base font-semibold uppercase tracking-wide text-primary'>Pricing Plans</span>
+      <h2 class='mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Web Design Packages</h2>
+      <p class='mx-auto mt-4 max-w-2xl text-lg text-muted-foreground'>
+        Choose the perfect package for your business needs. All plans include our signature quality and attention to
+        detail.
+      </p>
+    </div>
+
+    <div class='mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3'>
+      {
+        plans.map((plan) => (
+          <div
+            class={cn(
+              'relative flex flex-col justify-between rounded-2xl border border-muted bg-muted p-8',
+              background === 'muted' && 'bg-background',
+              plan.recommended && 'border-accent bg-accent/5',
+              background === 'muted' && plan.recommended && 'border-accent bg-accent/10',
+            )}
+          >
+            {plan.recommended && (
+              <span class='absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-sm font-medium text-accent-foreground'>
+                Recommended
+              </span>
+            )}
+            <div class='mb-6'>
+              <h3 class='text-2xl font-bold text-foreground'>{plan.name}</h3>
+              <p class='mt-2 text-muted-foreground'>{plan.description}</p>
+            </div>
+
+            <ul class='mb-6 space-y-4'>
+              {plan.features.map((feature) => (
+                <li class='flex items-center gap-3'>
+                  <Icon name={feature.icon} class='h-5 w-5 text-accent' />
+                  <span class='text-muted-foreground'>{feature.text}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div class='mt-auto'>
+              <Button href={plan.href} variant={plan.recommended ? 'accent' : 'default'} class='w-full'>
+                {plan.cta}
+              </Button>
+              <p class='mt-3 text-center text-sm text-muted-foreground'>{plan.ctaSubtext}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

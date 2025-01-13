@@ -1,0 +1,72 @@
+backend:
+  name: git-gateway # or test-repo
+  branch: main
+  squash_merges: true
+
+local_backend: true
+
+# Media
+media_folder: '/public/images'
+public_folder: '/public/images'
+# media_library:
+#   name: cloudinary
+#   max_file_size: 512000 # 512kb
+#   folder_support: true
+
+# Enable editorial workflow
+publish_mode: editorial_workflow
+
+# Site URL for preview
+site_url: https://forestdesigns.netlify.app
+display_url: https://forestdesigns.netlify.app
+
+# Collections
+collections:
+  - name: 'blog'
+    label: 'Blog'
+    folder: 'src/content/blog'
+    create: true
+    slug: '{{slug}}'
+    preview_path: '/blog/{{slug}}'
+    sortable_fields: ['date', 'title']
+    fields:
+      - {
+          label: 'Title',
+          name: 'title',
+          widget: 'string',
+          pattern: ['.{5,100}', 'Must be between 5 and 100 characters'],
+          hint: 'The main title of your post',
+        }
+      - {
+          label: 'Description',
+          name: 'description',
+          widget: 'text',
+          pattern: ['.{10,160}', 'Must be between 10 and 160 characters'],
+          hint: 'A brief description for SEO and social sharing',
+        }
+      - { label: 'Publish Date', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD' }
+      - { label: 'Author', name: 'author', widget: 'string', default: 'Forest Designs' }
+      - {
+          label: 'Featured Image',
+          name: 'thumbnail',
+          widget: 'image',
+          required: false,
+          allow_multiple: false,
+          hint: 'Main image for the post',
+        }
+      - {
+          label: 'Tags',
+          name: 'tags',
+          widget: 'select',
+          multiple: true,
+          options: ['Web Design', 'SEO'],
+          hint: 'Choose tags for your post',
+          required: false,
+        }
+      - {
+          label: 'Body',
+          name: 'body',
+          widget: 'markdown',
+          hint: 'The main content of your post',
+          editor_components: ['image'],
+        }

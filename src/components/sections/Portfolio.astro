@@ -1,0 +1,102 @@
+---
+import Button from '@/components/ui/button.astro';
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+
+// Import your local images
+import ecoHarvestImg from '@/assets/portfolio/eco-harvest.jpg';
+import zenithFitnessImg from '@/assets/portfolio/zenith-fitness.jpg';
+import artisanCoffeeImg from '@/assets/portfolio/artisan-coffee.jpg';
+import mountainTrekImg from '@/assets/portfolio/mountain-trek.jpg';
+import urbanLoftImg from '@/assets/portfolio/urban-loft.jpg';
+import wellnessRetreatImg from '@/assets/portfolio/wellness-retreat.jpg';
+
+const projects = [
+  {
+    title: 'Eco Harvest Market',
+    description:
+      'A modern e-commerce platform for an organic food marketplace, featuring a clean design that emphasizes fresh produce and sustainable living.',
+    image: ecoHarvestImg,
+    link: '#',
+  },
+  {
+    title: 'Zenith Fitness',
+    description:
+      'Mobile-first website for a boutique fitness studio, with class scheduling and member dashboard integration.',
+    image: zenithFitnessImg,
+    link: '#',
+  },
+  {
+    title: 'Artisan Coffee Co',
+    description:
+      'Brand identity and e-commerce solution for a specialty coffee roaster, featuring an online store and subscription service.',
+    image: artisanCoffeeImg,
+    link: '#',
+  },
+  {
+    title: 'Mountain Trek Adventures',
+    description:
+      'Adventure tourism website with interactive trail maps and booking system for guided hiking experiences.',
+    image: mountainTrekImg,
+    link: '#',
+  },
+  {
+    title: 'Urban Loft Real Estate',
+    description:
+      'Property listing platform with virtual tours and neighborhood insights for a luxury real estate agency.',
+    image: urbanLoftImg,
+    link: '#',
+  },
+  {
+    title: 'Wellness Retreat Spa',
+    description: 'Tranquil website design for a day spa, featuring online booking and gift card purchases.',
+    image: wellnessRetreatImg,
+    link: '#',
+  },
+];
+---
+
+<section class='bg-muted py-16 sm:py-20 md:py-24 lg:py-32'>
+  <div class='container'>
+    <div class='mx-auto max-w-2xl text-center'>
+      <span class='text-base font-semibold uppercase tracking-wide text-accent'>Our Portfolio</span>
+      <h2 class='mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Our Work</h2>
+      <p class='mx-auto mt-4 max-w-2xl text-lg text-muted-foreground'>
+        Explore our diverse portfolio of digital solutions, each crafted with precision and purpose to meet unique
+        business needs.
+      </p>
+    </div>
+
+    <div class='mt-16 grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+      {
+        projects.map((project) => (
+          <div class='group relative overflow-hidden rounded-xl bg-background shadow-sm transition-all hover:shadow-md'>
+            <div class='aspect-[4/3] w-full'>
+              <Image
+                format='webp'
+                src={project.image}
+                alt={project.title}
+                class='h-full w-full object-cover transition duration-300 group-hover:scale-105'
+              />
+            </div>
+            <div class='absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-primary/90 to-transparent p-8 opacity-100 transition-opacity duration-300 lg:opacity-0 lg:group-hover:opacity-100'>
+              <h3 class='mt-2 text-xl font-semibold text-primary-foreground dark:text-foreground'>{project.title}</h3>
+              <p class='mt-2 text-sm text-primary-foreground dark:text-foreground'>{project.description}</p>
+              <Button
+                href={project.link}
+                variant='link'
+                class='mt-4 w-fit px-0 text-primary-foreground dark:text-foreground'
+              >
+                <span>View Project</span>
+                <Icon name='lucide:arrow-right' />
+              </Button>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <div class='mt-16 text-center'>
+      <Button href='#contact' variant='accent'> More Projects </Button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+---
+import Button from '@/components/ui/button.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<Button id='theme-selector' variant='outline' size='icon' class='relative overflow-hidden bg-transparent'>
+  <div class='sr-only'>
+    Enable <span class='dark:hidden'>light</span><span class='hidden dark:inline'>dark</span> mode
+  </div>
+  <Icon
+    name='lucide:moon'
+    class='absolute transform transition-transform duration-300 dark:-translate-y-4 dark:opacity-0'
+  />
+  <Icon
+    name='lucide:sun'
+    class='absolute translate-y-4 transform opacity-0 transition-transform duration-300 dark:translate-y-0 dark:opacity-100'
+  />
+</Button>
+
+<script>
+  document.getElementById('theme-selector')?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    document.documentElement.classList[isDark ? 'remove' : 'add']('dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  });
+</script>

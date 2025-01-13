@@ -1,0 +1,82 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const faqs = [
+  {
+    question: 'What makes a hand-coded website better than a page-builder?',
+    answer:
+      'Page-builders like Wordpress and Wix do not output well-organized HTML. As a consequence, your website will be slower and less crawlable, which negatively impacts your search engine optimization. Hand-coded websites, on the other hand, can be written in semantic HTML, which improves speed and SEO. Plus, a hand-designed and coded website always ends up looking better.',
+  },
+  {
+    question: "Can't I just build a website myself?",
+    answer:
+      "You certainly can! However, many of our clients went this route and regretted the time and expense they put into a suboptimal website. If your business is new and you aren't ready to invest in a website, we recommend building a Google Business Profile and a couple social media pages, first.",
+  },
+  {
+    question: 'How quickly can I expect my website to be done?',
+    answer:
+      'Our average delivery time is 1–2 business days for the initial design, and 1–2 weeks for the website. Development times do vary based on the size of the website, however.',
+  },
+  {
+    question: 'Can I add on to my website later?',
+    answer:
+      'Yes! You can always start with a single-page website, and if you later wish to add additional pages or a custom CMS, we will send an invoice for the new work.',
+  },
+  {
+    question: 'What happens after I sign up?',
+    answer:
+      'If you choose our instant sign-up option, we will reach out to you within 48 hours to acknowledge your request and collect any information we need to get started. If we decline your request, we will issue a full refund.',
+  },
+  {
+    question: 'What happens if I cancel?',
+    answer:
+      'You can cancel your monthly subscription at any time, no questions asked. We will cancel all future payments and take your website offline. If we registered your domain name for you, we will initiate a transfer to your ownership. You own your domain name and all content on the website.',
+  },
+  {
+    question: "What if I don't like the website design?",
+    answer:
+      "If you don't like the initial design, we will keep iterating with your feedback until you are 100% satisfied!",
+  },
+  {
+    question: 'What is your refund policy?',
+    answer: 'Due to the high quality and custom nature of our work, we do not offer refunds.',
+  },
+];
+---
+
+<section class='bg-muted py-16 sm:py-20 md:py-24 lg:py-32'>
+  <div class='container'>
+    <div class='mx-auto max-w-2xl text-center'>
+      <span class='text-base font-semibold uppercase tracking-wide text-accent'>FAQ</span>
+      <h2 class='mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Common Questions</h2>
+      <p class='mx-auto mt-4 max-w-2xl text-lg text-muted-foreground'>
+        Find answers to frequently asked questions about our web design and development services.
+      </p>
+    </div>
+
+    <div class='mx-auto mt-16 max-w-3xl divide-y divide-muted-foreground/10'>
+      {
+        faqs.map((faq) => (
+          <div class='py-6'>
+            <details class='group [&_summary::-webkit-details-marker]:hidden'>
+              <summary class='flex cursor-pointer items-center justify-between gap-1.5 text-lg font-medium text-foreground hover:text-accent'>
+                <span>{faq.question}</span>
+                <span class='shrink-0 transition duration-300 group-open:-rotate-180'>
+                  <Icon name='lucide:chevron-down' class='h-5 w-5' />
+                </span>
+              </summary>
+              <p class='mt-4 text-muted-foreground'>{faq.answer}</p>
+            </details>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class='mt-16 text-center'>
+      <p class='text-base text-muted-foreground'>
+        Still have questions? <a href='#contact' class='font-medium text-accent hover:text-accent/90'>Contact us</a> for
+        more information.
+      </p>
+    </div>
+  </div>
+</section>
