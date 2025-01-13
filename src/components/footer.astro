@@ -1,0 +1,90 @@
+---
+import { Icon } from 'astro-icon/components';
+import Button from '@/components/ui/button.astro';
+import { siteConfig } from '@/config/site.config';
+---
+
+<footer class='container'>
+  <div class='flex flex-col gap-8 py-12 lg:flex-row lg:items-center lg:justify-between'>
+    <!-- Logo -->
+    <div class='h-20 w-20 sm:h-24 sm:w-24'>
+      <div class='flex size-full items-center justify-center rounded-2xl bg-primary/5 ring-1 ring-primary/20'>
+        <Icon name='lucide:tree-pine' class='h-12 w-12 text-primary sm:h-14 sm:w-14' />
+      </div>
+    </div>
+
+    <div class='flex flex-wrap gap-x-24 gap-y-8'>
+      <!-- Navigation -->
+      <div class='space-y-4'>
+        <h3 class='font-medium'>Navigation</h3>
+        <nav class='flex flex-col gap-2 text-muted-foreground'>
+          {
+            siteConfig.navigation.map((item) => (
+              <a href={item.href} class='hover:text-primary' aria-label={item.label}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+
+      <!-- Contact -->
+      <div class='space-y-4'>
+        <h3 class='font-medium'>Contact</h3>
+        <div class='flex flex-col gap-2 text-muted-foreground'>
+          <a href={`tel:${siteConfig.contact.phone}`} class='flex items-center gap-2 hover:text-primary'>
+            <Icon name='lucide:phone' class='h-4 w-4' />
+            {siteConfig.contact.phone}
+          </a>
+          <a href='/contact' class='flex items-center gap-2 hover:text-primary'>
+            <Icon name='lucide:mail' class='h-4 w-4' />
+            Send a message
+          </a>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class='space-y-4'>
+        <h3 class='font-medium'>Stay Updated</h3>
+        <p class='text-sm text-muted-foreground'>Sign up for our latest news and updates.</p>
+        <form class='relative'>
+          <input
+            type='email'
+            placeholder='Email address...'
+            class='w-full rounded-md border border-border/40 bg-background px-4 py-2.5 pr-12 text-sm ring-offset-background placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20'
+            aria-label='Email address'
+          />
+          <Button
+            type='submit'
+            variant='ghost'
+            size='icon'
+            class='absolute right-2 top-1/2 size-8 -translate-y-1/2'
+            aria-label='Subscribe to newsletter'
+          >
+            <Icon name='lucide:arrow-right' />
+          </Button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class='border-t py-4'>
+    <div class='flex flex-col items-start gap-4 text-sm text-muted-foreground lg:flex-row lg:justify-between'>
+      <p>&copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
+      <div class='flex gap-2'>
+        <Button href='#' variant='ghost' size='icon' aria-label='Facebook'>
+          <Icon name='lucide:facebook' />
+        </Button>
+        <Button href='#' variant='ghost' size='icon' aria-label='Twitter'>
+          <Icon name='lucide:twitter' />
+        </Button>
+        <Button href='#' variant='ghost' size='icon' aria-label='Instagram'>
+          <Icon name='lucide:instagram' />
+        </Button>
+        <Button href='#' variant='ghost' size='icon' aria-label='LinkedIn'>
+          <Icon name='lucide:linkedin' />
+        </Button>
+      </div>
+    </div>
+  </div>
+</footer>

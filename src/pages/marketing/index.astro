@@ -1,0 +1,217 @@
+---
+import Layout from '@/layouts/layout.astro';
+import { Icon } from 'astro-icon/components';
+import Breadcrumb from '@/components/breadcrumb.astro';
+import Button from '@/components/ui/button.astro';
+
+const services = [
+  {
+    title: 'Search Engine Optimization',
+    description: 'Improve your visibility in search results and drive organic traffic.',
+    icon: 'lucide:search',
+  },
+  {
+    title: 'Content Marketing',
+    description: 'Engaging content that attracts and retains your target audience.',
+    icon: 'lucide:file-text',
+  },
+  {
+    title: 'Social Media Marketing',
+    description: 'Build your brand presence across social media platforms.',
+    icon: 'lucide:share-2',
+  },
+  {
+    title: 'Email Marketing',
+    description: 'Strategic email campaigns that nurture leads and drive conversions.',
+    icon: 'lucide:mail',
+  },
+  {
+    title: 'PPC Advertising',
+    description: 'Targeted paid campaigns across Google, Facebook, and Instagram.',
+    icon: 'lucide:target',
+  },
+  {
+    title: 'Analytics & Reporting',
+    description: 'Data-driven insights to optimize your marketing strategy.',
+    icon: 'lucide:bar-chart-2',
+  },
+];
+
+const caseStudies = [
+  {
+    client: 'Local Restaurant',
+    results: 'Increased online orders by 150%',
+    strategy: 'Social media + Local SEO',
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1000',
+  },
+  {
+    client: 'E-commerce Store',
+    results: '200% ROI on ad spend',
+    strategy: 'PPC + Email Marketing',
+    image: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=1000',
+  },
+  {
+    client: 'B2B Service Provider',
+    results: '75% more qualified leads',
+    strategy: 'Content Marketing + SEO',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000',
+  },
+];
+
+const marketingMetrics = [
+  {
+    metric: 'Keyword Rankings',
+    improvement: '↑ 45%',
+    description: 'Average improvement in search positions',
+  },
+  {
+    metric: 'Conversion Rate',
+    improvement: '↑ 85%',
+    description: 'Increase in website conversions',
+  },
+  {
+    metric: 'Social Engagement',
+    improvement: '↑ 125%',
+    description: 'Growth in social media interaction',
+  },
+];
+---
+
+<Layout
+  title='Marketing'
+  description='Boost your online presence with our comprehensive digital marketing services. SEO, social media, content marketing, and more.'
+>
+  <div class='flex-1'>
+    <section class='relative flex bg-forest bg-cover bg-center bg-no-repeat py-16 md:bg-fixed'>
+      <div class='absolute inset-0 size-full bg-background/80'></div>
+      <div class='container z-0'>
+        <Breadcrumb />
+        <div class='mx-auto max-w-4xl text-center'>
+          <h1 class='text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl'>
+            Transform Your Digital Presence
+          </h1>
+          <p class='mt-6 text-lg text-muted-foreground sm:text-xl'>
+            Data-driven digital marketing strategies that deliver measurable results for your business.
+          </p>
+          <div class='mt-8 flex justify-center gap-4'>
+            <Button href='#contact' size='lg'>Get Your Free Audit</Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class='bg-background py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>
+            Comprehensive Marketing Solutions
+          </h2>
+          <p class='mt-4 text-lg text-muted-foreground'>
+            Strategic digital marketing services tailored to your business goals
+          </p>
+        </div>
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            services.map((service) => (
+              <div class='rounded-2xl bg-muted p-8'>
+                <div class='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
+                  <Icon name={service.icon} class='h-6 w-6 text-primary' />
+                </div>
+                <h3 class='mt-6 text-xl font-semibold text-foreground'>{service.title}</h3>
+                <p class='mt-2 text-muted-foreground'>{service.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section class='bg-muted py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Client Success Stories</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>Real results for real businesses</p>
+        </div>
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            caseStudies.map((study) => (
+              <div class='overflow-hidden rounded-2xl bg-background'>
+                <img src={study.image} alt={study.client} class='h-48 w-full object-cover' />
+                <div class='p-6'>
+                  <h3 class='text-xl font-semibold text-foreground'>{study.client}</h3>
+                  <p class='text-success mt-2'>{study.results}</p>
+                  <p class='mt-2 text-muted-foreground'>{study.strategy}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Marketing Metrics -->
+    <section class='bg-background py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-2xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>
+            Performance That Speaks For Itself
+          </h2>
+          <p class='mt-4 text-lg text-muted-foreground'>Average results across our client portfolio</p>
+        </div>
+        <div class='mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+          {
+            marketingMetrics.map((item) => (
+              <div class='rounded-2xl bg-muted p-8 text-center'>
+                <h3 class='text-2xl font-bold text-primary'>{item.improvement}</h3>
+                <p class='mt-2 font-semibold text-foreground'>{item.metric}</p>
+                <p class='mt-2 text-muted-foreground'>{item.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- SEO Process -->
+    <section class='bg-muted py-16 sm:py-20'>
+      <div class='container'>
+        <div class='mx-auto max-w-3xl text-center'>
+          <h2 class='text-3xl font-bold tracking-tight text-foreground sm:text-4xl'>Our Marketing Process</h2>
+          <p class='mt-4 text-lg text-muted-foreground'>A data-driven approach to growing your online presence</p>
+          <ul class='mt-8 space-y-4 text-left'>
+            <li class='flex items-start gap-3'>
+              <Icon name='lucide:search' class='mt-1 h-5 w-5 text-primary' />
+              <div>
+                <span class='font-semibold text-foreground'>Research & Analysis</span>
+                <p class='text-muted-foreground'>Deep dive into your industry, competitors, and target audience</p>
+              </div>
+            </li>
+            <li class='flex items-start gap-3'>
+              <Icon name='lucide:puzzle' class='mt-1 h-5 w-5 text-primary' />
+              <div>
+                <span class='font-semibold text-foreground'>Strategy Development</span>
+                <p class='text-muted-foreground'>Custom marketing plan aligned with your goals</p>
+              </div>
+            </li>
+            <li class='flex items-start gap-3'>
+              <Icon name='lucide:rocket' class='mt-1 h-5 w-5 text-primary' />
+              <div>
+                <span class='font-semibold text-foreground'>Implementation</span>
+                <p class='text-muted-foreground'>Execute strategies across all channels</p>
+              </div>
+            </li>
+            <li class='flex items-start gap-3'>
+              <Icon name='lucide:bar-chart' class='mt-1 h-5 w-5 text-primary' />
+              <div>
+                <span class='font-semibold text-foreground'>Monitor & Optimize</span>
+                <p class='text-muted-foreground'>Continuous tracking and improvement of campaign performance</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

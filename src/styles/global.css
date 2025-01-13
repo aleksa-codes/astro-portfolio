@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Roboto Flex';
+    font-style: normal;
+    font-weight: 400 900;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url('/fonts/roboto-flex.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+      U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 160 40% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 160 40% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 40% 12%;
+    --primary: 160 65% 25%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 25% 94%;
+    --secondary-foreground: 160 40% 12%;
+    --muted: 160 20% 96%;
+    --muted-foreground: 160 30% 25%;
+    --accent: 30 85% 32%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 75% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 160 30% 88%;
+    --input: 160 30% 88%;
+    --ring: 160 65% 25%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 160 40% 8%;
+    --foreground: 0 0% 100%;
+    --card: 160 40% 10%;
+    --card-foreground: 0 0% 100%;
+    --popover: 160 40% 10%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 160 70% 50%;
+    --primary-foreground: 160 40% 8%;
+    --secondary: 30 30% 15%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 160 30% 15%;
+    --muted-foreground: 160 20% 80%;
+    --accent: 30 95% 65%;
+    --accent-foreground: 160 40% 8%;
+    --destructive: 0 75% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 160 30% 20%;
+    --input: 160 30% 20%;
+    --ring: 160 70% 50%;
+  }
+}
+
+/* Captcha */
+/* .g-recaptcha div:first-child {
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+.g-recaptcha iframe {
+  width: 220px !important;
+  border: 1px solid hsl(var(--input));
+  border-radius: calc(var(--radius) - 2px);
+} */
+
+/* Code block theme */
+@layer base {
+  html.dark .astro-code,
+  html.dark .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    /* Optional, if you also want font styles */
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+}
+
+/* Modified: https://github.com/tailwindlabs/tailwindcss/discussions/14031 */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply scroll-smooth bg-background text-foreground;
+  }
+
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  ::-webkit-scrollbar {
+    @apply h-2 w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-accent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-primary;
+  }
+
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px hsl(var(--background)) inset !important;
+    box-shadow: 0 0 0 1000px hsl(var(--background)) inset !important;
+    -webkit-text-fill-color: hsl(var(--foreground)) !important;
+  }
+}

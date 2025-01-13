@@ -1,0 +1,59 @@
+---
+import { cn } from '@/lib/utils';
+import { Icon } from 'astro-icon/components';
+
+type ButtonVariant = 'default' | 'outline' | 'ghost' | 'secondary' | 'accent' | 'link' | 'destructive';
+type ButtonSize = 'sm' | 'default' | 'lg' | 'icon';
+
+interface Props {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  loading?: boolean;
+  disabled?: boolean;
+  href?: string;
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+  [key: string]: any;
+}
+
+const {
+  variant = 'default',
+  size = 'default',
+  loading = false,
+  disabled = false,
+  href,
+  class: className,
+  type = 'button',
+  ...rest
+} = Astro.props;
+
+const baseClassName = cn(
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0',
+  size === 'sm' && 'h-9 px-3',
+  size === 'default' && 'h-10 px-4 py-2',
+  size === 'lg' && 'h-11 px-8',
+  size === 'icon' && 'h-10 w-10',
+  variant === 'default' && 'bg-primary text-primary-foreground hover:bg-primary/90',
+  variant === 'outline' && 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+  variant === 'ghost' && 'hover:bg-accent hover:text-accent-foreground',
+  variant === 'secondary' && 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+  variant === 'accent' && 'bg-accent text-accent-foreground hover:bg-accent/90',
+  variant === 'link' && 'text-primary underline-offset-4 hover:underline',
+  variant === 'destructive' && 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+  disabled && 'pointer-events-none opacity-50',
+  loading && 'pointer-events-none opacity-70',
+  className,
+);
+---
+
+{
+  href ? (
+    <a href={href} class={baseClassName} {...rest}>
+      {loading ? <Icon name='lucide:loader-2' class='animate-spin' /> : <slot />}
+    </a>
+  ) : (
+    <button type={type} class={baseClassName} disabled={disabled || loading} {...rest}>
+      {loading ? <Icon name='lucide:loader-2' class='animate-spin' /> : <slot />}
+    </button>
+  )
+}

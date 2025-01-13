@@ -1,0 +1,64 @@
+<div id='snow-container' class='pointer-events-none fixed inset-0 z-10 overflow-hidden'></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const isWinter = [11, 0, 1].includes(new Date().getMonth());
+    if (!isWinter) return;
+
+    const container = document.getElementById('snow-container');
+    const snow = ['❄', '❅', '❆'];
+    const colors = ['#ffffff', '#e0f7fa', '#b3e5fc', '#e3f2fd'];
+    let interval: NodeJS.Timeout;
+
+    const getPosition = () => {
+      const random = Math.random();
+      if (random < 0.35) return Math.random() * 20;
+      if (random < 0.65) return 20 + Math.random() * 60;
+      return 80 + Math.random() * 20;
+    };
+
+    const startSnowEffect = () => {
+      if (!container) return;
+
+      interval = setInterval(() => {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'absolute -top-8 select-none will-change-transform animate-snow text-transparent';
+
+        const duration = Math.random() * 5 + 3;
+        const endX = Math.random() * 10 - 5;
+        const opacity = Math.min(Math.random() + 0.3, 1);
+        const fontSize = Math.random() * 1.25 + 0.5;
+
+        snowflake.style.left = `${getPosition()}vw`;
+        snowflake.style.opacity = `${opacity}`;
+        snowflake.style.setProperty('--end-x', `${endX}vw`);
+        snowflake.style.setProperty('--duration', `${duration}s`);
+        snowflake.style.fontSize = `${fontSize}em`;
+        snowflake.style.textShadow = `0 0 0 ${colors[Math.floor(Math.random() * colors.length)]}`;
+        snowflake.textContent = snow[Math.floor(Math.random() * snow.length)];
+
+        container.appendChild(snowflake);
+
+        setTimeout(() => {
+          snowflake.remove();
+        }, duration * 1000);
+      }, 200);
+    };
+
+    const stopSnowEffect = () => {
+      if (!container) return;
+      clearInterval(interval);
+      container.innerHTML = '';
+    };
+
+    if (localStorage.getItem('snowEffect') !== 'false') {
+      startSnowEffect();
+    }
+
+    const handleSnowEffect = (e: CustomEvent) => {
+      e.detail ? startSnowEffect() : stopSnowEffect();
+    };
+
+    window.addEventListener('snowEffectChange', handleSnowEffect as EventListener);
+  });
+</script>

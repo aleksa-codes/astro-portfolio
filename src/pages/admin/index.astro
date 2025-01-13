@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='robots' content='noindex' />
+    <link href='/admin/config.yml' type='text/yaml' rel='cms-config-url' />
+    <title>Content Manager</title>
+    <script is:inline type='text/javascript' src='https://identity.netlify.com/v1/netlify-identity-widget.js'></script>
+  </head>
+  <body>
+    <script is:inline src='https://unpkg.com/decap-cms@^3.4.0/dist/decap-cms.js'></script>
+    <script is:inline>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on('init', (user) => {
+          if (!user) {
+            window.netlifyIdentity.on('login', () => {
+              document.location.href = '/admin/';
+            });
+          }
+        });
+        window.netlifyIdentity.on('logout', () => location.reload());
+      }
+    </script>
+    <script is:inline>
+      CMS.registerPreviewStyle('/global.css');
+
+      var CustomPreview = createClass({
+        render: function () {
+          // Add 'prose' class to the div for the tailwind typography styles
+          return h('div', { className: 'prose' }, this.props.widgetFor('body'));
+        },
+      });
+
+      CMS.registerPreviewTemplate('blog', CustomPreview);
+    </script>
+  </body>
+</html>

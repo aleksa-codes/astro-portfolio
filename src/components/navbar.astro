@@ -1,0 +1,278 @@
+---
+import { cn } from '@/lib/utils';
+import ThemeToggle from '@/components/theme-toggle.astro';
+import { Icon } from 'astro-icon/components';
+import Button from '@/components/ui/button.astro';
+import SnowToggle from '@/components/snow-toggle.astro';
+import { siteConfig } from '@/config/site.config';
+
+interface NavLink {
+  href: string;
+  label: string;
+  dropdown?: {
+    href: string;
+    label: string;
+  }[];
+}
+
+const navigationLinks: NavLink[] = siteConfig.navigation;
+
+const isCurrentPage = (href: string) => {
+  let pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
+  if (pathname.at(0) !== '/') pathname = '/' + pathname;
+  if (pathname.at(-1) !== '/') pathname += '/';
+  return pathname === href || (href !== '/' && pathname.startsWith(href));
+};
+---
+
+<nav
+  id='navbar'
+  data-scroll='top'
+  class='fixed z-50 w-full data-[scroll=scrolled]:border-b data-[scroll=scrolled]:border-border data-[scroll=scrolled]:bg-background/80 data-[scroll=scrolled]:shadow data-[scroll=scrolled]:backdrop-blur-sm'
+  aria-label='Main navigation'
+>
+  <div class='container flex h-16 items-center justify-between py-4'>
+    <!-- Left section: Logo + Desktop Nav -->
+    <div class='flex items-center gap-8'>
+      <a href='/' aria-label='Forest Designs'>
+        <div class='flex items-center gap-2 rounded-xl bg-primary/5 p-2 ring-1 ring-primary/20'>
+          <Icon name='lucide:tree-pine' class='h-8 w-8 text-primary' />
+          <span class='text-lg font-semibold'>Forest Designs</span>
+        </div>
+      </a>
+      <!-- Desktop Navigation -->
+      <div class='hidden items-center gap-8 lg:flex' role='navigation' aria-label='Desktop navigation'>
+        {
+          navigationLinks.map(({ href, label, dropdown }) => (
+            <div class='group relative'>
+              {dropdown ? (
+                <button
+                  class='flex items-center gap-1 hover:text-primary focus:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary'
+                  aria-expanded='false'
+                  aria-controls={`desktop-dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                  aria-haspopup='true'
+                >
+                  {label}
+                  <Icon
+                    name='lucide:chevron-down'
+                    class='size-4 transition-transform duration-300 group-focus-within:rotate-180 group-hover:rotate-180'
+                    aria-hidden='true'
+                  />
+                </button>
+              ) : (
+                <a
+                  href={href}
+                  class={cn(
+                    'flex items-center gap-1',
+                    isCurrentPage(href)
+                      ? 'font-medium text-primary'
+                      : 'hover:text-primary focus:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                  )}
+                  aria-current={isCurrentPage(href) ? 'page' : null}
+                >
+                  {label}
+                </a>
+              )}
+              {dropdown && (
+                <div
+                  id={`desktop-dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                  class='invisible absolute left-0 top-full z-50 mt-2 min-w-40 translate-y-2 rounded-md border bg-card p-2 opacity-0 shadow-md transition-[transform,opacity,visibility] duration-300 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100'
+                  role='menu'
+                  aria-orientation='vertical'
+                  aria-labelledby={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
+                >
+                  {dropdown.map((item) => (
+                    <a
+                      href={item.href}
+                      class={cn(
+                        'block rounded-md px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none',
+                        isCurrentPage(item.href) && 'font-medium text-primary',
+                      )}
+                      role='menuitem'
+                      aria-current={isCurrentPage(item.href) ? 'page' : null}
+                      tabindex='0'
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <!-- Right section: Theme Toggle + CTA -->
+    <div class='flex items-center gap-4'>
+      <SnowToggle />
+      <ThemeToggle />
+      <!-- Desktop CTA Button -->
+      <Button href='/contact' variant='default' class='hidden px-8 lg:inline-flex'>Get Started</Button>
+      <!-- Mobile Menu Trigger -->
+      <Button
+        id='mobile-menu-button'
+        variant='outline'
+        size='icon'
+        class='bg-transparent lg:hidden'
+        aria-label='Toggle menu'
+        aria-expanded='false'
+        aria-controls='mobile-menu'
+      >
+        <Icon name='lucide:menu' class='size-5' />
+      </Button>
+    </div>
+  </div>
+  <!-- Mobile Menu Panel -->
+  <div
+    id='mobile-menu'
+    data-state='closed'
+    class='fixed inset-0 h-screen data-[state=closed]:pointer-events-none lg:hidden'
+    role='dialog'
+    aria-modal='true'
+    aria-label='Mobile navigation menu'
+  >
+    <!-- Backdrop overlay -->
+    <div
+      id='mobile-menu-backdrop'
+      class='absolute inset-0 cursor-pointer bg-black/80 transition-opacity duration-300 data-[state=closed]:pointer-events-none data-[state=closed]:opacity-0'
+      data-state='closed'
+      aria-hidden='true'
+    >
+    </div>
+    <!-- Mobile navigation panel -->
+    <div
+      id='mobile-menu-panel'
+      data-state='closed'
+      class='relative z-50 ml-auto flex h-full w-72 flex-col bg-background px-6 py-4 shadow-lg transition-transform duration-300 data-[state=closed]:translate-x-full data-[state=open]:translate-x-0'
+      role='navigation'
+      aria-label='Mobile navigation'
+    >
+      <!-- Mobile menu header -->
+      <div class='flex items-center justify-end'>
+        <Button id='mobile-menu-close' variant='ghost' size='icon' aria-label='Close menu'>
+          <Icon name='lucide:x' class='size-5' aria-hidden='true' />
+        </Button>
+      </div>
+      <hr class='my-4 bg-border' role='separator' />
+      <!-- Mobile navigation links -->
+      <div class='flex flex-col gap-4'>
+        <div class='overflow-y-auto overflow-x-hidden'>
+          {
+            navigationLinks.map(({ href, label, dropdown }) => (
+              <div class='space-y-2'>
+                {dropdown ? (
+                  <button
+                    class='group flex w-full items-center justify-between rounded-md py-2 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary'
+                    data-nav-trigger
+                    data-state='closed'
+                    aria-expanded='false'
+                    aria-controls={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                    aria-haspopup='true'
+                    id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
+                  >
+                    <span>{label}</span>
+                    <Icon
+                      name='lucide:chevron-down'
+                      class='size-4 transition-transform duration-300 group-data-[state=open]:rotate-180'
+                      data-nav-icon
+                      aria-hidden='true'
+                    />
+                  </button>
+                ) : (
+                  <a
+                    href={href}
+                    class={cn('block py-2', isCurrentPage(href) ? 'font-medium text-primary' : 'hover:text-primary')}
+                    aria-current={isCurrentPage(href) ? 'page' : null}
+                  >
+                    {label}
+                  </a>
+                )}
+                {dropdown && (
+                  <div
+                    id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                    class='space-y-2 pl-4 data-[state=open]:block data-[state=closed]:hidden'
+                    data-nav-content
+                    data-state='closed'
+                    role='menu'
+                    aria-orientation='vertical'
+                    aria-labelledby={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
+                  >
+                    {dropdown.map((item) => (
+                      <a
+                        href={item.href}
+                        class={cn(
+                          'block py-2 text-sm text-muted-foreground hover:text-primary',
+                          isCurrentPage(item.href) && 'font-medium text-primary',
+                        )}
+                        role='menuitem'
+                        aria-current={isCurrentPage(item.href) ? 'page' : null}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))
+          }
+        </div>
+        <!-- Mobile CTA Button -->
+        <Button href='/contact' variant='default' class='w-full'>Get Started</Button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // document.addEventListener('astro:page-load', () => {
+  // Type definitions
+  type State = 'open' | 'closed';
+
+  // DOM Elements
+  const navbar = document.getElementById('navbar');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+  const mobileMenuBackdrop = document.getElementById('mobile-menu-backdrop');
+  const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+  const navTriggers = document.querySelectorAll('[data-nav-trigger]');
+
+  // Navbar scroll behavior
+  function updateNavbarScroll() {
+    navbar?.setAttribute('data-scroll', window.scrollY > 0 ? 'scrolled' : 'top');
+  }
+
+  // State management
+  function toggleMenu(isOpen: boolean) {
+    const state: State = isOpen ? 'open' : 'closed';
+    [mobileMenu, mobileMenuBackdrop, mobileMenuPanel].forEach((el) => el?.setAttribute('data-state', state));
+    mobileMenuButton?.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  function toggleDropdown(trigger: HTMLElement, isExpanded: boolean) {
+    const state: State = isExpanded ? 'open' : 'closed';
+    trigger.setAttribute('aria-expanded', String(isExpanded));
+    trigger.setAttribute('data-state', state);
+
+    const content = document.getElementById(trigger.getAttribute('aria-controls') || '');
+    content?.setAttribute('data-state', state);
+  }
+
+  // Event Listeners
+
+  window.addEventListener('scroll', updateNavbarScroll);
+  mobileMenuButton?.addEventListener('click', () => toggleMenu(true));
+  mobileMenuClose?.addEventListener('click', () => toggleMenu(false));
+  mobileMenuBackdrop?.addEventListener('click', () => toggleMenu(false));
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && toggleMenu(false));
+
+  navTriggers.forEach((trigger) => {
+    if (trigger instanceof HTMLElement) {
+      trigger.addEventListener('click', () => {
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+        toggleDropdown(trigger, !isExpanded);
+      });
+    }
+  });
+  // });
+</script>
