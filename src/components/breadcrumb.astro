@@ -49,17 +49,17 @@ const generateBreadcrumbItems = () => {
 const breadcrumbItems = generateBreadcrumbItems();
 ---
 
-<nav class='flex py-8' aria-label='Breadcrumb'>
+<nav class='flex py-4' aria-label='Breadcrumb'>
   <ol class='inline-flex items-center space-x-1 md:space-x-3'>
     {
       breadcrumbItems.map((item, index) => (
         <li class='inline-flex items-center'>
-          {index !== 0 && <Icon name='lucide:chevron-right' class='h-4 w-4 text-muted-foreground' />}
+          {index !== 0 && <Icon name='lucide:chevron-right' class='text-base-content h-4 w-4' />}
           {item.href ? (
             <a
               href={item.href}
               class={cn(
-                'inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary',
+                'text-base-content hover:text-primary inline-flex items-center text-sm font-medium transition-colors',
                 index !== 0 && 'ml-1 md:ml-2',
               )}
             >
@@ -67,7 +67,9 @@ const breadcrumbItems = generateBreadcrumbItems();
               {item.text}
             </a>
           ) : (
-            <span class='ml-1 text-sm font-medium text-foreground md:ml-2'>{item.text}</span>
+            <span class='text-base-content ml-1 max-w-48 truncate text-sm font-medium sm:max-w-full md:ml-2'>
+              {item.text}
+            </span>
           )}
         </li>
       ))

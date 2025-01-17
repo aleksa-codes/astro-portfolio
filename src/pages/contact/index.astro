@@ -1,290 +1,138 @@
 ---
 import Layout from '@/layouts/layout.astro';
 import Breadcrumb from '@/components/breadcrumb.astro';
-import Button from '@/components/ui/button.astro';
 import { Icon } from 'astro-icon/components';
+import Button from '@/components/ui/button.astro';
 ---
 
-<Layout title='Contact Us' description='Get in touch with Forest Designs to start your web design project today.'>
-  <div class='flex-1'>
-    <!-- Hero Section -->
-    <section class='relative flex bg-forest bg-cover bg-center bg-no-repeat py-16 md:bg-fixed'>
-      <div class='absolute inset-0 size-full bg-background/80'></div>
-      <div class='container z-0'>
-        <Breadcrumb />
-        <div class='mx-auto max-w-2xl space-y-4 text-center'>
-          <h1 class='text-4xl font-bold tracking-tight text-foreground sm:text-5xl'>Contact</h1>
-          <p class='text-lg text-muted-foreground'>
-            We're here to help you bring your vision to life. Get in touch with us today.
+<Layout title='Contact' description='Get in touch with me for project inquiries, collaborations, or just to say hi!'>
+  <section class='container space-y-6'>
+    <Breadcrumb />
+    <h1 class='text-base-content text-4xl font-extrabold tracking-tight lg:text-5xl'>Contact</h1>
+
+    <div class='space-y-8'>
+      <!-- Form Content -->
+      <div id='form-content' class='space-y-8'>
+        <div class='space-y-4'>
+          <p class='text-base-content/80 text-lg leading-relaxed'>
+            Have a question, project inquiry, or just want to say hi? Feel free to reach out using the form below.
           </p>
         </div>
-      </div>
-    </section>
 
-    <!-- Contact Form Section -->
-    <section class='bg-background py-16 sm:py-20'>
-      <div class='container'>
-        <div class='grid grid-cols-1 gap-8 lg:grid-cols-3'>
-          <!-- Main Form Content -->
-          <div class='order-2 lg:order-1 lg:col-span-2'>
-            <div class='space-y-8 rounded-2xl bg-muted p-8'>
-              <!-- Success Message (initially hidden) -->
-              <div id='success-message' class='hidden space-y-8 text-center'>
-                <div class='mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10'>
-                  <Icon name='lucide:check' class='size-6 text-primary' />
-                </div>
+        <form
+          id='contact-form'
+          data-netlify='true'
+          data-netlify-recaptcha='true'
+          netlify-honeypot='bot-field'
+          name='contact'
+          method='POST'
+          class='border-base-300 bg-base-200 rounded-lg border p-6 shadow-sm'
+        >
+          <div class='space-y-6'>
+            <p class='hidden'>
+              <label>Don't fill this out if you're human: <input name='bot-field' /></label>
+            </p>
+            <input type='hidden' name='form-name' value='contact' />
+            <input
+              type='hidden'
+              name='subject'
+              value='%{siteName}: New Inquiry from %{formName} form (id: %{submissionId})'
+            />
 
-                <div class='space-y-4'>
-                  <h2 class='text-2xl font-bold tracking-tight text-foreground'>Thanks for getting in touch!</h2>
-                  <p class='text-muted-foreground'>
-                    We've received your message and will get back to you within 1-2 business days.
-                  </p>
-
-                  <div class='mt-8 space-y-4'>
-                    <p class='text-foreground'>What happens next?</p>
-                    <div class='space-y-3 text-left'>
-                      <div class='flex items-start gap-3'>
-                        <div class='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10'>
-                          <span class='text-sm font-medium text-primary'>1</span>
-                        </div>
-                        <p class='text-muted-foreground'>Our team will review your message</p>
-                      </div>
-                      <div class='flex items-start gap-3'>
-                        <div class='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10'>
-                          <span class='text-sm font-medium text-primary'>2</span>
-                        </div>
-                        <p class='text-muted-foreground'>We'll reach out to discuss your needs in detail</p>
-                      </div>
-                      <div class='flex items-start gap-3'>
-                        <div class='flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10'>
-                          <span class='text-sm font-medium text-primary'>3</span>
-                        </div>
-                        <p class='text-muted-foreground'>We'll provide a tailored solution for your project</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class='mt-8 flex flex-col items-center gap-4'>
-                  <Button type='button' id='send-another' variant='default' size='lg'>
-                    <Icon name='lucide:mail' />
-                    Send Another Message
-                  </Button>
-                </div>
-              </div>
-
-              <!-- Form Content -->
-              <div id='form-content'>
-                <div class='space-y-4'>
-                  <p class='flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-primary'>
-                    <Icon name='lucide:mail' class='size-5' />
-                    Contact Form
-                  </p>
-                  <h2 class='text-2xl font-bold tracking-tight text-foreground lg:text-3xl'>Drop Us A Line</h2>
-                  <p class='text-muted-foreground'>
-                    Need something else? Send us a message and we will be in touch shortly.
-                  </p>
-                </div>
-
-                <form
-                  id='contact-form'
-                  data-netlify='true'
-                  data-netlify-recaptcha='true'
-                  netlify-honeypot='bot-field'
-                  name='contact'
-                  method='POST'
-                  class='space-y-8'
-                >
-                  <p class='hidden'>
-                    <label>Don't fill this out if you're human: <input name='bot-field' /></label>
-                  </p>
-                  <input type='hidden' name='form-name' value='contact' />
+            <!-- Form Fields -->
+            <div class='space-y-4'>
+              <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                <div class='w-full'>
+                  <label class='text-base-content block text-sm font-medium'>
+                    Name <span class='text-error'>*</span>
+                  </label>
                   <input
-                    type='hidden'
-                    name='subject'
-                    value='%{siteName}: New Inquiry from %{formName} form (id: %{submissionId})'
+                    type='text'
+                    name='name'
+                    placeholder='e.g. Bon Jovi'
+                    required
+                    class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-neutral mt-2 w-full rounded-md border px-3 py-2 text-sm ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
                   />
+                </div>
 
-                  <!-- Personal Information -->
-                  <div class='space-y-6'>
-                    <div class='flex items-center gap-2 text-sm font-medium text-foreground'>
-                      <Icon name='lucide:user' class='size-4 text-primary' />
-                      Personal Information
-                    </div>
-                    <div class='grid gap-6 sm:grid-cols-2'>
-                      <div>
-                        <label class='block'>
-                          <span class='text-sm font-medium text-foreground'>Name</span>
-                          <input
-                            type='text'
-                            name='name'
-                            class='mt-2 block w-full rounded-md border border-input bg-background px-4 py-2.5 text-foreground ring-offset-background placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                          />
-                        </label>
-                        <p class='mt-1.5 text-xs text-muted-foreground'>How should we address you?</p>
-                      </div>
+                <div class='w-full'>
+                  <label class='text-base-content block text-sm font-medium'>
+                    Email <span class='text-error'>*</span>
+                  </label>
+                  <input
+                    type='email'
+                    name='email'
+                    placeholder='e.g. bon.jovi@gmail.com'
+                    required
+                    class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-neutral mt-2 w-full rounded-md border px-3 py-2 text-sm ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
+                  />
+                </div>
+              </div>
 
-                      <div>
-                        <label class='block'>
-                          <span class='flex items-start gap-1 text-sm font-medium text-foreground'>
-                            Email
-                            <Icon name='lucide:asterisk' class='size-3 text-destructive' />
-                          </span>
-                          <input
-                            type='email'
-                            name='email'
-                            class='mt-2 block w-full rounded-md border border-input bg-background px-4 py-2 text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                            required
-                          />
-                        </label>
-                      </div>
-                    </div>
+              <div class='w-full'>
+                <label class='text-base-content block text-sm font-medium'>
+                  Subject <span class='text-error'>*</span>
+                </label>
+                <input
+                  type='text'
+                  name='subject'
+                  placeholder="e.g. Let's Connect!"
+                  required
+                  class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-neutral mt-2 w-full rounded-md border px-3 py-2 text-sm ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
+                />
+              </div>
 
-                    <div class='grid gap-6 sm:grid-cols-2'>
-                      <div>
-                        <label class='block'>
-                          <span class='text-sm font-medium text-foreground'>Phone Number</span>
-                          <input
-                            type='tel'
-                            name='phone'
-                            class='mt-2 block w-full rounded-md border border-input bg-background px-4 py-2 text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                          />
-                        </label>
-                      </div>
+              <div class='w-full'>
+                <label class='text-base-content block text-sm font-medium'>
+                  Message <span class='text-error'>*</span>
+                </label>
+                <textarea
+                  name='message'
+                  rows='6'
+                  placeholder='Your Message'
+                  required
+                  class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-neutral mt-2 w-full rounded-md border px-3 py-2 text-sm ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
+                ></textarea>
+              </div>
+            </div>
 
-                      <div>
-                        <label class='block'>
-                          <span class='text-sm font-medium text-foreground'>Company</span>
-                          <input
-                            type='text'
-                            name='company'
-                            class='mt-2 block w-full rounded-md border border-input bg-background px-4 py-2 text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                          />
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Project Details -->
-                  <div class='space-y-6'>
-                    <div class='flex items-center gap-2 text-sm font-medium text-foreground'>
-                      <Icon name='lucide:briefcase' class='size-4 text-primary' />
-                      Project Details
-                    </div>
-                    <div>
-                      <label class='block'>
-                        <span class='flex items-start gap-1 text-sm font-medium text-foreground'>
-                          Web Design Package
-                          <Icon name='lucide:asterisk' class='size-3 text-destructive' />
-                        </span>
-                        <div class='relative mt-2'>
-                          <select
-                            id='package-select'
-                            name='package'
-                            class='mt-2 block w-full appearance-none rounded-md border border-input bg-background px-4 py-2 pr-10 text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                            required
-                          >
-                            <option value='' disabled selected>Select a package</option>
-                            <option value='single-page'>Single-Page</option>
-                            <option value='standard'>Standard</option>
-                            <option value='pro'>Pro</option>
-                            <option value='other-inquiry'>Other Inquiry</option>
-                          </select>
-                          <Icon
-                            name='lucide:chevron-down'
-                            class='pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground'
-                          />
-                        </div>
-                      </label>
-                      <p class='mt-1.5 text-xs text-muted-foreground'>Choose the package that best fits your needs</p>
-                    </div>
-
-                    <div>
-                      <label class='block'>
-                        <span class='flex items-start gap-1 text-sm font-medium text-foreground'>
-                          Message
-                          <Icon name='lucide:asterisk' class='size-3 text-destructive' />
-                        </span>
-                        <textarea
-                          name='message'
-                          rows='5'
-                          placeholder='Tell us about your project and specific requirements...'
-                          class='mt-2 block w-full rounded-md border border-input bg-background px-4 py-2.5 text-foreground ring-offset-background placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                          required></textarea>
-                      </label>
-                      <p class='mt-1.5 text-xs text-muted-foreground'>
-                        Include any specific requirements or questions you have
-                      </p>
-                    </div>
-                  </div>
-
-                  <!-- reCAPTCHA and Submit Button -->
-                  <div class='flex flex-col gap-6 md:flex-row md:items-center md:justify-between'>
-                    <div data-netlify-recaptcha='true'></div>
-                    <!-- <div class='g-recaptcha' data-sitekey={import.meta.env.SITE_RECAPTCHA_KEY}></div> -->
-                    <Button type='submit' variant='default' size='lg' class='w-full md:w-auto'>
-                      <Icon name='lucide:send' />
-                      Send Message
-                    </Button>
-                  </div>
-                </form>
+            <div class='space-y-4'>
+              <div data-netlify-recaptcha='true'></div>
+              <div class='flex gap-4'>
+                <Button type='submit' variant='secondary' class='flex-1'>
+                  <Icon name='lucide:send' class='size-4' />
+                  Send Message
+                </Button>
+                <Button type='reset' variant='ghost'>
+                  <Icon name='lucide:eraser' class='size-4' />
+                  Clear
+                </Button>
               </div>
             </div>
           </div>
+        </form>
+      </div>
 
-          <!-- Sidebar -->
-          <div class='lg:order-2 lg:col-span-1'>
-            <div class='sticky top-20 flex flex-col gap-8 md:flex-row lg:flex-col'>
-              <!-- Instant Sign Up Box -->
-              <div class='w-full space-y-4 rounded-2xl bg-muted p-8'>
-                <p class='flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-primary'>
-                  <Icon name='lucide:zap' class='size-5' />
-                  Instant Sign Up
-                </p>
-                <h3 class='text-xl font-bold text-foreground'>Can't wait to get started?</h3>
-                <p class='text-muted-foreground'>
-                  Sign up instantly for our packages. Include a descriptive message with your website needs and we will
-                  start your design within 48 hours.
-                </p>
-                <div class='flex flex-col gap-3 md:flex-row lg:flex-col'>
-                  <Button variant='default' size='default' href='#' class='w-full'>
-                    <Icon name='lucide:layout' />
-                    Single-Page Package
-                  </Button>
-                  <Button variant='default' size='default' href='#' class='w-full'>
-                    <Icon name='lucide:layers' />
-                    Standard Package
-                  </Button>
-                </div>
-                <p class='flex items-center gap-2 text-sm text-muted-foreground'>
-                  <Icon name='lucide:info' class='size-4' />
-                  Full refund if we cannot accept your request.
-                </p>
-              </div>
-
-              <!-- Contact Info -->
-              <!-- <div class='w-full rounded-2xl bg-muted p-8'>
-                <p class='flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-primary'>
-                  <Icon name='lucide:phone' class='size-4' />
-                  Contact Info
-                </p>
-                <div class='mt-6 space-y-4'>
-                  <p class='flex items-center gap-2 text-muted-foreground'>
-                    <Icon name='lucide:mail' class='size-4' />
-                    hello@forestdesigns.com
-                  </p>
-                  <p class='flex items-center gap-2 text-muted-foreground'>
-                    <Icon name='lucide:clock' class='size-4' />
-                    Mon - Fri: 9:00 AM - 5:00 PM
-                  </p>
-                </div>
-              </div> -->
-            </div>
+      <!-- Success Message (initially hidden) -->
+      <div id='success-message' class='hidden'>
+        <div class='border-base-300 bg-base-200 rounded-lg border p-8 text-center shadow-sm'>
+          <div class='bg-success/10 mx-auto flex size-12 items-center justify-center rounded-full'>
+            <Icon name='lucide:check' class='text-success size-6' />
           </div>
+
+          <div class='mt-6 space-y-4'>
+            <h2 class='text-base-content text-2xl font-bold'>Thanks for getting in touch!</h2>
+            <p class='text-base-content/80'>I'll get back to you as soon as possible.</p>
+          </div>
+
+          <Button variant='secondary' id='send-another' class='mt-6'>
+            <Icon name='lucide:mail' class='size-4' />
+            Send Another Message
+          </Button>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </Layout>
 
 <script>
