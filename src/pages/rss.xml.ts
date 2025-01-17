@@ -15,7 +15,7 @@ export async function GET() {
       pubDate: post.data.date,
       description: post.data.description,
       link: `/blog/${post.id}/`,
-      author: post.data.author,
+      // author: post.data.author,
     })),
     customData: `<language>${siteConfig.defaultLocale.toLowerCase()}</language>`,
     stylesheet: '/rss/styles.xsl',
