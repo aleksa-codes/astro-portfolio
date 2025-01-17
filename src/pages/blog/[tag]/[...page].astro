@@ -14,7 +14,7 @@ export async function getStaticPaths({ paginate }: any) {
     return paginate(sortedPosts, {
       params: { tag: tagToSlug(tag) },
       props: { allTags, tag },
-      pageSize: 6,
+      pageSize: 4,
     });
   });
 }

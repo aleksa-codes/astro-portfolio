@@ -1,0 +1,174 @@
+---
+import Layout from '@/layouts/layout.astro';
+import Breadcrumb from '@/components/breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import Button from '@/components/ui/button.astro';
+
+const projects = [
+  {
+    title: 'ChatX',
+    description:
+      'Comprehensive AI application suite combining an advanced assistant with creative tools. Features real-time web search, news aggregation, image generation, and code conversion. Built with Next.js 15, Supabase, and multiple AI services. Final thesis project.',
+    tags: ['Next.js', 'TypeScript', 'Supabase', 'OpenAI', 'DrizzleORM', 'shadcn/ui'],
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&auto=format&fit=crop',
+    github: 'https://github.com/yourusername/chatx',
+    demo: 'https://chatx.yourdomain.com',
+    featured: true,
+  },
+  {
+    title: 'NextDay',
+    description:
+      'Full-stack productivity app combining todo lists with integrated Pomodoro timers. Features user authentication, real-time updates, and nested todo items. Built with Next.js, DrizzleORM, and Supabase.',
+    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'DrizzleORM', 'Supabase', 'shadcn/ui'],
+    image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=400&auto=format&fit=crop',
+    github: 'https://github.com/yourusername/nextday',
+    demo: 'https://nextday.yourdomain.com',
+    featured: true,
+  },
+  {
+    title: 'Easy WebsiteGPT',
+    description:
+      "Chrome extension that allows you to chat with any webpage using OpenAI's GPT model. Features real-time streaming responses, beautiful UI with animations, and local storage for chat history.",
+    tags: ['React', 'TypeScript', 'TailwindCSS', 'OpenAI API', 'Chrome API'],
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=400&auto=format&fit=crop',
+    github: 'https://github.com/yourusername/easy-websitegpt',
+    demo: 'https://chrome.google.com/webstore/detail/easy-websitegpt',
+    featured: true,
+  },
+  {
+    title: 'GPT Image Captioner',
+    description:
+      "Web app for generating detailed image captions using OpenAI's GPT API. Perfect for LoRA model training with batch processing and customizable caption options.",
+    tags: ['Next.js', 'TailwindCSS', 'OpenAI API', 'TypeScript'],
+    image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&h=400&auto=format&fit=crop',
+    github: 'https://github.com/yourusername/gpt-image-captioner',
+    demo: 'https://image-captioner.yourdomain.com',
+  },
+  {
+    title: 'Easy Website Blocker',
+    description:
+      "Chrome extension for blocking distracting websites with customizable exceptions. Built with React and Chrome's Manifest V3 using declarativeNetRequest.",
+    tags: ['React', 'TypeScript', 'Chrome API', 'TailwindCSS'],
+    image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=400&auto=format&fit=crop',
+    github: 'https://github.com/yourusername/easy-website-blocker',
+    demo: 'https://chrome.google.com/webstore/detail/easy-website-blocker',
+  },
+  {
+    title: 'GPT FileSmith',
+    description:
+      "Dynamic file generator inspired by Rick and Morty's Interdimensional Cable. Enter any path or URL to generate unique file content using GPT-4. Features direct browser access and downloadable HTML files.",
+    tags: ['Astro', 'TailwindCSS', 'OpenAI API'],
+    image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=400&auto=format&fit=crop',
+    github: 'https://github.com/yourusername/gpt-filesmith',
+    demo: 'https://filesmith.yourdomain.com',
+  },
+  {
+    title: 'One Dark Modern Pro',
+    description:
+      'VS Code theme combining One Dark Pro syntax highlighting with Dark Modern UI elements. Custom-crafted for optimal readability and aesthetic appeal.',
+    tags: ['VS Code', 'Theme', 'JSON'],
+    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&auto=format&fit=crop',
+    github: 'https://github.com/yourusername/one-dark-modern-pro',
+    demo: 'https://marketplace.visualstudio.com/items?itemName=yourusername.one-dark-modern-pro',
+    featured: false,
+  },
+  {
+    title: 'Next Meal',
+    description:
+      'Progressive Web App that generates random meal recipes with ingredients, instructions, and cooking videos. Features dark mode, offline support, and smooth animations.',
+    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'PWA', 'Framer Motion'],
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=400&auto=format&fit=crop',
+    github: 'https://github.com/yourusername/next-meal',
+    demo: 'https://next-meal.yourdomain.com',
+    featured: false,
+  },
+];
+---
+
+<Layout title='Projects' description='Collection of personal projects and open-source contributions.'>
+  <section class='container space-y-8'>
+    <Breadcrumb />
+    <h1 class='text-base-content mb-8 text-4xl font-extrabold tracking-tight lg:text-5xl'>Projects</h1>
+    <p class='text-base-content/80 text-lg leading-relaxed'>
+      Some of the projects I've worked on, ranging from personal portfolio websites to full-stack applications.
+    </p>
+    <div class='space-y-16'>
+      {
+        projects
+          .sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1))
+          .map((project, index) => (
+            <div class='group'>
+              <div class={`flex flex-col gap-8 lg:flex-row ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                {/* Image */}
+                <div class='border-base-300 bg-base-200 relative aspect-square w-full overflow-hidden rounded-lg border lg:w-1/2'>
+                  {project.image && (
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      width={800}
+                      height={800}
+                      format='webp'
+                      class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                    />
+                  )}
+                </div>
+
+                {/* Content */}
+                <div class='flex w-full flex-col justify-center space-y-4 lg:w-1/2'>
+                  <div class='flex items-center gap-4'>
+                    <h2 class='text-base-content text-3xl font-bold'>{project.title}</h2>
+                    {project.featured && (
+                      <div class='bg-warning text-warning-content inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm'>
+                        <Icon name='lucide:star' class='size-3' />
+                        Featured
+                      </div>
+                    )}
+                  </div>
+                  <p class='text-base-content/80 text-lg'>{project.description}</p>
+
+                  {/* Tags */}
+                  <div class='flex flex-wrap gap-2'>
+                    {project.tags.map((tag) => (
+                      <span class='bg-base-300 text-base-content rounded-full px-3 py-1 text-sm font-medium'>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Links */}
+                  <div class='flex gap-4 pt-2'>
+                    {project.demo && (
+                      <Button variant='secondary' href={project.demo} target='_blank' rel='noopener noreferrer'>
+                        <Icon name='lucide:external-link' class='size-4' />
+                        Demo
+                      </Button>
+                    )}
+                    {project.github && (
+                      <Button variant='outline' href={project.github} target='_blank' rel='noopener noreferrer'>
+                        <Icon name='lucide:github' class='size-4' />
+                        Code
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+      }
+    </div>
+
+    <div class='flex justify-center pt-12'>
+      <Button
+        href='https://github.com/aleksa-codes'
+        size='lg'
+        target='_blank'
+        rel='noopener noreferrer'
+        class='bg-base-300 text-base-content hover:bg-base-200 transition-transform duration-300 hover:scale-105'
+      >
+        <Icon name='lucide:github' />
+        View More on GitHub
+      </Button>
+    </div>
+  </section>
+</Layout>

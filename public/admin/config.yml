@@ -17,8 +17,8 @@ public_folder: '/public/images'
 publish_mode: editorial_workflow
 
 # Site URL for preview
-site_url: https://forestdesigns.netlify.app
-display_url: https://forestdesigns.netlify.app
+site_url: https://aleksa.netlify.app
+display_url: https://aleksa.netlify.app
 
 # Collections
 collections:
@@ -28,6 +28,8 @@ collections:
     create: true
     slug: '{{slug}}'
     preview_path: '/blog/{{slug}}'
+    extension: 'mdx'
+    format: 'frontmatter'
     sortable_fields: ['date', 'title']
     fields:
       - {
@@ -45,7 +47,7 @@ collections:
           hint: 'A brief description for SEO and social sharing',
         }
       - { label: 'Publish Date', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD' }
-      - { label: 'Author', name: 'author', widget: 'string', default: 'Forest Designs' }
+      # - { label: 'Author', name: 'author', widget: 'string', default: 'Aleksa' }
       - {
           label: 'Featured Image',
           name: 'thumbnail',

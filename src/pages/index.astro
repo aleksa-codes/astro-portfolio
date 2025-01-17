@@ -1,21 +1,31 @@
 ---
 import { siteConfig } from '@/config/site.config';
 import Layout from '@/layouts/layout.astro';
-import Hero from '@/components/sections/Hero.astro';
-import ClientLogos from '@/components/sections/ClientLogos.astro';
-import About from '@/components/sections/About.astro';
-import Portfolio from '@/components/sections/Portfolio.astro';
-import Pricing from '@/components/sections/Pricing.astro';
-import FAQ from '@/components/sections/FAQ.astro';
+import { Image } from 'astro:assets';
+import WavingHand from '@/assets/waving-hand.webp';
 ---
 
 <Layout title={siteConfig.name} description={siteConfig.description}>
-  <Hero />
-  <ClientLogos />
-  <About />
-  <Portfolio />
-  <Pricing />
-  <FAQ />
+  <section class='items-starts container flex h-full flex-col justify-center gap-y-4 pt-4'>
+    <div class='flex items-center gap-x-2 text-5xl font-extrabold'>
+      <span>Hello World</span>
+      <Image src={WavingHand} alt='waving hand' class='animate-wave size-12' />
+    </div>
+    <div class='space-y-2'>
+      <h1 class='text-5xl font-extrabold'>
+        My name is <span
+          class='from-base-content bg-gradient-to-r to-indigo-300 bg-clip-text font-extrabold text-transparent dark:to-indigo-500'
+          >Aleksa</span
+        >
+      </h1>
+      <h2 class='text-3xl font-bold'>
+        I design and build{' '}
+        <span class='highlight-heading animate-highlight'>things for the web.</span>
+      </h2>
+    </div>
+    <div class='text-xl font-semibold'>Computer Science Student and Web Developer.</div>
+    <div class='bg-laptop mx-auto mt-4 h-[275px] w-[275px] sm:h-[350px] sm:w-[350px] md:h-[450px] md:w-[450px]'></div>
+  </section>
 </Layout>
 
 <script>

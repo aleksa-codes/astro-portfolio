@@ -28,26 +28,25 @@ const isCurrentPage = (href: string) => {
 <nav
   id='navbar'
   data-scroll='top'
-  class='fixed z-50 w-full data-[scroll=scrolled]:border-b data-[scroll=scrolled]:border-border data-[scroll=scrolled]:bg-background/80 data-[scroll=scrolled]:shadow data-[scroll=scrolled]:backdrop-blur-sm'
+  class='data-[scroll=scrolled]:border-base-300 data-[scroll=scrolled]:bg-base-100/80 sticky top-0 z-40 w-full pt-4 pb-2 data-[scroll=scrolled]:border-b data-[scroll=scrolled]:shadow data-[scroll=scrolled]:backdrop-blur-sm md:pt-6 md:pb-4'
   aria-label='Main navigation'
 >
-  <div class='container flex h-16 items-center justify-between py-4'>
-    <!-- Left section: Logo + Desktop Nav -->
-    <div class='flex items-center gap-8'>
-      <a href='/' aria-label='Forest Designs'>
-        <div class='flex items-center gap-2 rounded-xl bg-primary/5 p-2 ring-1 ring-primary/20'>
-          <Icon name='lucide:tree-pine' class='h-8 w-8 text-primary' />
-          <span class='text-lg font-semibold'>Forest Designs</span>
-        </div>
-      </a>
+  <div class='container flex items-center justify-between'>
+    <!-- Left section: Logo only -->
+    <a class='hover:text-secondary font-bold md:text-2xl' href='/'>
+      <span id='typed-logo'></span>
+    </a>
+
+    <!-- Right section: Navigation + Theme Toggle + CTA -->
+    <div class='flex items-center gap-2'>
       <!-- Desktop Navigation -->
-      <div class='hidden items-center gap-8 lg:flex' role='navigation' aria-label='Desktop navigation'>
+      <div class='hidden items-center gap-2 lg:flex' role='navigation' aria-label='Desktop navigation'>
         {
           navigationLinks.map(({ href, label, dropdown }) => (
             <div class='group relative'>
               {dropdown ? (
-                <button
-                  class='flex items-center gap-1 hover:text-primary focus:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary'
+                <Button
+                  variant='ghost'
                   aria-expanded='false'
                   aria-controls={`desktop-dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
                   aria-haspopup='true'
@@ -58,25 +57,21 @@ const isCurrentPage = (href: string) => {
                     class='size-4 transition-transform duration-300 group-focus-within:rotate-180 group-hover:rotate-180'
                     aria-hidden='true'
                   />
-                </button>
+                </Button>
               ) : (
-                <a
+                <Button
+                  variant='ghost'
                   href={href}
-                  class={cn(
-                    'flex items-center gap-1',
-                    isCurrentPage(href)
-                      ? 'font-medium text-primary'
-                      : 'hover:text-primary focus:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary',
-                  )}
+                  class={cn(isCurrentPage(href) && 'text-primary font-medium')}
                   aria-current={isCurrentPage(href) ? 'page' : null}
                 >
                   {label}
-                </a>
+                </Button>
               )}
               {dropdown && (
                 <div
                   id={`desktop-dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
-                  class='invisible absolute left-0 top-full z-50 mt-2 min-w-40 translate-y-2 rounded-md border bg-card p-2 opacity-0 shadow-md transition-[transform,opacity,visibility] duration-300 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100'
+                  class='border-base-300 bg-base-100 invisible absolute top-full left-0 z-50 mt-2 min-w-40 translate-y-2 rounded-md border p-2 opacity-0 shadow-md transition-all duration-300 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100'
                   role='menu'
                   aria-orientation='vertical'
                   aria-labelledby={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
@@ -85,8 +80,8 @@ const isCurrentPage = (href: string) => {
                     <a
                       href={item.href}
                       class={cn(
-                        'block rounded-md px-4 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none',
-                        isCurrentPage(item.href) && 'font-medium text-primary',
+                        'text-base-content/80 hover:bg-base-200 hover:text-base-content focus:bg-base-200 focus:text-base-content block rounded-md px-4 py-2 text-sm transition-colors focus:outline-none',
+                        isCurrentPage(item.href) && 'text-primary font-medium',
                       )}
                       role='menuitem'
                       aria-current={isCurrentPage(item.href) ? 'page' : null}
@@ -101,19 +96,50 @@ const isCurrentPage = (href: string) => {
           ))
         }
       </div>
-    </div>
-    <!-- Right section: Theme Toggle + CTA -->
-    <div class='flex items-center gap-4'>
-      <SnowToggle />
-      <ThemeToggle />
-      <!-- Desktop CTA Button -->
-      <Button href='/contact' variant='default' class='hidden px-8 lg:inline-flex'>Get Started</Button>
+
+      <!-- Action Buttons -->
+      <div class='hidden items-center gap-2 lg:flex'>
+        <Button
+          variant='ghost'
+          size='icon'
+          aria-label='GitHub Profile'
+          href='https://github.com/aleksa-codes'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Icon name='lucide:github' class='size-5' />
+        </Button>
+        <Button
+          variant='ghost'
+          size='icon'
+          aria-label='Resume'
+          href='https://aleksa-codes.github.io/resume/'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Icon name='lucide:file-badge' class='size-5' />
+        </Button>
+        <Button
+          variant='ghost'
+          size='icon'
+          aria-label='RSS Feed'
+          href='/rss.xml'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Icon name='lucide:rss' class='size-5' />
+        </Button>
+        <SnowToggle />
+        <ThemeToggle />
+        <Button href='/contact' variant='secondary' class='px-8'>Contact</Button>
+      </div>
+
       <!-- Mobile Menu Trigger -->
       <Button
         id='mobile-menu-button'
-        variant='outline'
+        variant='ghost'
         size='icon'
-        class='bg-transparent lg:hidden'
+        class='text-base-content hover:bg-base-200 lg:hidden'
         aria-label='Toggle menu'
         aria-expanded='false'
         aria-controls='mobile-menu'
@@ -122,106 +148,139 @@ const isCurrentPage = (href: string) => {
       </Button>
     </div>
   </div>
-  <!-- Mobile Menu Panel -->
+</nav>
+
+<!-- Mobile Menu Panel -->
+<div
+  id='mobile-menu'
+  data-state='closed'
+  class='fixed inset-0 z-50 h-screen data-[state=closed]:pointer-events-none lg:hidden'
+  role='dialog'
+  aria-modal='true'
+  aria-label='Mobile navigation menu'
+>
+  <!-- Backdrop overlay -->
   <div
-    id='mobile-menu'
+    id='mobile-menu-backdrop'
+    class='bg-neutral/80 fixed inset-0 cursor-pointer transition-opacity duration-300 data-[state=closed]:pointer-events-none data-[state=closed]:opacity-0'
     data-state='closed'
-    class='fixed inset-0 h-screen data-[state=closed]:pointer-events-none lg:hidden'
-    role='dialog'
-    aria-modal='true'
-    aria-label='Mobile navigation menu'
+    aria-hidden='true'
   >
-    <!-- Backdrop overlay -->
-    <div
-      id='mobile-menu-backdrop'
-      class='absolute inset-0 cursor-pointer bg-black/80 transition-opacity duration-300 data-[state=closed]:pointer-events-none data-[state=closed]:opacity-0'
-      data-state='closed'
-      aria-hidden='true'
-    >
-    </div>
-    <!-- Mobile navigation panel -->
-    <div
-      id='mobile-menu-panel'
-      data-state='closed'
-      class='relative z-50 ml-auto flex h-full w-72 flex-col bg-background px-6 py-4 shadow-lg transition-transform duration-300 data-[state=closed]:translate-x-full data-[state=open]:translate-x-0'
-      role='navigation'
-      aria-label='Mobile navigation'
-    >
-      <!-- Mobile menu header -->
-      <div class='flex items-center justify-end'>
-        <Button id='mobile-menu-close' variant='ghost' size='icon' aria-label='Close menu'>
-          <Icon name='lucide:x' class='size-5' aria-hidden='true' />
+  </div>
+  <!-- Mobile navigation panel -->
+  <div
+    id='mobile-menu-panel'
+    data-state='closed'
+    class='bg-base-100 fixed top-0 right-0 z-50 flex h-full w-72 flex-col px-6 py-4 shadow-lg transition-transform duration-300 data-[state=closed]:translate-x-full data-[state=open]:translate-x-0'
+    role='navigation'
+    aria-label='Mobile navigation'
+  >
+    <!-- Mobile menu header -->
+    <div class='flex items-center justify-between'>
+      <div class='flex items-center gap-2'>
+        <Button
+          variant='ghost'
+          size='icon'
+          aria-label='GitHub Profile'
+          href='https://github.com/aleksa-codes'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Icon name='lucide:github' class='size-5' />
+        </Button>
+        <Button
+          variant='ghost'
+          size='icon'
+          aria-label='Resume'
+          href='https://aleksa-codes.github.io/resume/'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Icon name='lucide:file-badge' class='size-5' />
+        </Button>
+        <Button
+          variant='ghost'
+          size='icon'
+          aria-label='RSS Feed'
+          href='/rss.xml'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Icon name='lucide:rss' class='size-5' />
         </Button>
       </div>
-      <hr class='my-4 bg-border' role='separator' />
-      <!-- Mobile navigation links -->
-      <div class='flex flex-col gap-4'>
-        <div class='overflow-y-auto overflow-x-hidden'>
-          {
-            navigationLinks.map(({ href, label, dropdown }) => (
-              <div class='space-y-2'>
-                {dropdown ? (
-                  <button
-                    class='group flex w-full items-center justify-between rounded-md py-2 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary'
-                    data-nav-trigger
-                    data-state='closed'
-                    aria-expanded='false'
-                    aria-controls={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
-                    aria-haspopup='true'
-                    id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
-                  >
-                    <span>{label}</span>
-                    <Icon
-                      name='lucide:chevron-down'
-                      class='size-4 transition-transform duration-300 group-data-[state=open]:rotate-180'
-                      data-nav-icon
-                      aria-hidden='true'
-                    />
-                  </button>
-                ) : (
-                  <a
-                    href={href}
-                    class={cn('block py-2', isCurrentPage(href) ? 'font-medium text-primary' : 'hover:text-primary')}
-                    aria-current={isCurrentPage(href) ? 'page' : null}
-                  >
-                    {label}
-                  </a>
-                )}
-                {dropdown && (
-                  <div
-                    id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
-                    class='space-y-2 pl-4 data-[state=open]:block data-[state=closed]:hidden'
-                    data-nav-content
-                    data-state='closed'
-                    role='menu'
-                    aria-orientation='vertical'
-                    aria-labelledby={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
-                  >
-                    {dropdown.map((item) => (
-                      <a
-                        href={item.href}
-                        class={cn(
-                          'block py-2 text-sm text-muted-foreground hover:text-primary',
-                          isCurrentPage(item.href) && 'font-medium text-primary',
-                        )}
-                        role='menuitem'
-                        aria-current={isCurrentPage(item.href) ? 'page' : null}
-                      >
-                        {item.label}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))
-          }
-        </div>
-        <!-- Mobile CTA Button -->
-        <Button href='/contact' variant='default' class='w-full'>Get Started</Button>
+      <Button id='mobile-menu-close' variant='ghost' size='icon' aria-label='Close menu'>
+        <Icon name='lucide:x' class='size-5' aria-hidden='true' />
+      </Button>
+    </div>
+    <hr class='bg-base-300 my-4' role='separator' />
+    <!-- Mobile navigation links -->
+    <div class='flex flex-col gap-4'>
+      <div class='overflow-x-hidden overflow-y-auto'>
+        {
+          navigationLinks.map(({ href, label, dropdown }) => (
+            <div class='space-y-2'>
+              {dropdown ? (
+                <button
+                  class='group hover:text-primary focus-visible:ring-primary flex w-full items-center justify-between rounded-md py-2 focus:outline-none focus-visible:ring-2'
+                  data-nav-trigger
+                  data-state='closed'
+                  aria-expanded='false'
+                  aria-controls={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                  aria-haspopup='true'
+                  id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
+                >
+                  <span>{label}</span>
+                  <Icon
+                    name='lucide:chevron-down'
+                    class='size-4 transition-transform duration-300 group-data-[state=open]:rotate-180'
+                    data-nav-icon
+                    aria-hidden='true'
+                  />
+                </button>
+              ) : (
+                <a
+                  href={href}
+                  class={cn('block py-2', isCurrentPage(href) ? 'text-primary font-medium' : 'hover:text-primary')}
+                  aria-current={isCurrentPage(href) ? 'page' : null}
+                >
+                  {label}
+                </a>
+              )}
+              {dropdown && (
+                <div
+                  id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                  class='space-y-2 pl-4 data-[state=closed]:hidden data-[state=open]:block'
+                  data-nav-content
+                  data-state='closed'
+                  role='menu'
+                  aria-orientation='vertical'
+                  aria-labelledby={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
+                >
+                  {dropdown.map((item) => (
+                    <a
+                      href={item.href}
+                      class={cn(
+                        'hover:text-primary text-base-content/80 block py-2 text-sm transition-colors focus:outline-none',
+                        isCurrentPage(item.href) && 'text-primary font-medium',
+                      )}
+                      role='menuitem'
+                      aria-current={isCurrentPage(item.href) ? 'page' : null}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))
+        }
       </div>
+      <!-- Mobile CTA Button -->
+      <Button href='/contact' variant='secondary' class='w-full'>Contact</Button>
     </div>
   </div>
-</nav>
+</div>
 
 <script>
   // document.addEventListener('astro:page-load', () => {
@@ -275,4 +334,15 @@ const isCurrentPage = (href: string) => {
     }
   });
   // });
+</script>
+
+<script>
+  import Typewriter from 'typewriter-effect/dist/core';
+  document.addEventListener('DOMContentLoaded', () => {
+    const tw = new Typewriter(document.querySelector('#typed-logo'), {
+      loop: false,
+      autoStart: true,
+    });
+    tw.typeString('aleksa.codes').start();
+  });
 </script>

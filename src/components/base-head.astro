@@ -42,7 +42,7 @@ const {
   schema,
 } = Astro.props;
 
-const pageTitle = Astro.url.pathname === '/' ? siteConfig.name : `${title} | ${siteConfig.name}`;
+const pageTitle = Astro.url.pathname === '/' ? siteConfig.name : `${siteConfig.name} | ${title}`;
 const baseUrl = Astro.site ?? Astro.url;
 const defaultCanonicalUrl = new URL(Astro.url.pathname + Astro.url.search, baseUrl);
 
@@ -119,9 +119,10 @@ const structuredData = {
 
   <title>{pageTitle}</title>
 
-  <link rel='preload' href='/fonts/roboto-flex.woff2' as='font' type='font/woff2' crossorigin />
-
-  <link rel='preload' href='/forest-bg.webp' as='image' type='image/webp' />
+  <link rel='preload' href='/fonts/poppins-v22-latin-regular.woff2' as='font' type='font/woff2' crossorigin />
+  <link rel='preload' href='/fonts/poppins-v22-latin-600.woff2' as='font' type='font/woff2' crossorigin />
+  <link rel='preload' href='/fonts/poppins-v22-latin-700.woff2' as='font' type='font/woff2' crossorigin />
+  <link rel='preload' href='/fonts/poppins-v22-latin-800.woff2' as='font' type='font/woff2' crossorigin />
 
   <link rel='alternate' type='application/rss+xml' title=`${siteName} Web Feed` href={new URL('rss.xml', baseUrl)} />
 
@@ -146,7 +147,12 @@ const structuredData = {
     // });
   </script>
 
-  <link rel='icon' type='image/x-icon' href='/favicons/favicon.ico' />
+  <link rel='icon' type='image/png' href='/favicons/favicon-96x96.png' sizes='96x96' />
+  <link rel='icon' type='image/svg+xml' href='/favicons/favicon.svg' />
+  <link rel='shortcut icon' href='/favicons/favicon.ico' />
+  <link rel='apple-touch-icon' sizes='180x180' href='/favicons/apple-touch-icon.png' />
+  <meta name='apple-mobile-web-app-title' content='aleksa.codes' />
+  <link rel='manifest' href='/favicons/site.webmanifest' />
   <link rel='sitemap' href='/sitemap-index.xml' />
 
   <link rel='canonical' href={canonicalURL || defaultCanonicalUrl} />

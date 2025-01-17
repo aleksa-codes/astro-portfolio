@@ -18,7 +18,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
   ),
   getImageOptions: (_path, page) => ({
     title: page.title,
-    description: page.description,
+    // description: page.description,
     // bgImage: page.thumbnail
     //   ? {
     //       path: page.thumbnail,
@@ -26,8 +26,9 @@ export const { getStaticPaths, GET } = OGImageRoute({
     //     }
     //   : undefined,
     logo: {
-      path: './src/assets/tree-pine.png',
-      size: [48], // Width only, height will scale proportionally
+      path: './src/assets/logo.png',
+      // Width only, height will scale proportionally
+      size: [192],
     },
     font: {
       title: {
@@ -46,13 +47,12 @@ export const { getStaticPaths, GET } = OGImageRoute({
       'https://api.fontsource.org/v1/fonts/inter/latin-700-normal.ttf',
     ],
     bgGradient: [
-      [34, 197, 94],
-      [16, 185, 129],
-    ], // Green gradient
-    border: {
-      color: [34, 197, 94],
-      width: 20,
-      side: 'block-start',
-    },
+      [18, 18, 18],
+      [18, 18, 18],
+      [18, 18, 18],
+      [32, 32, 32],
+      [32, 32, 32],
+      [64, 64, 64],
+    ],
   }),
 });

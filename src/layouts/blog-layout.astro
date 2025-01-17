@@ -4,13 +4,23 @@ import Breadcrumb from '@/components/breadcrumb.astro';
 import Layout from '@/layouts/layout.astro';
 import { siteConfig } from '@/config/site.config';
 import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import { tagToSlug, calculateReadingTime } from '@/lib/utils';
 
 interface Props {
   post: CollectionEntry<'blog'>;
 }
 
 const { post } = Astro.props;
-const { title, description, date, author, thumbnail, tags } = post.data;
+const {
+  title,
+  description,
+  date,
+  // author,
+  thumbnail,
+  tags,
+} = post.data;
+const readingTime = calculateReadingTime(post.body!);
 
 // Generate OG image URL
 const ogImage = new URL(`/open-graph/${post.id}.png`, Astro.url).toString();
@@ -33,54 +43,187 @@ const readableDate = date.toLocaleDateString('en-us', {
   schema={{
     type: 'BlogPosting',
     date,
-    author,
+    // author,
     tags,
   }}
 >
-  <section class='bg-muted py-16'>
-    <div class='container'>
-      <Breadcrumb />
-      <div class='mx-auto max-w-3xl'>
-        <h1 class='text-4xl font-bold tracking-tight text-foreground sm:text-5xl'>{title}</h1>
-        <div class='mt-6 flex items-center gap-4 text-muted-foreground'>
-          <time datetime={date.toISOString()}>{readableDate}</time>
-          <span>•</span>
-          <span>{author}</span>
-        </div>
-        {
-          thumbnail && (
-            <div class='relative mt-8 aspect-[16/9] overflow-hidden rounded-lg'>
-              <Image
-                src={thumbnail}
-                alt={title}
-                format={'webp'}
-                quality={'max'}
-                class='absolute inset-0 size-full object-cover'
-              />
-            </div>
-          )
-        }
+  <div class='bg-base-200 fixed top-16 z-40 h-0.5 w-full opacity-0 transition-opacity duration-300'>
+    <div class='bg-secondary h-full w-0 transition-all duration-150' id='progress-bar'></div>
+  </div>
+
+  <section class='container space-y-6'>
+    <Breadcrumb />
+
+    <div class='mx-auto flex max-w-3xl flex-col items-center space-y-4 text-center'>
+      <h1 class='text-base-content max-w-2xl text-4xl font-extrabold lg:text-5xl'>{title}</h1>
+      <div class='text-base-content/80 flex items-center justify-center gap-2 text-sm'>
+        <time datetime={date.toISOString()}>{readableDate}</time>
+        <div>•</div>
+        <span class='flex items-center gap-1'>
+          <Icon name='lucide:clock' class='size-4' />
+          {readingTime} min read
+        </span>
       </div>
-    </div>
-  </section>
-
-  <section class='bg-background py-16 sm:py-20'>
-    <div class='container'>
-      <article
-        class='prose prose-slate mx-auto w-full max-w-none dark:prose-invert lg:prose-lg prose-headings:font-bold prose-headings:tracking-tight prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-p:text-muted-foreground prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-blockquote:text-muted-foreground prose-strong:text-foreground prose-code:bg-muted prose-pre:!bg-muted prose-img:rounded-lg prose-hr:border-muted-foreground/20'
-      >
-        <slot />
-      </article>
-
       {
-        tags?.length > 0 && (
-          <div class='mx-auto mt-8 flex flex-wrap gap-2'>
-            {tags.map((tag) => (
-              <span class='rounded-full bg-muted px-3 py-1 text-sm text-muted-foreground'>{tag}</span>
-            ))}
+        thumbnail && (
+          <div class='aspect-video overflow-hidden rounded-lg'>
+            <Image src={thumbnail} alt={title} format='webp' quality='max' class='size-full object-cover' />
           </div>
         )
       }
     </div>
+
+    <article
+      class='prose prose-h2:text-base-content prose-h1:text-base-content prose-h3:text-base-content prose-h4:text-base-content prose-a:text-base-content lg:prose-lg dark:prose-invert prose-code:before:hidden prose-code:after:hidden prose-strong:text-base-content prose-pre:pt-8 max-w-full'
+    >
+      <slot />
+    </article>
+
+    {
+      tags?.length > 0 && (
+        <div class='mt-8 flex flex-wrap gap-2'>
+          {tags.map((tag) => (
+            <a
+              href={`/blog/${tagToSlug(tag)}`}
+              class='bg-base-300 text-base-content hover:bg-base-300/80 rounded-full px-3 py-1 text-sm transition-colors'
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    <!-- Comments Section -->
+    <div class='w-full'>
+      <h2 class='text-base-content mb-8 text-2xl font-bold tracking-tight'>Comments</h2>
+      <script
+        is:inline
+        src='https://giscus.app/client.js'
+        data-repo='aleksa-codes/astro-portfolio-v2'
+        data-repo-id='R_kgDONpo00A'
+        data-category='Announcements'
+        data-category-id='DIC_kwDONpo00M4CmCQF'
+        data-mapping='pathname'
+        data-strict='0'
+        data-reactions-enabled='1'
+        data-emit-metadata='0'
+        data-input-position='top'
+        data-theme='dark'
+        data-lang='en'
+        crossorigin='anonymous'
+        async></script>
+    </div>
   </section>
 </Layout>
+
+<script>
+  const progressBar = document.querySelector('#progress-bar') as HTMLDivElement;
+  const progressContainer = progressBar?.parentElement as HTMLDivElement;
+
+  if (progressBar && progressContainer) {
+    const updateProgress = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progressWidth = (window.scrollY / totalHeight) * 100;
+      progressBar.style.width = `${progressWidth}%`;
+      progressContainer.style.opacity = progressWidth === 0 ? '0' : '1';
+    };
+
+    window.addEventListener('scroll', updateProgress);
+    // Initial update
+    updateProgress();
+  }
+</script>
+
+<script>
+  function updateGiscusTheme() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const giscusTheme = isDark ? 'dark' : 'light';
+
+    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    if (!iframe) return;
+
+    iframe.contentWindow?.postMessage(
+      {
+        giscus: {
+          setConfig: {
+            theme: giscusTheme,
+          },
+        },
+      },
+      'https://giscus.app',
+    );
+  }
+
+  // Update theme when the page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    // Wait for Giscus to load
+    setTimeout(updateGiscusTheme, 2000);
+  });
+
+  // Listen for theme changes
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        updateGiscusTheme();
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class'],
+  });
+</script>
+
+<script>
+  const copyButtonLabel = `<span class="flex flex-row px-1 gap-1">Copy<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+<rect x="8" y="8" width="12" height="12" rx="2" />
+<path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2" />
+</svg>
+</span>`;
+
+  // use a class selector if available
+  let blocks = document.querySelectorAll('pre');
+
+  blocks.forEach((block) => {
+    // only add button if browser supports Clipboard API
+    if (navigator.clipboard) {
+      let wrapper = document.createElement('div');
+      wrapper.style.position = 'relative';
+
+      let button = document.createElement('button');
+      button.innerHTML = copyButtonLabel;
+
+      block.setAttribute('tabindex', '0');
+      block.appendChild(button);
+
+      block.parentNode?.insertBefore(wrapper, block);
+      wrapper.appendChild(block);
+
+      button.addEventListener('click', async () => {
+        await copyCode(block, button);
+      });
+    }
+  });
+
+  async function copyCode(block: any, button: any) {
+    let code = block.querySelector('code');
+    let text = code.innerText;
+
+    await navigator.clipboard.writeText(text);
+
+    // visual feedback that task is completed
+    button.innerHTML = `<span class="flex flex-row px-1 gap-1">Copied<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#B4E657" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path d="M7 12l5 5l10 -10" />
+    <path d="M2 12l5 5m5 -5l5 -5" />
+  </svg>
+</span>`;
+
+    setTimeout(() => {
+      button.innerHTML = copyButtonLabel;
+    }, 700);
+  }
+</script>

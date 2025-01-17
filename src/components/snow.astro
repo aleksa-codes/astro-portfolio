@@ -1,4 +1,6 @@
-<div id='snow-container' class='pointer-events-none fixed inset-0 z-10 overflow-hidden'></div>
+<div id='snow-container' class='pointer-events-none fixed inset-0 z-10 overflow-hidden'>
+  <div class='animate-snow absolute -top-8 text-transparent will-change-transform select-none'></div>
+</div>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -22,7 +24,7 @@
 
       interval = setInterval(() => {
         const snowflake = document.createElement('div');
-        snowflake.className = 'absolute -top-8 select-none will-change-transform animate-snow text-transparent';
+        snowflake.className = 'animate-snow absolute -top-8 text-transparent will-change-transform select-none';
 
         const duration = Math.random() * 5 + 3;
         const endX = Math.random() * 10 - 5;
