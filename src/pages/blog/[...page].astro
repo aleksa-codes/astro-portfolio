@@ -9,7 +9,7 @@ export async function getStaticPaths({ paginate }: any) {
   const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return paginate(sortedPosts, {
-    pageSize: 6,
+    pageSize: 4,
     props: { allTags },
   });
 }
@@ -17,4 +17,9 @@ export async function getStaticPaths({ paginate }: any) {
 const { page, allTags } = Astro.props;
 ---
 
-<BlogListLayout title='Blog' description='Insights, updates, and stories from our team' {page} {allTags} />
+<BlogListLayout
+  title='Blog'
+  description='Personal blog where I write about personal experiences, web development, and more.'
+  {page}
+  {allTags}
+/>

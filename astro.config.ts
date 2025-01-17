@@ -1,13 +1,18 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 import icon from 'astro-icon';
 import sitemap from '@astrojs/sitemap';
 import compress from 'astro-compress';
 import { imageService } from '@unpic/astro/service';
 import { siteConfig } from './src/config/site.config';
+import tailwindcss from '@tailwindcss/vite';
+
+import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
+  vite: {
+    plugins: [tailwindcss()],
+  },
   experimental: {
     svg: {
       mode: 'sprite',
@@ -18,7 +23,9 @@ export default defineConfig({
     port: 3000,
   },
   markdown: {
+    syntaxHighlight: 'shiki',
     shikiConfig: {
+      theme: 'css-variables',
       themes: {
         light: 'one-light',
         dark: 'one-dark-pro',
@@ -35,9 +42,6 @@ export default defineConfig({
     }),
   },
   integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
     icon(),
     sitemap({
       filter: (page) => page !== `${siteConfig.url}/admin/`,
@@ -54,5 +58,6 @@ export default defineConfig({
       SVG: false,
       Logger: 1,
     }),
+    mdx(),
   ],
 });

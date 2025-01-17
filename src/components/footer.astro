@@ -1,90 +1,48 @@
----
-import { Icon } from 'astro-icon/components';
-import Button from '@/components/ui/button.astro';
-import { siteConfig } from '@/config/site.config';
----
+<footer class='mt-16 w-full sm:mt-4' aria-labelledby='footer-heading'>
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 200'>
+    <path
+      class='scale-y-75 text-slate-200 dark:text-slate-800'
+      fill='currentColor'
+      fill-opacity='1'
+      d='M0,192L34.3,181.3C68.6,171,137,149,206,160C274.3,171,343,213,411,213.3C480,213,549,171,617,165.3C685.7,160,754,192,823,218.7C891.4,245,960,267,1029,256C1097.1,245,1166,203,1234,186.7C1302.9,171,1371,181,1406,186.7L1440,192L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z'
+    ></path>
+  </svg>
 
-<footer class='container'>
-  <div class='flex flex-col gap-8 py-12 lg:flex-row lg:items-center lg:justify-between'>
-    <!-- Logo -->
-    <div class='h-20 w-20 sm:h-24 sm:w-24'>
-      <div class='flex size-full items-center justify-center rounded-2xl bg-primary/5 ring-1 ring-primary/20'>
-        <Icon name='lucide:tree-pine' class='h-12 w-12 text-primary sm:h-14 sm:w-14' />
+  <div class='flex flex-col items-center justify-center gap-4 bg-slate-200 py-8 dark:bg-slate-800'>
+    <div class='container flex flex-col items-center gap-4'>
+      <div class='font-medium'>
+        © <span id='current-year'></span> Code by{' '}
+        <a
+          href='https://github.com/aleksa-codes/astro-portfolio-v2'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='hover:underline'
+        >
+          aleksa</a
+        >{' '}• art via{' '}<a
+          href='https://storyset.com/'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='hover:underline'>Storyset</a
+        >
       </div>
-    </div>
-
-    <div class='flex flex-wrap gap-x-24 gap-y-8'>
-      <!-- Navigation -->
-      <div class='space-y-4'>
-        <h3 class='font-medium'>Navigation</h3>
-        <nav class='flex flex-col gap-2 text-muted-foreground'>
-          {
-            siteConfig.navigation.map((item) => (
-              <a href={item.href} class='hover:text-primary' aria-label={item.label}>
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-      </div>
-
-      <!-- Contact -->
-      <div class='space-y-4'>
-        <h3 class='font-medium'>Contact</h3>
-        <div class='flex flex-col gap-2 text-muted-foreground'>
-          <a href={`tel:${siteConfig.contact.phone}`} class='flex items-center gap-2 hover:text-primary'>
-            <Icon name='lucide:phone' class='h-4 w-4' />
-            {siteConfig.contact.phone}
-          </a>
-          <a href='/contact' class='flex items-center gap-2 hover:text-primary'>
-            <Icon name='lucide:mail' class='h-4 w-4' />
-            Send a message
-          </a>
-        </div>
-      </div>
-
-      <!-- Newsletter -->
-      <div class='space-y-4'>
-        <h3 class='font-medium'>Stay Updated</h3>
-        <p class='text-sm text-muted-foreground'>Sign up for our latest news and updates.</p>
-        <form class='relative'>
-          <input
-            type='email'
-            placeholder='Email address...'
-            class='w-full rounded-md border border-border/40 bg-background px-4 py-2.5 pr-12 text-sm ring-offset-background placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/20'
-            aria-label='Email address'
-          />
-          <Button
-            type='submit'
-            variant='ghost'
-            size='icon'
-            class='absolute right-2 top-1/2 size-8 -translate-y-1/2'
-            aria-label='Subscribe to newsletter'
-          >
-            <Icon name='lucide:arrow-right' />
-          </Button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div class='border-t py-4'>
-    <div class='flex flex-col items-start gap-4 text-sm text-muted-foreground lg:flex-row lg:justify-between'>
-      <p>&copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
-      <div class='flex gap-2'>
-        <Button href='#' variant='ghost' size='icon' aria-label='Facebook'>
-          <Icon name='lucide:facebook' />
-        </Button>
-        <Button href='#' variant='ghost' size='icon' aria-label='Twitter'>
-          <Icon name='lucide:twitter' />
-        </Button>
-        <Button href='#' variant='ghost' size='icon' aria-label='Instagram'>
-          <Icon name='lucide:instagram' />
-        </Button>
-        <Button href='#' variant='ghost' size='icon' aria-label='LinkedIn'>
-          <Icon name='lucide:linkedin' />
-        </Button>
-      </div>
+      <div id='footer-message' class='mx-auto flex justify-center text-center md:flex-row'></div>
+      <a href='https://astro.build' target='_blank' rel='noopener noreferrer' class='mt-6'>
+        <img src='https://astro.badg.es/v2/built-with-astro/small.svg' alt='Built with Astro' width='192' height='32' />
+      </a>
     </div>
   </div>
 </footer>
+<script>
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  function getCurrentDay() {
+    const today = new Date();
+    const day = today.getDay();
+    return days[day];
+  }
+  const day = getCurrentDay();
+  document.getElementById('footer-message')!.innerText = `~ Have a great ${day} ~`;
+
+  const currentYear = new Date().getFullYear().toString();
+  document.getElementById('current-year')!.innerText = currentYear;
+</script>
