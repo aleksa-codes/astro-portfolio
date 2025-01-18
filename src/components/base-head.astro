@@ -42,7 +42,7 @@ const {
   schema,
 } = Astro.props;
 
-const pageTitle = Astro.url.pathname === '/' ? siteConfig.name : `${siteConfig.name} | ${title}`;
+const pageTitle = Astro.url.pathname === '/' ? siteName : `${siteName} | ${title}`;
 const baseUrl = Astro.site ?? Astro.url;
 const defaultCanonicalUrl = new URL(Astro.url.pathname + Astro.url.search, baseUrl);
 
@@ -126,7 +126,7 @@ const structuredData = {
 
   <link rel='preload' href='/laptop-animate.svg' as='image' type='image/svg+xml' />
 
-  <link rel='alternate' type='application/rss+xml' title=`${siteName} Web Feed` href={new URL('rss.xml', baseUrl)} />
+  <link rel='alternate' type='application/rss+xml' title=`${siteName} | RSS Feed` href='/rss.xml' />
 
   <script is:inline>
     const applyTheme = (isDark) => document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
@@ -149,12 +149,19 @@ const structuredData = {
     // });
   </script>
 
-  <link rel='icon' type='image/png' href='/favicons/favicon-96x96.png' sizes='96x96' />
-  <link rel='icon' type='image/svg+xml' href='/favicons/favicon.svg' />
-  <link rel='shortcut icon' href='/favicons/favicon.ico' />
-  <link rel='apple-touch-icon' sizes='180x180' href='/favicons/apple-touch-icon.png' />
-  <meta name='apple-mobile-web-app-title' content='aleksa.codes' />
-  <link rel='manifest' href='/favicons/site.webmanifest' />
+  <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+  <link rel='shortcut icon' href='/favicon.ico' />
+  <link rel='icon' type='image/png' sizes='16x16' href='/icons/ios/16.png' />
+  <link rel='icon' type='image/png' sizes='32x32' href='/icons/ios/32.png' />
+  <link rel='icon' type='image/png' sizes='96x96' href='/icons/ios/96.png' />
+  <link rel='apple-touch-icon' sizes='120x120' href='/icons/ios/120.png' />
+  <link rel='apple-touch-icon' sizes='144x144' href='/icons/ios/144.png' />
+  <link rel='apple-touch-icon' sizes='180x180' href='/icons/ios/180.png' />
+  <link rel='icon' type='image/png' sizes='192x192' href='/icons/android/192.png' />
+
+  <meta name='apple-mobile-web-app-title' content={siteName} />
+  <meta name='theme-color' content='#121212' />
+  <link rel='manifest' href='/manifest.json' />
   <link rel='sitemap' href='/sitemap-index.xml' />
 
   <link rel='canonical' href={canonicalURL || defaultCanonicalUrl} />
