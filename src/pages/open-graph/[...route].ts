@@ -26,7 +26,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
     //     }
     //   : undefined,
     logo: {
-      path: './src/assets/logo.png',
+      path: './public/icons/android/android-launchericon-192-192.png',
       // Width only, height will scale proportionally
       size: [192],
     },
