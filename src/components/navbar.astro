@@ -97,55 +97,62 @@ const isCurrentPage = (href: string) => {
         }
       </div>
 
-      <!-- Action Buttons -->
-      <div class='hidden items-center gap-2 lg:flex'>
-        <Button
-          variant='ghost'
-          size='icon'
-          aria-label='GitHub Profile'
-          href='https://github.com/aleksa-codes'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Icon name='lucide:github' class='size-5' />
-        </Button>
-        <Button
-          variant='ghost'
-          size='icon'
-          aria-label='Resume'
-          href='https://aleksa-codes.github.io/resume/'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Icon name='lucide:file-badge' class='size-5' />
-        </Button>
-        <Button
-          variant='ghost'
-          size='icon'
-          aria-label='RSS Feed'
-          href='/rss.xml'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Icon name='lucide:rss' class='size-5' />
-        </Button>
-        <SnowToggle />
-        <ThemeToggle />
-        <Button href='/contact' variant='secondary' class='px-8'>Contact</Button>
-      </div>
+      <!-- Action Buttons and Toggles -->
+      <div class='flex items-center gap-2'>
+        <!-- Social Links and Toggles -->
+        <div class='flex items-center gap-2'>
+          <div class='hidden items-center gap-2 lg:flex'>
+            <Button
+              variant='ghost'
+              size='icon'
+              aria-label='GitHub Profile'
+              href='https://github.com/aleksa-codes'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <Icon name='lucide:github' class='size-5' />
+            </Button>
+            <Button
+              variant='ghost'
+              size='icon'
+              aria-label='Resume'
+              href='https://aleksa-codes.github.io/resume/'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <Icon name='lucide:file-badge' class='size-5' />
+            </Button>
+            <Button
+              variant='ghost'
+              size='icon'
+              aria-label='RSS Feed'
+              href='/rss.xml'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <Icon name='lucide:rss' class='size-5' />
+            </Button>
+          </div>
+          <SnowToggle />
+          <ThemeToggle />
+        </div>
 
-      <!-- Mobile Menu Trigger -->
-      <Button
-        id='mobile-menu-button'
-        variant='ghost'
-        size='icon'
-        class='text-base-content hover:bg-base-200 lg:hidden'
-        aria-label='Toggle menu'
-        aria-expanded='false'
-        aria-controls='mobile-menu'
-      >
-        <Icon name='lucide:menu' class='size-5' />
-      </Button>
+        <!-- Contact Button (Desktop) -->
+        <Button href='/contact' variant='secondary' class='hidden px-8 lg:inline-flex'> Contact </Button>
+
+        <!-- Mobile Menu Trigger -->
+        <Button
+          id='mobile-menu-button'
+          variant='outline'
+          size='icon'
+          class='lg:hidden'
+          aria-label='Toggle menu'
+          aria-expanded='false'
+          aria-controls='mobile-menu'
+        >
+          <Icon name='lucide:menu' class='size-5' />
+        </Button>
+      </div>
     </div>
   </div>
 </nav>
@@ -217,9 +224,18 @@ const isCurrentPage = (href: string) => {
     <!-- Mobile navigation links -->
     <div class='flex flex-col gap-4'>
       <div class='overflow-x-hidden overflow-y-auto'>
+        <!-- Home link -->
+        <a
+          href='/'
+          class={cn('block py-2', isCurrentPage('/') ? 'text-primary font-medium' : 'hover:text-primary')}
+          aria-current={isCurrentPage('/') ? 'page' : null}
+        >
+          Home
+        </a>
+        <!-- Regular navigation items -->
         {
           navigationLinks.map(({ href, label, dropdown }) => (
-            <div class='space-y-2'>
+            <div>
               {dropdown ? (
                 <button
                   class='group hover:text-primary focus-visible:ring-primary flex w-full items-center justify-between rounded-md py-2 focus:outline-none focus-visible:ring-2'

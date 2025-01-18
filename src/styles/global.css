@@ -367,11 +367,11 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-base-200;
+    @apply bg-base-300;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-base-content hover:bg-base-300 rounded-full;
+    @apply bg-base-content hover:bg-base-content/50 rounded-full;
   }
 
   input:-webkit-autofill,
