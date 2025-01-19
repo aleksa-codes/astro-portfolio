@@ -52,11 +52,25 @@ const baseClassName = cn(
 {
   href ? (
     <a href={href} class={baseClassName} {...rest}>
-      {loading ? <Icon name='lucide:loader-2' class='animate-spin' /> : <slot />}
+      {loading ? (
+        <div class='flex items-center gap-2'>
+          <Icon name='lucide:loader-2' class='animate-spin' />
+          <slot />
+        </div>
+      ) : (
+        <slot />
+      )}
     </a>
   ) : (
     <button type={type} class={baseClassName} disabled={disabled || loading} {...rest}>
-      {loading ? <Icon name='lucide:loader-2' class='animate-spin' /> : <slot />}
+      {loading ? (
+        <div class='flex items-center gap-2'>
+          <Icon name='lucide:loader-2' class='animate-spin' />
+          <slot />
+        </div>
+      ) : (
+        <slot />
+      )}
     </button>
   )
 }
