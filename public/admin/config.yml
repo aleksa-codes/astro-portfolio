@@ -17,8 +17,8 @@ public_folder: '/public/images'
 publish_mode: editorial_workflow
 
 # Site URL for preview
-site_url: https://aleksa.netlify.app
-display_url: https://aleksa.netlify.app
+site_url: https://aleksa.codes
+display_url: https://aleksa.codes
 
 # Collections
 collections:
