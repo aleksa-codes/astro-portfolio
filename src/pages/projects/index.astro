@@ -11,23 +11,21 @@ import GptImgCaptioner from '@/assets/projects/gpt-img-captioner.png';
 import GptFileSmith from '@/assets/projects/gpt-filesmith.png';
 import NextMeal from '@/assets/projects/next-meal.png';
 import NextDay from '@/assets/projects/nextday.png';
+import { cn } from '@/lib/utils';
+
+const categories = [
+  { name: 'Websites', icon: 'lucide:panels-top-left' },
+  { name: 'Web Apps', icon: 'lucide:layout-dashboard' },
+  { name: 'AI & Tools', icon: 'lucide:bot' },
+  { name: 'Extensions', icon: 'lucide:puzzle' },
+];
 
 const projects = [
-  // {
-  //   title: 'ChatX',
-  //   description:
-  //     'Comprehensive AI application suite combining an advanced assistant with creative tools. Features real-time web search, news aggregation, image generation, and code conversion. Built with Next.js 15, Supabase, and multiple AI services. Final thesis project.',
-  //   tags: ['Next.js', 'TypeScript', 'Supabase', 'OpenAI', 'DrizzleORM', 'shadcn/ui'],
-  //   image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&auto=format&fit=crop',
-  //   github: 'https://github.com/yourusername/chatx',
-  //   demo: 'https://chatx.yourdomain.com',
-  //   featured: true,
-  // },
   {
     title: 'NextDay',
     description:
-      'Full-stack productivity app combining todo lists with integrated Pomodoro timers. Features user authentication, real-time updates, and nested todo items. Built with Next.js, DrizzleORM, and Supabase.',
-    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'DrizzleORM', 'Supabase', 'shadcn/ui'],
+      'Full-stack productivity app that combines todo lists with integrated Pomodoro timers. Features <span class="highlight">seamless authentication and real-time syncing</span> with nested task organization.',
+    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'Supabase', 'DrizzleORM', 'Better Auth'],
     image: NextDay,
     github: 'https://github.com/aleksa-codes/nextday-todo-app',
     demo: 'https://nextday.aleksa.io',
@@ -36,8 +34,8 @@ const projects = [
   {
     title: 'Easy WebsiteGPT',
     description:
-      "Chrome extension that allows you to chat with any webpage using OpenAI's GPT model. Features real-time streaming responses, beautiful UI with animations, and local storage for chat history.",
-    tags: ['React', 'TypeScript', 'TailwindCSS', 'OpenAI API', 'Chrome API'],
+      'Innovative Chrome extension for <span class="highlight">interactive conversations with any webpage</span>. Features real-time streaming responses and persistent chat history.',
+    tags: ['React', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'OpenAI API', 'Chrome API'],
     image: EasyWebsiteGPT,
     github: 'https://github.com/aleksa-codes/easy-website-gpt',
     status: 'coming-soon',
@@ -46,8 +44,8 @@ const projects = [
   {
     title: 'GPT Image Captioner',
     description:
-      "Web app for generating detailed image captions using OpenAI's GPT API. Perfect for LoRA model training with batch processing and customizable caption options.",
-    tags: ['Next.js', 'TailwindCSS', 'OpenAI API', 'TypeScript'],
+      'Advanced tool for generating detailed image descriptions. Optimized for <span class="highlight">LoRA model training</span> with support for batch processing and customizable outputs.',
+    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'OpenAI API'],
     image: GptImgCaptioner,
     github: 'https://github.com/aleksa-codes/gpt-flux-img-captioner',
     demo: 'https://gptcaptioner.aleksa.io',
@@ -55,8 +53,8 @@ const projects = [
   {
     title: 'Easy Website Blocker',
     description:
-      "Chrome extension for blocking distracting websites with customizable exceptions. Built with React and Chrome's Manifest V3 using declarativeNetRequest.",
-    tags: ['React', 'TypeScript', 'Chrome API', 'TailwindCSS'],
+      'Powerful productivity extension for <span class="highlight">eliminating digital distractions</span>. Features customizable block lists and granular exceptions for focused work sessions.',
+    tags: ['React', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'Chrome API'],
     image: EasyWebsiteBlocker,
     github: 'https://github.com/aleksa-codes/easy-website-blocker',
     status: 'coming-soon',
@@ -64,7 +62,7 @@ const projects = [
   {
     title: 'GPT FileSmith',
     description:
-      "Dynamic file generator inspired by Rick and Morty's Interdimensional Cable. Enter any path or URL to generate unique file content using GPT-4. Features direct browser access and downloadable HTML files.",
+      'Creative content generator inspired by Rick and Morty\'s multiverse concept. <span class="highlight">Creates unique, imaginative content</span> with instant preview and download options.',
     tags: ['Astro', 'TailwindCSS', 'OpenAI API'],
     image: GptFileSmith,
     github: 'https://github.com/aleksa-codes/gpt-filesmith',
@@ -73,7 +71,7 @@ const projects = [
   {
     title: 'One Dark Modern Pro',
     description:
-      'VS Code theme combining One Dark Pro syntax highlighting with Dark Modern UI elements. Custom-crafted for optimal readability and aesthetic appeal.',
+      'Sleek and modern VS Code theme inspired by Atom\'s One Dark Pro. Features <span class="highlight">vibrant syntax highlighting and modern UI design</span>.',
     tags: ['VS Code', 'Theme', 'JSON'],
     image: OneDarkModernPro,
     github: 'https://github.com/aleksa-codes/one-dark-modern-pro',
@@ -82,8 +80,8 @@ const projects = [
   {
     title: 'Next Meal',
     description:
-      'Progressive Web App that generates random meal recipes with ingredients, instructions, and cooking videos. Features dark mode, offline support, and smooth animations.',
-    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'PWA', 'Framer Motion'],
+      'Intuitive recipe discovery app with <span class="highlight">instant meal suggestions and video tutorials</span>. Perfect for when you need quick meal ideas.',
+    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'TheMealDB API', 'PWA'],
     image: NextMeal,
     github: 'https://github.com/aleksa-codes/my-next-meal-pwa',
     demo: 'https://nextmeal.aleksa.io',
@@ -93,94 +91,141 @@ const projects = [
 
 <Layout
   title='Projects'
-  description='Explore my portfolio of web applications, browser extensions, and open-source projects. Featuring modern software solutions focused on performance and user experience.'
+  description='Explore my collection of web applications, AI-powered tools, and browser extensions. From productivity apps to creative solutions, see how I bring ideas to life with modern web technologies.'
 >
   <section class='container space-y-6'>
     <Breadcrumb />
-    <h1 class='text-base-content mb-8 text-4xl font-extrabold tracking-tight lg:text-5xl'>Projects</h1>
-    <p class='text-base-content/80 text-lg leading-relaxed'>
-      Collection of personal projects that I have worked on. Each project was a unique challenge and learning experience
-      that helped me grow as a developer.
-      <div class='space-y-16'>
+    <div class='space-y-6'>
+      <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>Projects</h1>
+      <p class='text-base-content/80 max-w-[750px] text-lg leading-relaxed'>
+        As a developer who loves exploring new technologies, these projects represent my journey of continuous learning
+        and innovation. From Websites to AI-powered tools, each project is crafted with <span class='highlight'
+          >passion for clean code</span
+        > and <span class='highlight'>exceptional user experience</span>.
+      </p>
+
+      <div class='flex flex-wrap gap-4 pt-2'>
         {
-          projects
-            .sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1))
-            .map((project, index) => (
-              <div class={`flex flex-col gap-8 lg:flex-row ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-                {/* Image */}
-                <div class='border-base-300 bg-base-200 relative aspect-square w-full overflow-hidden rounded-lg border lg:w-1/2'>
+          categories.map((category) => (
+            <div class='bg-base-200 hover:bg-base-300 flex items-center gap-2 rounded-full px-4 py-2 transition-colors'>
+              <Icon name={category.icon} class='size-4' />
+              <span class='text-sm font-medium'>{category.name}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class='space-y-12'>
+      {
+        projects
+          .sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1))
+          .map((project, index) => (
+            <div
+              class={`group relative flex flex-col gap-12 lg:flex-row ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+            >
+              {/* Image Container */}
+              <div class='relative w-full lg:w-1/2'>
+                <div class='border-base-300 bg-base-200 relative aspect-square overflow-hidden rounded-2xl border shadow-lg transition-all duration-200 group-hover:shadow-xl'>
                   {project.image && (
                     <Image
                       src={project.image}
                       alt={project.title}
                       format={'avif'}
                       quality='max'
-                      class='h-full w-full object-cover transition-transform duration-300'
+                      class='h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]'
                     />
                   )}
                 </div>
+              </div>
 
-                {/* Content */}
-                <div class='flex w-full flex-col justify-center space-y-4 lg:w-1/2'>
+              {/* Content */}
+              <div class='flex w-full flex-col justify-center space-y-6 lg:w-1/2'>
+                <div class='space-y-4'>
                   <div class='flex items-center gap-4'>
-                    <h2 class='text-base-content text-3xl font-bold'>{project.title}</h2>
+                    <h2
+                      class={cn(
+                        'from-secondary to-base-content bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-tight text-transparent',
+                        project.featured && 'to-warning',
+                      )}
+                    >
+                      {project.title}
+                    </h2>
                     {project.featured && (
-                      <div class='bg-warning text-warning-content inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm'>
-                        <Icon name='lucide:star' class='size-3' />
+                      <div class='bg-warning text-warning-content flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium'>
+                        <Icon name='lucide:star' class='size-3.5' />
                         Featured
                       </div>
                     )}
                   </div>
-                  <p class='text-base-content/80 text-lg'>{project.description}</p>
+                  <p class='text-base-content/80 text-lg leading-relaxed' set:html={project.description} />
+                </div>
 
-                  {/* Tags */}
-                  <div class='flex flex-wrap gap-2'>
-                    {project.tags.map((tag) => (
-                      <span class='bg-base-300 text-base-content rounded-full px-3 py-1 text-sm font-medium'>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                {/* Tags */}
+                <div class='flex flex-wrap gap-2'>
+                  {project.tags.map((tag) => (
+                    <span class='bg-base-200 text-base-content/90 hover:bg-base-300 rounded-full px-4 py-1.5 text-sm font-medium transition-colors'>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
 
-                  {/* Links */}
-                  <div class='flex gap-4 pt-2'>
-                    {project.status === 'coming-soon' ? (
-                      <Button variant='secondary' disabled loading>
-                        Coming Soon
+                {/* Links */}
+                <div class='flex gap-4 pt-2'>
+                  {project.status === 'coming-soon' ? (
+                    <Button variant='secondary' disabled loading>
+                      Coming Soon
+                    </Button>
+                  ) : (
+                    project.demo && (
+                      <Button
+                        variant='secondary'
+                        href={project.demo}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        class='group/btn transition-all duration-200 hover:scale-105'
+                      >
+                        <Icon
+                          name='lucide:external-link'
+                          class='size-4 transition-transform duration-200 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5'
+                        />
+                        Live Demo
                       </Button>
-                    ) : (
-                      project.demo && (
-                        <Button variant='secondary' href={project.demo} target='_blank' rel='noopener noreferrer'>
-                          <Icon name='lucide:external-link' class='size-4' />
-                          Demo
-                        </Button>
-                      )
-                    )}
-                    {project.github && (
-                      <Button variant='outline' href={project.github} target='_blank' rel='noopener noreferrer'>
-                        <Icon name='lucide:github' class='size-4' />
-                        Code
-                      </Button>
-                    )}
-                  </div>
+                    )
+                  )}
+                  {project.github && (
+                    <Button
+                      variant='outline'
+                      href={project.github}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      class='group/btn transition-all duration-200 hover:scale-105'
+                    >
+                      <Icon
+                        name='lucide:github'
+                        class='size-4 transition-transform duration-200 group-hover/btn:rotate-12'
+                      />
+                      View Code
+                    </Button>
+                  )}
                 </div>
               </div>
-            ))
-        }
-      </div>
+            </div>
+          ))
+      }
+    </div>
 
-      <div class='flex justify-center pt-12'>
-        <Button
-          href='https://github.com/aleksa-codes'
-          size='lg'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='bg-base-300 text-base-content hover:bg-base-200 transition-transform duration-300 hover:scale-105'
-        >
-          <Icon name='lucide:github' />
-          View More on GitHub
-        </Button>
-      </div>
-    </p>
+    <div class='flex justify-center pt-16'>
+      <Button
+        href='https://github.com/aleksa-codes'
+        size='lg'
+        target='_blank'
+        rel='noopener noreferrer'
+        class='group/btn bg-base-300 hover:bg-base-300/90 text-base-content hover:text-base-content/90 transition-colors'
+      >
+        <Icon name='lucide:github' class='size-5 transition-transform duration-200 group-hover:rotate-12' />
+        Explore More on GitHub
+      </Button>
+    </div>
   </section>
 </Layout>
