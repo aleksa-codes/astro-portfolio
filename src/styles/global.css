@@ -37,6 +37,8 @@
   --color-error: var(--error);
   --color-error-content: var(--error-content);
 
+  --color-highlight: var(--highlight);
+
   --radius-selector: 1rem;
   --radius-field: 0.5rem;
   --radius-box: 1rem;
@@ -148,10 +150,10 @@
   @keyframes highlight {
     0%,
     100% {
-      box-shadow: var(--highlight-color) 0px -1rem 0px inset;
+      box-shadow: var(--highlight) 0px -1rem 0px inset;
     }
     50% {
-      box-shadow: var(--highlight-color) 0px -2.25rem 0px inset;
+      box-shadow: var(--highlight) 0px -2.25rem 0px inset;
     }
   }
 }
@@ -187,7 +189,7 @@
     --error: oklch(73.092% 0.11 20.076);
     --error-content: oklch(14.618% 0.022 20.076);
 
-    --highlight-color: oklch(86.99% 0.0622 274.04);
+    --highlight: oklch(86.99% 0.0622 274.04);
   }
 
   .dark {
@@ -220,7 +222,7 @@
     --error: oklch(71.785% 0.17 13.118);
     --error-content: oklch(14.357% 0.034 13.118);
 
-    --highlight-color: oklch(42.47% 0.1598 282.48);
+    --highlight: oklch(42.47% 0.1598 282.48);
   }
 
   @font-face {
@@ -334,19 +336,19 @@
 /* Modified: https://github.com/tailwindlabs/tailwindcss/discussions/14031 */
 @layer base {
   .highlight:hover {
-    box-shadow: var(--highlight-color) 0px -1.25rem 0px inset;
+    box-shadow: var(--highlight) 0px -1.25rem 0px inset;
   }
 
   .highlight {
-    box-shadow: var(--highlight-color) 0px -0.5rem 0px inset;
+    box-shadow: var(--highlight) 0px -0.5rem 0px inset;
     transition: box-shadow 0.3s ease-out 0s;
   }
 
   .highlight-heading:hover {
-    box-shadow: var(--highlight-color) 0px -2.25rem 0px inset;
+    box-shadow: var(--highlight) 0px -2.25rem 0px inset;
   }
   .highlight-heading {
-    box-shadow: var(--highlight-color) 0px -1rem 0px inset;
+    box-shadow: var(--highlight) 0px -1rem 0px inset;
     transition: box-shadow 0.3s ease-out 0s;
   }
 
