@@ -3,133 +3,156 @@ import Layout from '@/layouts/layout.astro';
 import Breadcrumb from '@/components/breadcrumb.astro';
 import { Icon } from 'astro-icon/components';
 import Button from '@/components/ui/button.astro';
+import Avatar from '@/assets/Avatar.svg';
+import WinterAvatar from '@/assets/WinterAvatar.svg';
 ---
 
 <Layout title='Contact' description='Get in touch with me for project inquiries, collaborations, or just to say hi!'>
   <section class='container space-y-6'>
     <Breadcrumb />
-    <h1 class='text-base-content text-4xl font-extrabold tracking-tight lg:text-5xl'>Contact</h1>
+    <h1 class='text-base-content text-4xl font-extrabold tracking-tight lg:text-5xl'>Contact me</h1>
 
-    <div class='space-y-8'>
-      <!-- Form Content -->
-      <div id='form-content' class='space-y-8'>
-        <div class='space-y-4'>
-          <p class='text-base-content/80 text-lg leading-relaxed'>
-            Have a question, project inquiry, or just want to say hi? Feel free to reach out using the form below.
-          </p>
+    <!-- Combined Avatar and Text Section -->
+    <div class='flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12'>
+      <div class='flex-shrink-0'>
+        {[11, 0, 1].includes(new Date().getMonth()) ? <WinterAvatar /> : <Avatar />}
+      </div>
+      <div class='space-y-4 text-center md:text-left'>
+        <p class='text-base-content/80 max-w-xl text-lg leading-relaxed'>
+          Feel free to reach out using the form below. I am always interested in new <span class='highlight'
+            >ideas and opportunities!</span
+          >
+        </p>
+        <div class='flex items-center justify-center gap-2 md:justify-start'>
+          <Button href='mailto:hello@aleksa.codes' variant='ghost' size='icon' aria-label='Email'>
+            <Icon name='lucide:mail' />
+          </Button>
+          <Button
+            href='https://discordapp.com/users/1078249969775038514'
+            variant='ghost'
+            size='icon'
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label='Discord'
+          >
+            <Icon name='simple-icons:discord' />
+          </Button>
         </div>
+      </div>
+    </div>
 
-        <form
-          id='contact-form'
-          data-netlify='true'
-          data-netlify-recaptcha='true'
-          netlify-honeypot='bot-field'
-          name='contact'
-          method='POST'
-          class='border-base-300 bg-base-200 rounded-lg border p-6 shadow-sm'
-        >
-          <div class='space-y-6'>
-            <p class='hidden'>
-              <label>Don't fill this out if you're human: <input name='bot-field' /></label>
-            </p>
-            <input type='hidden' name='form-name' value='contact' />
-            <input
-              type='hidden'
-              name='subject'
-              value='%{siteName}: New Inquiry from %{formName} form (id: %{submissionId})'
-            />
+    <!-- Form Content -->
+    <div id='form-content' class='space-y-8'>
+      <form
+        id='contact-form'
+        data-netlify='true'
+        data-netlify-recaptcha='true'
+        netlify-honeypot='bot-field'
+        name='contact'
+        method='POST'
+        class='border-base-300 bg-base-200 rounded-lg border p-6 shadow-sm'
+      >
+        <div class='space-y-6'>
+          <p class='hidden'>
+            <label>Don't fill this out if you're human: <input name='bot-field' /></label>
+          </p>
+          <input type='hidden' name='form-name' value='contact' />
+          <input
+            type='hidden'
+            name='subject'
+            value='%{siteName}: New Inquiry from %{formName} form (id: %{submissionId})'
+          />
 
-            <!-- Form Fields -->
-            <div class='space-y-4'>
-              <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
-                <div class='w-full'>
-                  <label class='text-base-content block text-sm font-medium'>
-                    Name <span class='text-error'>*</span>
-                  </label>
-                  <input
-                    type='text'
-                    name='name'
-                    placeholder='e.g. Bon Jovi'
-                    required
-                    class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-neutral mt-2 w-full rounded-md border px-3 py-2 text-sm ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
-                  />
-                </div>
-
-                <div class='w-full'>
-                  <label class='text-base-content block text-sm font-medium'>
-                    Email <span class='text-error'>*</span>
-                  </label>
-                  <input
-                    type='email'
-                    name='email'
-                    placeholder='e.g. bon.jovi@gmail.com'
-                    required
-                    class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-neutral mt-2 w-full rounded-md border px-3 py-2 text-sm ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
-                  />
-                </div>
-              </div>
-
+          <!-- Form Fields -->
+          <div class='space-y-4'>
+            <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
               <div class='w-full'>
                 <label class='text-base-content block text-sm font-medium'>
-                  Subject <span class='text-error'>*</span>
+                  Name <span class='text-error'>*</span>
                 </label>
                 <input
                   type='text'
-                  name='subject'
-                  placeholder="e.g. Let's Connect!"
+                  name='name'
+                  placeholder='e.g. Bon Jovi'
                   required
-                  class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-neutral mt-2 w-full rounded-md border px-3 py-2 text-sm ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
+                  class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-secondary mt-2 w-full rounded-md border px-3 py-2 ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
                 />
               </div>
 
               <div class='w-full'>
                 <label class='text-base-content block text-sm font-medium'>
-                  Message <span class='text-error'>*</span>
+                  Email <span class='text-error'>*</span>
                 </label>
-                <textarea
-                  name='message'
-                  rows='6'
-                  placeholder='Your Message'
+                <input
+                  type='email'
+                  name='email'
+                  placeholder='e.g. bon.jovi@gmail.com'
                   required
-                  class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-neutral mt-2 w-full rounded-md border px-3 py-2 text-sm ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
-                ></textarea>
+                  class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-secondary mt-2 w-full rounded-md border px-3 py-2 ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
+                />
               </div>
             </div>
 
-            <div class='space-y-4'>
-              <div data-netlify-recaptcha='true'></div>
-              <div class='flex gap-4'>
-                <Button type='submit' variant='secondary' class='flex-1'>
-                  <Icon name='lucide:send' class='size-4' />
-                  Send Message
-                </Button>
-                <Button type='reset' variant='ghost'>
-                  <Icon name='lucide:eraser' class='size-4' />
-                  Clear
-                </Button>
-              </div>
+            <div class='w-full'>
+              <label class='text-base-content block text-sm font-medium'>
+                Subject <span class='text-error'>*</span>
+              </label>
+              <input
+                type='text'
+                name='subject'
+                placeholder="e.g. Let's Connect!"
+                required
+                class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-secondary mt-2 w-full rounded-md border px-3 py-2 ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
+              />
+            </div>
+
+            <div class='w-full'>
+              <label class='text-base-content block text-sm font-medium'>
+                Message <span class='text-error'>*</span>
+              </label>
+              <textarea
+                name='message'
+                rows='6'
+                placeholder='Your Message'
+                required
+                class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-secondary mt-2 w-full rounded-md border px-3 py-2 ring-offset-2 focus-visible:ring-2 focus-visible:outline-none'
+              ></textarea>
             </div>
           </div>
-        </form>
-      </div>
 
-      <!-- Success Message (initially hidden) -->
-      <div id='success-message' class='hidden'>
-        <div class='border-base-300 bg-base-200 rounded-lg border p-8 text-center shadow-sm'>
-          <div class='bg-success/10 mx-auto flex size-12 items-center justify-center rounded-full'>
-            <Icon name='lucide:check' class='text-success size-6' />
+          <div class='space-y-4'>
+            <div data-netlify-recaptcha='true'></div>
+            <div class='flex justify-end gap-4'>
+              <Button type='reset' variant='ghost'>
+                <Icon name='lucide:eraser' class='size-4' />
+                Clear
+              </Button>
+              <Button type='submit' variant='secondary'>
+                <Icon name='lucide:send' class='size-4' />
+                Send
+              </Button>
+            </div>
           </div>
-
-          <div class='mt-6 space-y-4'>
-            <h2 class='text-base-content text-2xl font-bold'>Thanks for getting in touch!</h2>
-            <p class='text-base-content/80'>I'll get back to you as soon as possible.</p>
-          </div>
-
-          <Button variant='secondary' id='send-another' class='mt-6'>
-            <Icon name='lucide:mail' class='size-4' />
-            Send Another Message
-          </Button>
         </div>
+      </form>
+    </div>
+
+    <!-- Success Message (initially hidden) -->
+    <div id='success-message' class='hidden'>
+      <div class='border-base-300 bg-base-200 rounded-lg border p-8 text-center shadow-sm'>
+        <div class='bg-success/10 mx-auto flex size-12 items-center justify-center rounded-full'>
+          <Icon name='lucide:check' class='text-success size-6' />
+        </div>
+
+        <div class='mt-6 space-y-4'>
+          <h2 class='text-base-content text-2xl font-bold'>Thanks for getting in touch!</h2>
+          <p class='text-base-content/80'>I'll get back to you as soon as possible.</p>
+        </div>
+
+        <Button variant='secondary' id='send-another' class='mt-6'>
+          <Icon name='lucide:mail' class='size-4' />
+          Send Another Message
+        </Button>
       </div>
     </div>
   </section>
