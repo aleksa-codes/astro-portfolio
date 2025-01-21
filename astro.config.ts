@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import { siteConfig } from '@/config/site.config';
+import { siteConfig } from './src/config/site.config';
 import { imageService } from '@unpic/astro/service';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
