@@ -2,7 +2,7 @@ export const siteConfig = {
   // Basic site info
   name: 'aleksa.codes',
   description:
-    "Aleksa is junior React developer, skilled in building user interfaces and front-end applications using the popular JavaScript library. Passionate about coding and dedicated to creating visually appealing and user-friendly experiences, Aleksa is constantly seeking to improve and expand their skills. Explore Aleksa's (or Alexa's) portfolio to see their work and learn more about their capabilities as a web developer.",
+    'Full-stack web developer crafting modern, performant, and user-focused digital experiences. Specialized in building responsive web applications and innovative software solutions.',
   url: 'https://aleksa.codes',
 
   // SEO & Metadata
