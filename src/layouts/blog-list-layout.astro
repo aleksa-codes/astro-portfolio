@@ -34,8 +34,8 @@ const postsWithReadTime = page.data.map((post) => ({
 <Layout title={title} description={description}>
   <section class='container space-y-6'>
     <Breadcrumb />
-    <h1 class='text-base-content mb-8 text-4xl font-extrabold tracking-tight lg:text-5xl'>{title}</h1>
-    <p class='text-base-content/80 text-lg leading-relaxed'>{description}</p>
+    <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>{title}</h1>
+    <p class='text-base-content/80 max-w-[750px] text-lg leading-relaxed'>{description}</p>
 
     <div class='grid grid-cols-1 gap-8 lg:grid-cols-12'>
       <!-- Main Content -->
