@@ -1,12 +1,11 @@
 import { defineConfig } from 'astro/config';
-import icon from 'astro-icon';
+import { siteConfig } from '@/config/site.config';
+import { imageService } from '@unpic/astro/service';
+import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import compress from 'astro-compress';
-import { imageService } from '@unpic/astro/service';
-import { siteConfig } from './src/config/site.config';
+import icon from 'astro-icon';
 import tailwindcss from '@tailwindcss/vite';
-
-import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
