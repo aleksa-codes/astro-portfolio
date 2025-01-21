@@ -1,39 +1,127 @@
 ---
 import Layout from '@/layouts/layout.astro';
 import Breadcrumb from '@/components/breadcrumb.astro';
+import { Icon } from 'astro-icon/components';
+import Button from '@/components/ui/button.astro';
+
+const techStack = [
+  { name: 'HTML', icon: 'simple-icons:html5' },
+  { name: 'CSS', icon: 'simple-icons:css3' },
+  { name: 'JavaScript', icon: 'simple-icons:javascript' },
+  { name: 'TypeScript', icon: 'simple-icons:typescript' },
+  { name: 'React', icon: 'simple-icons:react' },
+  { name: 'Next.js', icon: 'simple-icons:nextdotjs' },
+  { name: 'Astro', icon: 'simple-icons:astro' },
+  { name: 'Vite', icon: 'simple-icons:vite' },
+  { name: 'TailwindCSS', icon: 'simple-icons:tailwindcss' },
+  { name: 'shadcn/ui', icon: 'simple-icons:shadcnui' },
+  { name: 'Framer Motion', icon: 'simple-icons:framer' },
+  { name: 'Node.js', icon: 'simple-icons:nodedotjs' },
+  { name: 'Supabase', icon: 'simple-icons:supabase' },
+  { name: 'DrizzleORM', icon: 'simple-icons:drizzle' },
+  { name: 'OpenAI API', icon: 'simple-icons:openai' },
+  { name: 'Git', icon: 'simple-icons:git' },
+  { name: 'VS Code', icon: 'simple-icons:visualstudiocode' },
+  { name: 'Yarn', icon: 'simple-icons:yarn' },
+];
+
+const funFacts = [
+  { icon: 'lucide:brain-circuit', text: 'AI enthusiast and lifelong learner' },
+  { icon: 'lucide:music', text: 'Hip-hop head and rap junkie' },
+  { icon: 'lucide:cat', text: 'Loves to pet every cat in sight' },
+  { icon: 'lucide-lab:basketball', text: 'Basketball player and NBA fan' },
+  { icon: 'lucide:gamepad-2', text: 'Casual gamer in free time' },
+  { icon: 'lucide:coffee', text: 'Fueled by coffee and curiosity' },
+];
 ---
 
 <Layout
   title='About'
-  description='Discover my journey as a web developer, from early programming experiences to professional web development. Computer Science graduate passionate about creating innovative digital solutions.'
+  description='Learn about my journey as a full-stack web developer, from computer science education to creating modern web applications. Passionate about building innovative digital solutions and user-focused experiences.'
 >
   <section class='container space-y-6'>
     <Breadcrumb />
-    <h1 class='mb-8 text-4xl font-extrabold tracking-tight lg:text-5xl'>About me</h1>
-    <div class='space-y-6 text-lg leading-relaxed'>
-      <p>
-        Born in 1996, I was raised during the digital revolution. As a teenager, I developed a passion for building
-        websites and became increasingly fascinated by the digital economy.
-      </p>
-      <p>
-        After finishing high school, I pursued a Bachelor's degree in <span class='highlight'>Computer Science</span> at
-        Singidunum University, complementing my studies with a variety of online courses to enhance my knowledge and abilities.
-      </p>
-      <p>
-        As an passionate and motivated <span class='highlight'>full-stack web developer</span>, I'm always eager to
-        transform ideas into applications. My goal is to stay at the forefront of the ever-changing <span
-          class='highlight'>web development</span
-        > world, actively seeking new learning opportunities and projects to continue improving my skills.
-      </p>
-      <p>
-        In my work, I strive to create <span class='highlight'>modern, responsive websites and applications</span> that meet
-        the needs and desires of my clients, while also finding innovative solutions to problems through collaboration.
-      </p>
-      <p>
-        During my free time, I enjoy traveling, watching movies or playing basketball and video games. I also have a
-        soft spot for cats and relish the opportunity to pet them whenever possible. 😸
-      </p>
-      <p class='font-cursive mt-12 text-right text-3xl font-bold select-none sm:text-4xl'>aleksa</p>
+
+    <div class='space-y-8 text-lg leading-relaxed'>
+      <div class='space-y-6'>
+        <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>About</h1>
+        <p>
+          Born in 1996, I grew up alongside the digital revolution, witnessing the internet evolve into the powerful
+          platform it is today. My journey into web development started with pure curiosity - I wanted to understand how
+          websites worked and soon found myself <span class='highlight'>building my own digital experiences</span>.
+        </p>
+
+        <p>
+          After completing my <span class='highlight'>Computer Science degree at Singidunum University</span>, I've
+          dedicated myself to mastering modern web development and creating solutions that make a difference. From
+          browser extensions to full-stack applications, I approach each project as an opportunity to innovate and grow.
+        </p>
+
+        <p>
+          Today, I specialize in building <span class='highlight'>modern web applications</span> that prioritize performance,
+          accessibility, and user experience. I'm particularly passionate about exploring new technologies and finding creative
+          ways to solve complex problems through code.
+        </p>
+      </div>
+
+      <div class='space-y-6'>
+        <h2 class='text-2xl font-bold'>Tech I Love Working With</h2>
+        <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6'>
+          {
+            techStack.map((tech) => (
+              <div class='bg-base-200 hover:bg-base-300 flex flex-col items-center gap-2 rounded-lg p-4 transition-colors'>
+                <Icon name={tech.icon} class='size-8' />
+                <span class='text-sm font-medium'>{tech.name}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class='space-y-6'>
+        <h2 class='text-2xl font-bold'>Fun Facts</h2>
+        <div class='grid gap-4 sm:grid-cols-2'>
+          {
+            funFacts.map((fact) => (
+              <div class='bg-base-200 hover:bg-base-300 flex items-center gap-4 rounded-lg p-4 transition-colors'>
+                <Icon name={fact.icon} class='size-5 shrink-0' />
+                <span>{fact.text}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class='from-secondary/20 to-warning/20 space-y-4 rounded-lg bg-gradient-to-r p-6 text-lg'>
+        <p>
+          I'm always open to discussing new projects, opportunities, or just having a chat about web development. Feel
+          free to check out my <a href='/projects' class='text-secondary font-medium underline'>projects</a> or connect with
+          me on <a
+            href='https://github.com/aleksa-codes'
+            target='_blank'
+            rel='noopener noreferrer'
+            class='text-secondary font-medium underline'
+          >
+            GitHub
+          </a>.
+        </p>
+        <div class='flex items-center gap-2'>
+          <Button href='mailto:hello@aleksa.codes' variant='ghost' size='sm'>
+            <Icon name='lucide:mail' />
+            Email me
+          </Button>
+          <Button
+            href='https://discordapp.com/users/1078249969775038514'
+            variant='ghost'
+            size='sm'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <Icon name='simple-icons:discord' />
+            Discord
+          </Button>
+        </div>
+        <p class='font-cursive text-right text-3xl font-bold select-none sm:text-4xl'>aleksa</p>
+      </div>
     </div>
   </section>
 </Layout>

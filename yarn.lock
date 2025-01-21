@@ -353,6 +353,13 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.24.2.tgz#34aa0b52d0fbb1a654b596acfa595f0c7b77a77b"
   integrity sha512-7VTgWzgMGvup6aSqDPLiW5zHaxYJGTO4OokMjIlrCtf+VpEL+cXKtCvg723iguPYI5oaUNdS+/V7OU2gvXVWEg==
 
+"@iconify-json/lucide-lab@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@iconify-json/lucide-lab/-/lucide-lab-1.2.3.tgz#22a92ca62df43086bfca50d3b13b6da5a3e1d7b6"
+  integrity sha512-N+8vnVt4IY/6FZi81f6nh5VhJSMYrs5KTVsT2Z/E0Wn7Lu4jJKO5fOfiTVX1YWVI4FFwQ1zVXPFb8kLAwskrjA==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify-json/lucide@^1.2.24":
   version "1.2.24"
   resolved "https://registry.yarnpkg.com/@iconify-json/lucide/-/lucide-1.2.24.tgz#43fcb80893fc0ea107436a6059e38a3386af231e"
