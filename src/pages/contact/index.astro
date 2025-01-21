@@ -42,7 +42,7 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
     </div>
 
     <!-- Form Content -->
-    <div id='form-content' class='space-y-8'>
+    <div id='form-content'>
       <form
         id='contact-form'
         data-netlify='true'
@@ -52,7 +52,7 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
         method='POST'
         class='border-base-300 bg-base-200 rounded-lg border p-6 shadow-sm'
       >
-        <div class='space-y-6'>
+        <div class='space-y-4'>
           <p class='hidden'>
             <label>Don't fill this out if you're human: <input name='bot-field' /></label>
           </p>
@@ -120,7 +120,7 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
             </div>
           </div>
 
-          <div class='space-y-4'>
+          <div class='flex flex-col items-center justify-between gap-4 sm:flex-row'>
             <div data-netlify-recaptcha='true'></div>
             <div class='flex justify-end gap-4'>
               <Button type='reset' variant='ghost'>
