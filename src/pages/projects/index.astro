@@ -91,19 +91,21 @@ const projects = [
 ];
 ---
 
-<Layout title='Projects' description='Collection of personal projects and open-source contributions.'>
+<Layout
+  title='Projects'
+  description='Explore my portfolio of web applications, browser extensions, and open-source projects. Featuring modern software solutions focused on performance and user experience.'
+>
   <section class='container space-y-6'>
     <Breadcrumb />
     <h1 class='text-base-content mb-8 text-4xl font-extrabold tracking-tight lg:text-5xl'>Projects</h1>
     <p class='text-base-content/80 text-lg leading-relaxed'>
-      Some of the projects I've worked on, ranging from personal portfolio websites to full-stack applications.
-    </p>
-    <div class='space-y-16'>
-      {
-        projects
-          .sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1))
-          .map((project, index) => (
-            <div class='group'>
+      Collection of personal projects that I have worked on. Each project was a unique challenge and learning experience
+      that helped me grow as a developer.
+      <div class='space-y-16'>
+        {
+          projects
+            .sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1))
+            .map((project, index) => (
               <div class={`flex flex-col gap-8 lg:flex-row ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                 {/* Image */}
                 <div class='border-base-300 bg-base-200 relative aspect-square w-full overflow-hidden rounded-lg border lg:w-1/2'>
@@ -113,7 +115,7 @@ const projects = [
                       alt={project.title}
                       format={'avif'}
                       quality='max'
-                      class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      class='h-full w-full object-cover transition-transform duration-300'
                     />
                   )}
                 </div>
@@ -163,22 +165,22 @@ const projects = [
                   </div>
                 </div>
               </div>
-            </div>
-          ))
-      }
-    </div>
+            ))
+        }
+      </div>
 
-    <div class='flex justify-center pt-12'>
-      <Button
-        href='https://github.com/aleksa-codes'
-        size='lg'
-        target='_blank'
-        rel='noopener noreferrer'
-        class='bg-base-300 text-base-content hover:bg-base-200 transition-transform duration-300 hover:scale-105'
-      >
-        <Icon name='lucide:github' />
-        View More on GitHub
-      </Button>
-    </div>
+      <div class='flex justify-center pt-12'>
+        <Button
+          href='https://github.com/aleksa-codes'
+          size='lg'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='bg-base-300 text-base-content hover:bg-base-200 transition-transform duration-300 hover:scale-105'
+        >
+          <Icon name='lucide:github' />
+          View More on GitHub
+        </Button>
+      </div>
+    </p>
   </section>
 </Layout>

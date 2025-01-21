@@ -23,4 +23,9 @@ const { page, allTags, tag } = Astro.props;
 // const { tag } = Astro.params;
 ---
 
-<BlogListLayout title={`Blog - ${tag}`} description={`Browse all posts related to ${tag}`} {page} {allTags} />
+<BlogListLayout
+  title={`Blog - ${tag}`}
+  description={`Explore articles, guides, and notes about ${tag} and things I learnt while building stuff.`}
+  {page}
+  {allTags}
+/>
