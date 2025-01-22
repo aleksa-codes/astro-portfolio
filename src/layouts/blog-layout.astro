@@ -6,6 +6,7 @@ import { siteConfig } from '@/config/site.config';
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import { tagToSlug, calculateReadingTime } from '@/lib/utils';
+import Badge from '@/components/ui/badge.astro';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -83,12 +84,9 @@ const readableDate = date.toLocaleDateString('en-us', {
       tags?.length > 0 && (
         <div class='mt-8 flex flex-wrap gap-2'>
           {tags.map((tag) => (
-            <a
-              href={`/blog/${tagToSlug(tag)}`}
-              class='bg-base-300 text-base-content hover:bg-base-300/80 rounded-full px-3 py-1 text-sm transition-colors'
-            >
+            <Badge as='a' href={`/blog/${tagToSlug(tag)}`}>
               {tag}
-            </a>
+            </Badge>
           ))}
         </div>
       )
