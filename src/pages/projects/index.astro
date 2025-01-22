@@ -4,6 +4,7 @@ import Breadcrumb from '@/components/breadcrumb.astro';
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import Button from '@/components/ui/button.astro';
+import Badge from '@/components/ui/badge.astro';
 import EasyWebsiteGPT from '@/assets/projects/easy-websitegpt.png';
 import EasyWebsiteBlocker from '@/assets/projects/easy-website-blocker.png';
 import OneDarkModernPro from '@/assets/projects/one-dark-modern-pro.png';
@@ -11,6 +12,7 @@ import GptImgCaptioner from '@/assets/projects/gpt-img-captioner.png';
 import GptFileSmith from '@/assets/projects/gpt-filesmith.png';
 import NextMeal from '@/assets/projects/next-meal.png';
 import NextDay from '@/assets/projects/nextday.png';
+import FluxGhibsky from '@/assets/projects/flux-ghibsky.png';
 import { cn } from '@/lib/utils';
 
 const categories = [
@@ -39,6 +41,16 @@ const projects = [
     image: EasyWebsiteGPT,
     github: 'https://github.com/aleksa-codes/easy-website-gpt',
     status: 'coming-soon',
+    featured: true,
+  },
+  {
+    title: 'Flux Ghibsky Illustration',
+    description:
+      'Popular Flux AI LoRA model for <span class="highlight">generating Ghibli-inspired landscapes and scenes</span>. Garnering over <span class="highlight">30,000 monthly generations</span> across Hugging Face and Replicate.',
+    tags: ['AI', 'LoRA', 'Stable Diffusion', 'Text-to-Image'],
+    image: FluxGhibsky,
+    huggingface: 'https://huggingface.co/aleksa-codes/flux-ghibsky-illustration',
+    replicate: 'https://replicate.com/aleksa-codes/flux-ghibsky-illustration',
     featured: true,
   },
   {
@@ -105,14 +117,7 @@ const projects = [
       </p>
 
       <div class='flex flex-wrap gap-4 pt-2'>
-        {
-          categories.map((category) => (
-            <div class='bg-base-200 hover:bg-base-300 flex items-center gap-2 rounded-full px-4 py-2 transition-colors'>
-              <Icon name={category.icon} class='size-4' />
-              <span class='text-sm font-medium'>{category.name}</span>
-            </div>
-          ))
-        }
+        {categories.map((category) => <Badge icon={category.icon}>{category.name}</Badge>)}
       </div>
     </div>
 
@@ -122,7 +127,7 @@ const projects = [
           .sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1))
           .map((project, index) => (
             <div
-              class={`group relative flex flex-col gap-12 lg:flex-row ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+              class={`group relative flex flex-col gap-12 md:flex-row ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
             >
               {/* Image Container */}
               <div class='relative w-full lg:w-1/2'>
@@ -133,6 +138,7 @@ const projects = [
                       alt={project.title}
                       format={'avif'}
                       quality='max'
+                      layout={'full-width'}
                       class='h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]'
                     />
                   )}
@@ -152,10 +158,9 @@ const projects = [
                       {project.title}
                     </h2>
                     {project.featured && (
-                      <div class='bg-warning text-warning-content flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium'>
-                        <Icon name='lucide:star' class='size-3.5' />
+                      <Badge variant='warning' icon='lucide:star'>
                         Featured
-                      </div>
+                      </Badge>
                     )}
                   </div>
                   <p class='text-base-content/80 text-lg leading-relaxed' set:html={project.description} />
@@ -164,9 +169,7 @@ const projects = [
                 {/* Tags */}
                 <div class='flex flex-wrap gap-2'>
                   {project.tags.map((tag) => (
-                    <span class='bg-base-200 text-base-content/90 hover:bg-base-300 rounded-full px-4 py-1.5 text-sm font-medium transition-colors'>
-                      {tag}
-                    </span>
+                    <Badge>{tag}</Badge>
                   ))}
                 </div>
 
@@ -174,8 +177,31 @@ const projects = [
                 <div class='flex gap-4 pt-2'>
                   {project.status === 'coming-soon' ? (
                     <Button variant='secondary' disabled loading>
-                      Coming Soon
+                      Soon
                     </Button>
+                  ) : project.huggingface ? (
+                    <div class='flex flex-wrap gap-4'>
+                      <Button
+                        variant='secondary'
+                        href={project.huggingface}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        class='group/btn transition-all duration-200 hover:scale-105'
+                      >
+                        <Icon name='simple-icons:huggingface' class='size-4' />
+                        Hugging Face
+                      </Button>
+                      <Button
+                        variant='secondary'
+                        href={project.replicate}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        class='group/btn transition-all duration-200 hover:scale-105'
+                      >
+                        <Icon name='simple-icons:replicate' class='size-4' />
+                        Replicate
+                      </Button>
+                    </div>
                   ) : (
                     project.demo && (
                       <Button
@@ -205,7 +231,7 @@ const projects = [
                         name='lucide:github'
                         class='size-4 transition-transform duration-200 group-hover/btn:rotate-12'
                       />
-                      View Code
+                      Code
                     </Button>
                   )}
                 </div>
@@ -224,7 +250,7 @@ const projects = [
         class='group/btn bg-base-300 hover:bg-base-300/90 text-base-content hover:text-base-content/90 transition-colors'
       >
         <Icon name='lucide:github' class='size-5 transition-transform duration-200 group-hover:rotate-12' />
-        Explore More on GitHub
+        More on GitHub
       </Button>
     </div>
   </section>

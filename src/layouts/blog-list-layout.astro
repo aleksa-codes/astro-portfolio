@@ -6,6 +6,7 @@ import type { CollectionEntry } from 'astro:content';
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import Button from '@/components/ui/button.astro';
+import Badge from '@/components/ui/badge.astro';
 
 interface Props {
   title: string;
@@ -79,12 +80,9 @@ const postsWithReadTime = page.data.map((post) => ({
                   {post.data.tags?.length > 0 && (
                     <div class='flex flex-wrap gap-2'>
                       {post.data.tags.map((tag) => (
-                        <a
-                          href={`/blog/${tagToSlug(tag)}`}
-                          class='bg-base-300 text-base-content hover:bg-base-300/80 rounded-full px-3 py-1 text-sm transition-colors'
-                        >
+                        <Badge variant={'outline'} as='a' href={`/blog/${tagToSlug(tag)}`}>
                           {tag}
-                        </a>
+                        </Badge>
                       ))}
                     </div>
                   )}
@@ -120,12 +118,9 @@ const postsWithReadTime = page.data.map((post) => ({
             <div class='flex flex-wrap gap-2'>
               {
                 allTags.map((tag) => (
-                  <a
-                    href={`/blog/${tagToSlug(tag)}`}
-                    class='bg-base-300 text-base-content hover:bg-base-300/80 rounded-full px-3 py-1 text-sm transition-colors'
-                  >
+                  <Badge variant={'outline'} as='a' href={`/blog/${tagToSlug(tag)}`}>
                     {tag}
-                  </a>
+                  </Badge>
                 ))
               }
             </div>
