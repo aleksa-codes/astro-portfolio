@@ -62,7 +62,7 @@ const isCurrentPage = (href: string) => {
                 <Button
                   variant='ghost'
                   href={href}
-                  class={cn(isCurrentPage(href) && 'text-primary font-medium')}
+                  class={cn(isCurrentPage(href) && 'text-secondary font-medium')}
                   aria-current={isCurrentPage(href) ? 'page' : null}
                 >
                   {label}
@@ -81,7 +81,7 @@ const isCurrentPage = (href: string) => {
                       href={item.href}
                       class={cn(
                         'text-base-content/80 hover:bg-base-200 hover:text-base-content focus:bg-base-200 focus:text-base-content block rounded-md px-4 py-2 text-sm transition-colors focus:outline-none',
-                        isCurrentPage(item.href) && 'text-primary font-medium',
+                        isCurrentPage(item.href) && 'text-secondary font-medium',
                       )}
                       role='menuitem'
                       aria-current={isCurrentPage(item.href) ? 'page' : null}
@@ -227,7 +227,7 @@ const isCurrentPage = (href: string) => {
         <!-- Home link -->
         <a
           href='/'
-          class={cn('block py-2', isCurrentPage('/') ? 'text-primary font-medium' : 'hover:text-primary')}
+          class={cn('block py-2', isCurrentPage('/') ? 'text-secondary font-medium' : 'hover:text-secondary')}
           aria-current={isCurrentPage('/') ? 'page' : null}
         >
           Home
@@ -238,7 +238,7 @@ const isCurrentPage = (href: string) => {
             <div>
               {dropdown ? (
                 <button
-                  class='group hover:text-primary focus-visible:ring-primary flex w-full items-center justify-between rounded-md py-2 focus:outline-none focus-visible:ring-2'
+                  class='group hover:text-secondary focus-visible:ring-primary flex w-full items-center justify-between rounded-md py-2 focus:outline-none focus-visible:ring-2'
                   data-nav-trigger
                   data-state='closed'
                   aria-expanded='false'
@@ -257,7 +257,7 @@ const isCurrentPage = (href: string) => {
               ) : (
                 <a
                   href={href}
-                  class={cn('block py-2', isCurrentPage(href) ? 'text-primary font-medium' : 'hover:text-primary')}
+                  class={cn('block py-2', isCurrentPage(href) ? 'text-secondary font-medium' : 'hover:text-secondary')}
                   aria-current={isCurrentPage(href) ? 'page' : null}
                 >
                   {label}
@@ -277,8 +277,8 @@ const isCurrentPage = (href: string) => {
                     <a
                       href={item.href}
                       class={cn(
-                        'hover:text-primary text-base-content/80 block py-2 text-sm transition-colors focus:outline-none',
-                        isCurrentPage(item.href) && 'text-primary font-medium',
+                        'hover:text-secondary text-base-content/80 block py-2 text-sm transition-colors focus:outline-none',
+                        isCurrentPage(item.href) && 'text-secondary font-medium',
                       )}
                       role='menuitem'
                       aria-current={isCurrentPage(item.href) ? 'page' : null}
