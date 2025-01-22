@@ -3,35 +3,156 @@ import Layout from '@/layouts/layout.astro';
 import Breadcrumb from '@/components/breadcrumb.astro';
 import { Icon } from 'astro-icon/components';
 import Button from '@/components/ui/button.astro';
+import { cn } from '@/lib/utils';
 
 const techStack = [
-  { name: 'HTML', icon: 'simple-icons:html5' },
-  { name: 'CSS', icon: 'simple-icons:css3' },
-  { name: 'JavaScript', icon: 'simple-icons:javascript' },
-  { name: 'TypeScript', icon: 'simple-icons:typescript' },
-  { name: 'React', icon: 'simple-icons:react' },
-  { name: 'Next.js', icon: 'simple-icons:nextdotjs' },
-  { name: 'Astro', icon: 'simple-icons:astro' },
-  { name: 'Vite', icon: 'simple-icons:vite' },
-  { name: 'TailwindCSS', icon: 'simple-icons:tailwindcss' },
-  { name: 'shadcn/ui', icon: 'simple-icons:shadcnui' },
-  { name: 'Framer Motion', icon: 'simple-icons:framer' },
-  { name: 'Node.js', icon: 'simple-icons:nodedotjs' },
-  { name: 'Supabase', icon: 'simple-icons:supabase' },
-  { name: 'DrizzleORM', icon: 'simple-icons:drizzle' },
-  { name: 'OpenAI API', icon: 'simple-icons:openai' },
-  { name: 'Git', icon: 'simple-icons:git' },
-  { name: 'VS Code', icon: 'simple-icons:visualstudiocode' },
-  { name: 'Yarn', icon: 'simple-icons:yarn' },
+  {
+    name: 'HTML',
+    icon: 'simple-icons:html5',
+    color: 'text-orange-600 dark:text-orange-500',
+    hover: 'hover:shadow-orange-500/20',
+  },
+  {
+    name: 'CSS',
+    icon: 'simple-icons:css3',
+    color: 'text-blue-600 dark:text-blue-500',
+    hover: 'hover:shadow-blue-500/20',
+  },
+  {
+    name: 'JavaScript',
+    icon: 'simple-icons:javascript',
+    color: 'text-yellow-500 dark:text-yellow-400',
+    hover: 'hover:shadow-yellow-400/20',
+  },
+  {
+    name: 'TypeScript',
+    icon: 'simple-icons:typescript',
+    color: 'text-blue-700 dark:text-blue-500',
+    hover: 'hover:shadow-blue-500/20',
+  },
+  {
+    name: 'React',
+    icon: 'simple-icons:react',
+    color: 'text-cyan-600 dark:text-cyan-400',
+    hover: 'hover:shadow-cyan-400/20',
+  },
+  {
+    name: 'Next.js',
+    icon: 'simple-icons:nextdotjs',
+    color: 'text-neutral-900 dark:text-neutral-100',
+    hover: 'dark:hover:shadow-white/10',
+  },
+  {
+    name: 'Astro',
+    icon: 'simple-icons:astro',
+    color: 'text-neutral-900 dark:text-neutral-100',
+    hover: 'dark:hover:shadow-white/10',
+  },
+  {
+    name: 'Vite',
+    icon: 'simple-icons:vite',
+    color: 'text-purple-600 dark:text-purple-500',
+    hover: 'hover:shadow-purple-500/20',
+  },
+  {
+    name: 'TailwindCSS',
+    icon: 'simple-icons:tailwindcss',
+    color: 'text-sky-600 dark:text-sky-400',
+    hover: 'hover:shadow-sky-400/20',
+  },
+  {
+    name: 'shadcn/ui',
+    icon: 'simple-icons:shadcnui',
+    color: 'text-neutral-900 dark:text-neutral-100',
+    hover: 'dark:hover:shadow-white/10',
+  },
+  {
+    name: 'Framer Motion',
+    icon: 'simple-icons:framer',
+    color: 'text-neutral-900 dark:text-neutral-100',
+    hover: 'dark:hover:shadow-white/10',
+  },
+  {
+    name: 'Node.js',
+    icon: 'simple-icons:nodedotjs',
+    color: 'text-green-600 dark:text-green-500',
+    hover: 'hover:shadow-green-500/20',
+  },
+  {
+    name: 'Supabase',
+    icon: 'simple-icons:supabase',
+    color: 'text-emerald-600 dark:text-emerald-500',
+    hover: 'hover:shadow-emerald-500/20',
+  },
+  {
+    name: 'DrizzleORM',
+    icon: 'simple-icons:drizzle',
+    color: 'text-lime-600 dark:text-lime-500',
+    hover: 'hover:shadow-lime-500/20',
+  },
+  {
+    name: 'OpenAI API',
+    icon: 'simple-icons:openai',
+    color: 'text-neutral-900 dark:text-neutral-100',
+    hover: 'dark:hover:shadow-white/10',
+  },
+  {
+    name: 'Git',
+    icon: 'simple-icons:git',
+    color: 'text-orange-600 dark:text-orange-500',
+    hover: 'hover:shadow-orange-500/20',
+  },
+  {
+    name: 'VS Code',
+    icon: 'simple-icons:visualstudiocode',
+    color: 'text-blue-600 dark:text-blue-500',
+    hover: 'hover:shadow-blue-500/20',
+  },
+  {
+    name: 'Yarn',
+    icon: 'simple-icons:yarn',
+    color: 'text-blue-500 dark:text-blue-400',
+    hover: 'hover:shadow-blue-400/20',
+  },
 ];
 
 const funFacts = [
-  { icon: 'lucide:brain-circuit', text: 'AI enthusiast and lifelong learner' },
-  { icon: 'lucide:music', text: 'Hip-hop head and rap junkie' },
-  { icon: 'lucide:cat', text: 'Loves to pet every cat in sight' },
-  { icon: 'lucide-lab:basketball', text: 'Basketball player and NBA fan' },
-  { icon: 'lucide:gamepad-2', text: 'Casual gamer in free time' },
-  { icon: 'lucide:coffee', text: 'Fueled by coffee and curiosity' },
+  {
+    icon: 'lucide:brain-circuit',
+    text: 'AI enthusiast and lifelong learner',
+    color: 'group-hover:text-purple-500',
+    glow: 'hover:shadow-purple-500/20',
+  },
+  {
+    icon: 'lucide:music',
+    text: 'Hip-hop head and rap junkie',
+    color: 'group-hover:text-indigo-500',
+    glow: 'hover:shadow-indigo-500/20',
+  },
+  {
+    icon: 'lucide:cat',
+    text: 'Loves to pet every cat in sight',
+    color: 'group-hover:text-amber-500',
+    glow: 'hover:shadow-amber-500/20',
+  },
+  {
+    icon: 'lucide-lab:basketball',
+    text: 'Basketball player and NBA fan',
+    color: 'group-hover:text-orange-500',
+    glow: 'hover:shadow-orange-500/20',
+  },
+  {
+    icon: 'lucide:gamepad-2',
+    text: 'Casual gamer in free time',
+    color: 'group-hover:text-emerald-500',
+    glow: 'hover:shadow-emerald-500/20',
+  },
+  {
+    icon: 'lucide:coffee',
+    text: 'Fueled by coffee and curiosity',
+    color: 'group-hover:text-rose-500',
+    glow: 'hover:shadow-rose-500/20',
+  },
 ];
 ---
 
@@ -69,9 +190,15 @@ const funFacts = [
         <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6'>
           {
             techStack.map((tech) => (
-              <div class='bg-base-200 hover:bg-base-300 flex flex-col items-center gap-2 rounded-lg p-4 transition-colors'>
-                <Icon name={tech.icon} class='size-8' />
-                <span class='text-sm font-medium'>{tech.name}</span>
+              <div
+                class={cn(
+                  'bg-base-200 hover:bg-base-300 flex flex-col items-center gap-2 rounded-lg p-4 transition-all duration-300',
+                  'hover:shadow-[0_0_15px_rgba(0,0,0,0.1)]',
+                  tech.hover,
+                )}
+              >
+                <Icon name={tech.icon} class={`size-8 ${tech.color} opacity-85`} />
+                <span class={'text-base-content text-sm font-medium'}>{tech.name}</span>
               </div>
             ))
           }
@@ -83,9 +210,30 @@ const funFacts = [
         <div class='grid gap-4 sm:grid-cols-2'>
           {
             funFacts.map((fact) => (
-              <div class='bg-base-200 hover:bg-base-300 flex items-center gap-4 rounded-lg p-4 transition-colors'>
-                <Icon name={fact.icon} class='size-5 shrink-0' />
-                <span>{fact.text}</span>
+              <div
+                class={cn(
+                  'bg-base-200 group flex items-center gap-4 rounded-lg p-4',
+                  'hover:bg-base-300/50 hover:-translate-y-0.5',
+                  'transition-all duration-300 ease-out',
+                  'hover:shadow-[0_0_15px_rgba(0,0,0,0.1)]',
+                  fact.glow,
+                )}
+              >
+                <div class='relative'>
+                  <Icon
+                    name={fact.icon}
+                    class={cn('size-5 shrink-0', 'transition-all duration-300', fact.color, 'group-hover:scale-110')}
+                  />
+                  <div
+                    class={cn(
+                      'absolute inset-0 -z-10 opacity-0 blur',
+                      'transition-opacity duration-300 ease-out',
+                      'group-hover:opacity-50',
+                      fact.color.replace('group-hover:', ''),
+                    )}
+                  />
+                </div>
+                <span class='group-hover:text-base-content/90 transition-colors duration-300'>{fact.text}</span>
               </div>
             ))
           }
