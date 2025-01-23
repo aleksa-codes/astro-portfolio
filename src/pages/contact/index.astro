@@ -13,7 +13,7 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
 >
   <section class='container space-y-6'>
     <Breadcrumb />
-    <h1 class='text-base-content text-4xl font-extrabold tracking-tight lg:text-5xl'>Contact me</h1>
+    <h1 class='text-base-content text-4xl font-extrabold tracking-tight lg:text-5xl'>Contact</h1>
 
     <!-- Combined Avatar and Text Section -->
     <div class='flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12'>
@@ -162,61 +162,44 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
 </Layout>
 
 <script>
-  if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-      // Package selection handling
-      const urlParams = new URLSearchParams(window.location.search);
-      const plan = urlParams.get('package');
-      const allowedPlans = new Set(['single-page', 'standard', 'pro']);
+  const form = document.querySelector('#contact-form') as HTMLFormElement;
+  const formContent = document.querySelector('#form-content');
+  const successMessage = document.querySelector('#success-message');
 
-      if (plan && allowedPlans.has(plan)) {
-        const selectElement = document.getElementById('package-select') as HTMLSelectElement;
-        if (selectElement) {
-          selectElement.value = plan;
-        }
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Get reCAPTCHA response and validate
+    const recaptchaResponse = (window as any).grecaptcha.getResponse();
+    if (!recaptchaResponse) {
+      alert('Please complete the reCAPTCHA verification.');
+      return;
+    }
+
+    const formData = new FormData(e.target as HTMLFormElement);
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString(),
+      });
+
+      if (response.ok) {
+        formContent?.classList.add('hidden');
+        successMessage?.classList.remove('hidden');
+        form.reset();
+        // Reset reCAPTCHA
+        (window as any).grecaptcha.reset();
       }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
 
-      // Form submission handling
-      const form = document.querySelector('#contact-form') as HTMLFormElement;
-      const formContent = document.querySelector('#form-content');
-      const successMessage = document.querySelector('#success-message');
-
-      form?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        // Get reCAPTCHA response and validate
-        const recaptchaResponse = (window as any).grecaptcha.getResponse();
-        if (!recaptchaResponse) {
-          alert('Please complete the reCAPTCHA verification.');
-          return;
-        }
-
-        const formData = new FormData(e.target as HTMLFormElement);
-
-        try {
-          const response = await fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(formData as any).toString(),
-          });
-
-          if (response.ok) {
-            formContent?.classList.add('hidden');
-            successMessage?.classList.remove('hidden');
-            form.reset();
-            // Reset reCAPTCHA
-            (window as any).grecaptcha.reset();
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      });
-
-      // Handle "Send Another Message" button
-      document.querySelector('#send-another')?.addEventListener('click', () => {
-        successMessage?.classList.add('hidden');
-        formContent?.classList.remove('hidden');
-      });
-    });
-  }
+  // Handle "Send Another Message" button
+  document.querySelector('#send-another')?.addEventListener('click', () => {
+    successMessage?.classList.add('hidden');
+    formContent?.classList.remove('hidden');
+  });
 </script>
