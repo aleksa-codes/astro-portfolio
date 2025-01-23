@@ -44,7 +44,7 @@ const postsWithReadTime = page.data.map((post) => ({
         <div class='grid grid-cols-1 gap-8'>
           {
             postsWithReadTime.map((post) => (
-              <div class='group border-base-300 bg-base-200 overflow-hidden rounded-lg border shadow-sm transition-all hover:shadow-md'>
+              <div class='group border-base-300 bg-base-200 overflow-hidden rounded-lg border shadow-xs transition-all hover:shadow-md'>
                 {post.data.thumbnail && (
                   <div class='aspect-video overflow-hidden'>
                     <Image
