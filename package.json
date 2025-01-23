@@ -24,7 +24,7 @@
     "@tailwindcss/postcss": "^4.0.0",
     "@tailwindcss/vite": "^4.0.0",
     "@unpic/astro": "^1.0.0",
-    "astro": "5.1.8",
+    "astro": "5.1.9",
     "astro-capo": "^0.0.1",
     "astro-compress": "^2.3.5",
     "astro-icon": "^1.1.5",
