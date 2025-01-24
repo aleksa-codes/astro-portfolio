@@ -15,7 +15,14 @@ interface Props {
   [key: string]: any;
 }
 
-const { variant = 'default', size = 'default', icon, as: Component = 'span', class: className, ...rest } = Astro.props;
+const {
+  variant = 'default',
+  size = 'default',
+  icon,
+  as: Component = 'span',
+  class: className,
+  ...rest
+}: Props = Astro.props;
 
 const baseClassName = cn(
   'inline-flex items-center gap-1.5 rounded-full font-medium transition-colors',
