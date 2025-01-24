@@ -36,7 +36,7 @@ const postsWithReadTime = page.data.map((post) => ({
   <section class='container space-y-6'>
     <Breadcrumb />
     <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>{title}</h1>
-    <p class='text-base-content/80 max-w-[750px] text-lg leading-relaxed'>{description}</p>
+    <p class='text-base-content max-w-[750px] text-lg leading-relaxed'>{description}</p>
 
     <div class='grid grid-cols-1 gap-8 lg:grid-cols-12'>
       <!-- Main Content -->
@@ -63,13 +63,16 @@ const postsWithReadTime = page.data.map((post) => ({
                     </a>
                   </h2>
                   <div class='text-base-content/80 flex items-center gap-2 text-sm'>
-                    <time datetime={post.data.date.toISOString()}>
-                      {post.data.date.toLocaleDateString('en-us', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </time>
+                    <span class='flex items-center gap-1'>
+                      <Icon name='lucide:calendar' class='size-4' />
+                      <time datetime={post.data.date.toISOString()}>
+                        {post.data.date.toLocaleDateString('en-us', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </time>
+                    </span>
                     <div>•</div>
                     <span class='flex items-center gap-1'>
                       <Icon name='lucide:clock' class='size-4' />
