@@ -24,7 +24,7 @@
     "@tailwindcss/postcss": "^4.0.0",
     "@tailwindcss/vite": "^4.0.0",
     "@unpic/astro": "^1.0.0",
-    "astro": "5.1.9",
+    "astro": "5.1.10",
     "astro-capo": "^0.0.1",
     "astro-compress": "^2.3.5",
     "astro-icon": "^1.1.5",
@@ -35,14 +35,14 @@
     "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.24",
+    "@iconify-json/lucide": "^1.2.25",
     "@iconify-json/lucide-lab": "^1.2.3",
-    "@iconify-json/simple-icons": "^1.2.21",
+    "@iconify-json/simple-icons": "^1.2.22",
     "@tailwindcss/typography": "^0.5.16",
     "postcss": "^8.5.1",
     "postcss-cli": "^11.0.0",
     "prettier": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-tailwindcss": "^0.6.10"
+    "prettier-plugin-tailwindcss": "^0.6.11"
   }
 }
