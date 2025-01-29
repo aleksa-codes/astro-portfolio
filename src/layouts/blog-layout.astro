@@ -48,8 +48,8 @@ const readableDate = date.toLocaleDateString('en-us', {
   <section class='container space-y-6'>
     <Breadcrumb />
 
-    <div class='mx-auto flex max-w-3xl flex-col items-center space-y-4 text-center'>
-      <h1 class='text-base-content max-w-2xl text-4xl font-extrabold lg:text-5xl'>{title}</h1>
+    <div class='mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center'>
+      <h1 class='text-base-content text-4xl font-extrabold lg:text-5xl'>{title}</h1>
       <div class='text-base-content/80 flex items-center justify-center gap-2 text-sm'>
         <span class='flex items-center gap-1'>
           <Icon name='lucide:calendar' class='size-4' />
@@ -71,7 +71,7 @@ const readableDate = date.toLocaleDateString('en-us', {
     </div>
 
     <article
-      class='prose prose-h2:text-base-content prose-h1:text-base-content prose-h3:text-base-content prose-h4:text-base-content prose-a:text-base-content lg:prose-lg dark:prose-invert prose-code:before:hidden prose-code:after:hidden prose-strong:text-base-content prose-pre:pt-8 prose-img:rounded-md max-w-full'
+      class='prose prose-h2:text-base-content prose-h1:text-base-content prose-h3:text-base-content prose-h4:text-base-content prose-a:text-base-content lg:prose-lg dark:prose-invert prose-code:before:hidden prose-code:after:hidden prose-strong:text-base-content prose-pre:pt-8 prose-img:rounded-md max-w-none'
     >
       <slot />
     </article>
