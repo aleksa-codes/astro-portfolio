@@ -48,6 +48,7 @@
 
   --font-sans: 'Poppins', 'Roboto Flex', sans-serif;
   --font-cursive: 'SegoeScript', cursive;
+  --font-roboto: 'Roboto Flex', sans-serif;
   --breakpoint-xs: 475px;
   --background-image-laptop: url('/laptop-animate.svg');
 
