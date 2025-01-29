@@ -13,14 +13,7 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const {
-  title,
-  description,
-  date,
-  // author,
-  thumbnail,
-  tags,
-} = post.data;
+const { title, description, date, author, thumbnail, tags } = post.data;
 const readingTime = calculateReadingTime(post.body!);
 
 // Generate OG image URL
@@ -44,7 +37,7 @@ const readableDate = date.toLocaleDateString('en-us', {
   schema={{
     type: 'BlogPosting',
     date,
-    // author,
+    author,
     tags,
   }}
 >
