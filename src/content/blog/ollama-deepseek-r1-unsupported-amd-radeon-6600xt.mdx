@@ -20,6 +20,12 @@ Before proceeding, ensure that you:
 - Uninstall any existing official Ollama installation.
 - Download the community fork of Ollama for AMD GPUs.
 
+## VRAM Requirements and Model Variations
+
+The RX 6600 XT comes with 8GB of VRAM, which is sufficient to run several DeepSeek R1 variants. In my testing, both `deepseek-r1:1.5b` and `deepseek-r1:7b` models ran successfully. For optimal performance, consider trying the various [distilled and quantized versions available in the Ollama model library](https://ollama.com/library/deepseek-r1/tags) - these compressed variants might offer better performance for their size while using less VRAM.
+
+For a deeper understanding of VRAM requirements and quantization techniques for LLMs, check out this excellent video: [How Much VRAM My LLM Model Needs?](https://www.youtube.com/watch?v=IJufykNYGRs)
+
 ## Step 1: Download and Install the AMD-Supported Ollama Fork
 
 The official Ollama does not support all AMD GPUs, but a modified version exists:
