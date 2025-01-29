@@ -10,7 +10,7 @@ tags:
   - Tutorial
 ---
 
-Are you trying to run DeepSeek R1 using Ollama on Windows with an officially unsupported GPU, such as the Radeon RX 6600 XT? While AMD GPUs are gaining more support in AI applications, some models—including the 6600 XT—are not listed as officially supported ([see official AMD-supported GPUs](https://ollama.com/blog/amd-preview)). Fortunately, there is a workaround using a community-maintained fork of Ollama. This guide will walk you through the steps to get DeepSeek R1 running on your system.
+Are you trying to run DeepSeek R1 using Ollama on Windows with an officially unsupported GPU, such as the Radeon RX 6600 XT? While AMD GPUs are gaining more support in AI applications, some models like the 6600 XT are not listed as officially supported ([see official AMD-supported GPUs](https://ollama.com/blog/amd-preview)). Fortunately, there is a workaround using a community-maintained fork of Ollama. This guide will walk you through the steps to get DeepSeek R1 running on your system.
 
 ## Prerequisites
 
@@ -34,7 +34,7 @@ The official Ollama does not support all AMD GPUs, but a modified version exists
 To properly configure the ROCm libraries, you need to find your GPU's LLVM target (GPU Arches):
 
 1. Check the [AMD GPU Arches list](https://github.com/likelovewant/ollama-for-amd/wiki/AMD-GPU-Arches-lists-Info) or the [ROCm documentation](https://rocm.docs.amd.com/projects/install-on-windows/en/develop/reference/system-requirements.html) (see the second tab labeled "AMD Radeon").
-2. Find your GPU model—in this case, _Radeon RX 6600 XT_—and note its LLVM target. For the 6600 XT, it is `gfx1032`.
+2. Find your GPU model, in this case _Radeon RX 6600 XT_ and note its LLVM target. For the 6600 XT, it is `gfx1032`.
 
 ## Step 3: Download and Install ROCm Libraries
 
