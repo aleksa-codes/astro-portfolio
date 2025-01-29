@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import { siteConfig } from './src/config/site.config';
+import { targetBlank } from './src/plugins/targetBlank';
 import { imageService } from '@unpic/astro/service';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
@@ -30,6 +31,7 @@ export default defineConfig({
         dark: 'one-dark-pro',
       },
     },
+    rehypePlugins: [[targetBlank, { domain: import.meta.env.PROD ? siteConfig.url : 'http://localhost:3000' }]],
   },
   image: {
     service: imageService({
