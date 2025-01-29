@@ -7,15 +7,15 @@ export async function GET() {
   const sortedPosts = blog.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return rss({
-    title: siteConfig.name,
-    description: `The latest blog posts from ${siteConfig.name}`,
+    title: siteConfig.title,
+    description: `The latest blog posts from ${siteConfig.title}`,
     site: import.meta.env.SITE,
     items: sortedPosts.map((post) => ({
       title: post.data.title,
       pubDate: post.data.date,
       description: post.data.description,
       link: `/blog/${post.id}/`,
-      // author: post.data.author,
+      author: post.data.author,
     })),
     customData: `<language>${siteConfig.defaultLocale.toLowerCase()}</language>`,
     stylesheet: '/rss/styles.xsl',

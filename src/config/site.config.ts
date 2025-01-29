@@ -1,6 +1,7 @@
 export const siteConfig = {
   // Basic site info
-  name: 'aleksa.codes',
+  title: 'aleksa.codes',
+  author: 'aleksa-codes',
   description:
     'Full-stack web developer crafting modern, performant, and user-focused digital experiences. Specialized in building responsive web applications and innovative software solutions.',
   url: 'https://aleksa.codes',
