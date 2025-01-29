@@ -1,0 +1,132 @@
+---
+title: 'Running DeepSeek R1 via Ollama on Windows with an Unsupported AMD GPU (RX 6600 XT)'
+description: 'A step-by-step guide to running DeepSeek R1 on Windows with an unsupported AMD GPU like the Radeon RX 6600 XT using a community-maintained Ollama fork and ROCm libraries.'
+date: 2024-01-29T12:00:00.000Z
+thumbnail: '/public/images/deepseek-chat.png'
+tags:
+  - AI
+  - LLM
+  - Ollama
+  - Tutorial
+---
+
+Are you trying to run DeepSeek R1 using Ollama on Windows with an officially unsupported GPU, such as the Radeon RX 6600 XT? While AMD GPUs are gaining more support in AI applications, some models—including the 6600 XT—are not listed as officially supported ([see official AMD-supported GPUs](https://ollama.com/blog/amd-preview)). Fortunately, there is a workaround using a community-maintained fork of Ollama. This guide will walk you through the steps to get DeepSeek R1 running on your system.
+
+## Prerequisites
+
+Before proceeding, ensure that you:
+
+- Have administrative access to your Windows machine.
+- Uninstall any existing official Ollama installation.
+- Download the community fork of Ollama for AMD GPUs.
+
+## Step 1: Download and Install the AMD-Supported Ollama Fork
+
+The official Ollama does not support all AMD GPUs, but a modified version exists:
+
+1. Uninstall the official version of Ollama if you have it installed.
+2. Visit the [Ollama for AMD GitHub releases page](https://github.com/likelovewant/ollama-for-amd/releases).
+3. Download the latest `OllamaSetup.exe` file (at the time of writing, the latest version was v0.5.4).
+4. Run the installer and follow the on-screen instructions.
+
+## Step 2: Identify Your GPU Architecture
+
+To properly configure the ROCm libraries, you need to find your GPU's LLVM target (GPU Arches):
+
+1. Check the [AMD GPU Arches list](https://github.com/likelovewant/ollama-for-amd/wiki/AMD-GPU-Arches-lists-Info) or the [ROCm documentation](https://rocm.docs.amd.com/projects/install-on-windows/en/develop/reference/system-requirements.html) (see the second tab labeled "AMD Radeon").
+2. Find your GPU model—in this case, _Radeon RX 6600 XT_—and note its LLVM target. For the 6600 XT, it is `gfx1032`.
+
+## Step 3: Download and Install ROCm Libraries
+
+ROCm is AMD’s open-source platform that enables GPU computing. We need pre-built ROCm libraries to optimize Ollama’s performance:
+
+1. Visit the [pre-built ROCm libraries repository](https://github.com/likelovewant/ROCmLibs-for-gfx1103-AMD780M-APU/releases).
+2. Download the latest compatible version (at the time of writing, v0.6.2.4 was used, but v0.6.1.2 is also compatible).
+3. Look for a release that supports your GPU's LLVM target (`gfx1032` for 6600 XT).
+4. Download the corresponding ZIP file, save it, and extract it.
+
+## Step 4: Replace Files in the Ollama Installation Directory
+
+To enable ROCm support for your GPU:
+
+1. Navigate to your Ollama installation directory, typically found at:
+   ```
+   C:\Users\[YourUsername]\AppData\Local\Programs\Ollama\lib\ollama
+   ```
+2. Backup the existing `rocblas.dll` file and replace it:
+   - Rename `rocblas.dll` to `rocblas.dll.backup`.
+   - Copy the new `rocblas.dll` from the extracted ROCm files into this directory.
+3. Navigate to the `rocblas` subdirectory within Ollama:
+   ```
+   C:\Users\[YourUsername]\AppData\Local\Programs\Ollama\lib\ollama\rocblas
+   ```
+4. Backup the existing `library` folder and replace it:
+   - Rename the `library` folder to `library_backup`.
+   - Copy the new `library` folder from the extracted ROCm files into this directory.
+
+## Step 5: Install and Run DeepSeek R1
+
+With the setup complete, install DeepSeek R1 using Ollama:
+
+1. Visit the [Ollama model library](https://ollama.com/library/deepseek-r1:1.5b).
+2. Copy the command from the top right of the page:
+   ```
+   ollama run deepseek-r1:1.5b
+   ```
+3. Open a terminal (Windows PowerShell or Command Prompt) and paste the command:
+   ```
+   ollama run deepseek-r1:1.5b
+   ```
+4. This will download and install the model. Once complete, the chat interface will start.
+
+![DeepSeek R1 running in Windows Terminal](/public/images/ollama-deepseek-terminal.png)
+
+5. To exit the chat, type:
+   ```
+   /bye
+   ```
+
+## Step 6: Verify GPU Utilization
+
+To ensure the model is running on your GPU and not your CPU:
+
+1. Run the following command:
+   ```
+   ollama ps
+   ```
+2. If the installation is successful, you should see something like `100% GPU` usage.
+
+For additional commands:
+
+- List installed models:
+  ```
+  ollama list
+  ```
+- Stop a running model:
+  ```
+  ollama stop deepseek-r1:1.5b
+  ```
+- Run with verbose mode to see tokenization speed:
+  ```
+  ollama run deepseek-r1:1.5b --verbose
+  ```
+
+## Important Update Information
+
+If you are using a demo release, **DO NOT** click the "Update" button if Ollama prompts you. Instead, manually download updates from the [Ollama for AMD releases page](https://github.com/likelovewant/ollama-for-amd/releases).
+
+Alternatively, you can update using the [Ollama-For-AMD-Installer](https://github.com/ByronLeeeee/Ollama-For-AMD-Installer) created by [ByronLeeeee](https://github.com/likelovewant/ollama-for-amd/issues/21). This tool allows for a simple one-click update and automatic library replacement.
+
+## Related Resources
+
+If you're interested in running Ollama with AMD GPUs on different operating systems or want to explore additional perspectives, check out these valuable resources:
+
+1. [Running ollama with an AMD Radeon 6600 XT](https://major.io/p/ollama-with-amd-radeon-6600xt/) by Major Hayden
+
+2. [Running ollama on RX 6600](https://adham-omran.com/blog/running-ollama-on-6600) by Adham Omran
+
+## Conclusion
+
+With this setup, you can run DeepSeek R1 on a Windows machine using an unsupported AMD GPU like the Radeon RX 6600 XT. Thanks to the community-driven `ollama-for-amd` fork and ROCm libraries, you can bypass official limitations and leverage your GPU for AI workloads.
+
+If you encounter issues, refer to the [Ollama for AMD Wiki](https://github.com/likelovewant/ollama-for-amd/wiki) for troubleshooting steps. Happy experimenting!
