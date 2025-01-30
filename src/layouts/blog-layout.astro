@@ -48,65 +48,72 @@ const readableDate = date.toLocaleDateString('en-us', {
   <section class='container space-y-6'>
     <Breadcrumb />
 
-    <div class='mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center'>
-      <h1 class='text-base-content text-4xl font-extrabold lg:text-5xl'>{title}</h1>
-      <div class='text-base-content/80 flex items-center justify-center gap-2 text-sm'>
-        <span class='flex items-center gap-1'>
-          <Icon name='lucide:calendar' class='size-4' />
-          <time datetime={date.toISOString()}>{readableDate}</time>
-        </span>
-        <div>•</div>
-        <span class='flex items-center gap-1'>
-          <Icon name='lucide:clock' class='size-4' />
-          {readingTime} min read
-        </span>
+    <div class='mx-auto max-w-3xl space-y-6'>
+      <div class='space-y-6 text-left'>
+        <h1 class='text-base-content text-4xl font-bold'>{title}</h1>
+        <div class='text-base-content/80 flex items-center gap-2 text-sm'>
+          <span class='flex items-center gap-1'>
+            <Icon name='lucide:clock' class='size-4' />
+            {readingTime} min read
+          </span>
+          <div>•</div>
+          <span class='flex items-center gap-1'>
+            <Icon name='lucide:calendar' class='size-4' />
+            <time datetime={date.toISOString()}>{readableDate}</time>
+          </span>
+        </div>
+        {
+          thumbnail && (
+            <Image
+              src={thumbnail}
+              alt={title}
+              format='webp'
+              quality='max'
+              layout={'full-width'}
+              class='aspect-video w-full rounded-md object-cover'
+            />
+          )
+        }
       </div>
+
+      <article
+        class='font-roboto prose prose-h2:text-base-content prose-h1:text-base-content prose-h3:text-base-content prose-h4:text-base-content prose-a:text-base-content lg:prose-lg dark:prose-invert prose-code:before:hidden prose-code:after:hidden prose-strong:text-base-content prose-img:rounded-md prose-h1:font-sans prose-h2:font-sans prose-h3:font-sans prose-h4:font-sans max-w-none'
+      >
+        <slot />
+      </article>
+
       {
-        thumbnail && (
-          <div class='aspect-video overflow-hidden rounded-lg'>
-            <Image src={thumbnail} alt={title} format='webp' quality='max' class='size-full object-cover' />
+        tags?.length > 0 && (
+          <div class='mt-8 flex flex-wrap gap-2'>
+            {tags.map((tag) => (
+              <Badge as='a' href={`/blog/${tagToSlug(tag)}`}>
+                {tag}
+              </Badge>
+            ))}
           </div>
         )
       }
-    </div>
 
-    <article
-      class='font-roboto prose prose-h2:text-base-content prose-h1:text-base-content prose-h3:text-base-content prose-h4:text-base-content prose-a:text-base-content lg:prose-lg dark:prose-invert prose-code:before:hidden prose-code:after:hidden prose-strong:text-base-content prose-pre:pt-8 prose-img:rounded-md prose-h1:font-sans prose-h2:font-sans prose-h3:font-sans prose-h4:font-sans max-w-none'
-    >
-      <slot />
-    </article>
-
-    {
-      tags?.length > 0 && (
-        <div class='mt-8 flex flex-wrap gap-2'>
-          {tags.map((tag) => (
-            <Badge as='a' href={`/blog/${tagToSlug(tag)}`}>
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      )
-    }
-
-    <!-- Comments Section -->
-    <div class='w-full'>
-      <h2 class='text-base-content mb-8 text-2xl font-bold tracking-tight'>Comments</h2>
-      <script
-        is:inline
-        src='https://giscus.app/client.js'
-        data-repo='aleksa-codes/astro-portfolio'
-        data-repo-id='R_kgDOH9bAGg'
-        data-category='Announcements'
-        data-category-id='DIC_kwDOH9bAGs4CmQFv'
-        data-mapping='pathname'
-        data-strict='0'
-        data-reactions-enabled='1'
-        data-emit-metadata='0'
-        data-input-position='top'
-        data-theme='dark'
-        data-lang='en'
-        crossorigin='anonymous'
-        async></script>
+      <!-- Comments Section -->
+      <div class='w-full'>
+        <h2 class='text-base-content mb-8 text-2xl font-bold tracking-tight'>Comments</h2>
+        <script
+          is:inline
+          src='https://giscus.app/client.js'
+          data-repo='aleksa-codes/astro-portfolio'
+          data-repo-id='R_kgDOH9bAGg'
+          data-category='Announcements'
+          data-category-id='DIC_kwDOH9bAGs4CmQFv'
+          data-mapping='pathname'
+          data-strict='0'
+          data-reactions-enabled='1'
+          data-emit-metadata='0'
+          data-input-position='top'
+          data-theme='dark'
+          data-lang='en'
+          crossorigin='anonymous'
+          async></script>
+      </div>
     </div>
   </section>
 </Layout>
@@ -168,56 +175,4 @@ const readableDate = date.toLocaleDateString('en-us', {
     attributes: true,
     attributeFilter: ['class'],
   });
-</script>
-
-<script>
-  const copyButtonLabel = `<span class="flex flex-row px-1 gap-1">Copy<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-<path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-<rect x="8" y="8" width="12" height="12" rx="2" />
-<path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2" />
-</svg>
-</span>`;
-
-  // use a class selector if available
-  let blocks = document.querySelectorAll('pre');
-
-  blocks.forEach((block) => {
-    // only add button if browser supports Clipboard API
-    if (navigator.clipboard) {
-      let wrapper = document.createElement('div');
-      wrapper.style.position = 'relative';
-
-      let button = document.createElement('button');
-      button.innerHTML = copyButtonLabel;
-
-      block.setAttribute('tabindex', '0');
-      block.appendChild(button);
-
-      block.parentNode?.insertBefore(wrapper, block);
-      wrapper.appendChild(block);
-
-      button.addEventListener('click', async () => {
-        await copyCode(block, button);
-      });
-    }
-  });
-
-  async function copyCode(block: any, button: any) {
-    let code = block.querySelector('code');
-    let text = code.innerText;
-
-    await navigator.clipboard.writeText(text);
-
-    // visual feedback that task is completed
-    button.innerHTML = `<span class="flex flex-row px-1 gap-1">Copied<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#B4E657" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-    <path d="M7 12l5 5l10 -10" />
-    <path d="M2 12l5 5m5 -5l5 -5" />
-  </svg>
-</span>`;
-
-    setTimeout(() => {
-      button.innerHTML = copyButtonLabel;
-    }, 700);
-  }
 </script>

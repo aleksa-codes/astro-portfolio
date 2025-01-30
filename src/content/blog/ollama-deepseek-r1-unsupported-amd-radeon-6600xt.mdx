@@ -56,14 +56,14 @@ ROCm is AMD’s open-source platform that enables GPU computing. We need pre-bui
 To enable ROCm support for your GPU:
 
 1. Navigate to your Ollama installation directory, typically found at:
-   ```
+   ```bash
    C:\Users\[YourUsername]\AppData\Local\Programs\Ollama\lib\ollama
    ```
 2. Backup the existing `rocblas.dll` file and replace it:
    - Rename `rocblas.dll` to `rocblas.dll.backup`.
    - Copy the new `rocblas.dll` from the extracted ROCm files into this directory.
 3. Navigate to the `rocblas` subdirectory within Ollama:
-   ```
+   ```bash
    C:\Users\[YourUsername]\AppData\Local\Programs\Ollama\lib\ollama\rocblas
    ```
 4. Backup the existing `library` folder and replace it:
@@ -76,7 +76,7 @@ With the setup complete, install DeepSeek R1 using Ollama:
 
 1. Visit the [Ollama model library](https://ollama.com/library/deepseek-r1:1.5b).
 2. Copy the command from the top right of the page, open a terminal and paste the command:
-   ```
+   ```bash
    ollama run deepseek-r1:1.5b
    ```
 3. This will download and install the model. Once complete, the chat interface will start.
@@ -84,7 +84,7 @@ With the setup complete, install DeepSeek R1 using Ollama:
 ![DeepSeek R1 running in Windows Terminal](/images/ollama-deepseek-terminal.png)
 
 4. To exit the chat, type:
-   ```
+   ```bash
    /bye
    ```
 
@@ -93,7 +93,7 @@ With the setup complete, install DeepSeek R1 using Ollama:
 To ensure the model is running on your GPU and not your CPU:
 
 1. Run the following command:
-   ```
+   ```bash
    ollama ps
    ```
 2. If the installation is successful, you should see something like `100% GPU` usage.
@@ -101,15 +101,15 @@ To ensure the model is running on your GPU and not your CPU:
 Additional useful commands:
 
 - List installed models:
-  ```
+  ```bash
   ollama list
   ```
 - Stop a running model:
-  ```
+  ```bash
   ollama stop deepseek-r1:1.5b
   ```
 - Run with verbose mode to see tokenization speed:
-  ```
+  ```bash
   ollama run deepseek-r1:1.5b --verbose
   ```
 
