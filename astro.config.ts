@@ -3,6 +3,7 @@ import { siteConfig } from './src/config/site.config';
 import { targetBlank } from './src/plugins/targetBlank';
 import { imageService } from '@unpic/astro/service';
 import mdx from '@astrojs/mdx';
+import expressiveCode from 'astro-expressive-code';
 import sitemap from '@astrojs/sitemap';
 import compress from 'astro-compress';
 import icon from 'astro-icon';
@@ -23,14 +24,6 @@ export default defineConfig({
     port: 3000,
   },
   markdown: {
-    syntaxHighlight: 'shiki',
-    shikiConfig: {
-      theme: 'css-variables',
-      themes: {
-        light: 'one-light',
-        dark: 'one-dark-pro',
-      },
-    },
     rehypePlugins: [[targetBlank, { domain: import.meta.env.PROD ? siteConfig.url : 'http://localhost:3000' }]],
   },
   image: {
@@ -58,6 +51,10 @@ export default defineConfig({
       JavaScript: true,
       SVG: false,
       Logger: 1,
+    }),
+    expressiveCode({
+      themes: ['one-dark-pro', 'one-light'],
+      themeCssSelector: (theme) => (theme.name === 'one-dark-pro' ? '.dark' : ':root:not(.dark)'),
     }),
     mdx(),
   ],

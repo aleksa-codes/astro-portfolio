@@ -295,43 +295,15 @@
   }
 }
 
-/* Code block */
+/* Inline code block */
 @layer base {
-  html.dark .astro-code,
-  html.dark .astro-code span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-    /* Optional, if you also want font styles */
-    font-style: var(--shiki-dark-font-style) !important;
-    font-weight: var(--shiki-dark-font-weight) !important;
-    text-decoration: var(--shiki-dark-text-decoration) !important;
-  }
-
   code {
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    background-color: #fafafa;
+    @apply rounded-sm bg-[#fafafa] px-1 py-0.5 font-mono text-sm;
   }
 
   html.dark code {
-    background-color: #282c34;
+    @apply bg-[#282c34];
   }
-
-  /* Custom component styles */
-  /* Copy to clipboard */
-  pre[class*='astro-code'] button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    font-size: 0.9rem;
-    padding: 0.15rem;
-    color: var(--color-base-content);
-  }
-
-  pre[class*='astro-code'] button:hover {
-    cursor: pointer;
-  }
-  /* End copy to clipboard */
 }
 
 /* Modified: https://github.com/tailwindlabs/tailwindcss/discussions/14031 */
