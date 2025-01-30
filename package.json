@@ -27,6 +27,7 @@
     "astro": "5.1.10",
     "astro-capo": "^0.0.1",
     "astro-compress": "^2.3.5",
+    "astro-expressive-code": "^0.40.1",
     "astro-icon": "^1.1.5",
     "astro-og-canvas": "^0.5.6",
     "tailwind-merge": "^2.6.0",
