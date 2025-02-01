@@ -5,6 +5,7 @@ import { Icon } from 'astro-icon/components';
 import Button from '@/components/ui/button.astro';
 import SnowToggle from '@/components/snow-toggle.astro';
 import { siteConfig } from '@/config/site.config';
+import Tooltip from '@/components/ui/tooltip.astro';
 
 interface NavLink {
   href: string;
@@ -102,36 +103,42 @@ const isCurrentPage = (href: string) => {
         <!-- Social Links and Toggles -->
         <div class='flex items-center gap-2'>
           <div class='hidden items-center gap-2 lg:flex'>
-            <Button
-              variant='ghost'
-              size='icon'
-              aria-label='GitHub Profile'
-              href='https://github.com/aleksa-codes'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <Icon name='lucide:github' class='size-5' />
-            </Button>
-            <Button
-              variant='ghost'
-              size='icon'
-              aria-label='Resume'
-              href='/Aleksa_Resume_2025.pdf'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <Icon name='lucide:file-text' class='size-5' />
-            </Button>
-            <Button
-              variant='ghost'
-              size='icon'
-              aria-label='RSS Feed'
-              href='/rss.xml'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <Icon name='lucide:rss' class='size-5' />
-            </Button>
+            <Tooltip text='GitHub' direction='bottom' variant='primary'>
+              <Button
+                variant='ghost'
+                size='icon'
+                href='https://github.com/aleksa-codes'
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label='GitHub Profile'
+              >
+                <Icon name='lucide:github' class='size-5' />
+              </Button>
+            </Tooltip>
+            <Tooltip text='Resume' direction='bottom' variant='success'>
+              <Button
+                variant='ghost'
+                size='icon'
+                href='/Aleksa_Resume_2025.pdf'
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label='Resume'
+              >
+                <Icon name='lucide:file-text' class='size-5' />
+              </Button>
+            </Tooltip>
+            <Tooltip text='RSS' direction='bottom' variant='warning'>
+              <Button
+                variant='ghost'
+                size='icon'
+                href='/rss.xml'
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label='RSS Feed'
+              >
+                <Icon name='lucide:rss' class='size-5' />
+              </Button>
+            </Tooltip>
           </div>
           <SnowToggle />
           <ThemeToggle />
