@@ -26,6 +26,8 @@ const { page, allTags, tag } = Astro.props;
 <BlogListLayout
   title={`Blog - ${tag}`}
   description={`Explore articles, guides, and notes about ${tag} and things I learnt while building stuff.`}
+  noindex={true}
+  nofollow={false}
   {page}
   {allTags}
 />

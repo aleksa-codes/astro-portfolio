@@ -11,6 +11,8 @@ import Badge from '@/components/ui/badge.astro';
 interface Props {
   title: string;
   description: string;
+  noindex?: boolean;
+  nofollow?: boolean;
   page: {
     data: CollectionEntry<'blog'>[];
     currentPage: number;
@@ -23,7 +25,7 @@ interface Props {
   allTags: string[];
 }
 
-const { title, description, page, allTags } = Astro.props;
+const { title, description, noindex, nofollow, page, allTags } = Astro.props;
 
 // Calculate reading time for each post
 const postsWithReadTime = page.data.map((post) => ({
@@ -32,7 +34,7 @@ const postsWithReadTime = page.data.map((post) => ({
 }));
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} noindex={noindex} nofollow={nofollow}>
   <section class='container space-y-6'>
     <Breadcrumb />
     <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>{title}</h1>
