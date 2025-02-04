@@ -329,6 +329,9 @@ const isCurrentPage = (href: string) => {
     const state: State = isOpen ? 'open' : 'closed';
     [mobileMenu, mobileMenuBackdrop, mobileMenuPanel].forEach((el) => el?.setAttribute('data-state', state));
     mobileMenuButton?.setAttribute('aria-expanded', String(isOpen));
+
+    // Prevent scrolling when mobile menu is open
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
 
   function toggleDropdown(trigger: HTMLElement, isExpanded: boolean) {
