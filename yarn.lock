@@ -40,10 +40,10 @@
   resolved "https://registry.yarnpkg.com/@astrojs/internal-helpers/-/internal-helpers-0.4.2.tgz#b8de83d84543694a7d8a7018bfd03f4cba9c4a91"
   integrity sha512-EdDWkC3JJVcpGpqJAU/5hSk2LKXyG3mNGkzGoAuyK+xoPHbaVdSuIWoN1QTnmK3N/gGfaaAfM8gO2KDCAW7S3w==
 
-"@astrojs/internal-helpers@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@astrojs/internal-helpers/-/internal-helpers-0.5.0.tgz#220d2b7a323c644c62508e58a3028295bbe830dd"
-  integrity sha512-CgB5ZaZO1PFG+rbjF3HnA7G6gIBjJ070xb7bUjeu5Gqqufma+t6fpuRWMXnK2iEO3zVyX7e/xplPlqtFKy/lvw==
+"@astrojs/internal-helpers@0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@astrojs/internal-helpers/-/internal-helpers-0.5.1.tgz#c9253669cf9caea48744d27f5cc30a06eec8d3d9"
+  integrity sha512-M7rAge1n2+aOSxNvKUFa0u/KFn0W+sZy7EW91KOSERotm2Ti8qs+1K0xx3zbOxtAVrmJb5/J98eohVvvEqtNkw==
 
 "@astrojs/language-server@^2.15.0":
   version "2.15.4"
@@ -440,10 +440,10 @@
   dependencies:
     "@iconify/types" "*"
 
-"@iconify-json/simple-icons@^1.2.22":
-  version "1.2.22"
-  resolved "https://registry.yarnpkg.com/@iconify-json/simple-icons/-/simple-icons-1.2.22.tgz#c100b0ee6e4cdcd8f69cdec3138f57fbc718922a"
-  integrity sha512-0UzThRMwHuOJfgpp+tyV/y2uEBLjFVrxC4igv9iWjSEQEBK4tNjWZNTRCBCYyv/FwWVYyKAsA8tZQ8vUYzvFnw==
+"@iconify-json/simple-icons@^1.2.23":
+  version "1.2.23"
+  resolved "https://registry.yarnpkg.com/@iconify-json/simple-icons/-/simple-icons-1.2.23.tgz#1985f4ccc72ef6c0cbd8ba0f626656a773319d78"
+  integrity sha512-ySyZ0ZXdNveWnR71t7XGV7jhknxSlTtpM2TyIR1cUHTUzZLP36hYHTNqb2pYYsCzH5ed85KTTKz7vYT33FyNIQ==
   dependencies:
     "@iconify/types" "*"
 
@@ -1599,13 +1599,13 @@ astro@*:
   optionalDependencies:
     sharp "^0.33.3"
 
-astro@5.2.3:
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/astro/-/astro-5.2.3.tgz#6c3027207e61efee9e1257ec1087eb3ebb4c83af"
-  integrity sha512-04AceE/gVihtO3V28Ss0+tPPgLHGoulXrm1E7fUVPYyQu7y6w8+oXfYyzh1lpy+uEYiebjH7AFlJoz73anBmZA==
+astro@5.2.4:
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/astro/-/astro-5.2.4.tgz#0deba973ad22c4fb083e11ee23586e3ad9d7b279"
+  integrity sha512-zTWiOyRIy+cKzdjG4mvb5gJ8/Gy0z1s9nAZVirlzpYXd8j5LORlKPywEalNU+Q+nssG2QadBTxXCmAjhKYB93Q==
   dependencies:
     "@astrojs/compiler" "^2.10.3"
-    "@astrojs/internal-helpers" "0.5.0"
+    "@astrojs/internal-helpers" "0.5.1"
     "@astrojs/markdown-remark" "6.1.0"
     "@astrojs/telemetry" "3.2.0"
     "@oslojs/encoding" "^1.1.0"
