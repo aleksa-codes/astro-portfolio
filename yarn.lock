@@ -1599,10 +1599,10 @@ astro@*:
   optionalDependencies:
     sharp "^0.33.3"
 
-astro@5.2.4:
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/astro/-/astro-5.2.4.tgz#0deba973ad22c4fb083e11ee23586e3ad9d7b279"
-  integrity sha512-zTWiOyRIy+cKzdjG4mvb5gJ8/Gy0z1s9nAZVirlzpYXd8j5LORlKPywEalNU+Q+nssG2QadBTxXCmAjhKYB93Q==
+astro@5.2.5:
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/astro/-/astro-5.2.5.tgz#3f7e2a2e79c6d0492609efdaaae8027bacd3ae0f"
+  integrity sha512-AYXyYkc+c5xbKTm48FyQA91y81nXyNPAaoyafR0LUugE4lAwuvIUcXDBfMzmbuP1lGRvsE33G2oypv6gbGaPFg==
   dependencies:
     "@astrojs/compiler" "^2.10.3"
     "@astrojs/internal-helpers" "0.5.1"
@@ -1643,10 +1643,10 @@ astro@5.2.4:
     neotraverse "^0.6.18"
     p-limit "^6.2.0"
     p-queue "^8.1.0"
-    preferred-pm "^4.1.0"
+    preferred-pm "^4.1.1"
     prompts "^2.4.2"
     rehype "^13.0.2"
-    semver "^7.7.0"
+    semver "^7.7.1"
     shiki "^1.29.2"
     tinyexec "^0.3.2"
     tsconfck "^3.1.4"
@@ -1656,7 +1656,7 @@ astro@5.2.4:
     vfile "^6.0.3"
     vite "^6.0.11"
     vitefu "^1.0.5"
-    which-pm "^3.0.0"
+    which-pm "^3.0.1"
     xxhash-wasm "^1.1.0"
     yargs-parser "^21.1.1"
     yocto-spinner "^0.2.0"
@@ -4222,14 +4222,14 @@ preferred-pm@^4.0.0:
     find-yarn-workspace-root2 "1.2.16"
     which-pm "^3.0.0"
 
-preferred-pm@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/preferred-pm/-/preferred-pm-4.1.0.tgz#911b7adb811a485d992fd60953eb9d9efcdba36f"
-  integrity sha512-cNKMVcSvE3hZBRukdRsvPtlUaM2fYLFbIvBz620XaDA5SjHsCRsAjNE2baI90Hh7QvJIjCHJYnpPtyqJ1/kOjQ==
+preferred-pm@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/preferred-pm/-/preferred-pm-4.1.1.tgz#81a795a56efbb2b5d5abbcac5ffb34320481f2fd"
+  integrity sha512-rU+ZAv1Ur9jAUZtGPebQVQPzdGhNzaEiQ7VL9+cjsAWPHFYOccNXPNiev1CCDSOg/2j7UujM7ojNhpkuILEVNQ==
   dependencies:
     find-up-simple "^1.0.0"
     find-yarn-workspace-root2 "1.2.16"
-    which-pm "^3.0.0"
+    which-pm "^3.0.1"
 
 prettier-plugin-astro@^0.14.1:
   version "0.14.1"
@@ -4643,10 +4643,10 @@ semver@^7.3.8, semver@^7.6.2, semver@^7.6.3:
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.3.tgz#980f7b5550bc175fb4dc09403085627f9eb33143"
   integrity sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==
 
-semver@^7.7.0:
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.0.tgz#9c6fe61d0c6f9fa9e26575162ee5a9180361b09c"
-  integrity sha512-DrfFnPzblFmNrIZzg5RzHegbiRWg7KMR7btwi2yjHwx06zsUbO5g613sVwEV7FTwmzJu+Io0lJe2GJ3LxqpvBQ==
+semver@^7.7.1:
+  version "7.7.1"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.1.tgz#abd5098d82b18c6c81f6074ff2647fd3e7220c9f"
+  integrity sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==
 
 sharp@0.33.5, sharp@^0.33.3:
   version "0.33.5"
@@ -5339,6 +5339,13 @@ which-pm@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/which-pm/-/which-pm-3.0.0.tgz#78f2088b345a63cec9f838b390332fb1e680221f"
   integrity sha512-ysVYmw6+ZBhx3+ZkcPwRuJi38ZOTLJJ33PSHaitLxSKUMsh0LkKd0nC69zZCwt5D+AYUcMK2hhw4yWny20vSGg==
+  dependencies:
+    load-yaml-file "^0.2.0"
+
+which-pm@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/which-pm/-/which-pm-3.0.1.tgz#deb24246ed660ed38348d5e873b5b2fd334f8479"
+  integrity sha512-v2JrMq0waAI4ju1xU5x3blsxBBMgdgZve580iYMN5frDaLGjbA24fok7wKCsya8KLVO19Ju4XDc5+zTZCJkQfg==
   dependencies:
     load-yaml-file "^0.2.0"
 
