@@ -6,15 +6,15 @@ backend:
 local_backend: true
 
 # Media
-media_folder: '/public/images'
-public_folder: '/public/images'
+media_folder: 'src/assets/blog'
+public_folder: 'src/assets/blog'
 # media_library:
 #   name: cloudinary
 #   max_file_size: 512000 # 512kb
 #   folder_support: true
 
 # Enable editorial workflow
-publish_mode: editorial_workflow
+# publish_mode: editorial_workflow
 
 # Site URL for preview
 site_url: https://aleksa.codes
