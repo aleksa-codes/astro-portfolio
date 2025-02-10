@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 const getRobotsTxt = (sitemapURL: URL) =>
   `User-agent: *
 Allow: /
+Disallow: /admin/
 
 # Explicit rules for common LLM bots that might not attribute source data.
 User-agent: anthropic-ai
@@ -21,7 +22,7 @@ User-agent: Meta-ExternalFetcher
 User-agent: Omgilibot
 User-agent: PerplexityBot
 User-agent: Timpibot
-Allow: /
+Disallow: /
 
 Sitemap: ${sitemapURL.href}`;
 
