@@ -23,7 +23,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  trailingSlash: 'never', // or 'always'
+  trailingSlash: 'always', // or 'never', 'ignore'
   markdown: {
     rehypePlugins: [[targetBlank, { domain: import.meta.env.PROD ? siteConfig.url : 'http://localhost:3000' }]],
   },
