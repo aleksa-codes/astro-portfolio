@@ -41,7 +41,7 @@ const generateBreadcrumbItems = () => {
       accumulatedPath += `/${segment}`;
       generatedItems.push({
         text: formatSegmentText(segment),
-        href: pathSegments[pathSegments.length - 1] === segment ? undefined : accumulatedPath,
+        href: pathSegments[pathSegments.length - 1] === segment ? undefined : accumulatedPath + '/',
       });
     });
   }

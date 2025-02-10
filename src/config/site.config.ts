@@ -22,9 +22,9 @@ export const siteConfig = {
 
   // Navigation
   navigation: [
-    { href: '/about', label: 'About' },
+    { href: '/about/', label: 'About' },
     {
-      href: '/projects',
+      href: '/projects/',
       label: 'Projects',
       // dropdown: [
       //   { href: '/websites', label: 'Websites' },
@@ -33,7 +33,7 @@ export const siteConfig = {
       // ],
     },
     {
-      href: '/blog',
+      href: '/blog/',
       label: 'Blog',
     },
     // { href: '/contact', label: 'Contact' },
