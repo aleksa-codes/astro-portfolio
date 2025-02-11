@@ -59,6 +59,7 @@
   --animate-wave: scale 2.75s ease-in-out, wave 2.5s linear infinite 2s;
   --animate-fade: fade 0.4s ease;
   --animate-highlight: highlight 2s ease-in-out 2s;
+  --animate-blink: blink 1s infinite;
 
   @keyframes logo-cloud {
     from {
@@ -155,6 +156,16 @@
     }
     50% {
       box-shadow: var(--highlight) 0px -2.25rem 0px inset;
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
     }
   }
 }
