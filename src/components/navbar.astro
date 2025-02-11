@@ -35,7 +35,7 @@ const isCurrentPage = (href: string) => {
   <div class='container flex items-center justify-between'>
     <!-- Left section: Logo only -->
     <a class='hover:text-secondary font-bold md:text-2xl' href='/'>
-      <span id='typed-logo'></span>
+      <span id='typewriter' class="after:animate-blink after:ml-0.5 after:font-bold after:content-['|']"></span>
     </a>
 
     <!-- Right section: Navigation + Theme Toggle + CTA -->
@@ -363,12 +363,27 @@ const isCurrentPage = (href: string) => {
 </script>
 
 <script>
-  import Typewriter from 'typewriter-effect/dist/core';
+  function typeText(element: HTMLElement, text: string, speed = 150) {
+    let index = 0;
+    element.classList.remove('after:animate-blink');
+
+    function type() {
+      if (index < text.length) {
+        element.textContent += text.charAt(index);
+        index++;
+        setTimeout(type, speed);
+      } else {
+        element.classList.add('after:animate-blink');
+      }
+    }
+
+    type();
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    const tw = new Typewriter(document.querySelector('#typed-logo'), {
-      loop: false,
-      autoStart: true,
-    });
-    tw.typeString('aleksa.codes').start();
+    const logoElement = document.getElementById('typewriter');
+    if (logoElement instanceof HTMLElement) {
+      typeText(logoElement, 'aleksa.codes', 150);
+    }
   });
 </script>
