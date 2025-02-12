@@ -1236,13 +1236,6 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.45.tgz#2c0fafd78705e7a18b7906b5201a522719dc5190"
   integrity sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==
 
-"@types/pngjs@latest":
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/@types/pngjs/-/pngjs-6.0.5.tgz#6dec2f7eb8284543ca4e423f3c09b119fa939ea3"
-  integrity sha512-0k5eKfrA83JOZPppLtS2C7OUtyNAl2wKNxfyYl9Q5g9lPkgBl/9hNyAu6HuEH2J4XmIv2znEpkDd0SaZVxW6iQ==
-  dependencies:
-    "@types/node" "*"
-
 "@types/sax@^1.2.1":
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/@types/sax/-/sax-1.2.7.tgz#ba5fe7df9aa9c89b6dff7688a19023dd2963091d"
@@ -1279,39 +1272,6 @@
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.1.tgz#28fa185f67daaf7b7a1a8c1d445132c5d979f8bd"
   integrity sha512-fEzPV3hSkSMltkw152tJKNARhOupqbH96MZWyRjNaYZOMIzbrTeQDG+MTc6Mr2pgzFQzFxAfmhGDNP5QK++2ZA==
-
-"@unpic/astro@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@unpic/astro/-/astro-1.0.0.tgz#49335c5ea70b696333ab00bfd22754a290207a7e"
-  integrity sha512-LC7PriiuAZ5EuD2u2Dgne5UzG+FvuyZNV0zc1ajkJXX4sUMOvj0FWjZc0pEYEgzTnlOGkN91x2nI9gEtDSOIyA==
-  dependencies:
-    "@unpic/core" "^1.0.0"
-    "@unpic/pixels" "^1.3.0"
-    "@unpic/placeholder" "^0.1.2"
-    blurhash "^2.0.5"
-
-"@unpic/core@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@unpic/core/-/core-1.0.0.tgz#9704436ce0e43bde7fd6b5fcddaab86ab550c0fe"
-  integrity sha512-O3Bhcj0WLxZOQPCWyEBkGOtYg36hMYYIvfsSqL9uWQbRmmIIWGwFsH0+dyPMCOVFsmNnMmOMytxalelgsx9WUQ==
-  dependencies:
-    unpic "^4.0.0"
-
-"@unpic/pixels@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@unpic/pixels/-/pixels-1.3.0.tgz#5132131e5098f1eff9a09a41a7a347a7f57b8107"
-  integrity sha512-Xe3J4KU9m2NWCDZ9iwIIRYFe7VwkWEqGCy4yoKMEkjoxpcQ7TPxD+QmdTphv3yiTmrDMMIWYEEH+j4mT6dILTA==
-  dependencies:
-    "@types/pngjs" latest
-    jpeg-js "*"
-    pngjs "*"
-
-"@unpic/placeholder@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@unpic/placeholder/-/placeholder-0.1.2.tgz#ccf0a42095fa7934ecf7a7523445a450c8eed52b"
-  integrity sha512-O++tS97biojo5sqn5TeTt+jUjl5gWOdIQuOXe8YluTJWq4L0GM6VuTkaspNpsmxHfioJw/6YBirzOpG4t87l8Q==
-  dependencies:
-    blurhash "^2.0.5"
 
 "@volar/kit@~2.4.7":
   version "2.4.11"
@@ -1704,11 +1664,6 @@ binary-extensions@^2.0.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.3.0.tgz#f6e14a97858d327252200242d4ccfe522c445522"
   integrity sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==
-
-blurhash@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/blurhash/-/blurhash-2.0.5.tgz#efde729fc14a2f03571a6aa91b49cba80d1abe4b"
-  integrity sha512-cRygWd7kGBQO3VEhPiTgq4Wc43ctsM+o46urrmPOiuAe+07fzlSB9OJVdpgDL0jPqXUVQ9ht7aq7kxOeJHRK+w==
 
 boolbase@^1.0.0:
   version "1.0.0"
@@ -2899,11 +2854,6 @@ jiti@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-2.4.2.tgz#d19b7732ebb6116b06e2038da74a55366faef560"
   integrity sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==
-
-jpeg-js@*:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.4.4.tgz#a9f1c6f1f9f0fa80cdb3484ed9635054d28936aa"
-  integrity sha512-WZzeDOEtTOBK4Mdsar0IqEU5sMr3vSV2RqkAIzUEV2BHnUfKGyswWFPFwK5EeDo93K3FohSHbLAjj0s1Wzd+dg==
 
 js-yaml@^3.13.0:
   version "3.14.1"
@@ -4120,11 +4070,6 @@ pkg-types@^1.2.1, pkg-types@^1.3.0:
     mlly "^1.7.4"
     pathe "^2.0.1"
 
-pngjs@*:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-7.0.0.tgz#a8b7446020ebbc6ac739db6c5415a65d17090e26"
-  integrity sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==
-
 postcss-cli@^11.0.0:
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/postcss-cli/-/postcss-cli-11.0.0.tgz#649f4b9af447501feb6cbca7f7505a132f90442b"
@@ -5044,11 +4989,6 @@ universalify@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.1.tgz#168efc2180964e6386d061e094df61afe239b18d"
   integrity sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==
-
-unpic@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/unpic/-/unpic-4.0.0.tgz#82ec25201334f86bb63dcfdb98478a90155f101b"
-  integrity sha512-WaB6lnIPV1NbgnkWHOLrHsBQkLt6ytwF1pnCuSs9aVvEwFDv47vQhefrJS+cBwiK5Y5y1xf6hzySgqxOZ5gdyg==
 
 unstorage@^1.14.4:
   version "1.14.4"
