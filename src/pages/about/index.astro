@@ -199,8 +199,8 @@ const funFacts = [
                   tech.hover,
                 )}
               >
-                <Icon name={tech.icon} class={`size-8 ${tech.color} opacity-85`} />
-                <span class={'text-base-content text-sm font-medium'}>{tech.name}</span>
+                <Icon name={tech.icon} class={cn('size-8 opacity-85', tech.color)} />
+                <span class='text-base-content text-sm font-medium'>{tech.name}</span>
               </div>
             ))
           }
@@ -235,7 +235,7 @@ const funFacts = [
                     )}
                   />
                 </div>
-                <span class='group-hover:text-base-content/90 transition-colors duration-300'>{fact.text}</span>
+                <span>{fact.text}</span>
               </div>
             ))
           }
