@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import { siteConfig } from './src/config/site.config';
 import { targetBlank } from './src/plugins/targetBlank';
-import { imageService } from '@unpic/astro/service';
 import mdx from '@astrojs/mdx';
 import expressiveCode from 'astro-expressive-code';
 import sitemap from '@astrojs/sitemap';
@@ -25,15 +24,6 @@ export default defineConfig({
   },
   markdown: {
     rehypePlugins: [[targetBlank, { domain: import.meta.env.PROD ? siteConfig.url : 'http://localhost:3000' }]],
-  },
-  image: {
-    service: imageService({
-      // This can usually be auto-detected
-      fallbackService: 'astro',
-      placeholder: 'blurhash',
-      // This is the default
-      layout: 'constrained',
-    }),
   },
   integrations: [
     icon(),
