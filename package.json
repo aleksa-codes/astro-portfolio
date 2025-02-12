@@ -5,14 +5,15 @@
   "version": "0.0.1",
   "scripts": {
     "astro": "astro",
-    "dev": "astro dev",
+    "dev": "astro dev --host",
     "start": "astro dev",
     "sync": "astro sync",
     "build:tailwind": "npx @tailwindcss/cli -i src/styles/global.css -o dist/global.css --minify",
     "build:postcss": "postcss dist/global.css -o dist/global.css",
-    "build": "astro check && astro build && yarn build:tailwind && yarn build:postcss",
-    "preview": "astro preview",
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,md,css,html,yaml,astro}\"",
+    "build": "astro check && astro build && yarn build:tailwind && yarn build:postcss",
+    "preview": "astro preview --host",
+    "prod": "yarn prettier && yarn build && yarn preview",
     "decap": "npx decap-server"
   },
   "dependencies": {
@@ -23,7 +24,6 @@
     "@tailwindcss/cli": "^4.0.5",
     "@tailwindcss/postcss": "^4.0.5",
     "@tailwindcss/vite": "^4.0.5",
-    "@unpic/astro": "^1.0.0",
     "astro": "5.2.5",
     "astro-capo": "^0.0.1",
     "astro-compress": "^2.3.5",
