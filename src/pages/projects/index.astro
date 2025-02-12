@@ -117,14 +117,7 @@ const projects = [
       </p>
 
       <div class='flex flex-wrap gap-4 pt-2'>
-        {
-          categories.map((category) => (
-            <div class='bg-base-200 hover:bg-base-300 flex items-center gap-2 rounded-full px-4 py-2 transition-all hover:shadow-xs'>
-              <Icon name={category.icon} class='size-4' />
-              <span class='text-sm font-medium'>{category.name}</span>
-            </div>
-          ))
-        }
+        {categories.map((category) => <Badge icon={category.icon}>{category.name}</Badge>)}
       </div>
     </div>
 
@@ -133,9 +126,7 @@ const projects = [
         projects
           .sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1))
           .map((project, index) => (
-            <div
-              class={`group relative flex flex-col gap-12 md:flex-row ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
-            >
+            <div class={cn('relative flex flex-col gap-12 md:flex-row', index % 2 === 1 && 'md:flex-row-reverse')}>
               {/* Image Container */}
               <div class='relative w-full lg:w-1/2'>
                 <div class='border-base-300 bg-base-200 relative aspect-square overflow-hidden rounded-2xl border transition-all duration-300'>
@@ -145,7 +136,7 @@ const projects = [
                       alt={project.title}
                       format={'webp'}
                       quality={'max'}
-                      class='h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]'
+                      class='h-full w-full object-cover object-top transition duration-500'
                     />
                   )}
                 </div>
@@ -223,7 +214,7 @@ const projects = [
         size='lg'
         target='_blank'
         rel='noopener noreferrer'
-        class='bg-base-300 text-base-content hover:bg-base-300/90 transition-colors'
+        variant='outline'
       >
         <Icon name='lucide:github' class='size-5' />
         More on GitHub

@@ -48,15 +48,15 @@ const postsWithReadTime = page.data.map((post) => ({
             postsWithReadTime.map((post) => (
               <div class='group border-base-300 bg-base-200 overflow-hidden rounded-lg border shadow-xs transition-all hover:shadow-md'>
                 {post.data.thumbnail && (
-                  <div class='aspect-video overflow-hidden'>
+                  <a href={`/blog/${post.id}/`} class='block aspect-video w-full overflow-hidden'>
                     <Image
                       src={post.data.thumbnail}
                       alt={post.data.title}
                       format={'webp'}
                       quality={'max'}
-                      class='size-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      class='size-full object-cover duration-300 group-hover:scale-105'
                     />
-                  </div>
+                  </a>
                 )}
                 <div class='space-y-4 p-6'>
                   <h2 class='text-2xl font-bold'>
