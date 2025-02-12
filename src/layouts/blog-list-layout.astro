@@ -45,13 +45,14 @@ const postsWithReadTime = page.data.map((post) => ({
       <div class='lg:col-span-8'>
         <div class='grid grid-cols-1 gap-8'>
           {
-            postsWithReadTime.map((post) => (
+            postsWithReadTime.map((post, index) => (
               <div class='group border-base-300 bg-base-200 overflow-hidden rounded-lg border shadow-xs transition-all hover:shadow-md'>
                 {post.data.thumbnail && (
                   <a href={`/blog/${post.id}/`} class='block aspect-video w-full overflow-hidden'>
                     <Image
                       src={post.data.thumbnail}
                       alt={post.data.title}
+                      loading={index === 0 ? 'eager' : 'lazy'}
                       format={'webp'}
                       quality={'max'}
                       class='size-full object-cover duration-300 group-hover:scale-105'

@@ -134,6 +134,7 @@ const projects = [
                     <Image
                       src={project.image}
                       alt={project.title}
+                      loading={index === 0 ? 'eager' : 'lazy'}
                       format={'webp'}
                       quality={'max'}
                       class='h-full w-full object-cover object-top transition duration-500'

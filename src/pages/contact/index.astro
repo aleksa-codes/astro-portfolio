@@ -2,6 +2,7 @@
 import Layout from '@/layouts/layout.astro';
 import Breadcrumb from '@/components/breadcrumb.astro';
 import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
 import Button from '@/components/ui/button.astro';
 import Avatar from '@/assets/Avatar.svg';
 import WinterAvatar from '@/assets/WinterAvatar.svg';
@@ -17,9 +18,11 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
 
     <!-- Combined Avatar and Text Section -->
     <div class='flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12'>
-      <div class='flex-shrink-0'>
-        {[11, 0, 1].includes(new Date().getMonth()) ? <WinterAvatar /> : <Avatar />}
-      </div>
+      <Image
+        src={[11, 0, 1].includes(new Date().getMonth()) ? WinterAvatar : Avatar}
+        alt='Avatar of Aleksa'
+        loading={'eager'}
+      />
       <div class='space-y-4 text-center md:text-left'>
         <p class='max-w-xl text-lg leading-relaxed'>
           Feel free to reach out using the form below. I am always interested in new <span class='highlight'
