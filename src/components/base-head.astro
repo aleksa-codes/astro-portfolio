@@ -127,24 +127,18 @@ const structuredData = {
   <link rel='alternate' type='application/rss+xml' title=`${siteName} | RSS Feed` href='/rss.xml' />
 
   <script is:inline>
-    const applyTheme = (isDark) => document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+    if (
+      localStorage?.getItem('theme') === 'dark' ||
+      (!localStorage?.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    )
+      document.documentElement.classList.add('dark');
 
-    const getThemePreference = () => {
-      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-        return localStorage.getItem('theme');
-      }
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        applyTheme(e.matches);
-      });
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    };
-
-    applyTheme(getThemePreference() === 'dark');
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', (e) => document.documentElement.classList[e.matches ? 'add' : 'remove']('dark'));
 
     // If View Transition is enabled:
     // document.addEventListener('astro:before-swap', (e) => {
-    //   applyTheme(getThemePreference() === 'dark');
-    // });
   </script>
 
   <link rel='icon' type='image/x-icon' href='/favicon.ico' />
