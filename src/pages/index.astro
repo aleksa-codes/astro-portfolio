@@ -2,14 +2,24 @@
 import { siteConfig } from '@/config/site.config';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
-import WavingHand from '@/assets/waving-hand.webp';
+import WavingHand from '@/assets/waving-hand.png';
 ---
 
 <Layout title={siteConfig.title} description={siteConfig.description}>
   <section class='items-starts container flex h-full flex-col justify-center gap-y-4 pt-4'>
     <div class='flex items-center gap-x-2 text-5xl font-extrabold'>
       <span>Hello World</span>
-      <Image src={WavingHand} alt='waving hand' class='animate-wave size-12' />
+      <Image
+        src={WavingHand}
+        alt='waving hand'
+        width={48}
+        height={48}
+        densities={[1, 2]}
+        loading={'eager'}
+        format={'webp'}
+        quality={'max'}
+        class='animate-wave size-12'
+      />
     </div>
     <div class='space-y-2'>
       <h1 class='text-5xl font-extrabold'>
