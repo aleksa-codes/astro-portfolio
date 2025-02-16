@@ -8,13 +8,13 @@
     "dev": "astro dev --host",
     "start": "astro dev",
     "sync": "astro sync",
-    "build:tailwind": "npx @tailwindcss/cli -i src/styles/global.css -o dist/global.css --minify",
+    "build:tailwind": "bun x @tailwindcss/cli -i src/styles/global.css -o dist/global.css --minify",
     "build:postcss": "postcss dist/global.css -o dist/global.css",
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,md,css,html,yaml,astro}\"",
-    "build": "astro check && astro build && yarn build:tailwind && yarn build:postcss",
+    "build": "astro check && astro build && bun run build:tailwind && bun run build:postcss",
     "preview": "astro preview --host",
-    "prod": "yarn prettier && yarn build && yarn preview",
-    "decap": "npx decap-server"
+    "prod": "bun run prettier && bun run build && bun run preview",
+    "decap": "bun x decap-server"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -26,13 +26,13 @@
     "@tailwindcss/vite": "^4.0.6",
     "astro": "5.3.0",
     "astro-capo": "^0.0.1",
-    "astro-compress": "^2.3.5",
+    "astro-compress": "^2.3.6",
     "astro-expressive-code": "^0.40.2",
     "astro-icon": "^1.1.5",
     "astro-og-canvas": "^0.5.6",
     "tailwind-merge": "^3.0.1",
     "tailwindcss": "^4.0.6",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.26",
