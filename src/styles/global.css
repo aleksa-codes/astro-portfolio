@@ -56,9 +56,9 @@
   --animate-text-shine: text-shine 4s ease-in-out infinite;
   --animate-snow: snowfall var(--duration, 5s) linear forwards;
   --animate-bounce-in: bounce-in 0.5s ease-out;
-  --animate-wave: scale 2.75s ease-in-out, wave 2.5s linear infinite 2s;
+  --animate-wave: scale 2.75s ease-in-out, wave 2.5s linear infinite 1.5s;
   --animate-fade: fade 0.4s ease;
-  --animate-highlight: highlight 2s ease-in-out 2s;
+  --animate-highlight: highlight 2s ease-in-out 1.5s;
   --animate-blink: blink 1s infinite;
 
   @keyframes logo-cloud {
