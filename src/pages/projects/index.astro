@@ -105,9 +105,9 @@ const projects = [
   title='Projects'
   description='Explore my collection of web applications, AI-powered tools, and browser extensions. From productivity apps to creative solutions, see how I bring ideas to life with modern web technologies.'
 >
-  <section class='container space-y-6'>
+  <div class='container space-y-6'>
     <Breadcrumb />
-    <div class='space-y-6'>
+    <header class='space-y-6'>
       <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>Projects</h1>
       <p class='text-base-content max-w-[750px] text-lg leading-relaxed'>
         As a developer who loves exploring new technologies, these projects represent my journey of continuous learning
@@ -116,34 +116,40 @@ const projects = [
         > and <span class='highlight'>exceptional user experience</span>.
       </p>
 
-      <div class='flex flex-wrap gap-4 pt-2'>
-        {categories.map((category) => <Badge icon={category.icon}>{category.name}</Badge>)}
+      <div aria-label='Project categories'>
+        <ul class='flex flex-wrap gap-4 pt-2'>
+          {
+            categories.map((category) => (
+              <li>
+                <Badge icon={category.icon}>{category.name}</Badge>
+              </li>
+            ))
+          }
+        </ul>
       </div>
-    </div>
+    </header>
 
-    <div class='space-y-12'>
+    <section aria-label='Project list' class='space-y-12'>
       {
         projects
           .sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1))
           .map((project, index) => (
-            <div class={cn('relative flex flex-col gap-12 md:flex-row', index % 2 === 1 && 'md:flex-row-reverse')}>
-              {/* Image Container */}
+            <article class={cn('relative flex flex-col gap-12 md:flex-row', index % 2 === 1 && 'md:flex-row-reverse')}>
               <div class='relative w-full lg:w-1/2'>
                 <div class='border-base-300 bg-base-200 relative aspect-square overflow-hidden rounded-2xl border transition-all duration-300'>
                   {project.image && (
                     <Image
                       src={project.image}
-                      alt={project.title}
+                      alt={`Screenshot of ${project.title}`}
                       loading={index === 0 ? 'eager' : 'lazy'}
-                      format={'webp'}
-                      quality={'max'}
+                      format='webp'
+                      quality='max'
                       class='h-full w-full object-cover object-top transition duration-500'
                     />
                   )}
                 </div>
               </div>
 
-              {/* Content */}
               <div class='flex w-full flex-col justify-center space-y-6 lg:w-1/2'>
                 <div class='space-y-4'>
                   <div class='flex items-center gap-4'>
@@ -164,50 +170,50 @@ const projects = [
                   <p class='text-base-content text-lg leading-relaxed' set:html={project.description} />
                 </div>
 
-                {/* Tags */}
-                <div class='flex flex-wrap gap-2'>
+                <div role='list' aria-label={`Technologies used in ${project.title}`} class='flex flex-wrap gap-2'>
                   {project.tags.map((tag) => (
-                    <Badge>{tag}</Badge>
+                    <div role='listitem'>
+                      <Badge>{tag}</Badge>
+                    </div>
                   ))}
                 </div>
 
-                {/* Links */}
                 <div class='flex gap-4 pt-2'>
                   {project.status === 'coming-soon' ? (
                     <Button variant='secondary' disabled loading>
-                      Soon
+                      <span>Soon</span>
                     </Button>
                   ) : project.huggingface ? (
                     <div class='flex flex-wrap gap-4'>
                       <Button variant='secondary' href={project.huggingface} target='_blank' rel='noopener noreferrer'>
-                        <Icon name='simple-icons:huggingface' class='size-4' />
-                        Hugging Face
+                        <Icon name='simple-icons:huggingface' class='size-4' aria-hidden='true' />
+                        <span>Hugging Face</span>
                       </Button>
                       <Button variant='secondary' href={project.replicate} target='_blank' rel='noopener noreferrer'>
-                        <Icon name='simple-icons:replicate' class='size-4' />
-                        Replicate
+                        <Icon name='simple-icons:replicate' class='size-4' aria-hidden='true' />
+                        <span>Replicate</span>
                       </Button>
                     </div>
                   ) : (
                     project.demo && (
                       <Button variant='secondary' href={project.demo} target='_blank' rel='noopener noreferrer'>
-                        <Icon name='lucide:external-link' class='size-4' />
-                        Live Demo
+                        <Icon name='lucide:external-link' class='size-4' aria-hidden='true' />
+                        <span>Live Demo</span>
                       </Button>
                     )
                   )}
                   {project.github && (
                     <Button variant='outline' href={project.github} target='_blank' rel='noopener noreferrer'>
-                      <Icon name='lucide:github' class='size-4' />
-                      Code
+                      <Icon name='lucide:github' class='size-4' aria-hidden='true' />
+                      <span>Code</span>
                     </Button>
                   )}
                 </div>
               </div>
-            </div>
+            </article>
           ))
       }
-    </div>
+    </section>
 
     <div class='flex justify-center pt-16'>
       <Button
@@ -217,9 +223,9 @@ const projects = [
         rel='noopener noreferrer'
         variant='outline'
       >
-        <Icon name='lucide:github' class='size-5' />
-        More on GitHub
+        <Icon name='lucide:github' class='size-5' aria-hidden='true' />
+        <span>More on GitHub</span>
       </Button>
     </div>
-  </section>
+  </div>
 </Layout>

@@ -160,59 +160,64 @@ const funFacts = [
   title='About'
   description='Learn about my journey as a full-stack web developer, from computer science education to creating modern web applications. Passionate about building innovative digital solutions and user-focused experiences.'
 >
-  <section class='container space-y-6'>
+  <div class='container space-y-6'>
     <Breadcrumb />
 
-    <div class='space-y-8 text-lg leading-relaxed'>
-      <div class='space-y-6'>
+    <article class='space-y-8 text-lg leading-relaxed'>
+      <header class='space-y-6'>
         <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>About</h1>
-        <p>
-          Born in 1996, I grew up alongside the digital revolution, witnessing the internet evolve into the powerful
-          platform it is today. My journey into web development started with pure curiosity - I wanted to understand how
-          websites worked and soon found myself <span class='highlight'>building my own digital experiences</span>.
-        </p>
+        <div class='space-y-4'>
+          <p>
+            Born in 1996, I grew up alongside the digital revolution, witnessing the internet evolve into the powerful
+            platform it is today. My journey into web development started with pure curiosity - I wanted to understand
+            how websites worked and soon found myself <span class='highlight'>building my own digital experiences</span
+            >.
+          </p>
 
-        <p>
-          Currently in the final stages of my <span class='highlight'
-            >Computer Science degree at Singidunum University</span
-          >, working on my thesis, I've dedicated myself to mastering modern web development and creating solutions that
-          make a difference. From browser extensions to full-stack applications, I approach each project as an
-          opportunity to innovate and grow.
-        </p>
+          <p>
+            Currently in the final stages of my <span class='highlight'
+              >Computer Science degree at Singidunum University</span
+            >, working on my thesis, I've dedicated myself to mastering modern web development and creating solutions
+            that make a difference. From browser extensions to full-stack applications, I approach each project as an
+            opportunity to innovate and grow.
+          </p>
 
-        <p>
-          Today, I specialize in building <span class='highlight'>modern web applications</span> that prioritize performance,
-          accessibility, and user experience. I'm particularly passionate about exploring new technologies and finding creative
-          ways to solve complex problems through code.
-        </p>
-      </div>
+          <p>
+            Today, I specialize in building <span class='highlight'>modern web applications</span> that prioritize performance,
+            accessibility, and user experience. I'm particularly passionate about exploring new technologies and finding
+            creative ways to solve complex problems through code.
+          </p>
+        </div>
+      </header>
 
-      <div class='space-y-6'>
-        <h2 class='text-2xl font-bold'>Tech I Love Working With</h2>
-        <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6'>
+      <section class='space-y-6' aria-labelledby='tech-stack'>
+        <h2 id='tech-stack' class='text-2xl font-bold'>Tech I Love Working With</h2>
+        <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6' role='list' aria-label='Technology stack'>
           {
             techStack.map((tech) => (
               <div
+                role='listitem'
                 class={cn(
                   'bg-base-200 hover:bg-base-300 flex flex-col items-center gap-2 rounded-lg p-4 transition-all duration-300',
                   'hover:shadow-[0_0_15px_rgba(0,0,0,0.1)]',
                   tech.hover,
                 )}
               >
-                <Icon name={tech.icon} class={cn('size-8 opacity-85', tech.color)} />
+                <Icon name={tech.icon} class={cn('size-8 opacity-85', tech.color)} aria-hidden='true' />
                 <span class='text-base-content text-sm font-medium'>{tech.name}</span>
               </div>
             ))
           }
         </div>
-      </div>
+      </section>
 
-      <div class='space-y-6'>
-        <h2 class='text-2xl font-bold'>Fun Facts</h2>
-        <div class='grid gap-4 sm:grid-cols-2'>
+      <section class='space-y-6' aria-labelledby='fun-facts'>
+        <h2 id='fun-facts' class='text-2xl font-bold'>Fun Facts</h2>
+        <div class='grid gap-4 sm:grid-cols-2' role='list' aria-label='Personal fun facts'>
           {
             funFacts.map((fact) => (
               <div
+                role='listitem'
                 class={cn(
                   'bg-base-200 group flex items-center gap-4 rounded-lg p-4',
                   'hover:bg-base-300/50 hover:-translate-y-0.5',
@@ -225,6 +230,7 @@ const funFacts = [
                   <Icon
                     name={fact.icon}
                     class={cn('size-5 shrink-0', 'transition-all duration-300', fact.color, 'group-hover:scale-110')}
+                    aria-hidden='true'
                   />
                   <div
                     class={cn(
@@ -233,6 +239,7 @@ const funFacts = [
                       'group-hover:opacity-50',
                       fact.color.replace('group-hover:', ''),
                     )}
+                    aria-hidden='true'
                   />
                 </div>
                 <span>{fact.text}</span>
@@ -240,17 +247,21 @@ const funFacts = [
             ))
           }
         </div>
-      </div>
-      <div class='from-secondary/20 to-warning/20 space-y-4 rounded-lg bg-gradient-to-r p-6 text-lg'>
+      </section>
+
+      <aside class='from-secondary/20 to-warning/20 space-y-4 rounded-lg bg-gradient-to-r p-6 text-lg'>
         <p>
           I'm always open to discussing new projects, opportunities, or just having a chat about web development. Feel
-          free to check out my <a href='/projects' class='text-secondary font-medium underline'>projects</a> or head over
-          to the <a href='/contact' class='text-secondary font-medium underline'> contact page</a> to get in touch.
+          free to check out my <a href='/projects' class='text-secondary hover:text-secondary/80 font-medium underline'
+            >projects</a
+          > or head over to the <a href='/contact' class='text-secondary hover:text-secondary/80 font-medium underline'>
+            contact page</a
+          > to get in touch.
         </p>
-        <div class='flex items-center gap-2'>
+        <nav class='flex items-center gap-2' aria-label='Contact links'>
           <Button href='mailto:hello@aleksa.codes' variant='outline' size='sm'>
-            <Icon name='lucide:mail' />
-            Email
+            <Icon name='lucide:mail' aria-hidden='true' />
+            <span>Email</span>
           </Button>
           <Button
             href='https://discordapp.com/users/1078249969775038514'
@@ -259,12 +270,12 @@ const funFacts = [
             target='_blank'
             rel='noopener noreferrer'
           >
-            <Icon name='simple-icons:discord' />
-            Discord
+            <Icon name='simple-icons:discord' aria-hidden='true' />
+            <span>Discord</span>
           </Button>
-        </div>
-        <p class='font-cursive text-right text-3xl font-bold select-none sm:text-4xl'>aleksa</p>
-      </div>
-    </div>
-  </section>
+        </nav>
+        <p class='font-cursive text-right text-3xl font-bold select-none sm:text-4xl' aria-hidden='true'>aleksa</p>
+      </aside>
+    </article>
+  </div>
 </Layout>

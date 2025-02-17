@@ -12,44 +12,45 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
   title='Contact'
   description='Get in touch for collaboration opportunities, project inquiries, or discussions about web development and software engineering solutions.'
 >
-  <section class='container space-y-6'>
+  <div class='container space-y-6'>
     <Breadcrumb />
-    <h1 class='text-base-content text-4xl font-extrabold tracking-tight lg:text-5xl'>Contact</h1>
 
-    <!-- Combined Avatar and Text Section -->
-    <div class='flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12'>
-      <Image
-        src={[11, 0, 1].includes(new Date().getMonth()) ? WinterAvatar : Avatar}
-        alt='Avatar of Aleksa'
-        loading={'eager'}
-      />
-      <div class='space-y-4 text-center md:text-left'>
-        <p class='max-w-xl text-lg leading-relaxed'>
-          Feel free to reach out using the form below. I am always interested in new <span class='highlight'
-            >ideas and opportunities!</span
-          >
-        </p>
-        <div class='flex items-center justify-center gap-2 md:justify-start'>
-          <Button href='mailto:hello@aleksa.codes' variant='outline' aria-label='Email'>
-            <Icon name='lucide:mail' />
-            Email
-          </Button>
-          <Button
-            href='https://discordapp.com/users/1078249969775038514'
-            variant='outline'
-            target='_blank'
-            rel='noopener noreferrer'
-            aria-label='Discord'
-          >
-            <Icon name='simple-icons:discord' />
-            Discord
-          </Button>
+    <header class='space-y-6'>
+      <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>Contact</h1>
+
+      <div class='flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12'>
+        <Image
+          src={[11, 0, 1].includes(new Date().getMonth()) ? WinterAvatar : Avatar}
+          alt='Cartoon avatar of Aleksa'
+          loading='eager'
+        />
+        <div class='space-y-4 text-center md:text-left'>
+          <p class='max-w-xl text-lg leading-relaxed'>
+            Feel free to reach out using the form below. I am always interested in new <span class='highlight'
+              >ideas and opportunities!</span
+            >
+          </p>
+          <nav class='flex items-center justify-center gap-2 md:justify-start' aria-label='Alternative contact methods'>
+            <Button href='mailto:hello@aleksa.codes' variant='outline'>
+              <Icon name='lucide:mail' aria-hidden='true' />
+              <span>Email</span>
+            </Button>
+            <Button
+              href='https://discordapp.com/users/1078249969775038514'
+              variant='outline'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <Icon name='simple-icons:discord' aria-hidden='true' />
+              <span>Discord</span>
+            </Button>
+          </nav>
         </div>
       </div>
-    </div>
+    </header>
 
-    <!-- Form Content -->
-    <div id='form-content'>
+    <section id='form-content' aria-labelledby='contact-form-heading'>
+      <h2 id='contact-form-heading' class='sr-only'>Contact Form</h2>
       <form
         id='contact-form'
         data-netlify='true'
@@ -58,11 +59,16 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
         name='contact'
         method='POST'
         class='border-base-300 bg-base-200 rounded-lg border p-6 shadow-xs'
+        aria-describedby='form-description'
       >
+        <p id='form-description' class='sr-only'>
+          Fill out this form to send me a message. All fields marked with an asterisk (*) are required.
+        </p>
+
         <div class='space-y-4'>
-          <p class='hidden'>
-            <label>Don't fill this out if you're human: <input name='bot-field' /></label>
-          </p>
+          <div class='hidden'>
+            <label>Don't fill this out if you're human: <input name='bot-field' tabindex='-1' /></label>
+          </div>
           <input type='hidden' name='form-name' value='contact' />
           <input
             type='hidden'
@@ -70,99 +76,106 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
             value='%{siteName}: New Inquiry from %{formName} form (id: %{submissionId})'
           />
 
-          <!-- Form Fields -->
-          <div class='space-y-4'>
+          <fieldset class='space-y-4'>
+            <legend class='sr-only'>Your Contact Information</legend>
             <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
               <div class='w-full'>
-                <label class='text-base-content block text-sm font-medium'>
-                  Name <span class='text-error'>*</span>
+                <label for='name' class='text-base-content block text-sm font-medium'>
+                  Name <span class='text-error' aria-hidden='true'>*</span>
                 </label>
                 <input
                   type='text'
+                  id='name'
                   name='name'
                   placeholder='e.g. Bon Jovi'
                   required
+                  aria-required='true'
                   class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-secondary mt-2 w-full rounded-md border px-3 py-2 ring-offset-2 focus-visible:ring-2 focus-visible:outline-hidden'
                 />
               </div>
 
               <div class='w-full'>
-                <label class='text-base-content block text-sm font-medium'>
-                  Email <span class='text-error'>*</span>
+                <label for='email' class='text-base-content block text-sm font-medium'>
+                  Email <span class='text-error' aria-hidden='true'>*</span>
                 </label>
                 <input
                   type='email'
+                  id='email'
                   name='email'
                   placeholder='e.g. bon.jovi@gmail.com'
                   required
+                  aria-required='true'
                   class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-secondary mt-2 w-full rounded-md border px-3 py-2 ring-offset-2 focus-visible:ring-2 focus-visible:outline-hidden'
                 />
               </div>
             </div>
 
             <div class='w-full'>
-              <label class='text-base-content block text-sm font-medium'>
-                Subject <span class='text-error'>*</span>
+              <label for='subject' class='text-base-content block text-sm font-medium'>
+                Subject <span class='text-error' aria-hidden='true'>*</span>
               </label>
               <input
                 type='text'
+                id='subject'
                 name='subject'
                 placeholder="e.g. Let's Connect!"
                 required
+                aria-required='true'
                 class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-secondary mt-2 w-full rounded-md border px-3 py-2 ring-offset-2 focus-visible:ring-2 focus-visible:outline-hidden'
               />
             </div>
 
             <div class='w-full'>
-              <label class='text-base-content block text-sm font-medium'>
-                Message <span class='text-error'>*</span>
+              <label for='message' class='text-base-content block text-sm font-medium'>
+                Message <span class='text-error' aria-hidden='true'>*</span>
               </label>
               <textarea
+                id='message'
                 name='message'
                 rows='6'
                 placeholder='Your Message'
                 required
+                aria-required='true'
                 class='border-base-300 bg-base-100 text-base-content placeholder:text-base-content/50 focus-visible:ring-secondary mt-2 w-full rounded-md border px-3 py-2 ring-offset-2 focus-visible:ring-2 focus-visible:outline-hidden'
               ></textarea>
             </div>
-          </div>
+          </fieldset>
 
           <div class='flex flex-col items-center justify-between gap-4 sm:flex-row'>
             <div data-netlify-recaptcha='true'></div>
             <div class='flex justify-end gap-4'>
               <Button type='reset' variant='ghost'>
-                <Icon name='lucide:eraser' class='size-4' />
-                Clear
+                <Icon name='lucide:eraser' class='size-4' aria-hidden='true' />
+                <span>Clear</span>
               </Button>
               <Button type='submit' variant='secondary'>
-                <Icon name='lucide:send' class='size-4' />
-                Send
+                <Icon name='lucide:send' class='size-4' aria-hidden='true' />
+                <span>Send</span>
               </Button>
             </div>
           </div>
         </div>
       </form>
-    </div>
+    </section>
 
-    <!-- Success Message (initially hidden) -->
-    <div id='success-message' class='hidden'>
+    <section id='success-message' class='hidden' aria-labelledby='success-heading' role='alert'>
       <div class='border-base-300 bg-base-200 rounded-lg border p-8 text-center shadow-xs'>
         <div class='bg-success/10 mx-auto flex size-12 items-center justify-center rounded-full'>
-          <Icon name='lucide:check' class='text-success size-6' />
+          <Icon name='lucide:check' class='text-success size-6' aria-hidden='true' />
         </div>
 
         <div class='mt-6 space-y-4'>
-          <h2 class='text-base-content text-2xl font-bold'>Thanks for getting in touch!</h2>
+          <h2 id='success-heading' class='text-base-content text-2xl font-bold'>Thanks for getting in touch!</h2>
           <p class='text-base-content/80'>I'll get back to you as soon as possible.</p>
         </div>
 
         <Button variant='secondary' id='send-another' class='mt-6'>
-          <Icon name='lucide:mail' class='size-4' />
-          Send Another Message
+          <Icon name='lucide:mail' class='size-4' aria-hidden='true' />
+          <span>Send Another Message</span>
         </Button>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </Layout>
 
 <script>
