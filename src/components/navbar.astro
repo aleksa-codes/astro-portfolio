@@ -26,7 +26,7 @@ const isCurrentPage = (href: string) => {
 };
 ---
 
-<nav
+<header
   id='navbar'
   data-scroll='top'
   class='data-[scroll=scrolled]:border-base-300 data-[scroll=scrolled]:bg-base-100/80 sticky top-0 z-40 w-full pt-4 pb-2 data-[scroll=scrolled]:border-b data-[scroll=scrolled]:shadow-sm data-[scroll=scrolled]:backdrop-blur-xs md:pt-6 md:pb-4'
@@ -34,17 +34,18 @@ const isCurrentPage = (href: string) => {
 >
   <div class='container flex items-center justify-between'>
     <!-- Left section: Logo only -->
-    <a class='hover:text-secondary text-lg font-bold md:text-2xl' href='/'>
+    <a class='hover:text-secondary text-lg font-bold md:text-2xl' href='/' aria-label='Home'>
       <span id='typewriter' class="after:animate-blink after:ml-0.5 after:font-bold after:content-['|']"></span>
+      <span class='sr-only'>aleksa.codes</span>
     </a>
 
     <!-- Right section: Navigation + Theme Toggle + CTA -->
-    <div class='flex items-center gap-2'>
+    <nav class='flex items-center gap-2'>
       <!-- Desktop Navigation -->
-      <div class='hidden items-center gap-2 lg:flex' role='navigation' aria-label='Desktop navigation'>
+      <ul class='hidden items-center gap-2 lg:flex' aria-label='Desktop navigation'>
         {
           navigationLinks.map(({ href, label, dropdown }) => (
-            <div class='group relative'>
+            <li class='group relative'>
               {dropdown ? (
                 <Button
                   variant='ghost'
@@ -70,7 +71,7 @@ const isCurrentPage = (href: string) => {
                 </Button>
               )}
               {dropdown && (
-                <div
+                <ul
                   id={`desktop-dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
                   class='border-base-300 bg-base-100 invisible absolute top-full left-0 z-50 mt-2 min-w-40 translate-y-2 rounded-md border p-2 opacity-0 shadow-md transition-all duration-300 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100'
                   role='menu'
@@ -78,68 +79,75 @@ const isCurrentPage = (href: string) => {
                   aria-labelledby={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
                 >
                   {dropdown.map((item) => (
-                    <a
-                      href={item.href}
-                      class={cn(
-                        'text-base-content/80 hover:bg-base-200 hover:text-base-content focus:bg-base-200 focus:text-base-content block rounded-md px-4 py-2 text-sm transition-colors focus:outline-hidden',
-                        isCurrentPage(item.href) && 'text-secondary font-medium',
-                      )}
-                      role='menuitem'
-                      aria-current={isCurrentPage(item.href) ? 'page' : null}
-                      tabindex='0'
-                    >
-                      {item.label}
-                    </a>
+                    <li>
+                      <a
+                        href={item.href}
+                        class={cn(
+                          'text-base-content/80 hover:bg-base-200 hover:text-base-content focus:bg-base-200 focus:text-base-content block rounded-md px-4 py-2 text-sm transition-colors focus:outline-hidden',
+                          isCurrentPage(item.href) && 'text-secondary font-medium',
+                        )}
+                        role='menuitem'
+                        aria-current={isCurrentPage(item.href) ? 'page' : null}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
                   ))}
-                </div>
+                </ul>
               )}
-            </div>
+            </li>
           ))
         }
-      </div>
+      </ul>
 
       <!-- Action Buttons and Toggles -->
       <div class='flex items-center gap-2'>
         <!-- Social Links and Toggles -->
         <div class='flex items-center gap-2'>
-          <div class='hidden items-center gap-2 lg:flex'>
-            <Tooltip text='GitHub' direction='bottom' variant='info'>
-              <Button
-                variant='ghost'
-                size='icon'
-                href='https://github.com/aleksa-codes'
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label='GitHub Profile'
-              >
-                <Icon name='lucide:github' class='size-5' />
-              </Button>
-            </Tooltip>
-            <Tooltip text='Resume' direction='bottom' variant='success'>
-              <Button
-                variant='ghost'
-                size='icon'
-                href='/Aleksa_Resume_2025.pdf'
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label='Resume'
-              >
-                <Icon name='lucide:file-text' class='size-5' />
-              </Button>
-            </Tooltip>
-            <Tooltip text='RSS' direction='bottom' variant='warning'>
-              <Button
-                variant='ghost'
-                size='icon'
-                href='/rss.xml'
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label='RSS Feed'
-              >
-                <Icon name='lucide:rss' class='size-5' />
-              </Button>
-            </Tooltip>
-          </div>
+          <ul class='hidden items-center gap-2 lg:flex'>
+            <li>
+              <Tooltip text='GitHub' direction='bottom' variant='info'>
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  href='https://github.com/aleksa-codes'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  aria-label='GitHub Profile'
+                >
+                  <Icon name='lucide:github' class='size-5' />
+                </Button>
+              </Tooltip>
+            </li>
+            <li>
+              <Tooltip text='Resume' direction='bottom' variant='success'>
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  href='/Aleksa_Resume_2025.pdf'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  aria-label='Resume'
+                >
+                  <Icon name='lucide:file-text' class='size-5' />
+                </Button>
+              </Tooltip>
+            </li>
+            <li>
+              <Tooltip text='RSS' direction='bottom' variant='warning'>
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  href='/rss.xml'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  aria-label='RSS Feed'
+                >
+                  <Icon name='lucide:rss' class='size-5' />
+                </Button>
+              </Tooltip>
+            </li>
+          </ul>
           <SnowToggle />
           <ThemeToggle />
         </div>
@@ -160,17 +168,15 @@ const isCurrentPage = (href: string) => {
           <Icon name='lucide:menu' class='size-5' />
         </Button>
       </div>
-    </div>
+    </nav>
   </div>
-</nav>
+</header>
 
 <!-- Mobile Menu Panel -->
-<div
+<aside
   id='mobile-menu'
   data-state='closed'
   class='fixed inset-0 z-50 h-screen data-[state=closed]:pointer-events-none lg:hidden'
-  role='dialog'
-  aria-modal='true'
   aria-label='Mobile navigation menu'
 >
   <!-- Backdrop overlay -->
@@ -182,56 +188,60 @@ const isCurrentPage = (href: string) => {
   >
   </div>
   <!-- Mobile navigation panel -->
-  <div
+  <nav
     id='mobile-menu-panel'
     data-state='closed'
     class='bg-base-100 fixed top-0 right-0 z-50 flex h-full w-72 flex-col px-6 py-4 shadow-lg transition-transform duration-300 data-[state=closed]:translate-x-full data-[state=open]:translate-x-0'
-    role='navigation'
     aria-label='Mobile navigation'
   >
     <!-- Mobile menu header -->
     <div class='flex items-center justify-between'>
-      <div class='flex items-center gap-2'>
-        <Button
-          variant='ghost'
-          size='icon'
-          aria-label='GitHub Profile'
-          href='https://github.com/aleksa-codes'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Icon name='lucide:github' class='size-5' />
-        </Button>
-        <Button
-          variant='ghost'
-          size='icon'
-          aria-label='Resume'
-          href='/Aleksa_Resume_2025.pdf'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Icon name='lucide:file-text' class='size-5' />
-        </Button>
-        <Button
-          variant='ghost'
-          size='icon'
-          aria-label='RSS Feed'
-          href='/rss.xml'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Icon name='lucide:rss' class='size-5' />
-        </Button>
-      </div>
+      <ul class='flex items-center gap-2'>
+        <li>
+          <Button
+            variant='ghost'
+            size='icon'
+            aria-label='GitHub Profile'
+            href='https://github.com/aleksa-codes'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <Icon name='lucide:github' class='size-5' />
+          </Button>
+        </li>
+        <li>
+          <Button
+            variant='ghost'
+            size='icon'
+            aria-label='Resume'
+            href='/Aleksa_Resume_2025.pdf'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <Icon name='lucide:file-text' class='size-5' />
+          </Button>
+        </li>
+        <li>
+          <Button
+            variant='ghost'
+            size='icon'
+            aria-label='RSS Feed'
+            href='/rss.xml'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <Icon name='lucide:rss' class='size-5' />
+          </Button>
+        </li>
+      </ul>
       <Button id='mobile-menu-close' variant='ghost' size='icon' aria-label='Close menu'>
         <Icon name='lucide:x' class='size-5' aria-hidden='true' />
       </Button>
     </div>
     <hr class='bg-base-300 my-4' role='separator' />
     <!-- Mobile navigation links -->
-    <div class='flex flex-col gap-4'>
-      <div class='overflow-x-hidden overflow-y-auto'>
-        <!-- Home link -->
+    <ul class='flex flex-col gap-4 overflow-y-auto'>
+      <li>
         <a
           href='/'
           class={cn('block py-2', isCurrentPage('/') ? 'text-secondary font-medium' : 'hover:text-secondary')}
@@ -239,48 +249,49 @@ const isCurrentPage = (href: string) => {
         >
           Home
         </a>
-        <!-- Regular navigation items -->
-        {
-          navigationLinks.map(({ href, label, dropdown }) => (
-            <div>
-              {dropdown ? (
-                <button
-                  class='group hover:text-secondary focus-visible:ring-primary flex w-full items-center justify-between rounded-md py-2 focus:outline-hidden focus-visible:ring-2'
-                  data-nav-trigger
-                  data-state='closed'
-                  aria-expanded='false'
-                  aria-controls={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
-                  aria-haspopup='true'
-                  id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
-                >
-                  <span>{label}</span>
-                  <Icon
-                    name='lucide:chevron-down'
-                    class='size-4 transition-transform duration-300 group-data-[state=open]:rotate-180'
-                    data-nav-icon
-                    aria-hidden='true'
-                  />
-                </button>
-              ) : (
-                <a
-                  href={href}
-                  class={cn('block py-2', isCurrentPage(href) ? 'text-secondary font-medium' : 'hover:text-secondary')}
-                  aria-current={isCurrentPage(href) ? 'page' : null}
-                >
-                  {label}
-                </a>
-              )}
-              {dropdown && (
-                <div
-                  id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
-                  class='space-y-2 pl-4 data-[state=closed]:hidden data-[state=open]:block'
-                  data-nav-content
-                  data-state='closed'
-                  role='menu'
-                  aria-orientation='vertical'
-                  aria-labelledby={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
-                >
-                  {dropdown.map((item) => (
+      </li>
+      {
+        navigationLinks.map(({ href, label, dropdown }) => (
+          <li>
+            {dropdown ? (
+              <button
+                class='group hover:text-secondary focus-visible:ring-primary flex w-full items-center justify-between rounded-md py-2 focus:outline-hidden focus-visible:ring-2'
+                data-nav-trigger
+                data-state='closed'
+                aria-expanded='false'
+                aria-controls={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                aria-haspopup='true'
+                id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
+              >
+                <span>{label}</span>
+                <Icon
+                  name='lucide:chevron-down'
+                  class='size-4 transition-transform duration-300 group-data-[state=open]:rotate-180'
+                  data-nav-icon
+                  aria-hidden='true'
+                />
+              </button>
+            ) : (
+              <a
+                href={href}
+                class={cn('block py-2', isCurrentPage(href) ? 'text-secondary font-medium' : 'hover:text-secondary')}
+                aria-current={isCurrentPage(href) ? 'page' : null}
+              >
+                {label}
+              </a>
+            )}
+            {dropdown && (
+              <ul
+                id={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}`}
+                class='space-y-2 pl-4 data-[state=closed]:hidden data-[state=open]:block'
+                data-nav-content
+                data-state='closed'
+                role='menu'
+                aria-orientation='vertical'
+                aria-labelledby={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-button`}
+              >
+                {dropdown.map((item) => (
+                  <li>
                     <a
                       href={item.href}
                       class={cn(
@@ -292,18 +303,19 @@ const isCurrentPage = (href: string) => {
                     >
                       {item.label}
                     </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))
-        }
-      </div>
-      <!-- Mobile CTA Button -->
-      <Button href='/contact/' variant='secondary' class='w-full'>Contact</Button>
-    </div>
-  </div>
-</div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+      <li>
+        <Button href='/contact/' variant='secondary' class='w-full'>Contact</Button>
+      </li>
+    </ul>
+  </nav>
+</aside>
 
 <script>
   // document.addEventListener('astro:page-load', () => {

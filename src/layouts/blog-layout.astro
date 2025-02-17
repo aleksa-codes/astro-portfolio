@@ -45,36 +45,38 @@ const readableDate = date.toLocaleDateString('en-us', {
     <div class='bg-secondary h-full w-0 transition-all duration-150' id='progress-bar'></div>
   </div>
 
-  <section class='container space-y-6'>
+  <div class='container space-y-6'>
     <Breadcrumb />
 
     <div class='mx-auto max-w-3xl space-y-6'>
-      <div class='space-y-6 text-left'>
+      <header class='space-y-6 text-left'>
         <h1 class='text-base-content text-4xl font-bold'>{title}</h1>
         <div class='text-base-content/80 flex items-center gap-2 text-sm'>
-          <span class='flex items-center gap-1'>
+          <span class='flex items-center gap-1' aria-label='Reading time'>
             <Icon name='lucide:clock' class='size-4' />
             {readingTime} min read
           </span>
-          <div>•</div>
-          <span class='flex items-center gap-1'>
+          <div aria-hidden='true'>•</div>
+          <span class='flex items-center gap-1' aria-label='Publication date'>
             <Icon name='lucide:calendar' class='size-4' />
             <time datetime={date.toISOString()}>{readableDate}</time>
           </span>
         </div>
         {
           thumbnail && (
-            <Image
-              src={thumbnail}
-              alt={title}
-              loading={'eager'}
-              format={'webp'}
-              quality={'max'}
-              class='aspect-video w-full rounded-md object-cover'
-            />
+            <figure>
+              <Image
+                src={thumbnail}
+                alt={title}
+                loading={'eager'}
+                format={'webp'}
+                quality={'max'}
+                class='aspect-video w-full rounded-md object-cover'
+              />
+            </figure>
           )
         }
-      </div>
+      </header>
 
       <article
         class='font-roboto prose prose-h2:text-base-content prose-h1:text-base-content prose-h3:text-base-content prose-h4:text-base-content prose-a:text-base-content lg:prose-lg dark:prose-invert prose-code:before:hidden prose-code:after:hidden prose-strong:text-base-content prose-img:rounded-md prose-h1:font-sans prose-h2:font-sans prose-h3:font-sans prose-h4:font-sans max-w-none'
@@ -84,18 +86,18 @@ const readableDate = date.toLocaleDateString('en-us', {
 
       {
         tags?.length > 0 && (
-          <div class='mt-8 flex flex-wrap gap-2'>
+          <footer class='mt-8 flex flex-wrap gap-2'>
             {tags.map((tag) => (
-              <Badge as='a' href={`/blog/${tagToSlug(tag)}/`}>
+              <Badge as='a' href={`/blog/${tagToSlug(tag)}/`} aria-label={`Tag: ${tag}`}>
                 {tag}
               </Badge>
             ))}
-          </div>
+          </footer>
         )
       }
 
       <!-- Comments Section -->
-      <div class='w-full'>
+      <section class='w-full' aria-label='Comments section'>
         <h2 class='text-base-content mb-8 text-2xl font-bold tracking-tight'>Comments</h2>
         <script
           is:inline
@@ -113,9 +115,9 @@ const readableDate = date.toLocaleDateString('en-us', {
           data-lang='en'
           crossorigin='anonymous'
           async></script>
-      </div>
+      </section>
     </div>
-  </section>
+  </div>
 </Layout>
 
 <script>
