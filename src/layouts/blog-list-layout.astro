@@ -35,27 +35,31 @@ const postsWithReadTime = page.data.map((post) => ({
 ---
 
 <Layout title={title} description={description} noindex={noindex} nofollow={nofollow}>
-  <section class='container space-y-6'>
+  <div class='container space-y-6'>
     <Breadcrumb />
-    <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>{title}</h1>
-    <p class='text-base-content max-w-[750px] text-lg leading-relaxed'>{description}</p>
+    <!-- Page Header -->
+    <header class='space-y-6'>
+      <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>{title}</h1>
+      <p class='text-base-content max-w-[750px] text-lg leading-relaxed'>{description}</p>
+    </header>
 
+    <!-- Blog Posts and Sidebar -->
     <div class='grid grid-cols-1 gap-8 lg:grid-cols-12'>
-      <!-- Main Content -->
-      <div class='lg:col-span-8'>
+      <!-- Blog Posts -->
+      <section class='lg:col-span-8'>
         <div class='grid grid-cols-1 gap-8'>
           {
             postsWithReadTime.map((post, index) => (
-              <div class='group border-base-300 bg-base-200 overflow-hidden rounded-lg border shadow-xs transition-all hover:shadow-md'>
+              <article class='group border-base-300 bg-base-200 overflow-hidden rounded-lg border shadow-xs transition-all hover:shadow-md'>
                 {post.data.thumbnail && (
                   <a href={`/blog/${post.id}/`} class='block aspect-video w-full overflow-hidden'>
                     <Image
                       src={post.data.thumbnail}
                       alt={post.data.title}
                       loading={index === 0 ? 'eager' : 'lazy'}
-                      format={'webp'}
-                      quality={'max'}
-                      class='size-full object-cover duration-300 group-hover:scale-105'
+                      format='webp'
+                      quality='max'
+                      class='h-full w-full object-cover duration-300 group-hover:scale-105'
                     />
                   </a>
                 )}
@@ -86,14 +90,14 @@ const postsWithReadTime = page.data.map((post) => ({
                   {post.data.tags?.length > 0 && (
                     <div class='flex flex-wrap gap-2'>
                       {post.data.tags.map((tag) => (
-                        <Badge variant={'outline'} as='a' href={`/blog/${tagToSlug(tag)}/`}>
+                        <Badge variant='outline' as='a' href={`/blog/${tagToSlug(tag)}/`}>
                           {tag}
                         </Badge>
                       ))}
                     </div>
                   )}
                 </div>
-              </div>
+              </article>
             ))
           }
         </div>
@@ -101,7 +105,7 @@ const postsWithReadTime = page.data.map((post) => ({
         <!-- Pagination -->
         {
           page.lastPage > 1 && (
-            <div class='mt-12 flex justify-center gap-2'>
+            <nav class='mt-12 flex justify-center gap-2' aria-label='pagination'>
               <Button variant='ghost' href={page.url.prev || '#'} disabled={!page.url.prev} aria-label='Previous Page'>
                 <Icon name='lucide:chevron-left' class='size-4' />
               </Button>
@@ -111,37 +115,39 @@ const postsWithReadTime = page.data.map((post) => ({
               <Button variant='ghost' href={page.url.next || '#'} disabled={!page.url.next} aria-label='Next Page'>
                 <Icon name='lucide:chevron-right' class='size-4' />
               </Button>
-            </div>
+            </nav>
           )
         }
-      </div>
+      </section>
 
       <!-- Sidebar -->
-      <div class='lg:col-span-4'>
+      <aside class='lg:col-span-4'>
         <div class='space-y-8 lg:sticky lg:top-24'>
-          <div class='border-base-300 bg-base-200 rounded-lg border p-6'>
+          <!-- Categories -->
+          <section class='border-base-300 bg-base-200 rounded-lg border p-6'>
             <h2 class='text-base-content mb-4 text-xl font-bold'>Categories</h2>
             <div class='flex flex-wrap gap-2'>
               {
                 allTags.map((tag) => (
-                  <Badge variant={'outline'} as='a' href={`/blog/${tagToSlug(tag)}/`}>
+                  <Badge variant='outline' as='a' href={`/blog/${tagToSlug(tag)}/`}>
                     {tag}
                   </Badge>
                 ))
               }
             </div>
-          </div>
+          </section>
 
-          <div class='border-base-300 bg-base-200 rounded-lg border p-6'>
+          <!-- RSS Feed -->
+          <section class='border-base-300 bg-base-200 rounded-lg border p-6'>
             <h2 class='text-base-content mb-4 text-xl font-bold'>RSS Feed</h2>
-            <p class='text-base-content/80 mb-4'>Subscribe to my blog and stay up to date with the latest posts.</p>
+            <p class='text-base-content/80 mb-4'>Subscribe to my blog for the latest updates.</p>
             <Button variant='warning' href='/rss.xml'>
               <Icon name='lucide:rss' class='size-4' />
               Subscribe
             </Button>
-          </div>
+          </section>
         </div>
-      </div>
+      </aside>
     </div>
-  </section>
+  </div>
 </Layout>

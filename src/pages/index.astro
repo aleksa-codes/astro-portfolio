@@ -6,8 +6,8 @@ import WavingHand from '@/assets/waving-hand.png';
 ---
 
 <Layout title={siteConfig.title} description={siteConfig.description}>
-  <section class='items-starts container flex h-full flex-col justify-center gap-y-4 pt-4'>
-    <div class='flex items-center gap-x-2 text-5xl font-extrabold'>
+  <section class='container space-y-4 pt-4'>
+    <div class='flex items-center gap-x-2 text-4xl font-extrabold sm:text-5xl'>
       <span>Hello World</span>
       <Image
         src={WavingHand}
@@ -18,22 +18,21 @@ import WavingHand from '@/assets/waving-hand.png';
         loading={'eager'}
         format={'webp'}
         quality={'max'}
-        class='animate-wave size-12'
+        class='animate-wave size-9 sm:size-12'
       />
     </div>
     <div class='space-y-2'>
-      <h1 class='text-5xl font-extrabold'>
+      <h1 class='text-4xl font-extrabold sm:text-5xl'>
         My name is <span
           class='from-base-content to-highlight bg-gradient-to-r bg-clip-text font-extrabold text-transparent'
           >Aleksa</span
         >
       </h1>
       <h2 class='text-3xl font-bold'>
-        I design and build{' '}
-        <span class='highlight-heading animate-highlight'>things for the web.</span>
+        I design and build <span class='highlight-heading animate-highlight'>things for the web.</span>
       </h2>
     </div>
-    <div class='text-xl font-semibold'>Computer Science Student and Web Developer.</div>
+    <h3 class='text-xl font-semibold'>Computer Science Student and Web Developer.</h3>
     <div class='bg-laptop mx-auto mt-4 h-[275px] w-[275px] sm:h-[350px] sm:w-[350px] md:h-[450px] md:w-[450px]'></div>
   </section>
 </Layout>
