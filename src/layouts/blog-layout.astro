@@ -50,7 +50,7 @@ const readableDate = date.toLocaleDateString('en-us', {
 
     <div class='mx-auto max-w-3xl space-y-6'>
       <header class='space-y-6 text-left'>
-        <h1 class='text-base-content text-4xl font-bold'>{title}</h1>
+        <h1 class='text-base-content text-3xl font-bold md:text-4xl'>{title}</h1>
         <div class='text-base-content/80 flex items-center gap-2 text-sm'>
           <span class='flex items-center gap-1' aria-label='Reading time'>
             <Icon name='lucide:clock' class='size-4' />
@@ -79,7 +79,7 @@ const readableDate = date.toLocaleDateString('en-us', {
       </header>
 
       <article
-        class='font-roboto prose prose-h2:text-base-content prose-h1:text-base-content prose-h3:text-base-content prose-h4:text-base-content prose-a:text-base-content lg:prose-lg dark:prose-invert prose-code:before:hidden prose-code:after:hidden prose-strong:text-base-content prose-img:rounded-md prose-h1:font-sans prose-h2:font-sans prose-h3:font-sans prose-h4:font-sans max-w-none'
+        class='font-roboto prose md:prose-lg prose-h2:text-base-content prose-h1:text-base-content prose-h3:text-base-content prose-h4:text-base-content prose-a:text-base-content dark:prose-invert prose-code:before:hidden prose-code:after:hidden prose-strong:text-base-content prose-img:rounded-md prose-h1:font-sans prose-h2:font-sans prose-h3:font-sans prose-h4:font-sans max-w-none'
       >
         <slot />
       </article>
