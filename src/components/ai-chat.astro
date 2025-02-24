@@ -1,0 +1,463 @@
+---
+import { Icon } from 'astro-icon/components';
+import Button from '@/components/ui/button.astro';
+---
+
+<div>
+  <!-- Welcome Message Bubble -->
+  <div
+    id='message-bubble'
+    class='animate-bounce-in fixed right-5 bottom-[84px] z-40 flex w-72 items-start gap-3 transition-all duration-300'
+  >
+    <div class='bg-base-300 relative w-full rounded-2xl p-4 shadow-lg'>
+      <div class='bg-base-300 absolute right-4 -bottom-2 size-4 rotate-45'></div>
+      <div class='flex gap-3'>
+        <div class='bg-secondary relative flex size-10 items-center justify-center rounded-xl'>
+          <Icon name='lucide:bot' class='text-secondary-content size-6' />
+          <div
+            class='border-base-300 absolute -right-1 -bottom-1 size-4 rounded-full border-2 bg-green-500 dark:bg-green-400'
+          >
+          </div>
+        </div>
+        <div class='flex-1'>
+          <p class='text-base-content font-medium'>Beep boop! 👋</p>
+          <p class='text-base-content/85 text-sm'>Ask me about Aleksa's projects or anything else.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Toggle Button -->
+  <Button
+    id='chat-toggle'
+    variant={'secondary'}
+    size='icon'
+    aria-label='Chat with Portfolio AI'
+    class='fixed right-5 bottom-5 z-40 size-12 rounded-full shadow-lg transition-all hover:scale-105 hover:shadow-xl'
+  >
+    <Icon name='lucide:bot-message-square' class='!size-6' />
+  </Button>
+
+  <!-- Chat Panel -->
+  <div
+    id='chat-panel'
+    class='bg-base-300 invisible fixed inset-0 z-40 origin-bottom-right scale-0 opacity-0 shadow-lg transition-all duration-300 ease-[cubic-bezier(0,1.2,1,1)] sm:inset-auto sm:right-5 sm:bottom-[84px] sm:w-80 sm:rounded-2xl'
+  >
+    <!-- Main container with full height on mobile -->
+    <div class='relative flex h-full flex-col sm:h-auto'>
+      <!-- Arrow (only visible on desktop) -->
+      <div class='bg-base-300 absolute right-4 -bottom-2 hidden size-4 rotate-45 sm:block'></div>
+
+      <!-- Chat Header -->
+      <div class='bg-secondary text-secondary-content flex items-center gap-3 p-2 sm:rounded-t-2xl'>
+        <div class='bg-secondary-content/15 relative flex size-10 items-center justify-center rounded-xl'>
+          <Icon name='lucide:bot' class='size-6' />
+          <div
+            class='border-secondary absolute -right-1 -bottom-1 size-4 rounded-full border-2 bg-green-500 dark:bg-green-400'
+          >
+          </div>
+        </div>
+        <div class='flex-1'>
+          <h3 class='font-medium'>Portfolio AI</h3>
+          <p class='text-xs opacity-90'>Built by Aleksa & Powered by Groq</p>
+        </div>
+        <Button size='icon' variant='ghost' id='mobile-chat-close' class='text-secondary-content sm:hidden'>
+          <Icon name='lucide:x' class='size-6' />
+        </Button>
+      </div>
+
+      <!-- Chat Content Area - Flexbox container -->
+      <div class='flex flex-1 flex-col overflow-hidden sm:max-h-96'>
+        <!-- Scrollable Messages Area -->
+        <div id='messages' class='flex flex-1 flex-col gap-2 overflow-y-auto p-2'>
+          <!-- Predefined Prompts (shown when no messages) -->
+          <div id='templates' class='flex h-full flex-col items-center justify-center gap-2'>
+            <Icon name='lucide:bot' class='text-secondary !size-16 sm:hidden' />
+            <p class='font-medium'>What can I help with?</p>
+            <div class='grid grid-cols-2 gap-2 sm:grid-cols-1'>
+              <Button
+                variant='ghost'
+                class='bg-base-100 hover:bg-base-200 flex h-full flex-col items-start justify-start gap-2 rounded-xl p-3 text-left text-sm whitespace-normal transition-colors hover:cursor-pointer sm:flex-row sm:items-start sm:gap-3 sm:px-4 sm:py-3 sm:text-left'
+                data-prompt="What are Aleksa's main projects?"
+              >
+                <Icon name='lucide:folder' class='size-6 shrink-0 text-amber-500 sm:size-5 dark:text-amber-400' />
+                <span>What are your main projects?</span>
+              </Button>
+              <Button
+                variant='ghost'
+                class='bg-base-100 hover:bg-base-200 flex h-full flex-col items-start justify-start gap-2 rounded-xl p-3 text-left text-sm whitespace-normal transition-colors hover:cursor-pointer sm:flex-row sm:items-start sm:gap-3 sm:px-4 sm:py-3 sm:text-left'
+                data-prompt='Tell me about your tech stack and skills.'
+              >
+                <Icon name='lucide:code-2' class='size-6 shrink-0 text-purple-500 sm:size-5 dark:text-purple-400' />
+                <span>What technologies do you use?</span>
+              </Button>
+              <Button
+                variant='ghost'
+                class='bg-base-100 hover:bg-base-200 flex h-full flex-col items-start justify-start gap-2 rounded-xl p-3 text-left text-sm whitespace-normal transition-colors hover:cursor-pointer sm:flex-row sm:items-start sm:gap-3 sm:px-4 sm:py-3 sm:text-left'
+                data-prompt='What are some interesting facts about you?'
+              >
+                <Icon name='lucide:sparkles' class='size-6 shrink-0 text-pink-500 sm:size-5 dark:text-pink-400' />
+                <span>Tell me something interesting about yourself</span>
+              </Button>
+              <Button
+                variant='ghost'
+                class='bg-base-100 hover:bg-base-200 flex h-full flex-col items-start justify-start gap-2 rounded-xl p-3 text-left text-sm whitespace-normal transition-colors hover:cursor-pointer sm:flex-row sm:items-start sm:gap-3 sm:px-4 sm:py-3 sm:text-left'
+                data-prompt='How can I contact you?'
+              >
+                <Icon name='lucide:mail' class='size-6 shrink-0 text-sky-500 sm:size-5 dark:text-sky-400' />
+                <span>How can I get in touch?</span>
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div class='border-base-content/10 space-y-2 border-t p-2'>
+          <form id='chat-form' class='flex gap-2'>
+            <input
+              type='text'
+              name='message'
+              required
+              placeholder='Ask about Aleksa...'
+              autocomplete='off'
+              class='bg-base-100 text-base-content placeholder:text-base-content/50 border-base-300 focus-visible:outline-secondary w-full rounded-xl border px-4 text-base disabled:cursor-not-allowed disabled:opacity-50'
+            />
+            <Button
+              type='submit'
+              variant='secondary'
+              size='icon'
+              id='submit-button'
+              class='size-10 shrink-0 rounded-xl'
+            >
+              <Icon name='lucide:send' id='send-icon' />
+              <div id='loading-icon' class='hidden'>
+                <Icon name='lucide:loader-circle' class='animate-spin' />
+              </div>
+            </Button>
+          </form>
+          <div class='flex items-center justify-between px-1 text-xs'>
+            <span id='message-counter' class='text-base-content/85'></span>
+            <span class='text-base-content/85 text-right'>AI can make mistakes.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { marked } from 'marked';
+  import type { CoreMessage } from 'ai';
+
+  interface MessageState {
+    count: number;
+    lastReset: string;
+  }
+
+  const MESSAGE_LIMIT = 5;
+  const DAILY_STORAGE_KEY = 'ai-chat-state';
+  const CONVERSATION_STORAGE_KEY = 'ai-chat-conversation';
+
+  if (typeof window !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const elements = {
+        chatPanel: document.getElementById('chat-panel'),
+        chatToggle: document.getElementById('chat-toggle'),
+        messageBubble: document.getElementById('message-bubble'),
+        form: document.getElementById('chat-form') as HTMLFormElement,
+        input: document.querySelector('input[name="message"]') as HTMLInputElement,
+        messages: document.getElementById('messages'),
+        submitButton: document.getElementById('submit-button') as HTMLButtonElement,
+        sendIcon: document.getElementById('send-icon'),
+        loadingIcon: document.getElementById('loading-icon'),
+        messageCounter: document.getElementById('message-counter'),
+        mobileChatClose: document.getElementById('mobile-chat-close'),
+        templates: document.getElementById('templates'),
+      };
+
+      const storage = {
+        // Get stored state with daily reset check
+        getStoredState(): MessageState {
+          const defaultState: MessageState = { count: 0, lastReset: new Date().toISOString().split('T')[0] };
+
+          try {
+            const stored = localStorage.getItem(DAILY_STORAGE_KEY);
+            if (!stored) return defaultState;
+
+            const state: MessageState = JSON.parse(stored);
+            const today = new Date().toISOString().split('T')[0];
+
+            // Reset if it's a new day
+            if (state.lastReset !== today) {
+              this.saveState(defaultState);
+              return defaultState;
+            }
+
+            return state;
+          } catch {
+            return defaultState;
+          }
+        },
+
+        // Save current state
+        saveState(state: MessageState) {
+          localStorage.setItem(DAILY_STORAGE_KEY, JSON.stringify(state));
+        },
+
+        // Conversation storage methods
+        getStoredConversation(): CoreMessage[] {
+          try {
+            const stored = sessionStorage.getItem(CONVERSATION_STORAGE_KEY);
+            return stored ? JSON.parse(stored) : [];
+          } catch {
+            return [];
+          }
+        },
+
+        saveConversation(messages: CoreMessage[]) {
+          sessionStorage.setItem(CONVERSATION_STORAGE_KEY, JSON.stringify(messages));
+        },
+      };
+
+      // Chat state with stored message count
+      const state = {
+        messages: storage.getStoredConversation(),
+        isLoading: false,
+        userMessageCount: storage.getStoredState().count,
+      };
+
+      // UI Functions
+      const ui = {
+        toggleLoading(isLoading: boolean) {
+          const { submitButton, input, sendIcon, loadingIcon } = elements;
+          if (!submitButton || !input) return;
+
+          state.isLoading = isLoading;
+          submitButton.disabled = isLoading;
+          input.disabled = isLoading;
+          sendIcon?.classList.toggle('hidden', isLoading);
+          loadingIcon?.classList.toggle('hidden', !isLoading);
+        },
+
+        async renderStoredMessages() {
+          for (const message of state.messages) {
+            await this.addMessage(message.content as string, message.role === 'user', true);
+          }
+        },
+
+        async addMessage(content: string, isUser: boolean, renderStored = false) {
+          if (!isUser && document.getElementById('streaming-message')) {
+            // Update existing streaming message
+            const streamingMsg = document.getElementById('streaming-message');
+            const parsedContent = await marked.parse(content);
+            streamingMsg!.querySelector('div')!.innerHTML = parsedContent;
+            ui.scrollToBottom();
+            return;
+          }
+          // 1. Create outer message container with alignment
+          const messageEl = document.createElement('div');
+          messageEl.className = `flex gap-2 ${isUser ? 'justify-end' : ''}`;
+
+          // 2. Create message bubble
+          const bubble = document.createElement('div');
+          bubble.className = `${
+            isUser ? 'bg-secondary text-secondary-content' : 'bg-base-100 text-base-content'
+          } max-w-[85%] rounded-2xl px-4 py-2 overflow-hidden`;
+
+          // 3. Create and style message content
+          const messageContent = document.createElement('div');
+          messageContent.className = isUser ? 'text-sm' : 'prose prose-sm max-w-none dark:prose-invert break-words';
+
+          // Handle content based on message type
+          if (isUser) {
+            messageContent.textContent = content;
+          } else {
+            const parsedContent = await marked.parse(content);
+            messageContent.innerHTML = parsedContent;
+            if (!renderStored) {
+              bubble.id = 'streaming-message';
+            }
+          }
+          // Append content to bubble
+          bubble.appendChild(messageContent);
+
+          // 4. Add timestamp
+          const timestamp = document.createElement('div');
+          timestamp.className = 'text-xs mt-1 opacity-80';
+          timestamp.textContent = new Date().toLocaleTimeString([], { timeStyle: 'short' });
+          // Append timestamp to bubble
+          bubble.appendChild(timestamp);
+
+          // 5. Handle message placement
+          messageEl.appendChild(bubble);
+
+          // 6. Append message to chat
+          elements.messages?.appendChild(messageEl);
+
+          // Scroll to bottom
+          ui.scrollToBottom();
+        },
+
+        hideBubbleMessage() {
+          const { messageBubble } = elements;
+          messageBubble?.classList.add('opacity-0', '-translate-y-2');
+          setTimeout(() => messageBubble?.classList.add('hidden'), 300);
+        },
+
+        updateMessageCounter() {
+          const used = state.userMessageCount;
+          const counterText = `${used}/${MESSAGE_LIMIT} today`;
+
+          elements.messageCounter!.textContent = counterText;
+          if (used >= MESSAGE_LIMIT) {
+            elements.messageCounter!.classList.add('text-error');
+            elements.input!.disabled = true;
+            elements.submitButton!.disabled = true;
+          }
+
+          storage.saveState({
+            count: state.userMessageCount,
+            lastReset: new Date().toISOString().split('T')[0],
+          });
+        },
+
+        scrollToBottom() {
+          elements.messages?.scrollTo({
+            top: elements.messages.scrollHeight,
+            behavior: 'smooth',
+          });
+        },
+
+        hideTemplates() {
+          if (elements.templates) {
+            const shouldHide = state.messages.length > 0 || state.isLoading;
+            elements.templates.style.display = shouldHide ? 'none' : 'flex';
+          }
+        },
+      };
+
+      // Chat Functions
+      const chat = {
+        async sendMessage(message: string) {
+          if (!message.trim() || state.userMessageCount >= MESSAGE_LIMIT) return;
+
+          state.userMessageCount++;
+          await ui.addMessage(message, true);
+          elements.form?.reset();
+          ui.toggleLoading(true);
+
+          state.messages.push({ role: 'user', content: message });
+          storage.saveConversation(state.messages);
+          // After adding first user message, show the empty state
+          if (state.messages.length === 1) ui.hideTemplates();
+
+          try {
+            const response = await fetch('/api/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ messages: state.messages }),
+            });
+
+            if (!response.ok) throw new Error('Failed to fetch response');
+
+            let assistantMessage = '';
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
+
+            while (reader) {
+              const { done, value } = await reader.read();
+              if (done) break;
+
+              const text = decoder.decode(value);
+              assistantMessage += text;
+              await ui.addMessage(assistantMessage, false);
+            }
+
+            // Remove the streaming ID
+            const streamingMsg = document.getElementById('streaming-message');
+            if (streamingMsg) streamingMsg.removeAttribute('id');
+
+            state.messages.push({ role: 'assistant', content: assistantMessage });
+            storage.saveConversation(state.messages);
+          } catch (error) {
+            console.error('Chat error:', error);
+            state.userMessageCount--; // Decrement on error
+            state.messages.pop(); // Remove failed message from storage
+            storage.saveConversation(state.messages);
+            storage.saveState({
+              // Update storage after decrement
+              count: state.userMessageCount,
+              lastReset: new Date().toISOString().split('T')[0],
+            });
+            await ui.addMessage('Sorry, I encountered an error. Please try again.', false);
+          } finally {
+            ui.toggleLoading(false);
+            ui.updateMessageCounter();
+            // elements.input?.focus();
+          }
+        },
+      };
+
+      // Submit chat form
+      elements.form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = elements.input?.value;
+        if (message && !state.isLoading) await chat.sendMessage(message);
+      });
+
+      // Toggle chat panel
+      elements.chatToggle?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const panel = elements.chatPanel;
+        if (!panel) return;
+
+        // Toggle visibility classes
+        panel.classList.toggle('scale-0');
+        panel.classList.toggle('opacity-0');
+        panel.classList.toggle('invisible');
+
+        if (window.matchMedia('(max-width: 640px)').matches) {
+          document.body.style.setProperty('overflow', 'hidden', 'important');
+        }
+
+        if (!panel.classList.contains('scale-0')) {
+          ui.hideBubbleMessage();
+          ui.scrollToBottom();
+        }
+      });
+
+      // Close chat panel when clicking outside
+      document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const panel = elements.chatPanel;
+        if (!target.closest('#chat-panel')) {
+          panel?.classList.add('scale-0', 'opacity-0', 'invisible');
+        }
+      });
+
+      // Close chat panel on mobile
+      elements.mobileChatClose?.addEventListener('click', () => {
+        document.body.style.removeProperty('overflow');
+        elements.chatPanel?.classList.add('scale-0', 'opacity-0', 'invisible');
+      });
+
+      // Auto-hide welcome message
+      setTimeout(ui.hideBubbleMessage, 5000);
+
+      // Initialize message counter with stored state
+      ui.renderStoredMessages();
+      ui.updateMessageCounter();
+      ui.hideTemplates();
+
+      // Add click handlers for predefined prompts
+      elements.templates?.querySelectorAll('button').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const prompt = button.getAttribute('data-prompt');
+          if (prompt) {
+            await chat.sendMessage(prompt);
+          }
+        });
+      });
+    });
+  }
+</script>

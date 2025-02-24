@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import compress from 'astro-compress';
 import icon from 'astro-icon';
 import tailwindcss from '@tailwindcss/vite';
+import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
@@ -48,4 +49,5 @@ export default defineConfig({
     }),
     mdx(),
   ],
+  adapter: netlify(),
 });
