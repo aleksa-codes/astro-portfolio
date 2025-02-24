@@ -198,7 +198,7 @@
     --warning: oklch(89.172% 0.045 71.47);
     --warning-content: oklch(17.834% 0.009 71.47);
 
-    --error: oklch(73.092% 0.11 20.076);
+    --error: oklch(54.75% 0.1717 16.7);
     --error-content: oklch(14.618% 0.022 20.076);
 
     --highlight: oklch(86.99% 0.0622 274.04);
@@ -346,7 +346,7 @@
   }
 
   ::selection {
-    @apply bg-secondary text-secondary-content;
+    @apply bg-highlight text-base-content;
   }
 
   ::-webkit-scrollbar {
