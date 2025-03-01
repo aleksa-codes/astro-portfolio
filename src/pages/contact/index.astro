@@ -19,11 +19,8 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
       <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>Contact</h1>
 
       <div class='flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12'>
-        <Image
-          src={[11, 0, 1].includes(new Date().getMonth()) ? WinterAvatar : Avatar}
-          alt='Cartoon avatar of Aleksa'
-          loading='eager'
-        />
+        <Image id='avatar' src={Avatar} alt='Cartoon avatar of Aleksa' loading='eager' class='hidden' />
+        <Image id='winter-avatar' src={WinterAvatar} alt='Cartoon avatar of Aleksa' loading='eager' class='hidden' />
         <div class='space-y-4 text-center md:text-left'>
           <p class='max-w-xl text-lg leading-relaxed'>
             Feel free to reach out using the form below. I am always interested in new <span class='highlight'
@@ -179,6 +176,12 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
 </Layout>
 
 <script>
+  // Winter avatar logic
+  const avatar = document.getElementById('avatar');
+  const winterAvatar = document.getElementById('winter-avatar');
+  const isWinter = [11, 0, 1].includes(new Date().getMonth());
+  isWinter ? winterAvatar?.classList.remove('hidden') : avatar?.classList.remove('hidden');
+
   const form = document.querySelector('#contact-form') as HTMLFormElement;
   const formContent = document.querySelector('#form-content');
   const successMessage = document.querySelector('#success-message');

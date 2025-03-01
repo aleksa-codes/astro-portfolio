@@ -8,7 +8,7 @@ import { Icon } from 'astro-icon/components';
   aria-label='Toggle snow effect'
   variant='outline'
   size='icon'
-  class='invisible relative overflow-hidden'
+  class='relative hidden overflow-hidden'
 >
   <span class='sr-only'>Toggle snow effect</span>
   <Icon
@@ -30,7 +30,7 @@ import { Icon } from 'astro-icon/components';
     const snowToggle = document.getElementById('snow-toggle');
     if (!snowToggle) return;
 
-    snowToggle.classList.remove('invisible');
+    snowToggle.classList.add('inline-flex');
 
     // Get stored preference or default to true
     let showSnow = localStorage.getItem('snowEffect') !== 'false';
