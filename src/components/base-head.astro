@@ -180,5 +180,9 @@ const structuredData = {
   {twitterCreator && <meta name='twitter:creator' content={twitterCreator} />}
   {twitterSite && <meta name='twitter:site' content={twitterSite} />}
 
-  {structuredData && <script is:inline type='application/ld+json' set:html={JSON.stringify(structuredData)} />}
+  {
+    structuredData && Astro.url.pathname !== '/' && (
+      <script is:inline type='application/ld+json' set:html={JSON.stringify(structuredData)} />
+    )
+  }
 </Head>
