@@ -42,7 +42,8 @@ const {
   schema,
 } = Astro.props;
 
-const pageTitle = Astro.url.pathname === '/' ? siteName : `${siteName} | ${title}`;
+const isHomePage = Astro.url.pathname === '/';
+const pageTitle = isHomePage ? `${siteName} | Software Engineer` : `${siteName} | ${title}`;
 const baseUrl = Astro.site ?? Astro.url;
 const defaultCanonicalUrl = new URL(Astro.url.pathname + Astro.url.search, baseUrl);
 
@@ -76,12 +77,29 @@ const generateBreadcrumbList = () => {
   };
 };
 
+// HomePage specific schema
+const homePageSchema = isHomePage
+  ? {
+      '@type': 'WebSite',
+      '@id': baseUrl.toString(),
+      url: baseUrl.toString(),
+      name: siteName,
+      description: siteConfig.description,
+      publisher: {
+        '@type': 'Person',
+        name: 'Aleksa',
+        url: baseUrl.toString(),
+      },
+    }
+  : null;
+
 // Generate page/article structured data
 const pageSchema = {
   '@type': schema?.type || 'WebPage',
   '@id': canonicalURL || defaultCanonicalUrl,
   url: canonicalURL || defaultCanonicalUrl,
   name: title,
+  headline: title,
   description: description,
   image: new URL(image, baseUrl).toString(),
   inLanguage: locale,
@@ -107,7 +125,7 @@ const pageSchema = {
 
 const structuredData = {
   '@context': 'https://schema.org',
-  '@graph': [pageSchema, generateBreadcrumbList()],
+  '@graph': homePageSchema ? [homePageSchema, generateBreadcrumbList()] : [pageSchema, generateBreadcrumbList()],
 };
 ---
 
@@ -136,9 +154,6 @@ const structuredData = {
     window
       .matchMedia('(prefers-color-scheme: dark)')
       .addEventListener('change', (e) => document.documentElement.classList[e.matches ? 'add' : 'remove']('dark'));
-
-    // If View Transition is enabled:
-    // document.addEventListener('astro:before-swap', (e) => {
   </script>
 
   <link rel='icon' type='image/x-icon' href='/favicon.ico' />
@@ -151,7 +166,6 @@ const structuredData = {
   <link rel='apple-touch-icon' sizes='180x180' href='/icons/ios/180.png' />
   <link rel='icon' type='image/png' sizes='192x192' href='/icons/android/192.png' />
 
-  <meta name='apple-mobile-web-app-title' content={siteName} />
   <meta name='theme-color' content='#121212' />
   <link rel='manifest' href='/manifest.json' />
   <link rel='sitemap' href='/sitemap-index.xml' />
@@ -163,6 +177,7 @@ const structuredData = {
   <meta name='description' content={description} />
   <meta name='generator' content={Astro.generator} />
 
+  <!-- Open Graph / Facebook -->
   <meta property='og:type' content={ogType} />
   <meta property='og:url' content={canonicalURL || defaultCanonicalUrl} />
   <meta property='og:title' content={pageTitle} />
@@ -171,6 +186,7 @@ const structuredData = {
   <meta property='og:locale' content={locale} />
   <meta property='og:site_name' content={siteName} />
 
+  <!-- Twitter -->
   <meta name='twitter:card' content='summary_large_image' />
   <meta name='twitter:url' content={canonicalURL || defaultCanonicalUrl} />
   <meta name='twitter:title' content={pageTitle} />
@@ -180,9 +196,6 @@ const structuredData = {
   {twitterCreator && <meta name='twitter:creator' content={twitterCreator} />}
   {twitterSite && <meta name='twitter:site' content={twitterSite} />}
 
-  {
-    structuredData && Astro.url.pathname !== '/' && (
-      <script is:inline type='application/ld+json' set:html={JSON.stringify(structuredData)} />
-    )
-  }
+  <!-- Structured data -->
+  <script is:inline type='application/ld+json' set:html={JSON.stringify(structuredData)} />
 </Head>

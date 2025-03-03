@@ -35,8 +35,9 @@ const isCurrentPage = (href: string) => {
   <div class='container flex items-center justify-between'>
     <!-- Left section: Logo only -->
     <a class='hover:text-secondary text-lg font-bold md:text-2xl' href='/' aria-label='Home'>
-      <span id='typewriter' class="after:animate-blink after:ml-0.5 after:font-bold after:content-['|']"></span>
-      <span class='sr-only'>aleksa.codes</span>
+      <span id='typewriter' class="after:animate-blink after:ml-0.5 after:font-bold after:content-['|']"
+        >aleksa.codes</span
+      >
     </a>
 
     <!-- Right section: Navigation + Theme Toggle + CTA -->
@@ -376,6 +377,8 @@ const isCurrentPage = (href: string) => {
 
 <script>
   function typeText(element: HTMLElement, text: string, speed = 150) {
+    // Clear existing content first
+    element.textContent = '';
     let index = 0;
     element.classList.remove('after:animate-blink');
 
@@ -389,7 +392,10 @@ const isCurrentPage = (href: string) => {
       }
     }
 
-    type();
+    // Add a small delay before starting the typing effect
+    setTimeout(() => {
+      type();
+    }, 500);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
