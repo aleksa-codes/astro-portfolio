@@ -67,7 +67,6 @@ const generateBreadcrumbList = () => {
   });
 
   return {
-    '@type': 'BreadcrumbList',
     itemListElement: items.map((item, index) => ({
       '@type': 'ListItem',
       position: index + 1,
@@ -77,56 +76,98 @@ const generateBreadcrumbList = () => {
   };
 };
 
-// HomePage specific schema
-const homePageSchema = isHomePage
-  ? {
-      '@type': 'WebSite',
-      '@id': baseUrl.toString(),
-      url: baseUrl.toString(),
-      name: siteName,
-      description: siteConfig.description,
-      publisher: {
-        '@type': 'Person',
-        name: 'Aleksa',
-        url: baseUrl.toString(),
-      },
-    }
-  : null;
+// Determine if we're dealing with a blog post or collection page
+const isBlogPost = schema?.type === 'BlogPosting';
+const isCollectionPage = schema?.type === 'CollectionPage';
 
-// Generate page/article structured data
+// Website schema for all pages
+const websiteSchema = {
+  '@type': 'WebSite',
+  '@id': `${baseUrl.toString()}#website`,
+  url: baseUrl.toString(),
+  name: siteName,
+  description: siteConfig.description,
+  author: {
+    '@type': 'Person',
+    name: siteConfig.author,
+  },
+};
+
+// Generate breadcrumb items for structured data
+const breadcrumbSchema = {
+  '@type': 'BreadcrumbList',
+  '@id': `${(canonicalURL || defaultCanonicalUrl).toString()}#breadcrumb`,
+  itemListElement: generateBreadcrumbList().itemListElement,
+};
+
+// Generate page data schema - use combined types for collection pages
 const pageSchema = {
-  '@type': schema?.type || 'WebPage',
-  '@id': canonicalURL || defaultCanonicalUrl,
-  url: canonicalURL || defaultCanonicalUrl,
+  '@type': isCollectionPage ? ['WebPage', 'CollectionPage'] : 'WebPage',
+  '@id': `${(canonicalURL || defaultCanonicalUrl).toString()}`,
+  url: (canonicalURL || defaultCanonicalUrl).toString(),
   name: title,
-  headline: title,
   description: description,
   image: new URL(image, baseUrl).toString(),
   inLanguage: locale,
   isPartOf: {
-    '@type': 'WebSite',
-    '@id': baseUrl.toString(),
-    name: siteName,
-    description: siteConfig.description,
-    url: baseUrl.toString(),
+    '@id': `${baseUrl.toString()}#website`,
   },
-  ...(schema?.author && {
-    author: {
-      '@type': 'Person',
-      name: schema.author,
+  breadcrumb: {
+    '@id': `${(canonicalURL || defaultCanonicalUrl).toString()}#breadcrumb`,
+  },
+  potentialAction: [
+    {
+      '@type': 'ReadAction',
+      target: [(canonicalURL || defaultCanonicalUrl).toString()],
     },
-  }),
-  ...(schema?.date && {
-    datePublished: schema.date.toISOString(),
-    dateModified: schema.date.toISOString(),
-  }),
-  ...(schema?.tags?.length && { keywords: schema.tags.join(', ') }),
+  ],
+  author: {
+    '@type': 'Person',
+    name: siteConfig.author,
+  },
+  // Add collection-specific properties when applicable
+  ...(isCollectionPage &&
+    schema?.tags?.length && {
+      keywords: schema.tags.join(', '),
+    }),
 };
 
+// Create a separate BlogPosting schema if applicable
+const blogPostingSchema = isBlogPost
+  ? {
+      '@type': 'BlogPosting',
+      '@id': `${(canonicalURL || defaultCanonicalUrl).toString()}#article`,
+      headline: title,
+      name: title,
+      description: description,
+      url: (canonicalURL || defaultCanonicalUrl).toString(),
+      image: new URL(image, baseUrl).toString(),
+      inLanguage: locale,
+      mainEntityOfPage: {
+        '@id': `${(canonicalURL || defaultCanonicalUrl).toString()}`,
+      },
+      author: {
+        '@type': 'Person',
+        name: schema?.author || siteConfig.author,
+      },
+      ...(schema?.date && {
+        datePublished: schema.date.toISOString(),
+        dateModified: schema.date.toISOString(),
+      }),
+      ...(schema?.tags?.length && {
+        keywords: schema.tags.join(', '),
+      }),
+    }
+  : null;
+
+// Build the final structured data graph
 const structuredData = {
   '@context': 'https://schema.org',
-  '@graph': homePageSchema ? [homePageSchema, generateBreadcrumbList()] : [pageSchema, generateBreadcrumbList()],
+  '@graph': [websiteSchema, pageSchema, blogPostingSchema, breadcrumbSchema].filter(Boolean), // Remove null values
 };
+
+// Determine if we should use article OG type
+const isArticle = ogType === 'article';
 ---
 
 <Head>
@@ -185,6 +226,12 @@ const structuredData = {
   <meta property='og:image' content={new URL(image, baseUrl)} />
   <meta property='og:locale' content={locale} />
   <meta property='og:site_name' content={siteName} />
+
+  <!-- Article-specific Open Graph tags -->
+  {isArticle && schema?.date && <meta property='article:published_time' content={schema.date.toISOString()} />}
+  {isArticle && schema?.date && <meta property='article:modified_time' content={schema.date.toISOString()} />}
+  {isArticle && schema?.author && <meta property='article:author' content={schema.author} />}
+  {isArticle && schema?.tags?.length && schema.tags.map((tag) => <meta property='article:tag' content={tag} />)}
 
   <!-- Twitter -->
   <meta name='twitter:card' content='summary_large_image' />

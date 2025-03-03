@@ -34,7 +34,16 @@ const postsWithReadTime = page.data.map((post) => ({
 }));
 ---
 
-<Layout title={title} description={description} noindex={noindex} nofollow={nofollow}>
+<Layout
+  title={title}
+  description={description}
+  noindex={noindex}
+  nofollow={nofollow}
+  schema={{
+    type: 'CollectionPage',
+    tags: allTags,
+  }}
+>
   <div class='container space-y-6'>
     <Breadcrumb />
     <!-- Page Header -->
