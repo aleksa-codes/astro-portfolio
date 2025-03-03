@@ -3,7 +3,7 @@ export const siteConfig = {
   title: 'aleksa.codes',
   author: 'aleksa-codes',
   description:
-    'Hey, I’m Aleksa, a full-stack developer crafting fast, modern web applications and websites that users love. I specialize in responsive, accessible designs with clean code and innovative solutions. Let’s build something great!',
+    'Hey, I’m Aleksa, a full-stack developer crafting fast, modern web apps and websites with clean code and user-friendly design. Let’s build something great!',
   url: 'https://aleksa.codes',
 
   // SEO & Metadata
