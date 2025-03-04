@@ -46,7 +46,7 @@ const { title, description, image, ogType, schema, noindex, nofollow, twitterCre
       <slot />
     </main>
     <Footer />
-    <AIChat client:load />
+    <AIChat client:only='preact' />
     <TailwindIndicator />
   </body>
 </html>
