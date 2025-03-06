@@ -9,8 +9,7 @@ const groq = createGroq({
 });
 
 // Google: gemma2-9b-it (8,192 context tokens)
-// Mixtral: mixtral-8x7b-32768 (32,768 context tokens)
-const model = groq('mixtral-8x7b-32768');
+const model = groq('gemma2-9b-it');
 
 export const POST: APIRoute = async ({ request }) => {
   try {
