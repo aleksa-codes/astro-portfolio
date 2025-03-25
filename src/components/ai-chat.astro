@@ -59,7 +59,12 @@ import Button from '@/components/ui/button.astro';
         </div>
         <div class='flex-1'>
           <h3 class='font-medium'>Portfolio AI</h3>
-          <p class='text-xs opacity-90'>Built by Aleksa & Powered by Groq</p>
+          <p class='text-xs'>
+            Built by <Button variant='link' class='text-secondary-content text-xs' href='/contact/'>Aleksa</Button> & Powered
+            by <Button variant='link' class='text-secondary-content text-xs' href='https://groq.com' target='_blank'
+              >Groq</Button
+            >
+          </p>
         </div>
         <Button size='icon' variant='ghost' id='mobile-chat-close' class='text-secondary-content sm:hidden'>
           <Icon name='lucide:x' class='size-6' />
