@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import ThemeToggle from '@/components/theme-toggle.astro';
 import { Icon } from 'astro-icon/components';
 import Button from '@/components/ui/button.astro';
+import ContactButton from '@/components/ui/contact-button.astro';
 import SnowToggle from '@/components/snow-toggle.astro';
 import { siteConfig } from '@/config/site.config';
 import Tooltip from '@/components/ui/tooltip.astro';
@@ -154,7 +155,7 @@ const isCurrentPage = (href: string) => {
         </div>
 
         <!-- Contact Button (Desktop) -->
-        <Button href='/contact/' variant='secondary' class='hidden px-8 lg:inline-flex'> Contact </Button>
+        <ContactButton isJobHunting={true} />
 
         <!-- Mobile Menu Trigger -->
         <Button
@@ -312,7 +313,7 @@ const isCurrentPage = (href: string) => {
         ))
       }
       <li>
-        <Button href='/contact/' variant='secondary' class='w-full'>Contact</Button>
+        <ContactButton mobile={true} isJobHunting={true} />
       </li>
     </ul>
   </nav>

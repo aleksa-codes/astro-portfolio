@@ -60,6 +60,7 @@
   --animate-fade: fade 0.4s ease;
   --animate-highlight: highlight 2s ease-in-out 1.5s;
   --animate-blink: blink 1s infinite;
+  --animate-badge-fade-in: fade 0.4s ease-in-out 1.25s forwards;
 
   @keyframes logo-cloud {
     from {

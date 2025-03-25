@@ -1,0 +1,27 @@
+---
+import Button from '@/components/ui/button.astro';
+import { cn } from '@/lib/utils';
+
+interface Props {
+  variant?: 'default' | 'outline' | 'ghost' | 'secondary' | 'accent' | 'link' | 'destructive' | 'warning';
+  mobile?: boolean;
+  class?: string;
+  isJobHunting?: boolean;
+}
+
+const { variant = 'secondary', mobile = false, class: className = '', isJobHunting = false } = Astro.props;
+
+const wrapperClass = cn('relative', mobile ? 'w-full' : 'hidden lg:block', className);
+---
+
+<div class={wrapperClass}>
+  <Button href='/contact/' variant={variant} class={mobile ? 'w-full' : 'px-8'}> Contact </Button>
+
+  {
+    isJobHunting && (
+      <div class='bg-warning text-warning-content animate-badge-fade-in pointer-events-none absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-2 py-0.5 text-xs whitespace-nowrap opacity-0 shadow-sm lg:top-7.5'>
+        Looking for a job
+      </div>
+    )
+  }
+</div>

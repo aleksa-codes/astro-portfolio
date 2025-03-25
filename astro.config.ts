@@ -14,6 +14,11 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  experimental: {
+    svg: {
+      mode: 'sprite',
+    },
+  },
   site: import.meta.env.PROD ? siteConfig.url : 'http://localhost:3000',
   server: {
     port: 3000,

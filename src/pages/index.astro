@@ -3,10 +3,13 @@ import { siteConfig } from '@/config/site.config';
 import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import WavingHand from '@/assets/waving-hand.png';
+import LaptopAnimate from '@/assets/laptop-animate.svg';
+import AnimatedArrow from '@/components/ui/animated-arrow.astro';
 ---
 
 <Layout title={siteConfig.title} description={siteConfig.description}>
-  <section class='container space-y-4 pt-4'>
+  <section class='relative container space-y-4 pt-4'>
+    <AnimatedArrow isJobHunting={true} />
     <div class='flex items-center gap-x-2 text-4xl font-extrabold sm:text-5xl'>
       <span>Hello World</span>
       <Image
@@ -33,7 +36,9 @@ import WavingHand from '@/assets/waving-hand.png';
       </h2>
     </div>
     <h3 class='text-xl font-semibold'>Computer Science Student and Web Developer.</h3>
-    <div class='bg-laptop mx-auto mt-4 h-[275px] w-[275px] sm:h-[350px] sm:w-[350px] md:h-[450px] md:w-[450px]'></div>
+    <div class='mx-auto mt-4 h-[275px] w-[275px] sm:h-[350px] sm:w-[350px] md:h-[450px] md:w-[450px]'>
+      <LaptopAnimate size={'100%'} />
+    </div>
   </section>
 </Layout>
 

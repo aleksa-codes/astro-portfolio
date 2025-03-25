@@ -1,0 +1,53 @@
+---
+import { cn } from '@/lib/utils';
+
+interface Props {
+  class?: string;
+  isJobHunting?: boolean;
+}
+
+const { class: className = '', isJobHunting = false } = Astro.props;
+
+if (!isJobHunting) {
+  return null;
+}
+---
+
+<div class='absolute -top-4 right-16 hidden h-full lg:block'>
+  <canvas id='animated-arrow' class={cn('sticky top-16 size-32 rotate-[-70deg]', className)}></canvas>
+</div>
+
+<script>
+  import { DotLottie } from '@lottiefiles/dotlottie-web';
+
+  const canvasElement = document.getElementById('animated-arrow') as HTMLCanvasElement;
+
+  const dotLottie = new DotLottie({
+    autoplay: true,
+    loop: false,
+    canvas: canvasElement,
+    src: '/arrow.lottie',
+    speed: 0.75,
+    themeId: document.documentElement.classList.contains('dark') ? 'dark' : undefined,
+  });
+
+  dotLottie.addEventListener('load', () => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          if (document.documentElement.classList.contains('dark')) {
+            dotLottie.setTheme('dark');
+          } else {
+            dotLottie.resetTheme();
+            dotLottie.setTheme('light');
+          }
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+  });
+</script>
