@@ -124,22 +124,10 @@ const funFacts = [
     hover: 'hover:shadow-purple-500/20',
   },
   {
-    icon: 'lucide:music',
-    text: 'Hip-hop head and rap junkie',
-    color: 'group-hover:text-indigo-500',
-    hover: 'hover:shadow-indigo-500/20',
-  },
-  {
-    icon: 'lucide:cat',
-    text: 'Loves to pet every cat in sight',
-    color: 'group-hover:text-amber-500',
-    hover: 'hover:shadow-amber-500/20',
-  },
-  {
-    icon: 'lucide-lab:basketball',
-    text: 'Basketball player and NBA fan',
-    color: 'group-hover:text-orange-500',
-    hover: 'hover:shadow-orange-500/20',
+    icon: 'lucide:code',
+    text: 'Trying to get better at this coding thing',
+    color: 'group-hover:text-blue-500',
+    hover: 'hover:shadow-blue-500/20',
   },
   {
     icon: 'lucide:gamepad-2',
@@ -156,10 +144,7 @@ const funFacts = [
 ];
 ---
 
-<Layout
-  title='About'
-  description='Learn more about me and my journey into web development, my tech stack, and some fun facts about me.'
->
+<Layout title='About' description='Learn more about my journey into web development and the technologies I work with.'>
   <div class='container space-y-6'>
     <Breadcrumb />
 
@@ -168,18 +153,14 @@ const funFacts = [
         <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>About</h1>
         <div class='space-y-4'>
           <p>
-            Born in 1996, I grew up alongside the digital revolution, witnessing the internet evolve into the powerful
-            platform it is today. My journey into web development started with pure curiosity - I wanted to understand
-            how websites worked and soon found myself <span class='highlight'>building my own digital experiences</span
-            >.
+            My journey into web development started with curiosity about how websites worked, which quickly evolved into
+            a passion for <span class='highlight'>building innovative digital experiences</span>.
           </p>
 
           <p>
-            Currently in the final stages of my <span class='highlight'
-              >Computer Science degree at Singidunum University</span
-            >, working on my thesis, I've dedicated myself to mastering modern web development and creating solutions
-            that make a difference. From browser extensions to full-stack applications, I approach each project as an
-            opportunity to innovate and grow.
+            With a background in <span class='highlight'>Computer Science</span>, I've focused on mastering modern web
+            development and creating solutions that make a difference. From browser extensions to full-stack
+            applications, I approach each project as an opportunity to innovate and grow.
           </p>
 
           <p>
@@ -263,15 +244,9 @@ const funFacts = [
             <Icon name='lucide:mail' aria-hidden='true' />
             <span>Email</span>
           </Button>
-          <Button
-            href='https://discordapp.com/users/1078249969775038514'
-            variant='outline'
-            size='sm'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Icon name='simple-icons:discord' aria-hidden='true' />
-            <span>Discord</span>
+          <Button href='/contact' variant='outline' size='sm'>
+            <Icon name='lucide:message-square' aria-hidden='true' />
+            <span>Contact</span>
           </Button>
         </nav>
         <p class='font-cursive text-right text-3xl font-bold select-none sm:text-4xl' aria-hidden='true'>aleksa</p>

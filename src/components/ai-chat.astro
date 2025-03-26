@@ -60,12 +60,27 @@ import Button from '@/components/ui/button.astro';
         <div class='flex-1'>
           <h3 class='font-medium'>Portfolio AI</h3>
           <p class='text-xs'>
-            Built by <Button variant='link' class='text-secondary-content text-xs' href='/contact/'>Aleksa</Button> & Powered
-            by <Button variant='link' class='text-secondary-content text-xs' href='https://groq.com' target='_blank'
-              >Groq</Button
+            Built by <Button variant='link' class='text-secondary-content text-xs' href='/contact/'>Aleksa</Button>;
+            Powered by <Button
+              variant='link'
+              class='text-secondary-content text-xs'
+              href='https://groq.com'
+              target='_blank'>Groq</Button
             >
           </p>
         </div>
+        <Button
+          id='clear-chat'
+          size='icon'
+          variant='ghost'
+          class='text-secondary-content hover:bg-secondary-content/10 transition-colors'
+          style='display: none;'
+          aria-label='Clear chat history'
+        >
+          <span class='flex items-center justify-center'>
+            <Icon name='lucide:trash-2' class='size-5' />
+          </span>
+        </Button>
         <Button size='icon' variant='ghost' id='mobile-chat-close' class='text-secondary-content sm:hidden'>
           <Icon name='lucide:x' class='size-6' />
         </Button>
@@ -178,6 +193,7 @@ import Button from '@/components/ui/button.astro';
         messageCounter: document.getElementById('message-counter'),
         mobileChatClose: document.getElementById('mobile-chat-close'),
         templates: document.getElementById('templates'),
+        clearChat: document.getElementById('clear-chat'),
       };
 
       const storage = {
@@ -250,15 +266,25 @@ import Button from '@/components/ui/button.astro';
           }
         },
 
-        async addMessage(content: string, isUser: boolean, renderStored = false) {
+        async addMessage(content: string, isUser: boolean, renderStored = false): Promise<void> {
           if (!isUser && document.getElementById('streaming-message')) {
             // Update existing streaming message
             const streamingMsg = document.getElementById('streaming-message');
-            const parsedContent = await marked.parse(content);
-            streamingMsg!.querySelector('div')!.innerHTML = parsedContent;
+            if (!streamingMsg) return;
+
+            // Remove tags from content before displaying
+            const cleanContent = this.extractContentWithoutQuestions(content);
+            const parsedContent = await marked.parse(cleanContent);
+
+            const messageContentEl = streamingMsg.querySelector('.message-content');
+            if (messageContentEl) {
+              messageContentEl.innerHTML = parsedContent;
+            }
+
             ui.scrollToBottom();
             return;
           }
+
           // 1. Create outer message container with alignment
           const messageEl = document.createElement('div');
           messageEl.className = `flex gap-2 ${isUser ? 'justify-end' : ''}`;
@@ -272,17 +298,22 @@ import Button from '@/components/ui/button.astro';
           // 3. Create and style message content
           const messageContent = document.createElement('div');
           messageContent.className = isUser ? 'text-sm' : 'prose prose-sm max-w-none dark:prose-invert break-words';
+          messageContent.classList.add('message-content');
 
           // Handle content based on message type
           if (isUser) {
             messageContent.textContent = content;
           } else {
-            const parsedContent = await marked.parse(content);
+            // Always clean the content first to remove any tags
+            const cleanContent = this.extractContentWithoutQuestions(content);
+            const parsedContent = await marked.parse(cleanContent);
             messageContent.innerHTML = parsedContent;
+
             if (!renderStored) {
               bubble.id = 'streaming-message';
             }
           }
+
           // Append content to bubble
           bubble.appendChild(messageContent);
 
@@ -290,17 +321,93 @@ import Button from '@/components/ui/button.astro';
           const timestamp = document.createElement('div');
           timestamp.className = 'text-xs mt-1 opacity-80';
           timestamp.textContent = new Date().toLocaleTimeString([], { timeStyle: 'short' });
-          // Append timestamp to bubble
           bubble.appendChild(timestamp);
 
-          // 5. Handle message placement
+          // 5. Add follow-up questions container if this is an assistant message
+          if (!isUser) {
+            const questionsContainer = document.createElement('div');
+            questionsContainer.className = 'follow-up-questions mt-2 flex flex-col gap-1';
+            bubble.appendChild(questionsContainer);
+
+            // If we're displaying a stored message, extract and display questions
+            if (renderStored) {
+              this.extractAndDisplayFollowUpQuestions(content, bubble);
+            }
+          }
+
+          // 6. Handle message placement
           messageEl.appendChild(bubble);
 
-          // 6. Append message to chat
+          // 7. Append message to chat
           elements.messages?.appendChild(messageEl);
 
           // Scroll to bottom
           ui.scrollToBottom();
+        },
+
+        // Extract content without follow-up questions
+        extractContentWithoutQuestions(content: string): string {
+          try {
+            // More robust regex to handle both single and multiline formats
+            const questionSectionRegex = /\[NEXT_QUESTIONS\][\s\S]*?\[\/NEXT_QUESTIONS\]/g;
+            // Remove any question sections from the content
+            return content.replace(questionSectionRegex, '').trim();
+          } catch (error) {
+            console.error('Error extracting content:', error);
+            return content; // Return original content if there's an error
+          }
+        },
+
+        // Extract and display follow-up questions
+        extractAndDisplayFollowUpQuestions(content: string, messageElement: HTMLElement): void {
+          try {
+            // Find the questions container in this message
+            const questionsContainer = messageElement.querySelector('.follow-up-questions');
+            if (!questionsContainer) return;
+
+            // Clear any existing questions
+            questionsContainer.innerHTML = '';
+
+            // Extract questions using regex - improved to handle multiline content
+            const questionRegex = /\[NEXT_QUESTIONS\]([\s\S]*?)\[\/NEXT_QUESTIONS\]/;
+            const match = content.match(questionRegex);
+
+            if (match && match[1]) {
+              const questionsText = match[1].trim();
+              // More robust regex to extract numbered questions
+              const questions = questionsText
+                .split(/\d+\.\s*/)
+                .map((q) => q.trim())
+                .filter((q) => q.length > 0);
+
+              if (questions.length >= 2) {
+                // Create heading for suggestions
+                const heading = document.createElement('div');
+                heading.className = 'text-xs font-medium text-base-content/70 mb-1';
+                heading.textContent = 'Suggested questions:';
+                questionsContainer.appendChild(heading);
+
+                // Create buttons for each question (limit to 2)
+                questions.slice(0, 2).forEach((question) => {
+                  const button = document.createElement('button');
+                  button.className =
+                    'bg-base-200 hover:bg-base-300 text-left text-xs rounded-lg px-3 py-2 transition-colors';
+                  button.textContent = question;
+                  button.addEventListener('click', () => {
+                    if (elements.input) {
+                      elements.input.value = question;
+                      elements.input.focus();
+                      // Auto-submit the question
+                      elements.form?.dispatchEvent(new Event('submit'));
+                    }
+                  });
+                  questionsContainer.appendChild(button);
+                });
+              }
+            }
+          } catch (error) {
+            console.error('Error extracting questions:', error);
+          }
         },
 
         hideBubbleMessage() {
@@ -337,6 +444,28 @@ import Button from '@/components/ui/button.astro';
           if (elements.templates) {
             const shouldHide = state.messages.length > 0 || state.isLoading;
             elements.templates.style.display = shouldHide ? 'none' : 'flex';
+          }
+        },
+
+        clearMessages() {
+          if (elements.messages) {
+            // First, remove all messages but keep the templates div
+            while (elements.messages.firstChild) {
+              elements.messages.removeChild(elements.messages.firstChild);
+            }
+
+            // Re-append the templates div
+            elements.messages.appendChild(elements.templates!);
+
+            // Make sure templates are visible
+            elements.templates!.style.display = 'flex';
+          }
+        },
+
+        updateClearButton() {
+          if (elements.clearChat) {
+            // Use style.display instead of classList to avoid conflicts
+            elements.clearChat.style.display = state.messages.length > 0 ? 'flex' : 'none';
           }
         },
       };
@@ -380,10 +509,21 @@ import Button from '@/components/ui/button.astro';
 
             // Remove the streaming ID
             const streamingMsg = document.getElementById('streaming-message');
-            if (streamingMsg) streamingMsg.removeAttribute('id');
+            if (streamingMsg) {
+              streamingMsg.removeAttribute('id');
+
+              // Final message is complete, extract and display follow-up questions
+              // Wait a moment to ensure the stream is complete
+              setTimeout(() => {
+                ui.extractAndDisplayFollowUpQuestions(assistantMessage, streamingMsg);
+              }, 100);
+            }
 
             state.messages.push({ role: 'assistant', content: assistantMessage });
             storage.saveConversation(state.messages);
+
+            // Show clear button after getting a response
+            ui.updateClearButton();
           } catch (error) {
             console.error('Chat error:', error);
             state.userMessageCount--; // Decrement on error
@@ -398,7 +538,26 @@ import Button from '@/components/ui/button.astro';
           } finally {
             ui.toggleLoading(false);
             ui.updateMessageCounter();
-            // elements.input?.focus();
+            ui.updateClearButton(); // Update button visibility regardless of success/failure
+          }
+        },
+
+        clearConversation() {
+          // Clear the messages array but keep the message count
+          state.messages = [];
+          storage.saveConversation(state.messages);
+
+          // Clear UI and restore templates
+          ui.clearMessages();
+
+          // Update clear button visibility
+          ui.updateClearButton();
+
+          // Re-enable input if it was disabled due to error or other reasons
+          // but respect daily limit
+          if (state.userMessageCount < MESSAGE_LIMIT) {
+            elements.input!.disabled = false;
+            elements.submitButton!.disabled = false;
           }
         },
       };
@@ -453,6 +612,7 @@ import Button from '@/components/ui/button.astro';
       ui.renderStoredMessages();
       ui.updateMessageCounter();
       ui.hideTemplates();
+      ui.updateClearButton(); // Make sure we update the clear button visibility after loading messages
 
       // Add click handlers for predefined prompts
       elements.templates?.querySelectorAll('button').forEach((button) => {
@@ -462,6 +622,11 @@ import Button from '@/components/ui/button.astro';
             await chat.sendMessage(prompt);
           }
         });
+      });
+
+      // Clear chat button handler
+      elements.clearChat?.addEventListener('click', () => {
+        chat.clearConversation();
       });
     });
   }
