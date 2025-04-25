@@ -1,0 +1,59 @@
+---
+export interface Props {
+  id?: string; // Google Analytics measurement ID (G-XXXXXXXXXX)
+  partytown?: boolean; // Whether to use Partytown
+  production?: boolean; // Only load in production environment
+}
+
+// Get the Google Analytics ID from the .env file
+const GA_ID = import.meta.env.GA_ID;
+
+const { id = GA_ID, partytown = true, production = true } = Astro.props;
+
+// Check if in production environment
+const isProd = import.meta.env.PROD;
+
+// Don't load if production-only is enabled and we're not in production
+if (production && !isProd) {
+  return null;
+}
+
+// Validate Google Analytics ID
+if (!id) {
+  // Following best practices: Log warning but don't break the site
+  // This will only show in the server logs, not client-side
+  console.warn('Google Analytics ID is missing. Please provide an ID via props or set GA_ID in your .env file.');
+  return null;
+}
+
+// Validate ID format (basic validation for G- prefix)
+if (!id.startsWith('G-') && !id.startsWith('UA-')) {
+  console.warn(
+    `Google Analytics ID "${id}" appears to be invalid. It should start with "G-" for GA4 or "UA-" for Universal Analytics.`,
+  );
+  // We still continue as it might be a custom implementation
+}
+
+// Google Analytics initialization code
+const scriptContent = /* javascript */ `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${id}');
+`;
+---
+
+{/* Only render if we have a valid ID */}
+{
+  id && (
+    <>
+      <script
+        is:inline
+        src={`https://www.googletagmanager.com/gtag/js?id=${id}`}
+        async
+        type={partytown ? 'text/partytown' : 'text/javascript'}
+      />
+      <script is:inline type={partytown ? 'text/partytown' : 'text/javascript'} set:html={scriptContent} />
+    </>
+  )
+}

@@ -8,6 +8,7 @@ import compress from 'astro-compress';
 import icon from 'astro-icon';
 import tailwindcss from '@tailwindcss/vite';
 import netlify from '@astrojs/netlify';
+import partytown from '@astrojs/partytown';
 
 // https://astro.build/config
 export default defineConfig({
@@ -43,6 +44,11 @@ export default defineConfig({
       themeCssSelector: (theme) => (theme.name === 'one-dark-pro' ? '.dark' : ':root:not(.dark)'),
     }),
     mdx(),
+    partytown({
+      config: {
+        forward: ['dataLayer.push', 'gtag'],
+      },
+    }),
   ],
   adapter: netlify({
     imageCDN: false,

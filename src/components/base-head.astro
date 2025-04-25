@@ -2,6 +2,7 @@
 import '@/styles/global.css';
 import { Head } from 'astro-capo';
 import { siteConfig } from '@/config/site.config';
+import GoogleAnalytics from './google-analytics.astro';
 
 interface Props {
   title: string;
@@ -243,4 +244,7 @@ const isArticle = ogType === 'article';
 
   <!-- Structured data -->
   <script is:inline type='application/ld+json' set:html={JSON.stringify(structuredData)} />
+
+  <!-- Google Analytics -->
+  <GoogleAnalytics id={import.meta.env.GA_ID} partytown={true} production={true} />
 </Head>
