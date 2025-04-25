@@ -11,7 +11,8 @@ import OneDarkModernPro from '@/assets/projects/one-dark-modern-pro.png';
 import GptImgCaptioner from '@/assets/projects/gpt-img-captioner.png';
 import GptFileSmith from '@/assets/projects/gpt-filesmith.png';
 import NextMeal from '@/assets/projects/next-meal.png';
-import NextDay from '@/assets/projects/nextday.png';
+import NextDay from '@/assets/projects/next-day.png';
+import NextWorkout from '@/assets/projects/next-workout.png';
 import FluxGhibsky from '@/assets/projects/flux-ghibsky.png';
 import { cn } from '@/lib/utils';
 
@@ -24,13 +25,13 @@ const categories = [
 
 const projects = [
   {
-    title: 'NextDay',
+    title: 'Next Day',
     description:
       'Full-stack productivity app that combines todo lists with integrated Pomodoro timers. Features <span class="highlight">seamless authentication and real-time syncing</span> with nested task organization.',
     tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'Supabase', 'DrizzleORM', 'Better Auth'],
     image: NextDay,
     github: 'https://github.com/aleksa-codes/nextday-todo-app',
-    demo: 'https://nextday.aleksa.io',
+    demo: 'https://nextday.aleksa.codes',
     featured: true,
   },
   {
@@ -60,7 +61,16 @@ const projects = [
     tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'OpenAI API'],
     image: GptImgCaptioner,
     github: 'https://github.com/aleksa-codes/gpt-flux-img-captioner',
-    demo: 'https://gptcaptioner.aleksa.io',
+    demo: 'https://gptcaptioner.aleksa.codes',
+  },
+  {
+    title: 'Next Workout',
+    description:
+      'Modern fitness app with <span class="highlight">AI-generated workout plans and built-in timers</span>. Features customizable parameters, circuit/straight set options, and embedded video demonstrations for effective home workouts.',
+    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'ChatGPT', 'localStorage'],
+    image: NextWorkout,
+    github: 'https://github.com/aleksa-codes/next-workout',
+    demo: 'https://nextworkout.aleksa.codes',
   },
   {
     title: 'Easy Website Blocker',
@@ -96,7 +106,7 @@ const projects = [
     tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'TheMealDB API', 'PWA'],
     image: NextMeal,
     github: 'https://github.com/aleksa-codes/my-next-meal-pwa',
-    demo: 'https://nextmeal.aleksa.io',
+    demo: 'https://nextmeal.aleksa.codes',
   },
 ];
 ---
