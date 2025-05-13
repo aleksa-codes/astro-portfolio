@@ -5,6 +5,7 @@ import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import Button from '@/components/ui/button.astro';
 import Badge from '@/components/ui/badge.astro';
+import UnYellowGPT from '@/assets/projects/unyellow-gpt.png';
 import EasyWebsiteGPT from '@/assets/projects/easy-websitegpt.png';
 import EasyWebsiteBlocker from '@/assets/projects/easy-website-blocker.png';
 import OneDarkModernPro from '@/assets/projects/one-dark-modern-pro.png';
@@ -25,6 +26,15 @@ const categories = [
 
 const projects = [
   {
+    title: 'UnYellowGPT',
+    description:
+      'SaaS solution that <span class="highlight">fixes yellow tint and sepia filters</span> in AI-generated images from ChatGPT-4o, Sora, and Google Imagen 3. Features <span class="highlight">advanced white balance correction</span> and true color restoration with lightning-fast processing.',
+    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'Neon DB', 'DrizzleORM', 'Better Auth', 'SaaS'],
+    image: UnYellowGPT,
+    demo: 'https://unyellowgpt.com',
+    featured: true,
+  },
+  {
     title: 'Next Day',
     description:
       'Full-stack productivity app that combines todo lists with integrated Pomodoro timers. Features <span class="highlight">seamless authentication and real-time syncing</span> with nested task organization.',
@@ -33,35 +43,6 @@ const projects = [
     github: 'https://github.com/aleksa-codes/nextday-todo-app',
     demo: 'https://nextday.aleksa.codes',
     featured: true,
-  },
-  {
-    title: 'Easy WebsiteGPT',
-    description:
-      'Innovative Chrome extension for <span class="highlight">interactive conversations with any webpage</span>. Features real-time streaming responses and persistent chat history.',
-    tags: ['React', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'OpenAI API', 'Chrome API'],
-    image: EasyWebsiteGPT,
-    github: 'https://github.com/aleksa-codes/easy-website-gpt',
-    status: 'coming-soon',
-    featured: true,
-  },
-  {
-    title: 'Flux Ghibsky Illustration',
-    description:
-      'Popular Flux AI LoRA model for <span class="highlight">generating Ghibli-inspired landscapes and scenes</span>. Garnering over <span class="highlight">30,000 monthly generations</span> across Hugging Face and Replicate.',
-    tags: ['AI', 'LoRA', 'Stable Diffusion', 'Text-to-Image'],
-    image: FluxGhibsky,
-    huggingface: 'https://huggingface.co/aleksa-codes/flux-ghibsky-illustration',
-    replicate: 'https://replicate.com/aleksa-codes/flux-ghibsky-illustration',
-    featured: true,
-  },
-  {
-    title: 'GPT Image Captioner',
-    description:
-      'Advanced tool for generating detailed image descriptions. Optimized for <span class="highlight">LoRA model training</span> with support for batch processing and customizable outputs.',
-    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'OpenAI API'],
-    image: GptImgCaptioner,
-    github: 'https://github.com/aleksa-codes/gpt-flux-img-captioner',
-    demo: 'https://gptcaptioner.aleksa.codes',
   },
   {
     title: 'Next Workout',
@@ -73,12 +54,21 @@ const projects = [
     demo: 'https://nextworkout.aleksa.codes',
   },
   {
-    title: 'Easy Website Blocker',
+    title: 'GPT Image Captioner',
     description:
-      'Powerful productivity extension for <span class="highlight">eliminating digital distractions</span>. Features customizable block lists and granular exceptions for focused work sessions.',
-    tags: ['React', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'Chrome API'],
-    image: EasyWebsiteBlocker,
-    github: 'https://github.com/aleksa-codes/easy-website-blocker',
+      'Advanced tool for generating detailed image descriptions. Optimized for <span class="highlight">LoRA model training</span> with support for batch processing and customizable outputs.',
+    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'OpenAI API'],
+    image: GptImgCaptioner,
+    github: 'https://github.com/aleksa-codes/gpt-flux-img-captioner',
+    demo: 'https://gptcaptioner.aleksa.codes',
+  },
+  {
+    title: 'Easy WebsiteGPT',
+    description:
+      'Innovative Chrome extension for <span class="highlight">interactive conversations with any webpage</span>. Features real-time streaming responses and persistent chat history.',
+    tags: ['React', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'OpenAI API', 'Chrome API'],
+    image: EasyWebsiteGPT,
+    github: 'https://github.com/aleksa-codes/easy-website-gpt',
     status: 'coming-soon',
   },
   {
@@ -89,6 +79,24 @@ const projects = [
     image: GptFileSmith,
     github: 'https://github.com/aleksa-codes/gpt-filesmith',
     demo: 'https://filesmith.aleksa.codes',
+  },
+  {
+    title: 'Flux Ghibsky Illustration',
+    description:
+      'Popular Flux AI LoRA model for <span class="highlight">generating Ghibli-inspired landscapes and scenes</span>. Garnering over <span class="highlight">30,000 monthly generations</span> across Hugging Face and Replicate.',
+    tags: ['AI', 'LoRA', 'Stable Diffusion', 'Text-to-Image'],
+    image: FluxGhibsky,
+    huggingface: 'https://huggingface.co/aleksa-codes/flux-ghibsky-illustration',
+    replicate: 'https://replicate.com/aleksa-codes/flux-ghibsky-illustration',
+  },
+  {
+    title: 'Easy Website Blocker',
+    description:
+      'Powerful productivity extension for <span class="highlight">eliminating digital distractions</span>. Features customizable block lists and granular exceptions for focused work sessions.',
+    tags: ['React', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'Chrome API'],
+    image: EasyWebsiteBlocker,
+    github: 'https://github.com/aleksa-codes/easy-website-blocker',
+    status: 'coming-soon',
   },
   {
     title: 'One Dark Modern Pro',
@@ -208,7 +216,7 @@ const projects = [
                     project.demo && (
                       <Button variant='secondary' href={project.demo} target='_blank' rel='noopener noreferrer'>
                         <Icon name='lucide:external-link' class='size-4' aria-hidden='true' />
-                        <span>Live Demo</span>
+                        <span>{!project.github ? 'Live Product' : 'Live Demo'}</span>
                       </Button>
                     )
                   )}
