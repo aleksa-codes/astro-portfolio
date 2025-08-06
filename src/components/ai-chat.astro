@@ -166,7 +166,7 @@ import Button from '@/components/ui/button.astro';
 
 <script>
   import { marked } from 'marked';
-  import type { CoreMessage } from 'ai';
+  import type { ModelMessage } from 'ai';
 
   interface MessageState {
     count: number;
@@ -226,7 +226,7 @@ import Button from '@/components/ui/button.astro';
         },
 
         // Conversation storage methods
-        getStoredConversation(): CoreMessage[] {
+        getStoredConversation(): ModelMessage[] {
           try {
             const stored = sessionStorage.getItem(CONVERSATION_STORAGE_KEY);
             return stored ? JSON.parse(stored) : [];
@@ -235,7 +235,7 @@ import Button from '@/components/ui/button.astro';
           }
         },
 
-        saveConversation(messages: CoreMessage[]) {
+        saveConversation(messages: ModelMessage[]) {
           sessionStorage.setItem(CONVERSATION_STORAGE_KEY, JSON.stringify(messages));
         },
       };

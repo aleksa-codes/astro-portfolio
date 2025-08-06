@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { streamText, smoothStream, type CoreMessage } from 'ai';
+import { streamText, smoothStream, type ModelMessage } from 'ai';
 import { createGroq } from '@ai-sdk/groq';
 
 export const prerender = false;
@@ -9,12 +9,14 @@ const groq = createGroq({
 });
 
 // Google: gemma2-9b-it (8,192 context tokens) / 14,400 requests per day / 15,000	tokens per minute
-// Meta: llama-3.3-70b-versatile (128k context tokens) / 1,000 requests per day / 12,000 tokens per minute
-const model = groq('llama-3.3-70b-versatile');
+// Meta: llama-3.3-70b-versatile (128k context tokens) / 1,000 requests per day / 6,000 tokens per minute
+// OpenAI: openai/gpt-oss-120b (128k context tokens) / 1,000 requests per day / 8,000 tokens per minute
+// OpenAI: openai/gpt-oss-20b (128k context tokens) / 1,000 requests per day / 8,000 tokens per minute
+const model = groq('openai/gpt-oss-120b');
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const { messages }: { messages: CoreMessage[] } = await request.json();
+    const { messages }: { messages: ModelMessage[] } = await request.json();
 
     if (!messages || !Array.isArray(messages)) {
       return new Response(JSON.stringify({ error: 'Invalid messages array' }), { status: 400 });
