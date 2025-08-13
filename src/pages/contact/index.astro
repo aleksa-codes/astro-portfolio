@@ -4,8 +4,8 @@ import Breadcrumb from '@/components/breadcrumb.astro';
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
 import Button from '@/components/ui/button.astro';
-import Avatar from '@/assets/Avatar.svg';
-import WinterAvatar from '@/assets/WinterAvatar.svg';
+import Avatar from '@/assets/ghibli-avatar.png';
+import WinterAvatar from '@/assets/ghibli-avatar-santa.png';
 ---
 
 <Layout
@@ -18,9 +18,11 @@ import WinterAvatar from '@/assets/WinterAvatar.svg';
     <header class='space-y-6'>
       <h1 class='text-4xl font-extrabold tracking-tight lg:text-5xl'>Contact</h1>
 
-      <div class='flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12'>
-        <Image id='avatar' src={Avatar} alt='Cartoon avatar of Aleksa' loading='eager' class='hidden' />
-        <Image id='winter-avatar' src={WinterAvatar} alt='Cartoon avatar of Aleksa' loading='eager' class='hidden' />
+      <div class='flex flex-col items-center justify-center gap-4 md:flex-row md:justify-start md:gap-8'>
+        <div class='size-44 overflow-hidden rounded-full'>
+          <Image id='avatar' src={Avatar} alt='Cartoon avatar of Aleksa' loading='eager' class='hidden' />
+          <Image id='winter-avatar' src={WinterAvatar} alt='Cartoon avatar of Aleksa' loading='eager' class='hidden' />
+        </div>
         <div class='space-y-4 text-center md:text-left'>
           <p class='max-w-xl text-lg leading-relaxed'>
             Feel free to reach out using the form below. I am always interested in new <span class='highlight'
