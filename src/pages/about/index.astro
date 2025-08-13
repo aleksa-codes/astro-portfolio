@@ -11,108 +11,168 @@ const techStack = [
     icon: 'simple-icons:html5',
     color: 'text-orange-600 dark:text-orange-500',
     hover: 'hover:shadow-orange-500/20',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
   },
   {
     name: 'CSS',
     icon: 'simple-icons:css',
     color: 'text-[rebeccapurple] dark:text-[#663399]',
     hover: 'hover:shadow-[#663399]/20',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
   },
   {
     name: 'JavaScript',
     icon: 'simple-icons:javascript',
     color: 'text-yellow-500 dark:text-yellow-400',
     hover: 'hover:shadow-yellow-400/20',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
   },
   {
     name: 'TypeScript',
     icon: 'simple-icons:typescript',
     color: 'text-blue-700 dark:text-blue-500',
     hover: 'hover:shadow-blue-500/20',
+    url: 'https://www.typescriptlang.org/',
   },
   {
     name: 'React',
     icon: 'simple-icons:react',
-    color: 'text-cyan-600 dark:text-cyan-400',
+    color: 'text-cyan-500 dark:text-cyan-400',
     hover: 'hover:shadow-cyan-400/20',
+    url: 'https://react.dev/',
   },
   {
     name: 'Next.js',
     icon: 'simple-icons:nextdotjs',
-    color: 'text-neutral-900 dark:text-neutral-100',
-    hover: 'dark:hover:shadow-white/10',
-  },
-  {
-    name: 'Vite',
-    icon: 'simple-icons:vite',
-    color: 'text-secondary',
-    hover: 'hover:shadow-secondary/20',
+    color: 'text-neutral-800 dark:text-neutral-200',
+    hover: 'dark:hover:shadow-white/10 hover:shadow-black/10',
+    url: 'https://nextjs.org/',
   },
   {
     name: 'Astro',
     icon: 'simple-icons:astro',
-    color: 'text-neutral-900 dark:text-neutral-100',
-    hover: 'dark:hover:shadow-white/10',
+    color: 'text-neutral-800 dark:text-neutral-200',
+    hover: 'dark:hover:shadow-white/10 hover:shadow-black/10',
+    url: 'https://astro.build/',
   },
   {
     name: 'TailwindCSS',
     icon: 'simple-icons:tailwindcss',
-    color: 'text-sky-600 dark:text-sky-400',
+    color: 'text-sky-500 dark:text-sky-400',
     hover: 'hover:shadow-sky-400/20',
+    url: 'https://tailwindcss.com/',
   },
   {
     name: 'shadcn/ui',
     icon: 'simple-icons:shadcnui',
-    color: 'text-neutral-900 dark:text-neutral-100',
-    hover: 'dark:hover:shadow-white/10',
+    color: 'text-neutral-800 dark:text-neutral-200',
+    hover: 'dark:hover:shadow-white/10 hover:shadow-black/10',
+    url: 'https://ui.shadcn.com/',
   },
   {
-    name: 'Framer Motion',
-    icon: 'simple-icons:framer',
-    color: 'text-neutral-900 dark:text-neutral-100',
-    hover: 'dark:hover:shadow-white/10',
+    name: 'Motion',
+    icon: 'tabler:brand-framer-motion',
+    color: 'text-yellow-500 dark:text-yellow-400',
+    hover: 'hover:shadow-yellow-400/20',
+    url: 'https://www.motion.dev/',
   },
   {
     name: 'Node.js',
     icon: 'simple-icons:nodedotjs',
     color: 'text-green-600 dark:text-green-500',
     hover: 'hover:shadow-green-500/20',
+    url: 'https://nodejs.org/',
   },
   {
-    name: 'Supabase',
-    icon: 'simple-icons:supabase',
-    color: 'text-emerald-600 dark:text-emerald-500',
-    hover: 'hover:shadow-emerald-500/20',
+    name: 'Hono.js',
+    icon: 'simple-icons:hono',
+    color: 'text-orange-600 dark:text-orange-500',
+    hover: 'hover:shadow-orange-500/20',
+    url: 'https://hono.dev/',
   },
   {
     name: 'Drizzle ORM',
     icon: 'simple-icons:drizzle',
-    color: 'text-lime-600 dark:text-lime-500',
-    hover: 'hover:shadow-lime-500/20',
+    color: 'text-lime-500 dark:text-lime-400',
+    hover: 'hover:shadow-lime-400/20',
+    url: 'https://orm.drizzle.team/',
+  },
+  {
+    name: 'PostgreSQL',
+    icon: 'simple-icons:postgresql',
+    color: 'text-blue-600 dark:text-blue-500',
+    hover: 'hover:shadow-blue-500/20',
+    url: 'https://www.postgresql.org/',
+  },
+  {
+    name: 'SQLite',
+    icon: 'simple-icons:sqlite',
+    color: 'text-sky-700 dark:text-sky-500',
+    hover: 'hover:shadow-sky-500/20',
+    url: 'https://www.sqlite.org/',
+  },
+  {
+    name: 'Cloudflare',
+    icon: 'simple-icons:cloudflare',
+    color: 'text-orange-500 dark:text-orange-400',
+    hover: 'hover:shadow-orange-400/20',
+    url: 'https://www.cloudflare.com/',
   },
   {
     name: 'OpenAI API',
     icon: 'simple-icons:openai',
-    color: 'text-neutral-900 dark:text-neutral-100',
-    hover: 'dark:hover:shadow-white/10',
+    color: 'text-teal-600 dark:text-teal-500',
+    hover: 'hover:shadow-teal-500/20',
+    url: 'https://openai.com/api/',
+  },
+  {
+    name: 'Vercel AI SDK',
+    icon: 'simple-icons:vercel',
+    color: 'text-neutral-800 dark:text-neutral-200',
+    hover: 'dark:hover:shadow-white/10 hover:shadow-black/10',
+    url: 'https://ai-sdk.dev/',
+  },
+  {
+    name: 'Better Auth',
+    icon: 'simple-icons:betterauth',
+    color: 'text-neutral-800 dark:text-neutral-200',
+    hover: 'dark:hover:shadow-white/10 hover:shadow-black/10',
+    url: 'https://better-auth.com/',
+  },
+  {
+    name: 'Polar.sh',
+    icon: 'iconoir:polar-sh',
+    color: 'text-blue-600 dark:text-blue-500',
+    hover: 'hover:shadow-blue-500/20',
+    url: 'https://polar.sh/',
+  },
+  {
+    name: 'Bun',
+    icon: 'simple-icons:bun',
+    color: 'text-neutral-800 dark:text-neutral-200',
+    hover: 'dark:hover:shadow-white/10 hover:shadow-black/10',
+    url: 'https://bun.sh/',
   },
   {
     name: 'Git',
     icon: 'simple-icons:git',
-    color: 'text-orange-600 dark:text-orange-500',
-    hover: 'hover:shadow-orange-500/20',
+    color: 'text-red-600',
+    hover: 'hover:shadow-red-500/20',
+    url: 'https://git-scm.com/',
   },
   {
     name: 'VS Code',
     icon: 'simple-icons:visualstudiocode',
-    color: 'text-blue-600 dark:text-blue-500',
-    hover: 'hover:shadow-blue-500/20',
-  },
-  {
-    name: 'Yarn',
-    icon: 'simple-icons:yarn',
     color: 'text-blue-500 dark:text-blue-400',
     hover: 'hover:shadow-blue-400/20',
+    url: 'https://code.visualstudio.com/',
+  },
+  {
+    name: 'GitHub Copilot',
+    icon: 'simple-icons:githubcopilot',
+    color: 'text-neutral-800 dark:text-neutral-200',
+    hover: 'dark:hover:shadow-white/10 hover:shadow-black/10',
+    url: 'https://github.com/features/copilot',
   },
 ];
 
@@ -176,7 +236,10 @@ const funFacts = [
         <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6' role='list' aria-label='Technology stack'>
           {
             techStack.map((tech) => (
-              <div
+              <a
+                href={tech.url}
+                target='_blank'
+                rel='noopener noreferrer'
                 role='listitem'
                 class={cn(
                   'bg-base-200 hover:bg-base-300 flex flex-col items-center gap-2 rounded-lg p-4 transition-all duration-300',
@@ -186,7 +249,7 @@ const funFacts = [
               >
                 <Icon name={tech.icon} class={cn('size-8 opacity-85', tech.color)} aria-hidden='true' />
                 <span class='text-base-content text-sm font-medium'>{tech.name}</span>
-              </div>
+              </a>
             ))
           }
         </div>

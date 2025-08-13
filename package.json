@@ -37,9 +37,11 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "@iconify-json/iconoir": "^1.2.9",
     "@iconify-json/lucide": "^1.2.62",
     "@iconify-json/lucide-lab": "^1.2.3",
     "@iconify-json/simple-icons": "^1.2.47",
+    "@iconify-json/tabler": "^1.2.22",
     "@tailwindcss/cli": "^4.1.11",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",

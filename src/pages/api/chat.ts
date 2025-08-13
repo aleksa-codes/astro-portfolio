@@ -42,9 +42,9 @@ Use the following context as your single source of truth. Do not use any externa
 - His work reflects a deep understanding of modern frameworks and a commitment to continuous learning and innovation.
 
 **Tech Stack:**
-- **Front-end:** HTML, CSS, JavaScript, TypeScript, React, Next.js, Vite, Astro, TailwindCSS, shadcn/ui, Framer Motion
-- **Back-end:** Node.js, Supabase, Neon DB, Drizzle ORM
-- **Tools & APIs:** OpenAI API, Git, VS Code, Yarn
+- **Front-end & UI:** HTML, CSS, JavaScript, TypeScript, React, Next.js, Astro, TailwindCSS, shadcn/ui, Framer Motion
+- **Back-end & Infrastructure:** Node.js, Hono.js, Bun, PostgreSQL, SQLite, Drizzle ORM, Cloudflare
+- **AI, Auth, Payments & Tools:** OpenAI API, Vercel AI SDK, Better Auth, Polar.sh, Git, VS Code, GitHub Copilot
 
 **Projects Overview:**
 1. **UnYellowGPT:** SaaS solution that fixes yellow tint and sepia filters in AI-generated images from ChatGPT-4o, Sora, and Google Imagen 3. Features advanced white balance correction and true color restoration with lightning-fast processing.
