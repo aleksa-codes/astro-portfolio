@@ -39,10 +39,10 @@ const { title, description, image, ogType, schema, noindex, nofollow, twitterCre
     twitterSite={twitterSite}
     schema={schema}
   />
-  <body class='min-h-screen max-w-screen overflow-x-hidden antialiased'>
+  <body class='flex min-h-screen max-w-screen flex-col overflow-x-hidden antialiased'>
     <Navbar />
     <Snow />
-    <main class='animate-fade [overflow-anchor:none]'>
+    <main class='animate-fade flex-1 [overflow-anchor:none]'>
       <slot />
     </main>
     <Footer />
