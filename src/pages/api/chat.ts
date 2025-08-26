@@ -46,55 +46,48 @@ Use the following context as your single source of truth. Do not use any externa
 - **Back-end & Infrastructure:** Node.js, Hono.js, Bun, PostgreSQL, SQLite, Drizzle ORM, Cloudflare
 - **AI, Auth, Payments & Tools:** OpenAI API, Vercel AI SDK, Better Auth, Polar.sh, Git, VS Code, GitHub Copilot
 
-**Projects Overview:**
-1. **UnYellowGPT:** SaaS solution that fixes yellow tint and sepia filters in AI-generated images from ChatGPT-4o, Sora, and Google Imagen 3. Features advanced white balance correction and true color restoration with lightning-fast processing.
-   - Tech: Next.js, TypeScript, TailwindCSS, shadcn/ui, Neon DB, DrizzleORM, Better Auth, SaaS
-   - Demo: [unyellowgpt.com](https://unyellowgpt.com)
-
-2. **Next Day:** Full-stack productivity app that combines todo lists with integrated Pomodoro timers. Features seamless authentication and real-time syncing with nested task organization.
-   - Tech: Next.js, TypeScript, TailwindCSS, shadcn/ui, Supabase, DrizzleORM, Better Auth
-   - GitHub: [nextday-todo-app](https://github.com/aleksa-codes/nextday-todo-app)
-   - Demo: [nextday.aleksa.codes](https://nextday.aleksa.codes)
-
-3. **Next Workout:** Modern fitness app with AI-generated workout plans and built-in timers. Features customizable parameters, circuit/straight set options, and embedded video demonstrations for effective home workouts.
-   - Tech: Next.js, TypeScript, TailwindCSS, shadcn/ui, ChatGPT, localStorage
-   - GitHub: [next-workout](https://github.com/aleksa-codes/next-workout)
-   - Demo: [nextworkout.aleksa.codes](https://nextworkout.aleksa.codes)
-
-4. **GPT Image Captioner:** Advanced tool for generating detailed image descriptions. Optimized for LoRA model training with support for batch processing and customizable outputs.
-   - Tech: Next.js, TypeScript, TailwindCSS, shadcn/ui, OpenAI API
-   - GitHub: [gpt-flux-img-captioner](https://github.com/aleksa-codes/gpt-flux-img-captioner)
-   - Demo: [gptcaptioner.aleksa.codes](https://gptcaptioner.aleksa.codes)
-
-5. **Easy WebsiteGPT:** Innovative Chrome extension for interactive conversations with any webpage. Features real-time streaming responses and persistent chat history.
-   - Tech: React, TypeScript, TailwindCSS, shadcn/ui, OpenAI API, Chrome API
-   - GitHub: [easy-website-gpt](https://github.com/aleksa-codes/easy-website-gpt)
-   - Status: Coming Soon
-
-6. **GPT FileSmith:** Creative content generator inspired by Rick and Morty's multiverse concept. Creates unique, imaginative content with instant preview and download options.
-   - Tech: Astro, TailwindCSS, OpenAI API
-   - GitHub: [gpt-filesmith](https://github.com/aleksa-codes/gpt-filesmith)
-   - Demo: [filesmith.aleksa.codes](https://filesmith.aleksa.codes)
-
-7. **Flux Ghibsky Illustration:** Popular Flux AI LoRA model for generating Ghibli-inspired landscapes and scenes. Garnering over 30,000 monthly generations across Hugging Face and Replicate.
-   - Tech: AI, LoRA, Stable Diffusion, Text-to-Image
-   - Hugging Face: [flux-ghibsky](https://huggingface.co/aleksa-codes/flux-ghibsky-illustration)
-   - Replicate: [flux-ghibsky-illustration](https://replicate.com/aleksa-codes/flux-ghibsky-illustration)
-
-8. **Easy Website Blocker:** Powerful productivity extension for eliminating digital distractions. Features customizable block lists and granular exceptions for focused work sessions.
-   - Tech: React, TypeScript, TailwindCSS, shadcn/ui, Chrome API
-   - GitHub: [easy-website-blocker](https://github.com/aleksa-codes/easy-website-blocker)
-   - Status: Coming Soon
-
-9. **One Dark Modern Pro:** Sleek and modern VS Code theme inspired by Atom's One Dark Pro. Features vibrant syntax highlighting and modern UI design.
-   - Tech: VS Code, Theme, JSON
-   - GitHub: [one-dark-modern-pro](https://github.com/aleksa-codes/one-dark-modern-pro)
-   - Demo: [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=aleksa-codes.one-dark-modern-pro)
-
-10. **Next Meal:** Intuitive recipe discovery app with instant meal suggestions and video tutorials. Perfect for when you need quick meal ideas.
-    - Tech: Next.js, TypeScript, TailwindCSS, shadcn/ui, TheMealDB API, PWA
-    - GitHub: [my-next-meal-pwa](https://github.com/aleksa-codes/my-next-meal-pwa)
-    - Demo: [nextmeal.aleksa.codes](https://nextmeal.aleksa.codes)
+### **Projects Overview:**
+1.  **UnYellowGPT:** SaaS solution that fixes yellow tint and sepia filters in AI-generated images. Features advanced white balance correction and true color restoration with lightning-fast processing for creative workflows.
+    -   **Tech:** Next.js, TypeScript, TailwindCSS, shadcn/ui, Neon DB, DrizzleORM, Better Auth, SaaS
+    -   **Demo:** [unyellowgpt.com](https://unyellowgpt.com)
+2.  **Next Day:** Full-stack productivity app that combines todo lists with integrated Pomodoro timers. Features seamless authentication and real-time syncing with nested task organization.
+    -   **Tech:** Next.js, TypeScript, TailwindCSS, shadcn/ui, Supabase, DrizzleORM, Better Auth
+    -   **GitHub:** [nextday-todo-app](https://github.com/aleksa-codes/nextday-todo-app)
+    -   **Demo:** [nextday.aleksa.codes](https://nextday.aleksa.codes)
+3.  **aleksa.codes:** My personal portfolio and blog, built with Astro for peak performance and SEO. Features a blog managed with Decap CMS and an AI assistant that helps visitors find information quickly.
+    -   **Tech:** Astro, TypeScript, TailwindCSS, SEO, Decap CMS, AI
+    -   **GitHub:** [astro-portfolio](https://github.com/aleksa-codes/astro-portfolio)
+    -   **Demo:** [aleksa.codes](https://aleksa.codes)
+4.  **Next Workout:** Modern fitness app with AI-generated workout plans and built-in timers. Features customizable parameters, circuit/straight set options, and embedded video demonstrations for effective home workouts.
+    -   **Tech:** Next.js, TypeScript, TailwindCSS, shadcn/ui, ChatGPT, localStorage
+    -   **GitHub:** [next-workout](https://github.com/aleksa-codes/next-workout)
+    -   **Demo:** [nextworkout.aleksa.codes](https://nextworkout.aleksa.codes)
+5.  **GPT Image Captioner:** Advanced tool for generating detailed image descriptions. Optimized for LoRA model training with support for batch processing and customizable outputs.
+    -   **Tech:** Next.js, TypeScript, TailwindCSS, shadcn/ui, OpenAI API
+    -   **GitHub:** [gpt-flux-img-captioner](https://github.com/aleksa-codes/gpt-flux-img-captioner)
+    -   **Demo:** [gptcaptioner.aleksa.codes](https://gptcaptioner.aleksa.codes)
+6.  **Easy WebsiteGPT:** Innovative Chrome extension for interactive conversations with any webpage. Features real-time streaming responses and persistent chat history.
+    -   **Tech:** React, TypeScript, TailwindCSS, shadcn/ui, OpenAI API, Chrome API
+    -   **GitHub:** [easy-website-gpt](https://github.com/aleksa-codes/easy-website-gpt)
+7. **GPT FileSmith:** Creative content generator inspired by Rick and Morty's multiverse concept. Creates unique, imaginative content with instant preview and download options.
+    -   **Tech:** Astro, TailwindCSS, OpenAI API
+    -   **GitHub:** [gpt-filesmith](https://github.com/aleksa-codes/gpt-filesmith)
+    -   **Demo:** [filesmith.aleksa.codes](https://filesmith.aleksa.codes)
+8. **Flux Ghibsky Illustration:** Popular Flux AI LoRA model for generating Ghibli-inspired landscapes and scenes. Garnering over 30,000 monthly generations across Hugging Face and Replicate.
+    -   **Tech:** AI, LoRA, Stable Diffusion, Text-to-Image
+    -   **Hugging Face:** [flux-ghibsky-illustration](https://huggingface.co/aleksa-codes/flux-ghibsky-illustration)
+    -   **Replicate:** [flux-ghibsky-illustration](https://replicate.com/aleksa-codes/flux-ghibsky-illustration)
+9. **Easy Website Blocker:** Powerful productivity extension for eliminating digital distractions. Features customizable block lists and granular exceptions for focused work sessions.
+    -   **Tech:** React, TypeScript, TailwindCSS, shadcn/ui, Chrome API
+    -   **GitHub:** [easy-website-blocker](https://github.com/aleksa-codes/easy-website-blocker)
+10. **One Dark Modern Pro:** Sleek and modern VS Code theme inspired by Atom's One Dark Pro. Features vibrant syntax highlighting and modern UI design.
+    -   **Tech:** VS Code, Theme, JSON
+    -   **GitHub:** [one-dark-modern-pro](https://github.com/aleksa-codes/one-dark-modern-pro)
+    -   **Demo:** [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=aleksa-codes.one-dark-modern-pro)
+11. **Next Meal:** Intuitive recipe discovery app with instant meal suggestions and video tutorials. Perfect for when you need quick meal ideas.
+    -   **Tech:** Next.js, TypeScript, TailwindCSS, shadcn/ui, TheMealDB API, PWA
+    -   **GitHub:** [my-next-meal-pwa](https://github.com/aleksa-codes/my-next-meal-pwa)
+    -   **Demo:** [nextmeal.aleksa.codes](https://nextmeal.aleksa.codes)
 
 **Fun Facts About Aleksa:**
 - AI enthusiast and lifelong learner

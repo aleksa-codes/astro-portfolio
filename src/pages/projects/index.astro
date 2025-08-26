@@ -15,24 +15,27 @@ import NextMeal from '@/assets/projects/next-meal.png';
 import NextDay from '@/assets/projects/next-day.png';
 import NextWorkout from '@/assets/projects/next-workout.png';
 import FluxGhibsky from '@/assets/projects/flux-ghibsky.png';
+import AleksaPortfolio from '@/assets/projects/aleksa.codes.png';
 import { cn } from '@/lib/utils';
 
 const categories = [
-  { name: 'Websites', icon: 'lucide:panels-top-left' },
+  { name: 'All', icon: 'lucide:layout-grid' },
   { name: 'Web Apps', icon: 'lucide:layout-dashboard' },
+  { name: 'Websites', icon: 'lucide:panels-top-left' },
   { name: 'AI & Tools', icon: 'lucide:bot' },
-  { name: 'Extensions', icon: 'lucide:puzzle' },
+  { name: 'Browser Extensions', icon: 'lucide:puzzle' },
 ];
 
 const projects = [
   {
     title: 'UnYellowGPT',
     description:
-      'SaaS solution that <span class="highlight">fixes yellow tint and sepia filters</span> in AI-generated images from ChatGPT-4o, Sora, and Google Imagen 3. Features <span class="highlight">advanced white balance correction</span> and true color restoration with lightning-fast processing.',
+      'SaaS solution that <span class="highlight">fixes yellow tint and sepia filters</span> in AI-generated images. Features <span class="highlight">advanced white balance correction</span> and true color restoration with lightning-fast processing for creative workflows.',
     tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'Neon DB', 'DrizzleORM', 'Better Auth', 'SaaS'],
     image: UnYellowGPT,
     demo: 'https://unyellowgpt.com',
     featured: true,
+    category: 'Web Apps',
   },
   {
     title: 'Next Day',
@@ -42,17 +45,9 @@ const projects = [
     image: NextDay,
     github: 'https://github.com/aleksa-codes/nextday-todo-app',
     demo: 'https://nextday.aleksa.codes',
-    featured: true,
+    category: 'Web Apps',
   },
-  {
-    title: 'Next Workout',
-    description:
-      'Modern fitness app with <span class="highlight">AI-generated workout plans and built-in timers</span>. Features customizable parameters, circuit/straight set options, and embedded video demonstrations for effective home workouts.',
-    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'ChatGPT', 'localStorage'],
-    image: NextWorkout,
-    github: 'https://github.com/aleksa-codes/next-workout',
-    demo: 'https://nextworkout.aleksa.codes',
-  },
+
   {
     title: 'GPT Image Captioner',
     description:
@@ -61,6 +56,7 @@ const projects = [
     image: GptImgCaptioner,
     github: 'https://github.com/aleksa-codes/gpt-flux-img-captioner',
     demo: 'https://gptcaptioner.aleksa.codes',
+    category: 'AI & Tools',
   },
   {
     title: 'Easy WebsiteGPT',
@@ -70,6 +66,17 @@ const projects = [
     image: EasyWebsiteGPT,
     github: 'https://github.com/aleksa-codes/easy-website-gpt',
     status: 'coming-soon',
+    category: 'Browser Extensions',
+  },
+  {
+    title: 'Next Workout',
+    description:
+      'Modern fitness app with <span class="highlight">AI-generated workout plans and built-in timers</span>. Features customizable parameters, circuit/straight set options, and embedded video demonstrations for effective home workouts.',
+    tags: ['Next.js', 'TypeScript', 'TailwindCSS', 'shadcn/ui', 'ChatGPT', 'localStorage'],
+    image: NextWorkout,
+    github: 'https://github.com/aleksa-codes/next-workout',
+    demo: 'https://nextworkout.aleksa.codes',
+    category: 'AI & Tools',
   },
   {
     title: 'GPT FileSmith',
@@ -79,15 +86,7 @@ const projects = [
     image: GptFileSmith,
     github: 'https://github.com/aleksa-codes/gpt-filesmith',
     demo: 'https://filesmith.aleksa.codes',
-  },
-  {
-    title: 'Flux Ghibsky Illustration',
-    description:
-      'Popular Flux AI LoRA model for <span class="highlight">generating Ghibli-inspired landscapes and scenes</span>. Garnering over <span class="highlight">30,000 monthly generations</span> across Hugging Face and Replicate.',
-    tags: ['AI', 'LoRA', 'Stable Diffusion', 'Text-to-Image'],
-    image: FluxGhibsky,
-    huggingface: 'https://huggingface.co/aleksa-codes/flux-ghibsky-illustration',
-    replicate: 'https://replicate.com/aleksa-codes/flux-ghibsky-illustration',
+    category: 'AI & Tools',
   },
   {
     title: 'Easy Website Blocker',
@@ -97,6 +96,7 @@ const projects = [
     image: EasyWebsiteBlocker,
     github: 'https://github.com/aleksa-codes/easy-website-blocker',
     status: 'coming-soon',
+    category: 'Browser Extensions',
   },
   {
     title: 'One Dark Modern Pro',
@@ -106,6 +106,28 @@ const projects = [
     image: OneDarkModernPro,
     github: 'https://github.com/aleksa-codes/one-dark-modern-pro',
     demo: 'https://marketplace.visualstudio.com/items?itemName=aleksa-codes.one-dark-modern-pro',
+    category: 'AI & Tools',
+  },
+  {
+    title: 'Flux Ghibsky Illustration',
+    description:
+      'Popular Flux AI LoRA model for <span class="highlight">generating Ghibli-inspired landscapes and scenes</span>. Garnering over <span class="highlight">30,000 monthly generations</span> across Hugging Face and Replicate.',
+    tags: ['AI', 'LoRA', 'Stable Diffusion', 'Text-to-Image'],
+    image: FluxGhibsky,
+    huggingface: 'https://huggingface.co/aleksa-codes/flux-ghibsky-illustration',
+    replicate: 'https://replicate.com/aleksa-codes/flux-ghibsky-illustration',
+    category: 'AI & Tools',
+  },
+  {
+    title: 'aleksa.codes',
+    description:
+      'My personal portfolio and blog, built with Astro for <span class="highlight">peak performance and SEO</span>. Features a blog managed with Decap CMS and an <span class="highlight">AI assistant</span> that helps visitors find information quickly.',
+    tags: ['Astro', 'TypeScript', 'TailwindCSS', 'SEO', 'Decap CMS', 'AI'],
+    image: AleksaPortfolio,
+    demo: 'https://aleksa.codes',
+    github: 'https://github.com/aleksa-codes/astro-portfolio',
+    featured: true,
+    category: 'Websites',
   },
   {
     title: 'Next Meal',
@@ -115,6 +137,7 @@ const projects = [
     image: NextMeal,
     github: 'https://github.com/aleksa-codes/my-next-meal-pwa',
     demo: 'https://nextmeal.aleksa.codes',
+    category: 'Web Apps',
   },
 ];
 ---
@@ -134,12 +157,19 @@ const projects = [
         > and <span class='highlight'>exceptional user experience</span>.
       </p>
 
-      <div aria-label='Project categories'>
+      <div id='project-filters' aria-label='Project categories'>
         <ul class='flex flex-wrap gap-4 pt-2'>
           {
             categories.map((category) => (
               <li>
-                <Badge icon={category.icon}>{category.name}</Badge>
+                <button
+                  data-category={category.name}
+                  class='filter-btn flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium hover:cursor-pointer'
+                  aria-pressed='false'
+                >
+                  <Icon name={category.icon} class='size-4' />
+                  <span>{category.name}</span>
+                </button>
               </li>
             ))
           }
@@ -147,33 +177,40 @@ const projects = [
       </div>
     </header>
 
-    <section aria-label='Project list' class='space-y-12'>
+    <section id='project-list' aria-label='Project list' class='space-y-12'>
       {
         projects
           .sort((a, b) => (a.featured === b.featured ? 0 : a.featured ? -1 : 1))
           .map((project, index) => (
-            <article class={cn('relative flex flex-col gap-12 md:flex-row', index % 2 === 1 && 'md:flex-row-reverse')}>
+            <article
+              data-category={project.category}
+              class={cn(
+                'project-card relative flex flex-col gap-12 md:flex-row',
+                index % 2 === 1 && 'md:flex-row-reverse',
+              )}
+            >
               <div class='relative w-full lg:w-1/2'>
-                <div class='border-base-300 bg-base-200 relative aspect-square overflow-hidden rounded-2xl border transition-all duration-300'>
-                  {project.image && (
+                <div class='border-base-300 bg-base-200 relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl border text-lg font-medium'>
+                  {project.image ? (
                     <Image
                       src={project.image}
                       alt={`Screenshot of ${project.title}`}
-                      loading={index === 0 ? 'eager' : 'lazy'}
+                      loading={index < 3 ? 'eager' : 'lazy'}
                       format='webp'
                       quality='max'
-                      class='h-full w-full object-cover object-top transition duration-500'
+                      class='h-full w-full object-cover object-top'
                     />
+                  ) : (
+                    <span class='text-base-content/50'>Image Coming Soon</span>
                   )}
                 </div>
               </div>
-
               <div class='flex w-full flex-col justify-center space-y-6 lg:w-1/2'>
                 <div class='space-y-4'>
                   <div class='flex items-center gap-4'>
                     <h2
                       class={cn(
-                        'from-secondary to-base-content bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-tight text-transparent transition-all duration-300',
+                        'from-secondary to-base-content bg-gradient-to-r bg-clip-text text-3xl font-bold tracking-tight text-transparent',
                         project.featured && 'to-warning',
                       )}
                     >
@@ -216,7 +253,7 @@ const projects = [
                     project.demo && (
                       <Button variant='secondary' href={project.demo} target='_blank' rel='noopener noreferrer'>
                         <Icon name='lucide:external-link' class='size-4' aria-hidden='true' />
-                        <span>{!project.github ? 'Live Product' : 'Live Demo'}</span>
+                        <span>Live Demo</span>
                       </Button>
                     )
                   )}
@@ -247,3 +284,66 @@ const projects = [
     </div>
   </div>
 </Layout>
+
+<script>
+  const filterButtons = document.querySelectorAll('#project-filters .filter-btn');
+  const projectCards = document.querySelectorAll('#project-list .project-card');
+
+  const activeClasses = ['bg-secondary', 'text-secondary-content', 'border-secondary', 'shadow-lg'];
+  const inactiveClasses = [
+    'bg-transparent',
+    'text-base-content/70',
+    'border-base-300',
+    'hover:bg-base-200',
+    'hover:text-base-content',
+  ];
+
+  function updateAlternatingLayout() {
+    const visibleCards = document.querySelectorAll('.project-card:not(.hidden)');
+    visibleCards.forEach((card, index) => {
+      const cardEl = card as HTMLElement;
+      cardEl.classList.remove('md:flex-row', 'md:flex-row-reverse');
+      if (index % 2 === 1) {
+        cardEl.classList.add('md:flex-row-reverse');
+      } else {
+        cardEl.classList.add('md:flex-row');
+      }
+    });
+  }
+
+  function applyFilter(selectedButton: Element) {
+    const category = (selectedButton as HTMLElement).dataset.category;
+
+    filterButtons.forEach((btn) => {
+      const button = btn as HTMLElement;
+      button.classList.remove(...activeClasses);
+      button.classList.add(...inactiveClasses);
+      button.setAttribute('aria-pressed', 'false');
+    });
+
+    selectedButton.classList.remove(...inactiveClasses);
+    selectedButton.classList.add(...activeClasses);
+    selectedButton.setAttribute('aria-pressed', 'true');
+
+    projectCards.forEach((card) => {
+      const cardEl = card as HTMLElement;
+      const cardCategory = cardEl.dataset.category;
+
+      if (category === 'All' || cardCategory === category) {
+        cardEl.classList.remove('hidden');
+      } else {
+        cardEl.classList.add('hidden');
+      }
+    });
+
+    updateAlternatingLayout();
+  }
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => applyFilter(button));
+  });
+
+  if (filterButtons.length > 0) {
+    applyFilter(filterButtons[0]);
+  }
+</script>
