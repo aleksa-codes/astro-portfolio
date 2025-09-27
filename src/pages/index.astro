@@ -4,12 +4,10 @@ import Layout from '@/layouts/layout.astro';
 import { Image } from 'astro:assets';
 import WavingHand from '@/assets/waving-hand.png';
 import LaptopAnimate from '@/assets/laptop-animate.svg';
-import AnimatedArrow from '@/components/ui/animated-arrow.astro';
 ---
 
 <Layout title={siteConfig.title} description={siteConfig.description}>
   <section class='relative container space-y-4 pt-4'>
-    <AnimatedArrow isJobHunting={true} />
     <div class='flex items-center gap-x-2 text-4xl font-extrabold sm:text-5xl'>
       <span>Hello World</span>
       <Image
