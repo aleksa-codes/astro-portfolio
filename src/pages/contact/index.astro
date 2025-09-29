@@ -6,6 +6,8 @@ import { Image } from 'astro:assets';
 import Button from '@/components/ui/button.astro';
 import Avatar from '@/assets/avatar.png';
 import WinterAvatar from '@/assets/avatar-santa.png';
+import HalloweenAvatar from '@/assets/avatar-halloween.png';
+import SummerAvatar from '@/assets/avatar-summer.png';
 ---
 
 <Layout
@@ -22,6 +24,14 @@ import WinterAvatar from '@/assets/avatar-santa.png';
         <div class='size-44 overflow-hidden rounded-full'>
           <Image id='avatar' src={Avatar} alt='Cartoon avatar of Aleksa' loading='eager' class='hidden' />
           <Image id='winter-avatar' src={WinterAvatar} alt='Cartoon avatar of Aleksa' loading='eager' class='hidden' />
+          <Image
+            id='halloween-avatar'
+            src={HalloweenAvatar}
+            alt='Cartoon avatar of Aleksa'
+            loading='eager'
+            class='hidden'
+          />
+          <Image id='summer-avatar' src={SummerAvatar} alt='Cartoon avatar of Aleksa' loading='eager' class='hidden' />
         </div>
         <div class='space-y-4 text-center md:text-left'>
           <p class='max-w-xl text-lg leading-relaxed'>
@@ -178,11 +188,25 @@ import WinterAvatar from '@/assets/avatar-santa.png';
 </Layout>
 
 <script>
-  // Winter avatar logic
+  // Seasonal avatar logic
   const avatar = document.getElementById('avatar');
   const winterAvatar = document.getElementById('winter-avatar');
-  const isWinter = [11, 0, 1].includes(new Date().getMonth());
-  isWinter ? winterAvatar?.classList.remove('hidden') : avatar?.classList.remove('hidden');
+  const halloweenAvatar = document.getElementById('halloween-avatar');
+  const summerAvatar = document.getElementById('summer-avatar');
+  const currentMonth = new Date().getMonth();
+
+  if (currentMonth === 9) {
+    // October - Halloween
+    halloweenAvatar?.classList.remove('hidden');
+  } else if ([5, 6, 7].includes(currentMonth)) {
+    // June, July, August - Summer
+    summerAvatar?.classList.remove('hidden');
+  } else if ([11, 0, 1].includes(currentMonth)) {
+    // December, January, February - Winter
+    winterAvatar?.classList.remove('hidden');
+  } else {
+    avatar?.classList.remove('hidden');
+  }
 
   const form = document.querySelector('#contact-form') as HTMLFormElement;
   const formContent = document.querySelector('#form-content');
