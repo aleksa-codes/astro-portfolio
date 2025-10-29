@@ -69,7 +69,7 @@ A fast, content-driven personal website and blog built with Astro, featuring a m
 | `bun run build`    | Build for production (includes TypeScript check) |
 | `bun run preview`  | Preview production build locally                 |
 | `bun run prod`     | Format, build, and preview (end-to-end workflow) |
-| `bun run prettier` | Format code with Prettier                        |
+| `bun run format`   | Format code with Prettier                        |
 | `bun run decap`    | Start Decap CMS local development server         |
 
 > **Note**: If you prefer npm, you can use `npm run <script>` instead of `bun run <script>`.
@@ -156,7 +156,7 @@ The site can be deployed to any static hosting service. Ensure the platform supp
 
 ### Development Guidelines
 
-- Run `bun run prettier` before committing
+- Run `bun run format` before committing
 - Test builds with `bun run build`
 - Follow existing code patterns and conventions
 - Update documentation for new features
