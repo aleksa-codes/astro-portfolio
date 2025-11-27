@@ -7,7 +7,7 @@ local_backend: true
 
 # Media
 media_folder: 'src/assets/blog'
-public_folder: 'src/assets/blog'
+public_folder: '../../assets/blog'
 # media_library:
 #   name: cloudinary
 #   max_file_size: 512000 # 512kb
