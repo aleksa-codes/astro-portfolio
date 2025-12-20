@@ -63,14 +63,15 @@ A fast, content-driven personal website and blog built with Astro, featuring a m
 
 ## 📜 Available Scripts
 
-| Command            | Description                                      |
-| ------------------ | ------------------------------------------------ |
-| `bun run dev`      | Start development server with hot reload         |
-| `bun run build`    | Build for production (includes TypeScript check) |
-| `bun run preview`  | Preview production build locally                 |
-| `bun run prod`     | Format, build, and preview (end-to-end workflow) |
-| `bun run format`   | Format code with Prettier                        |
-| `bun run decap`    | Start Decap CMS local development server         |
+| Command           | Description                                      |
+| ----------------- | ------------------------------------------------ |
+| `bun run dev`     | Start development server with hot reload         |
+| `bun run dev:host`| Start development server accessible on network   |
+| `bun run build`   | Build for production (includes TypeScript check) |
+| `bun run preview` | Preview production build locally                 |
+| `bun run prod`    | Format, build, and preview (end-to-end workflow) |
+| `bun run format`  | Format code with Prettier                        |
+| `bun run decap`   | Start Decap CMS local development server         |
 
 > **Note**: If you prefer npm, you can use `npm run <script>` instead of `bun run <script>`.
 
