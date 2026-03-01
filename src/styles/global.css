@@ -300,7 +300,7 @@
 
 @font-face {
   font-family: 'Geist';
-  src: url('/src/assets/fonts/Geist.woff2') format('woff2');
+  src: url('/fonts/Geist.woff2') format('woff2');
   font-weight: 100 900;
   font-display: swap;
   font-style: normal;
@@ -308,7 +308,7 @@
 
 @font-face {
   font-family: 'Geist Mono';
-  src: url('/src/assets/fonts/GeistMono.woff2') format('woff2');
+  src: url('/fonts/GeistMono.woff2') format('woff2');
   font-weight: 100 900;
   font-display: swap;
   font-style: normal;
@@ -316,7 +316,7 @@
 
 @font-face {
   font-family: 'Dancing Script';
-  src: url('/src/assets/fonts/DancingScript-700.woff2') format('woff2');
+  src: url('/fonts/DancingScript-700.woff2') format('woff2');
   font-weight: 700;
   font-display: swap;
   font-style: normal;
