@@ -6,6 +6,7 @@ import Tooltip from '@/components/ui/tooltip.astro';
 <Tooltip content='Toggle Theme' side='bottom'>
   <button
     id='theme-toggle-btn'
+    aria-label='Toggle theme'
     class='text-muted-foreground hover:text-foreground hover:bg-accent relative flex cursor-pointer items-center justify-center rounded-xl p-2.5 transition-colors'
   >
     <Icon name='lucide:sun' class='sun-icon hidden h-5 w-5 dark:block' />

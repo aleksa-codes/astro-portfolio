@@ -22,6 +22,7 @@ import Tooltip from '@/components/ui/tooltip.astro';
         <a
           href='https://github.com/aleksa-codes'
           target='_blank'
+          aria-label='GitHub profile'
           class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
         >
           <Icon name='lucide:github' class='h-5 w-5' />
@@ -32,6 +33,7 @@ import Tooltip from '@/components/ui/tooltip.astro';
         <a
           href='/Aleksa_Resume_2026.pdf'
           target='_blank'
+          aria-label='Download resume PDF'
           class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
         >
           <Icon name='lucide:file-text' class='h-5 w-5' />
@@ -41,6 +43,7 @@ import Tooltip from '@/components/ui/tooltip.astro';
       <Tooltip content='RSS Feed'>
         <a
           href='/rss.xml'
+          aria-label='RSS feed'
           class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
         >
           <Icon name='lucide:rss' class='h-5 w-5' />
