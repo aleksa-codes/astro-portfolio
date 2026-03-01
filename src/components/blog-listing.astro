@@ -2,7 +2,7 @@
 import Card from '@/components/ui/card.astro';
 import { calculateReadingTime } from '@/lib/utils';
 import { Icon } from 'astro-icon/components';
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 
 interface Props {
   posts: any[];
@@ -23,10 +23,13 @@ const { posts } = Astro.props;
         >
           {post.data.thumbnail ? (
             <div class='border-border/50 relative aspect-video w-full min-w-0 flex-1 overflow-hidden rounded-xl border md:h-auto'>
-              <Image
+              <Picture
                 src={post.data.thumbnail}
                 alt={post.data.title}
-                format={'webp'}
+                formats={['avif', 'webp']}
+                fallbackFormat='webp'
+                quality='mid'
+                sizes='(min-width: 768px) 384px, calc(100vw - 4rem)'
                 priority={index < 2}
                 class='h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]'
               />

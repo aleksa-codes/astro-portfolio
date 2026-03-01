@@ -16,6 +16,11 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  image: {
+    // Generate srcset for all <Image> components so browsers download the right size.
+    // responsiveStyles is intentionally left false (default) — Tailwind 4 handles sizing.
+    layout: 'constrained',
+  },
   // build: {
   //   inlineStylesheets: 'always',
   // },
