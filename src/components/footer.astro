@@ -1,45 +1,19 @@
-<footer class='w-full'>
-  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 200' aria-hidden='true' role='presentation'>
-    <path
-      class='scale-y-75 text-slate-200 dark:text-slate-800'
-      fill='currentColor'
-      fill-opacity='1'
-      d='M0,192L34.3,181.3C68.6,171,137,149,206,160C274.3,171,343,213,411,213.3C480,213,549,171,617,165.3C685.7,160,754,192,823,218.7C891.4,245,960,267,1029,256C1097.1,245,1166,203,1234,186.7C1302.9,171,1371,181,1406,186.7L1440,192L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z'
-    ></path>
-  </svg>
+---
 
-  <div class='flex flex-col items-center justify-center gap-4 bg-slate-200 py-8 dark:bg-slate-800' data-nosnippet>
-    <div class='container flex flex-col items-center gap-4'>
-      <p class='font-medium'>
-        &copy;&nbsp;<span id='current-year'></span>&nbsp;Code by&nbsp;<a
-          href='https://github.com/aleksa-codes/astro-portfolio'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='hover:underline'>aleksa</a
-        >&nbsp;• art via&nbsp;<a
-          href='https://storyset.com/'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='hover:underline'>Storyset</a
-        >
-      </p>
-      <div id='footer-message' class='mx-auto flex justify-center text-center md:flex-row'></div>
-      <a href='https://astro.build' target='_blank' rel='noopener noreferrer' class='mt-6'>
-        <img src='https://astro.badg.es/v2/built-with-astro/small.svg' alt='Built with Astro' width='192' height='32' />
-      </a>
-    </div>
+---
+
+<footer class='flex cursor-default flex-col items-center justify-center gap-22.5 md:gap-23.5'>
+  <div class='font-signature text-accent xs:tracking-tight text-7xl font-bold tracking-tighter'>
+    aleksa.codes
+  </div>
+  <div class='text-muted-foreground pb-0.5 text-sm font-medium'>
+    © <span id='current-year'>2026</span> · Have a great <span id='current-day'>Friday</span>
   </div>
 </footer>
-<script>
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  function getCurrentDay() {
-    const today = new Date();
-    const day = today.getDay();
-    return days[day];
-  }
-  const day = getCurrentDay();
-  document.getElementById('footer-message')!.innerText = `~ Have a great ${day} ~`;
 
-  const currentYear = new Date().getFullYear().toString();
-  document.getElementById('current-year')!.innerText = currentYear;
+<script>
+  const yearEl = document.getElementById('current-year');
+  const dayEl = document.getElementById('current-day');
+  if (yearEl) yearEl.textContent = new Date().getFullYear().toString();
+  if (dayEl) dayEl.textContent = new Date().toLocaleDateString('en-US', { weekday: 'long' });
 </script>

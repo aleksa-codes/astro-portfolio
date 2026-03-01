@@ -1,23 +1,23 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
-import { siteConfig } from '@/config/site.config';
 
+// we don't include full post content to avoid extra deps, but setup is ready to expand
 export async function GET() {
-  const blog = await getCollection('blog');
-  const sortedPosts = blog.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
+  let blog = await getCollection('blog');
+  // sort newest first by date
+  blog = blog.sort((a, b) => (b.data.date as any) - (a.data.date as any));
   return rss({
-    title: siteConfig.title,
-    description: `The latest blog posts from ${siteConfig.title}`,
+    title: 'aleksa.codes blog',
+    description: 'Thoughts and tutorials from my web development journey.',
     site: import.meta.env.SITE,
-    items: sortedPosts.map((post) => ({
-      title: post.data.title,
-      pubDate: post.data.date,
-      description: post.data.description,
-      link: `/blog/${post.id}/`,
-      author: post.data.author,
-    })),
-    customData: `<language>${siteConfig.defaultLocale.toLowerCase()}</language>`,
+    // optional: match the site's trailingSlash setting if you have one
+    // trailingSlash: false,
     stylesheet: '/rss/styles.xsl',
+    items: blog.map(post => ({
+      title: post.data.title,
+      description: post.data.description,
+      pubDate: post.data.date,
+      link: `/blog/${post.id}/`,
+    })),
   });
 }

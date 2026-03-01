@@ -1,0 +1,49 @@
+---
+import BaseLayout from '@/layouts/base-layout.astro';
+import { Icon } from 'astro-icon/components';
+import ProjectCard from '@/components/project-card.astro';
+import { projects } from '@/lib/projects';
+
+const title = 'Projects';
+const description =
+  'Browse my portfolio of web development projects, including side projects and open source contributions built with modern tools and best practices.';
+const ogImage = new URL('/open-graph/projects.png', Astro.site).toString();
+---
+
+<BaseLayout {title} {description} {ogImage}>
+  <div class='flex flex-col gap-8'>
+    <!-- Header -->
+    <div class='flex flex-col items-start'>
+      <h1 class='text-foreground mb-3 text-3xl font-bold tracking-tighter md:text-4xl'>
+        Selected <span
+          class='from-foreground to-muted-foreground bg-linear-to-r bg-clip-text text-transparent'
+          >Projects.</span
+        >
+      </h1>
+      <p class='text-muted-foreground max-w-xl text-sm leading-relaxed md:text-base'>
+        A showcase of my open-source tools, full-stack applications, and experiments. I love
+        building things that solve real problems or just make the web a bit more fun.
+      </p>
+    </div>
+
+    <!-- Projects List (horizontal cards with alternating sides) -->
+    <div class='flex flex-col gap-8'>
+      {
+        projects.map((project, index) => (
+          <ProjectCard project={project} alternate={index % 2 === 1} priority={index < 2} />
+        ))
+      }
+    </div>
+
+    <div class='flex justify-center'>
+      <a
+        href='https://github.com/aleksa-codes'
+        target='_blank'
+        rel='noopener noreferrer'
+        class='text-foreground flex items-center gap-2 text-base font-medium underline-offset-4 hover:underline'
+      >
+        More on GitHub <Icon name='lucide:github' class='h-5 w-5' />
+      </a>
+    </div>
+  </div>
+</BaseLayout>

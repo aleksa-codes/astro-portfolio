@@ -1,0 +1,34 @@
+---
+
+---
+
+<div class='pointer-events-none fixed top-16 left-0 z-50 h-[2px] w-full'>
+  <div class='bg-foreground h-full w-0 opacity-0 transition-opacity duration-200' id='progress-bar'>
+  </div>
+</div>
+
+<script>
+  function initProgressBar() {
+    const progressBar = document.getElementById('progress-bar') as HTMLDivElement;
+
+    if (progressBar) {
+      const updateProgress = () => {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollHeight <= 0) {
+          progressBar.style.opacity = '0';
+          return;
+        }
+
+        const progressWidth = (window.scrollY / scrollHeight) * 100;
+        progressBar.style.width = `${progressWidth}%`;
+        progressBar.style.opacity = progressWidth > 0.5 ? '1' : '0';
+      };
+
+      window.addEventListener('scroll', updateProgress);
+      updateProgress();
+    }
+  }
+
+  initProgressBar();
+  document.addEventListener('astro:after-swap', initProgressBar);
+</script>

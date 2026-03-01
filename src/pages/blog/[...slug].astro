@@ -1,0 +1,102 @@
+---
+import BaseLayout from '@/layouts/base-layout.astro';
+import { getCollection, render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import ReadingProgressBar from '@/components/reading-progress-bar.astro';
+import Comments from '@/components/comments.astro';
+import { calculateReadingTime } from '@/lib/utils';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const readingTime = calculateReadingTime(post.body ?? '');
+
+const title = post.data.title;
+const description = post.data.description;
+const ogImage = new URL(`/open-graph/blog/${post.id}.png`, Astro.site).toString();
+---
+
+<BaseLayout {title} {description} {ogImage}>
+  <ReadingProgressBar />
+  <article class='mx-auto w-full max-w-3xl pb-24'>
+    <a
+      href='/blog'
+      class='text-muted-foreground hover:text-foreground mb-8 inline-flex items-center gap-2 text-sm font-medium transition-colors'
+    >
+      <Icon name='lucide:arrow-left' class='h-4 w-4' />
+      Back to Blog
+    </a>
+
+    <header class='mb-10 flex flex-col items-start'>
+      {
+        post.data.tags && post.data.tags.length > 0 && (
+          <div class='mb-5 flex flex-wrap gap-2'>
+            {post.data.tags.map((tag: string) => (
+              <span class='bg-secondary text-secondary-foreground rounded-md px-2.5 py-1 text-xs font-semibold tracking-wide uppercase'>
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+
+      <h1 class='text-foreground mb-5 text-3xl leading-[1.2] font-bold tracking-tight md:text-5xl'>
+        {post.data.title}
+      </h1>
+
+      <div class='text-muted-foreground flex flex-wrap items-center gap-4 text-sm font-medium'>
+        <div class='flex items-center gap-2'>
+          <Icon name='lucide:clock' class='h-4 w-4' />
+          <span>{readingTime} min read</span>
+        </div>
+        <div class='bg-muted-foreground/50 h-1 w-1 rounded-full'></div>
+        <div class='flex items-center gap-2'>
+          <Icon name='lucide:calendar' class='h-4 w-4' />
+          <time datetime={post.data.date.toISOString()}>
+            {
+              post.data.date.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+              })
+            }
+          </time>
+        </div>
+        <div class='bg-muted-foreground/50 h-1 w-1 rounded-full'></div>
+        <div class='flex items-center gap-2'>
+          <Icon name='lucide:user' class='h-4 w-4' />
+          <span>{post.data.author}</span>
+        </div>
+      </div>
+    </header>
+
+    {
+      post.data.thumbnail && (
+        <div class='border-border/50 bg-muted mb-10 overflow-hidden rounded-2xl border shadow-sm'>
+          <Image
+            src={post.data.thumbnail}
+            alt={post.data.title}
+            format={'webp'}
+            class='max-h-100 w-full object-cover'
+          />
+        </div>
+      )
+    }
+
+    <div
+      class='prose prose-zinc dark:prose-invert prose-headings:font-serif prose-headings:tracking-tight prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-xl max-w-none'
+    >
+      <Content />
+    </div>
+
+    <Comments />
+  </article>
+</BaseLayout>

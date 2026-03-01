@@ -1,0 +1,131 @@
+---
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import Card from '@/components/ui/card.astro';
+import { techMap } from '@/lib/tech';
+import { cn } from '@/lib/utils';
+import type { projects } from '@/lib/projects';
+
+interface Props {
+  project: (typeof projects)[number];
+  alternate?: boolean;
+  priority?: boolean;
+}
+
+const { project, alternate = false, priority = false }: Props = Astro.props;
+---
+
+<Card
+  class='group p-4 transition-all duration-300'
+  contentClass={cn(
+    'flex flex-col md:flex-row md:items-stretch gap-4',
+    alternate && 'md:flex-row-reverse',
+  )}
+>
+  <a
+    href={project.demo || project.github || project.huggingface || project.replicate || '#'}
+    target='_blank'
+    rel='noopener noreferrer'
+    class='border-border/50 group relative aspect-4/3 w-full min-w-0 flex-1 overflow-hidden rounded-xl border md:h-auto'
+  >
+    <Image
+      src={project.image}
+      alt={project.title}
+      format={'webp'}
+      width={800}
+      priority={priority}
+      class='h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]'
+    />
+  </a>
+
+  <div class='flex w-full min-w-0 flex-1 flex-col justify-center gap-3'>
+    <div class='flex flex-col'>
+      <span class='text-muted-foreground/80 text-xs font-bold tracking-widest uppercase'>
+        {project.category}
+      </span>
+      <h3 class='text-foreground text-lg font-bold tracking-tight'>{project.title}</h3>
+    </div>
+
+    <div class='flex flex-wrap items-center gap-2'>
+      {
+        project.github && (
+          <a
+            href={project.github}
+            target='_blank'
+            rel='noopener noreferrer'
+            class='text-muted-foreground hover:bg-secondary/50 hover:text-foreground border-border/70 hover:border-foreground/30 flex items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm font-medium transition-colors'
+            aria-label={`View ${project.title} source code`}
+          >
+            <Icon name='lucide:github' class='h-4 w-4' />
+            <span>Code</span>
+          </a>
+        )
+      }
+      {
+        project.demo && (
+          <a
+            href={project.demo}
+            target='_blank'
+            rel='noopener noreferrer'
+            class='text-muted-foreground hover:bg-secondary/50 hover:text-foreground border-border/70 hover:border-foreground/30 flex items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm font-medium transition-colors'
+            aria-label={`Visit ${project.title}`}
+          >
+            <Icon name='lucide:external-link' class='h-4 w-4' />
+            <span>Demo</span>
+          </a>
+        )
+      }
+      {
+        project.huggingface && (
+          <a
+            href={project.huggingface}
+            target='_blank'
+            rel='noopener noreferrer'
+            class='text-muted-foreground hover:bg-secondary/50 hover:text-foreground border-border/70 hover:border-foreground/30 flex items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm font-medium transition-colors'
+            aria-label='View on HuggingFace'
+          >
+            <Icon name='simple-icons:huggingface' class='h-4 w-4' />
+            <span>HuggingFace</span>
+          </a>
+        )
+      }
+      {
+        project.replicate && (
+          <a
+            href={project.replicate}
+            target='_blank'
+            rel='noopener noreferrer'
+            class='text-muted-foreground hover:bg-secondary/50 hover:text-foreground border-border/70 hover:border-foreground/30 flex items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm font-medium transition-colors'
+            aria-label='View on Replicate'
+          >
+            <Icon name='simple-icons:replicate' class='h-4 w-4' />
+            <span>Replicate</span>
+          </a>
+        )
+      }
+    </div>
+
+    <p
+      class='text-muted-foreground line-clamp-4 text-base leading-relaxed'
+      set:html={project.description}
+    />
+
+    <div class='mt-auto flex flex-wrap items-center gap-2'>
+      {
+        project.tags.map(tag => {
+          const key = tag.toLowerCase();
+          const info = techMap[key];
+          return (
+            <span class='border-border/50 bg-secondary/30 group-hover:border-foreground/10 flex items-center gap-1 rounded-md border px-2.5 py-1 text-xs font-medium transition-colors'>
+              <Icon
+                name={info ? info.icon : 'lucide:tag'}
+                class={cn('h-4 w-4 shrink-0', info ? info.color : 'text-muted-foreground')}
+              />
+              <span>{tag}</span>
+            </span>
+          );
+        })
+      }
+    </div>
+  </div>
+</Card>

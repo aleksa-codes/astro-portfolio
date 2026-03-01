@@ -1,165 +1,212 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
-@variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:is(.dark *));
 @utility container {
   margin-inline: auto;
   padding-inline: 1rem;
-  max-width: 960px;
+  max-width: 48rem;
 }
 
-@theme {
-  --color-base-100: var(--base-100);
-  --color-base-200: var(--base-200);
-  --color-base-300: var(--base-300);
-  --color-base-content: var(--base-content);
+:root {
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0 0 0);
+  --popover: oklch(0.99 0 0);
+  --popover-foreground: oklch(0 0 0);
+  --primary: oklch(0 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.94 0 0);
+  --secondary-foreground: oklch(0 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.44 0 0);
+  --accent: oklch(0.94 0 0);
+  --accent-foreground: oklch(0 0 0);
+  --destructive: oklch(0.63 0.19 23.03);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.94 0 0);
+  --ring: oklch(0 0 0);
+  --chart-1: oklch(0.81 0.17 75.35);
+  --chart-2: oklch(0.55 0.22 264.53);
+  --chart-3: oklch(0.72 0 0);
+  --chart-4: oklch(0.92 0 0);
+  --chart-5: oklch(0.56 0 0);
+  --sidebar: oklch(0.99 0 0);
+  --sidebar-foreground: oklch(0 0 0);
+  --sidebar-primary: oklch(0 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.94 0 0);
+  --sidebar-accent-foreground: oklch(0 0 0);
+  --sidebar-border: oklch(0.94 0 0);
+  --sidebar-ring: oklch(0 0 0);
+  --font-sans: 'Geist', sans-serif;
+  --font-serif: 'Geist', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  --font-signature: 'Dancing Script', cursive;
+  --radius: 0.5rem;
+  --shadow-x: 0px;
+  --shadow-y: 1px;
+  --shadow-blur: 2px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.18;
+  --shadow-color: hsl(0 0% 0%);
+  --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.09);
+  --shadow-xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.09);
+  --shadow-sm: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 1px 2px -1px hsl(0 0% 0% / 0.18);
+  --shadow: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 1px 2px -1px hsl(0 0% 0% / 0.18);
+  --shadow-md: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 2px 4px -1px hsl(0 0% 0% / 0.18);
+  --shadow-lg: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 4px 6px -1px hsl(0 0% 0% / 0.18);
+  --shadow-xl: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 8px 10px -1px hsl(0 0% 0% / 0.18);
+  --shadow-2xl: 0px 1px 2px 0px hsl(0 0% 0% / 0.45);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
 
-  --color-primary: var(--primary);
-  --color-primary-content: var(--primary-content);
+  --gh-0: oklch(0.92 0 0);
+  --gh-1: oklch(0.89 0.12 162);
+  --gh-2: oklch(0.79 0.16 162);
+  --gh-3: oklch(0.69 0.2 162);
+  --gh-4: oklch(0.59 0.24 162);
+}
 
-  --color-secondary: var(--secondary);
-  --color-secondary-content: var(--secondary-content);
-
-  --color-accent: var(--accent);
-  --color-accent-content: var(--accent-content);
-
-  --color-neutral: var(--neutral);
-  --color-neutral-content: var(--neutral-content);
-
-  --color-info: var(--info);
-  --color-info-content: var(--info-content);
-
-  --color-success: var(--success);
-  --color-success-content: var(--success-content);
-
-  --color-warning: var(--warning);
-  --color-warning-content: var(--warning-content);
-
-  --color-error: var(--error);
-  --color-error-content: var(--error-content);
-
-  --color-highlight: var(--highlight);
-
-  --radius-selector: 1rem;
-  --radius-field: 0.5rem;
-  --radius-box: 1rem;
-  --size-selector: 0.25rem;
-  --size-field: 0.25rem;
-  --border: 1px;
-
-  --font-sans: 'Poppins', 'Roboto Flex', sans-serif;
-  --font-cursive: 'SegoeScript', cursive;
-  --font-roboto: 'Roboto Flex', sans-serif;
+.dark {
+  --background: oklch(0 0 0);
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.14 0 0);
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.18 0 0);
+  --popover-foreground: oklch(1 0 0);
+  --primary: oklch(1 0 0);
+  --primary-foreground: oklch(0 0 0);
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.23 0 0);
+  --muted-foreground: oklch(0.72 0 0);
+  --accent: oklch(0.32 0 0);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.69 0.2 23.91);
+  --destructive-foreground: oklch(0 0 0);
+  --border: oklch(0.26 0 0);
+  --input: oklch(0.32 0 0);
+  --ring: oklch(0.72 0 0);
+  --chart-1: oklch(0.81 0.17 75.35);
+  --chart-2: oklch(0.58 0.21 260.84);
+  --chart-3: oklch(0.56 0 0);
+  --chart-4: oklch(0.44 0 0);
+  --chart-5: oklch(0.92 0 0);
+  --sidebar: oklch(0.18 0 0);
+  --sidebar-foreground: oklch(1 0 0);
+  --sidebar-primary: oklch(1 0 0);
+  --sidebar-primary-foreground: oklch(0 0 0);
+  --sidebar-accent: oklch(0.32 0 0);
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.32 0 0);
+  --sidebar-ring: oklch(0.72 0 0);
+  --font-sans: 'Geist', sans-serif;
+  --font-serif: 'Geist', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  --font-signature: 'Dancing Script', cursive;
+  --radius: 0.5rem;
   --breakpoint-xs: 475px;
-  --background-image-laptop: url('/laptop-animate.svg');
+  --shadow-x: 0px;
+  --shadow-y: 1px;
+  --shadow-blur: 2px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.18;
+  --shadow-color: hsl(0 0% 0%);
+  --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.09);
+  --shadow-xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.09);
+  --shadow-sm: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 1px 2px -1px hsl(0 0% 0% / 0.18);
+  --shadow: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 1px 2px -1px hsl(0 0% 0% / 0.18);
+  --shadow-md: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 2px 4px -1px hsl(0 0% 0% / 0.18);
+  --shadow-lg: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 4px 6px -1px hsl(0 0% 0% / 0.18);
+  --shadow-xl: 0px 1px 2px 0px hsl(0 0% 0% / 0.18), 0px 8px 10px -1px hsl(0 0% 0% / 0.18);
+  --shadow-2xl: 0px 1px 2px 0px hsl(0 0% 0% / 0.45);
 
-  --animate-logo-cloud: logo-cloud 30s linear infinite;
-  --animate-text-shine: text-shine 4s ease-in-out infinite;
-  --animate-snow: snowfall var(--duration, 5s) linear forwards;
-  --animate-bounce-in: bounce-in 0.5s ease-out;
-  --animate-wave: scale 2.75s ease-in-out, wave 2.5s linear infinite 1.5s;
-  --animate-fade: fade 0.4s ease;
-  --animate-highlight: highlight 2s ease-in-out 1.5s;
-  --animate-blink: blink 1s infinite;
-  --animate-badge-fade-in: fade 0.4s ease-in-out 1.25s forwards;
+  --gh-0: oklch(0.25 0 0);
+  --gh-1: oklch(0.3 0.1 162);
+  --gh-2: oklch(0.4 0.15 162);
+  --gh-3: oklch(0.5 0.2 162);
+  --gh-4: oklch(0.6 0.25 162);
+}
 
-  @keyframes logo-cloud {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(calc(-100% - 1.5rem));
-    }
-  }
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 
-  @keyframes text-shine {
-    0% {
-      background-position: 100% center;
-    }
-    100% {
-      background-position: -100% center;
-    }
-  }
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+  --font-signature: var(--font-signature);
 
-  @keyframes snowfall {
-    0% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(var(--end-x), 110vh);
-    }
-  }
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 
-  @keyframes bounce-in {
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+
+  --breakpoint-xs: 475px;
+  --animate-fade-in: fadeIn 0.6s ease-out forwards;
+  --animate-wave: wave 2s ease-in-out infinite;
+  --animate-blink: blink 1s step-end infinite;
+  --animate-fade-in-up: fade-in-up 0.3s ease-out forwards;
+  --animate-dot-flashing: dot-flashing 1s infinite linear;
+
+  @keyframes fadeIn {
     0% {
       opacity: 0;
-      transform: translateY(20px);
     }
     100% {
       opacity: 1;
-      transform: translateY(0);
     }
   }
-
   @keyframes wave {
-    0% {
-      transform: rotate(0deg);
-    }
-    10% {
-      transform: rotate(14deg);
-    }
-    20% {
-      transform: rotate(-8deg);
-    }
-    30% {
-      transform: rotate(14deg);
-    }
-    40% {
-      transform: rotate(-4deg);
-    }
-    50% {
-      transform: rotate(10deg);
-    }
-    60% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-  }
-
-  @keyframes fade {
-    0% {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0px);
-    }
-  }
-
-  @keyframes scale {
-    0% {
-      scale: 0;
-    }
-    70% {
-      scale: 0;
-    }
-    100% {
-      scale: 1;
-    }
-  }
-
-  @keyframes highlight {
     0%,
     100% {
-      box-shadow: var(--highlight) 0px -1rem 0px inset;
+      transform: rotate(0deg);
     }
     50% {
-      box-shadow: var(--highlight) 0px -2.25rem 0px inset;
+      transform: rotate(14deg);
     }
   }
-
   @keyframes blink {
     0%,
     100% {
@@ -169,204 +216,108 @@
       opacity: 0;
     }
   }
-}
-
-@layer base {
-  :root {
-    --base-100: oklch(100% 0 0);
-    --base-200: oklch(97.466% 0.011 259.822);
-    --base-300: oklch(93.268% 0.016 262.751);
-    --base-content: oklch(41.886% 0.053 255.824);
-
-    --primary: oklch(56.86% 0.255 257.57);
-    --primary-content: oklch(91.372% 0.051 257.57);
-
-    --secondary: oklch(42.551% 0.161 282.339);
-    --secondary-content: oklch(88.51% 0.032 282.339);
-
-    --accent: oklch(59.939% 0.191 335.171);
-    --accent-content: oklch(11.988% 0.038 335.171);
-
-    --neutral: oklch(19.616% 0.063 257.651);
-    --neutral-content: oklch(83.923% 0.012 257.651);
-
-    --info: oklch(88.127% 0.085 214.515);
-    --info-content: oklch(17.625% 0.017 214.515);
-
-    --success: oklch(80.494% 0.077 197.823);
-    --success-content: oklch(16.098% 0.015 197.823);
-
-    --warning: oklch(89.172% 0.045 71.47);
-    --warning-content: oklch(17.834% 0.009 71.47);
-
-    --error: oklch(54.75% 0.1717 16.7);
-    --error-content: oklch(14.618% 0.022 20.076);
-
-    --highlight: oklch(86.99% 0.0622 274.04);
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-
-  .dark {
-    --base-100: oklch(20.768% 0.039 265.754);
-    --base-200: oklch(19.314% 0.037 265.754);
-    --base-300: oklch(17.86% 0.034 265.754);
-    --base-content: oklch(84.153% 0.007 265.754);
-
-    --primary: oklch(75.351% 0.138 232.661);
-    --primary-content: oklch(15.07% 0.027 232.661);
-
-    --secondary: oklch(68.011% 0.158 276.934);
-    --secondary-content: oklch(13.602% 0.031 276.934);
-
-    --accent: oklch(72.36% 0.176 350.048);
-    --accent-content: oklch(14.472% 0.035 350.048);
-
-    --neutral: oklch(27.949% 0.036 260.03);
-    --neutral-content: oklch(85.589% 0.007 260.03);
-
-    --info: oklch(68.455% 0.148 237.251);
-    --info-content: oklch(0% 0 0);
-
-    --success: oklch(78.452% 0.132 181.911);
-    --success-content: oklch(15.69% 0.026 181.911);
-
-    --warning: oklch(83.242% 0.139 82.95);
-    --warning-content: oklch(16.648% 0.027 82.95);
-
-    --error: oklch(71.785% 0.17 13.118);
-    --error-content: oklch(14.357% 0.034 13.118);
-
-    --highlight: oklch(42.47% 0.1598 282.48);
-  }
-
-  @font-face {
-    font-family: 'Roboto Flex';
-    font-style: normal;
-    font-weight: 400 900;
-    font-stretch: 100%;
-    font-display: swap;
-    src: url('/fonts/roboto-flex.woff2') format('woff2');
-    unicode-range:
-      U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F,
-      U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-  }
-
-  /* poppins-regular - latin */
-  @font-face {
-    font-display: swap;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    src: url('/fonts/poppins-v22-latin-regular.woff2') format('woff2');
-  }
-  /* poppins-500 - latin */
-  @font-face {
-    font-display: swap;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 500;
-    src: url('/fonts/poppins-v22-latin-500.woff2') format('woff2');
-  }
-  /* poppins-600 - latin */
-  @font-face {
-    font-display: swap;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 600;
-    src: url('/fonts/poppins-v22-latin-600.woff2') format('woff2');
-  }
-  /* poppins-700 - latin */
-  @font-face {
-    font-display: swap;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    src: url('/fonts/poppins-v22-latin-700.woff2') format('woff2');
-  }
-  /* poppins-800 - latin */
-  @font-face {
-    font-display: swap;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 800;
-    src: url('/fonts/poppins-v22-latin-800.woff2') format('woff2');
-  }
-  /* poppins-900 - latin */
-  @font-face {
-    font-display: swap;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 900;
-    src: url('/fonts/poppins-v22-latin-900.woff2') format('woff2');
-  }
-
-  @font-face {
-    font-family: 'SegoeScript';
-    font-style: normal;
-    font-weight: normal;
-    font-display: swap;
-    src: url('/fonts/segoe-script.woff2') format('woff2');
+  @keyframes dot-flashing {
+    0% {
+      opacity: 0.2;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.2;
+    }
   }
 }
 
-/* Inline code block */
 @layer base {
-  code {
-    @apply rounded-sm bg-[#fafafa] px-1 py-0.5 font-mono text-sm;
-  }
-
-  html.dark code {
-    @apply bg-[#282c34];
-  }
-}
-
-/* Modified: https://github.com/tailwindlabs/tailwindcss/discussions/14031 */
-@layer base {
-  .highlight:hover {
-    box-shadow: var(--highlight) 0px -1.25rem 0px inset;
-  }
-
-  .highlight {
-    box-shadow: var(--highlight) 0px -0.5rem 0px inset;
-    transition: box-shadow 0.3s ease-out 0s;
-  }
-
-  .highlight-heading:hover {
-    box-shadow: var(--highlight) 0px -2.25rem 0px inset;
-  }
-  .highlight-heading {
-    box-shadow: var(--highlight) 0px -1rem 0px inset;
-    transition: box-shadow 0.3s ease-out 0s;
-  }
-
   * {
-    @apply border-base-300;
+    @apply border-border outline-ring/50;
   }
-
   body {
-    @apply bg-base-100 text-base-content scroll-smooth;
+    @apply bg-background text-foreground selection:bg-primary selection:text-primary-foreground scroll-smooth font-sans tracking-tight antialiased;
   }
+  button {
+    @apply hover:cursor-pointer;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif;
+  }
+}
 
-  ::selection {
-    @apply bg-highlight text-base-content;
+@layer base {
+  /* Vercel Mouse Tracking Glow */
+  .glow-card {
+    position: relative;
   }
+  .glow-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+      800px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.06),
+      transparent 40%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+  .dark .glow-card::before {
+    background: radial-gradient(
+      800px circle at var(--mouse-x) var(--mouse-y),
+      rgba(255, 255, 255, 0.06),
+      transparent 40%
+    );
+  }
+  html:not(.dark) .glow-card::before {
+    background: radial-gradient(
+      800px circle at var(--mouse-x) var(--mouse-y),
+      rgba(0, 0, 0, 0.04),
+      transparent 40%
+    );
+  }
+  .glow-card:hover::before {
+    opacity: 1;
+  }
+}
 
-  ::-webkit-scrollbar {
-    @apply h-2 w-2;
-  }
+@font-face {
+  font-family: 'Geist';
+  src: url('/src/assets/fonts/Geist.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
 
-  ::-webkit-scrollbar-track {
-    @apply bg-base-300;
-  }
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/src/assets/fonts/GeistMono.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-base-content hover:bg-base-content/50 rounded-full;
-  }
-
-  input:-webkit-autofill,
-  textarea:-webkit-autofill,
-  select:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px var(--color-base-100) inset !important;
-    box-shadow: 0 0 0 1000px var(--color-base-100) inset !important;
-    -webkit-text-fill-color: var(--color-base-content) !important;
-  }
+@font-face {
+  font-family: 'Dancing Script';
+  src: url('/src/assets/fonts/DancingScript-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
 }

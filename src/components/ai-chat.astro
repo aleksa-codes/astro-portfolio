@@ -1,163 +1,124 @@
 ---
 import { Icon } from 'astro-icon/components';
-import Button from '@/components/ui/button.astro';
 ---
 
 <div data-nosnippet>
-  <!-- Welcome Message Bubble -->
+  <!-- Modal Overlay -->
   <div
-    id='message-bubble'
-    class='animate-bounce-in fixed right-5 bottom-[84px] z-40 flex w-72 items-start gap-3 transition-all duration-300'
+    id='chat-overlay'
+    class='pointer-events-none fixed inset-0 z-100 flex items-center justify-center bg-black/40 p-0 opacity-0 backdrop-blur-sm transition-opacity duration-300 md:p-6 dark:bg-black/80'
   >
-    <div class='bg-base-300 relative w-full rounded-2xl p-4 shadow-lg'>
-      <div class='bg-base-300 absolute right-4 -bottom-2 size-4 rotate-45'></div>
-      <div class='flex gap-3'>
-        <div class='bg-secondary relative flex size-10 items-center justify-center rounded-xl'>
-          <Icon name='lucide:bot' class='text-secondary-content size-6' />
+    <!-- Chat Window -->
+    <div
+      id='chat-window'
+      class='bg-card border-border flex h-dvh w-full scale-95 transform flex-col overflow-hidden rounded-none border-0 opacity-0 shadow-2xl transition-all duration-300 md:h-[75vh] md:max-h-175 md:max-w-2xl md:rounded-3xl md:border'
+    >
+      <!-- Header -->
+      <div
+        class='pt-safe-top border-border bg-muted/30 flex items-center justify-between border-b px-6 py-5 md:pt-5'
+      >
+        <div class='flex items-center gap-4'>
           <div
-            class='border-base-300 absolute -right-1 -bottom-1 size-4 rounded-full border-2 bg-green-500 dark:bg-green-400'
+            class='bg-foreground text-background flex size-9 items-center justify-center rounded-xl shadow-sm'
           >
+            <Icon name='lucide:bot-message-square' class='h-5 w-5' />
           </div>
-        </div>
-        <div class='flex-1'>
-          <p class='text-base-content font-medium'>Beep boop! 👋</p>
-          <p class='text-base-content/85 text-sm'>Ask me about Aleksa's projects or anything else.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Chat Toggle Button -->
-  <Button
-    id='chat-toggle'
-    variant={'secondary'}
-    size='icon'
-    aria-label='Chat with Portfolio AI'
-    class='fixed right-5 bottom-5 z-40 size-12 rounded-full shadow-lg transition-all hover:scale-105 hover:shadow-xl'
-  >
-    <Icon name='lucide:bot-message-square' class='!size-6' />
-  </Button>
-
-  <!-- Chat Panel -->
-  <div
-    id='chat-panel'
-    class='bg-base-300 invisible fixed inset-0 z-40 origin-bottom-right scale-0 opacity-0 shadow-lg transition-all duration-300 ease-[cubic-bezier(0,1.2,1,1)] sm:inset-auto sm:right-5 sm:bottom-[84px] sm:w-80 sm:rounded-2xl'
-  >
-    <!-- Main container with full height on mobile -->
-    <div class='relative flex h-full flex-col sm:h-auto'>
-      <!-- Arrow (only visible on desktop) -->
-      <div class='bg-base-300 absolute right-4 -bottom-2 hidden size-4 rotate-45 sm:block'></div>
-
-      <!-- Chat Header -->
-      <div class='bg-secondary text-secondary-content flex items-center gap-3 p-2 sm:rounded-t-2xl'>
-        <div class='bg-secondary-content/15 relative flex size-10 items-center justify-center rounded-xl'>
-          <Icon name='lucide:bot' class='size-6' />
-          <div
-            class='border-secondary absolute -right-1 -bottom-1 size-4 rounded-full border-2 bg-green-500 dark:bg-green-400'
-          >
-          </div>
-        </div>
-        <div class='flex-1'>
-          <h3 class='font-medium'>Portfolio AI</h3>
-          <p class='text-xs'>
-            Built by <Button variant='link' class='text-secondary-content text-xs' href='/contact/'>Aleksa</Button>;
-            Powered by <Button
-              variant='link'
-              class='text-secondary-content text-xs'
-              href='https://groq.com'
-              target='_blank'>Groq</Button
-            >
-          </p>
-        </div>
-        <Button
-          id='clear-chat'
-          size='icon'
-          variant='ghost'
-          class='text-secondary-content hover:bg-secondary-content/10 transition-colors'
-          style='display: none;'
-          aria-label='Clear chat history'
-        >
-          <span class='flex items-center justify-center'>
-            <Icon name='lucide:trash-2' class='size-5' />
-          </span>
-        </Button>
-        <Button size='icon' variant='ghost' id='mobile-chat-close' class='text-secondary-content sm:hidden'>
-          <Icon name='lucide:x' class='size-6' />
-        </Button>
-      </div>
-
-      <!-- Chat Content Area - Flexbox container -->
-      <div class='flex flex-1 flex-col overflow-hidden sm:max-h-96'>
-        <!-- Scrollable Messages Area -->
-        <div id='messages' class='flex flex-1 flex-col gap-2 overflow-y-auto p-2'>
-          <!-- Predefined Prompts (shown when no messages) -->
-          <div id='templates' class='flex h-full flex-col items-center justify-center gap-2'>
-            <Icon name='lucide:bot' class='text-secondary !size-16 sm:hidden' />
-            <p class='font-medium'>What can I help with?</p>
-            <div class='grid grid-cols-2 gap-2 sm:grid-cols-1'>
-              <Button
-                variant='ghost'
-                class='bg-base-100 hover:bg-base-200 flex h-full flex-col items-start justify-start gap-2 rounded-xl p-3 text-left text-sm whitespace-normal transition-colors hover:cursor-pointer sm:flex-row sm:items-start sm:gap-3 sm:px-4 sm:py-3 sm:text-left'
-                data-prompt="What are Aleksa's main projects?"
-              >
-                <Icon name='lucide:folder' class='size-6 shrink-0 text-amber-500 sm:size-5 dark:text-amber-400' />
-                <span>What are your main projects?</span>
-              </Button>
-              <Button
-                variant='ghost'
-                class='bg-base-100 hover:bg-base-200 flex h-full flex-col items-start justify-start gap-2 rounded-xl p-3 text-left text-sm whitespace-normal transition-colors hover:cursor-pointer sm:flex-row sm:items-start sm:gap-3 sm:px-4 sm:py-3 sm:text-left'
-                data-prompt='Tell me about your tech stack and skills.'
-              >
-                <Icon name='lucide:code-2' class='size-6 shrink-0 text-purple-500 sm:size-5 dark:text-purple-400' />
-                <span>What technologies do you use?</span>
-              </Button>
-              <Button
-                variant='ghost'
-                class='bg-base-100 hover:bg-base-200 flex h-full flex-col items-start justify-start gap-2 rounded-xl p-3 text-left text-sm whitespace-normal transition-colors hover:cursor-pointer sm:flex-row sm:items-start sm:gap-3 sm:px-4 sm:py-3 sm:text-left'
-                data-prompt='What are some interesting facts about you?'
-              >
-                <Icon name='lucide:sparkles' class='size-6 shrink-0 text-pink-500 sm:size-5 dark:text-pink-400' />
-                <span>Tell me something interesting about yourself</span>
-              </Button>
-              <Button
-                variant='ghost'
-                class='bg-base-100 hover:bg-base-200 flex h-full flex-col items-start justify-start gap-2 rounded-xl p-3 text-left text-sm whitespace-normal transition-colors hover:cursor-pointer sm:flex-row sm:items-start sm:gap-3 sm:px-4 sm:py-3 sm:text-left'
-                data-prompt='How can I contact Aleksa?'
-              >
-                <Icon name='lucide:mail' class='size-6 shrink-0 text-sky-500 sm:size-5 dark:text-sky-400' />
-                <span>How can I contact you?</span>
-              </Button>
+          <div class='flex h-8 flex-col justify-center'>
+            <div class='text-foreground text-base leading-none font-semibold'>Portfolio AI</div>
+            <div class='text-muted-foreground mt-0.5 text-sm font-medium'>
+              Built by Aleksa. Powered by Groq.
             </div>
           </div>
         </div>
+        <div class='flex items-center gap-2'>
+          <button
+            id='clear-chat-btn'
+            class='text-muted-foreground hover:bg-secondary hover:text-destructive hidden rounded-lg p-2 transition-colors'
+            aria-label='Clear conversation'
+            title='Clear conversation'
+          >
+            <Icon name='lucide:trash-2' class='h-5 w-5' />
+          </button>
+          <button
+            id='chat-close-btn'
+            class='text-muted-foreground hover:bg-secondary hover:text-foreground rounded-lg p-2 transition-colors'
+            aria-label='Close chat'
+          >
+            <Icon name='lucide:x' class='h-6 w-6' />
+          </button>
+        </div>
+      </div>
 
-        <div class='border-base-content/10 space-y-2 border-t p-2'>
-          <form id='chat-form' class='flex gap-2'>
-            <input
-              type='text'
-              name='message'
-              required
-              placeholder='Ask about Aleksa...'
-              autocomplete='off'
-              class='bg-base-100 text-base-content placeholder:text-base-content/50 border-base-300 focus-visible:outline-secondary w-full rounded-xl border px-4 text-base disabled:cursor-not-allowed disabled:opacity-50'
-            />
-            <Button
-              type='submit'
-              variant='secondary'
-              size='icon'
-              id='submit-button'
-              class='size-10 shrink-0 rounded-xl'
+      <!-- Messages Area -->
+      <div
+        id='chat-messages'
+        class='[&::-webkit-scrollbar-thumb]:bg-muted-foreground/20 flex-1 space-y-6 overflow-y-auto p-6 pb-8 [scrollbar-color:var(--color-muted-foreground)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:[background:var(--color-muted-foreground)] [&::-webkit-scrollbar-track]:bg-transparent'
+      >
+        <!-- Initial Message -->
+        <div class='flex max-w-[90%] flex-col gap-2 md:max-w-[85%]'>
+          <div class='mb-1 flex items-center gap-2'>
+            <Icon name='lucide:bot-message-square' class='text-muted-foreground h-4 w-4' />
+            <span class='text-muted-foreground text-sm font-semibold tracking-wider uppercase'
+              >Assistant</span
             >
-              <Icon name='lucide:send' id='send-icon' />
-              <div id='loading-icon' class='hidden'>
-                <Icon name='lucide:loader-circle' class='animate-spin' />
-              </div>
-            </Button>
-          </form>
-          <div class='flex items-center justify-between px-1 text-xs'>
-            <span id='message-counter' class='text-base-content/85'></span>
-            <span class='text-base-content/85 text-right'>AI can make mistakes.</span>
           </div>
+          <div
+            class='bg-muted border-border/40 text-foreground rounded-3xl rounded-tl-sm border px-5 py-4 text-base leading-relaxed shadow-sm'
+          >
+            Hello! I'm Aleksa's portfolio AI. I know all about his engineering experience, tech
+            stack, and projects. What would you like to know?
+          </div>
+        </div>
+
+        <!-- Initial Suggestions -->
+        <div id='chat-suggestions' class='mt-5 flex flex-col gap-3'>
+          <button
+            data-prompt='What are your main projects?'
+            class='bg-card border-border hover:bg-muted text-foreground flex w-fit items-center gap-3 rounded-2xl border px-5 py-3 text-left text-sm font-medium shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50'
+          >
+            <Icon name='lucide:folder' class='h-5 w-5 text-yellow-500' /> What are your main projects?
+          </button>
+          <button
+            data-prompt='What technologies do you use?'
+            class='bg-card border-border hover:bg-muted text-foreground flex w-fit items-center gap-3 rounded-2xl border px-5 py-3 text-left text-sm font-medium shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50'
+          >
+            <Icon name='lucide:code-2' class='h-5 w-5 text-blue-500' /> What technologies do you use?
+          </button>
+          <button
+            data-prompt='How can I contact you?'
+            class='bg-card border-border hover:bg-muted text-foreground flex w-fit items-center gap-3 rounded-2xl border px-5 py-3 text-left text-sm font-medium shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50'
+          >
+            <Icon name='lucide:mail' class='h-5 w-5 text-emerald-500' /> How can I contact you?
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer/Input -->
+      <div class='pb-safe-bottom border-border bg-card border-t p-5'>
+        <form id='chat-form' class='relative flex items-center'>
+          <input
+            type='text'
+            id='chat-input'
+            placeholder='Ask about Aleksa...'
+            autocomplete='off'
+            class='bg-muted/50 text-foreground border-border focus:border-primary/50 placeholder:text-muted-foreground w-full rounded-2xl border py-4 pr-14 pl-5 text-base shadow-inner transition-all focus:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+          />
+          <button
+            type='submit'
+            id='submit-button'
+            class='bg-foreground text-background absolute right-3 flex h-10 w-10 items-center justify-center rounded-xl transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50'
+          >
+            <Icon name='lucide:send' id='send-icon' class='h-5 w-5' />
+            <Icon
+              name='lucide:loader-circle'
+              id='loading-icon'
+              class='hidden h-5 w-5 animate-spin'
+            />
+          </button>
+        </form>
+        <div class='text-muted-foreground mt-3 flex items-center justify-between px-2 text-sm'>
+          <span id='message-counter'>0/5 today</span>
+          <span>AI can make mistakes.</span>
         </div>
       </div>
     </div>
@@ -166,468 +127,430 @@ import Button from '@/components/ui/button.astro';
 
 <script>
   import { marked } from 'marked';
-  import type { ModelMessage } from 'ai';
+
+  declare global {
+    interface Window {
+      toggleChat: () => void;
+    }
+  }
 
   interface MessageState {
     count: number;
     lastReset: string;
   }
 
+  interface ChatMessage {
+    role: 'user' | 'assistant';
+    content: string;
+    followUpQuestions?: string[];
+  }
+
   const MESSAGE_LIMIT = 5;
-  const DAILY_STORAGE_KEY = 'ai-chat-state';
-  const CONVERSATION_STORAGE_KEY = 'ai-chat-conversation';
+  const DAILY_STORAGE_KEY = 'lux-chat-state';
+  const CONVERSATION_STORAGE_KEY = 'lux-chat-conversation';
 
   if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-      // DOM Elements
-      const elements = {
-        chatPanel: document.getElementById('chat-panel'),
-        chatToggle: document.getElementById('chat-toggle'),
-        messageBubble: document.getElementById('message-bubble'),
-        form: document.getElementById('chat-form') as HTMLFormElement,
-        input: document.querySelector('input[name="message"]') as HTMLInputElement,
-        messages: document.getElementById('messages'),
-        submitButton: document.getElementById('submit-button') as HTMLButtonElement,
-        sendIcon: document.getElementById('send-icon'),
-        loadingIcon: document.getElementById('loading-icon'),
-        messageCounter: document.getElementById('message-counter'),
-        mobileChatClose: document.getElementById('mobile-chat-close'),
-        templates: document.getElementById('templates'),
-        clearChat: document.getElementById('clear-chat'),
-      };
+    const elements = {
+      overlay: document.getElementById('chat-overlay'),
+      window: document.getElementById('chat-window'),
+      closeBtn: document.getElementById('chat-close-btn'),
+      messagesContainer: document.getElementById('chat-messages'),
+      suggestions: document.getElementById('chat-suggestions'),
+      form: document.getElementById('chat-form') as HTMLFormElement,
+      input: document.getElementById('chat-input') as HTMLInputElement,
+      submitBtn: document.getElementById('submit-button') as HTMLButtonElement,
+      sendIcon: document.getElementById('send-icon'),
+      loadingIcon: document.getElementById('loading-icon'),
+      messageCounter: document.getElementById('message-counter'),
+      clearBtn: document.getElementById('clear-chat-btn') as HTMLButtonElement,
+    };
 
-      const storage = {
-        // Get stored state with daily reset check
-        getStoredState(): MessageState {
-          const defaultState: MessageState = { count: 0, lastReset: new Date().toISOString().split('T')[0] };
-
-          try {
-            const stored = localStorage.getItem(DAILY_STORAGE_KEY);
-            if (!stored) return defaultState;
-
-            const state: MessageState = JSON.parse(stored);
-            const today = new Date().toISOString().split('T')[0];
-
-            // Reset if it's a new day
-            if (state.lastReset !== today) {
-              this.saveState(defaultState);
-              return defaultState;
-            }
-
-            return state;
-          } catch {
+    const storage = {
+      getStoredState(): MessageState {
+        const defaultState: MessageState = {
+          count: 0,
+          lastReset: new Date().toISOString().split('T')[0],
+        };
+        try {
+          const stored = localStorage.getItem(DAILY_STORAGE_KEY);
+          if (!stored) return defaultState;
+          const state: MessageState = JSON.parse(stored);
+          const today = new Date().toISOString().split('T')[0];
+          if (state.lastReset !== today) {
+            this.saveState(defaultState);
             return defaultState;
           }
-        },
+          return state;
+        } catch {
+          return defaultState;
+        }
+      },
 
-        // Save current state
-        saveState(state: MessageState) {
-          localStorage.setItem(DAILY_STORAGE_KEY, JSON.stringify(state));
-        },
+      saveState(state: MessageState) {
+        localStorage.setItem(DAILY_STORAGE_KEY, JSON.stringify(state));
+      },
 
-        // Conversation storage methods
-        getStoredConversation(): ModelMessage[] {
-          try {
-            const stored = sessionStorage.getItem(CONVERSATION_STORAGE_KEY);
-            return stored ? JSON.parse(stored) : [];
-          } catch {
-            return [];
-          }
-        },
+      getStoredConversation(): ChatMessage[] {
+        try {
+          const stored = sessionStorage.getItem(CONVERSATION_STORAGE_KEY);
+          return stored ? JSON.parse(stored) : [];
+        } catch {
+          return [];
+        }
+      },
 
-        saveConversation(messages: ModelMessage[]) {
-          sessionStorage.setItem(CONVERSATION_STORAGE_KEY, JSON.stringify(messages));
-        },
-      };
+      saveConversation(messages: ChatMessage[]) {
+        sessionStorage.setItem(CONVERSATION_STORAGE_KEY, JSON.stringify(messages));
+      },
+    };
 
-      // Chat state with stored message count
-      const state = {
-        messages: storage.getStoredConversation(),
-        isLoading: false,
-        userMessageCount: storage.getStoredState().count,
-      };
+    const state = {
+      messages: storage.getStoredConversation(),
+      isLoading: false,
+      userMessageCount: storage.getStoredState().count,
+      isOpen: false,
+    };
 
-      // UI Functions
-      const ui = {
-        toggleLoading(isLoading: boolean) {
-          const { submitButton, input, sendIcon, loadingIcon } = elements;
-          if (!submitButton || !input) return;
+    const ui = {
+      async addMessage(
+        content: string,
+        isUser: boolean,
+        renderStored = false,
+        followUps: string[] = [],
+      ): Promise<void> {
+        if (!elements.messagesContainer) return;
 
-          state.isLoading = isLoading;
-          submitButton.disabled = isLoading;
-          input.disabled = isLoading;
-          sendIcon?.classList.toggle('hidden', isLoading);
-          loadingIcon?.classList.toggle('hidden', !isLoading);
-        },
+        const thinkingEl = document.getElementById('ai-thinking');
+        const existingStreaming = document.getElementById('streaming-message');
 
-        async renderStoredMessages() {
-          for (const message of state.messages) {
-            await this.addMessage(message.content as string, message.role === 'user', true);
-          }
-        },
+        // Remove old follow-ups if any
+        document.querySelectorAll('.dynamic-follow-up-container').forEach(el => el.remove());
 
-        async addMessage(content: string, isUser: boolean, renderStored = false): Promise<void> {
-          if (!isUser && document.getElementById('streaming-message')) {
-            // Update existing streaming message
-            const streamingMsg = document.getElementById('streaming-message');
-            if (!streamingMsg) return;
-
-            // Remove tags from content before displaying
-            const cleanContent = this.extractContentWithoutQuestions(content);
-            const parsedContent = await marked.parse(cleanContent);
-
-            const messageContentEl = streamingMsg.querySelector('.message-content');
-            if (messageContentEl) {
-              messageContentEl.innerHTML = parsedContent;
-            }
-
-            ui.scrollToBottom();
-            return;
-          }
-
-          // 1. Create outer message container with alignment
-          const messageEl = document.createElement('div');
-          messageEl.className = `flex gap-2 ${isUser ? 'justify-end' : ''}`;
-
-          // 2. Create message bubble
-          const bubble = document.createElement('div');
-          bubble.className = `${
-            isUser ? 'bg-secondary text-secondary-content' : 'bg-base-100 text-base-content'
-          } max-w-[85%] rounded-2xl px-4 py-2 overflow-hidden`;
-
-          // 3. Create and style message content
-          const messageContent = document.createElement('div');
-          messageContent.className = isUser ? 'text-sm' : 'prose prose-sm max-w-none dark:prose-invert break-words';
-          messageContent.classList.add('message-content');
-
-          // Handle content based on message type
-          if (isUser) {
-            messageContent.textContent = content;
-          } else {
-            // Always clean the content first to remove any tags
-            const cleanContent = this.extractContentWithoutQuestions(content);
-            const parsedContent = await marked.parse(cleanContent);
-            messageContent.innerHTML = parsedContent;
-
-            if (!renderStored) {
-              bubble.id = 'streaming-message';
-            }
-          }
-
-          // Append content to bubble
-          bubble.appendChild(messageContent);
-
-          // 4. Add timestamp
-          const timestamp = document.createElement('div');
-          timestamp.className = 'text-xs mt-1 opacity-80';
-          timestamp.textContent = new Date().toLocaleTimeString([], { timeStyle: 'short' });
-          bubble.appendChild(timestamp);
-
-          // 5. Add follow-up questions container if this is an assistant message
-          if (!isUser) {
-            const questionsContainer = document.createElement('div');
-            questionsContainer.className = 'follow-up-questions mt-2 flex flex-col gap-1';
-            bubble.appendChild(questionsContainer);
-
-            // If we're displaying a stored message, extract and display questions
-            if (renderStored) {
-              this.extractAndDisplayFollowUpQuestions(content, bubble);
-            }
-          }
-
-          // 6. Handle message placement
-          messageEl.appendChild(bubble);
-
-          // 7. Append message to chat
-          elements.messages?.appendChild(messageEl);
-
-          // Scroll to bottom
-          ui.scrollToBottom();
-        },
-
-        // Extract content without follow-up questions
-        extractContentWithoutQuestions(content: string): string {
-          try {
-            // More robust regex to handle both single and multiline formats
-            const questionSectionRegex = /\[NEXT_QUESTIONS\][\s\S]*?\[\/NEXT_QUESTIONS\]/g;
-            // Remove any question sections from the content
-            return content.replace(questionSectionRegex, '').trim();
-          } catch (error) {
-            console.error('Error extracting content:', error);
-            return content; // Return original content if there's an error
-          }
-        },
-
-        // Extract and display follow-up questions
-        extractAndDisplayFollowUpQuestions(content: string, messageElement: HTMLElement): void {
-          try {
-            // Find the questions container in this message
-            const questionsContainer = messageElement.querySelector('.follow-up-questions');
-            if (!questionsContainer) return;
-
-            // Clear any existing questions
-            questionsContainer.innerHTML = '';
-
-            // Extract questions using regex - improved to handle multiline content
-            const questionRegex = /\[NEXT_QUESTIONS\]([\s\S]*?)\[\/NEXT_QUESTIONS\]/;
-            const match = content.match(questionRegex);
-
-            if (match && match[1]) {
-              const questionsText = match[1].trim();
-              // More robust regex to extract numbered questions
-              const questions = questionsText
-                .split(/\d+\.\s*/)
-                .map((q) => q.trim())
-                .filter((q) => q.length > 0);
-
-              if (questions.length >= 2) {
-                // Create heading for suggestions
-                const heading = document.createElement('div');
-                heading.className = 'text-xs font-medium text-base-content/70 mb-1';
-                heading.textContent = 'Suggested questions:';
-                questionsContainer.appendChild(heading);
-
-                // Create buttons for each question (limit to 2)
-                questions.slice(0, 2).forEach((question) => {
-                  const button = document.createElement('button');
-                  button.className =
-                    'bg-base-200 hover:bg-base-300 text-left text-xs rounded-lg px-3 py-2 transition-colors';
-                  button.textContent = question;
-                  button.addEventListener('click', () => {
-                    if (elements.input) {
-                      elements.input.value = question;
-                      elements.input.focus();
-                      // Auto-submit the question
-                      elements.form?.dispatchEvent(new Event('submit'));
-                    }
-                  });
-                  questionsContainer.appendChild(button);
-                });
-              }
-            }
-          } catch (error) {
-            console.error('Error extracting questions:', error);
-          }
-        },
-
-        hideBubbleMessage() {
-          const { messageBubble } = elements;
-          messageBubble?.classList.add('opacity-0', '-translate-y-2');
-          setTimeout(() => messageBubble?.classList.add('hidden'), 300);
-        },
-
-        updateMessageCounter() {
-          const used = state.userMessageCount;
-          const counterText = `${used}/${MESSAGE_LIMIT} today`;
-
-          elements.messageCounter!.textContent = counterText;
-          if (used >= MESSAGE_LIMIT) {
-            elements.messageCounter!.classList.add('text-error');
-            elements.input!.disabled = true;
-            elements.submitButton!.disabled = true;
-          }
-
-          storage.saveState({
-            count: state.userMessageCount,
-            lastReset: new Date().toISOString().split('T')[0],
-          });
-        },
-
-        scrollToBottom() {
-          elements.messages?.scrollTo({
-            top: elements.messages.scrollHeight,
-            behavior: 'smooth',
-          });
-        },
-
-        hideTemplates() {
-          if (elements.templates) {
-            const shouldHide = state.messages.length > 0 || state.isLoading;
-            elements.templates.style.display = shouldHide ? 'none' : 'flex';
-          }
-        },
-
-        clearMessages() {
-          if (elements.messages) {
-            // First, remove all messages but keep the templates div
-            while (elements.messages.firstChild) {
-              elements.messages.removeChild(elements.messages.firstChild);
-            }
-
-            // Re-append the templates div
-            elements.messages.appendChild(elements.templates!);
-
-            // Make sure templates are visible
-            elements.templates!.style.display = 'flex';
-          }
-        },
-
-        updateClearButton() {
-          if (elements.clearChat) {
-            // Use style.display instead of classList to avoid conflicts
-            elements.clearChat.style.display = state.messages.length > 0 ? 'flex' : 'none';
-          }
-        },
-      };
-
-      // Chat Functions
-      const chat = {
-        async sendMessage(message: string) {
-          if (!message.trim() || state.userMessageCount >= MESSAGE_LIMIT) return;
-
-          state.userMessageCount++;
-          await ui.addMessage(message, true);
-          elements.form?.reset();
-          ui.toggleLoading(true);
-
-          state.messages.push({ role: 'user', content: message });
-          storage.saveConversation(state.messages);
-          // After adding first user message, show the empty state
-          if (state.messages.length === 1) ui.hideTemplates();
-
-          try {
-            const response = await fetch('/api/chat', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ messages: state.messages }),
-            });
-
-            if (!response.ok) throw new Error('Failed to fetch response');
-
-            let assistantMessage = '';
-            const reader = response.body?.getReader();
-            const decoder = new TextDecoder();
-
-            while (reader) {
-              const { done, value } = await reader.read();
-              if (done) break;
-
-              const text = decoder.decode(value);
-              assistantMessage += text;
-              await ui.addMessage(assistantMessage, false);
-            }
-
-            // Remove the streaming ID
-            const streamingMsg = document.getElementById('streaming-message');
-            if (streamingMsg) {
-              streamingMsg.removeAttribute('id');
-
-              // Final message is complete, extract and display follow-up questions
-              // Wait a moment to ensure the stream is complete
-              setTimeout(() => {
-                ui.extractAndDisplayFollowUpQuestions(assistantMessage, streamingMsg);
-              }, 100);
-            }
-
-            state.messages.push({ role: 'assistant', content: assistantMessage });
-            storage.saveConversation(state.messages);
-
-            // Show clear button after getting a response
-            ui.updateClearButton();
-          } catch (error) {
-            console.error('Chat error:', error);
-            state.userMessageCount--; // Decrement on error
-            state.messages.pop(); // Remove failed message from storage
-            storage.saveConversation(state.messages);
-            storage.saveState({
-              // Update storage after decrement
-              count: state.userMessageCount,
-              lastReset: new Date().toISOString().split('T')[0],
-            });
-            await ui.addMessage('Sorry, I encountered an error. Please try again.', false);
-          } finally {
-            ui.toggleLoading(false);
-            ui.updateMessageCounter();
-            ui.updateClearButton(); // Update button visibility regardless of success/failure
-          }
-        },
-
-        clearConversation() {
-          // Clear the messages array but keep the message count
-          state.messages = [];
-          storage.saveConversation(state.messages);
-
-          // Clear UI and restore templates
-          ui.clearMessages();
-
-          // Update clear button visibility
-          ui.updateClearButton();
-
-          // Re-enable input if it was disabled due to error or other reasons
-          // but respect daily limit
-          if (state.userMessageCount < MESSAGE_LIMIT) {
-            elements.input!.disabled = false;
-            elements.submitButton!.disabled = false;
-          }
-        },
-      };
-
-      // Submit chat form
-      elements.form?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const message = elements.input?.value;
-        if (message && !state.isLoading) await chat.sendMessage(message);
-      });
-
-      // Toggle chat panel
-      elements.chatToggle?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const panel = elements.chatPanel;
-        if (!panel) return;
-
-        // Toggle visibility classes
-        panel.classList.toggle('scale-0');
-        panel.classList.toggle('opacity-0');
-        panel.classList.toggle('invisible');
-
-        if (window.matchMedia('(max-width: 640px)').matches) {
-          document.body.style.setProperty('overflow', 'hidden', 'important');
+        // 1. If we are already streaming, just update content
+        if (!isUser && existingStreaming && !renderStored) {
+          const parsedContent = await marked.parse(content);
+          const contentEl = existingStreaming.querySelector('.message-bubble-content');
+          if (contentEl) contentEl.innerHTML = parsedContent;
+          if (followUps.length > 0) this.renderFollowUps(followUps, existingStreaming);
+          this.scrollToBottom();
+          return;
         }
 
-        if (!panel.classList.contains('scale-0')) {
-          ui.hideBubbleMessage();
-          ui.scrollToBottom();
-        }
-      });
-
-      // Close chat panel when clicking outside
-      document.addEventListener('click', (e) => {
-        const target = e.target as HTMLElement;
-        const panel = elements.chatPanel;
-        if (!target.closest('#chat-panel')) {
-          panel?.classList.add('scale-0', 'opacity-0', 'invisible');
-        }
-      });
-
-      // Close chat panel on mobile
-      elements.mobileChatClose?.addEventListener('click', () => {
-        document.body.style.removeProperty('overflow');
-        elements.chatPanel?.classList.add('scale-0', 'opacity-0', 'invisible');
-      });
-
-      // Auto-hide welcome message
-      setTimeout(ui.hideBubbleMessage, 5000);
-
-      // Initialize message counter with stored state
-      ui.renderStoredMessages();
-      ui.updateMessageCounter();
-      ui.hideTemplates();
-      ui.updateClearButton(); // Make sure we update the clear button visibility after loading messages
-
-      // Add click handlers for predefined prompts
-      elements.templates?.querySelectorAll('button').forEach((button) => {
-        button.addEventListener('click', async () => {
-          const prompt = button.getAttribute('data-prompt');
-          if (prompt) {
-            await chat.sendMessage(prompt);
+        // 2. If we just started responding and thinking bubble exists, recycle it
+        if (!isUser && thinkingEl && !renderStored) {
+          thinkingEl.id = 'streaming-message';
+          thinkingEl.classList.remove('animate-fade-in-up'); // Prevent double animation
+          const bubble = thinkingEl.querySelector('.message-bubble-wrapper');
+          if (bubble) {
+            bubble.innerHTML = await marked.parse(content);
+            bubble.classList.add(
+              'message-bubble-content',
+              'text-base',
+              'prose',
+              'prose-sm',
+              'dark:prose-invert',
+              'max-w-none',
+            );
           }
+          if (followUps.length > 0) this.renderFollowUps(followUps, thinkingEl);
+          this.scrollToBottom();
+          return;
+        }
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `flex flex-col gap-2 ${isUser ? 'items-end ml-auto' : ''} max-w-[90%] md:max-w-[85%] animate-fade-in-up message-item`;
+
+        if (!renderStored && !isUser) {
+          messageDiv.id = 'streaming-message';
+        }
+
+        const header = document.createElement('div');
+        header.className = 'flex items-center gap-2 mb-1';
+        header.innerHTML = isUser
+          ? `<span class="text-sm uppercase tracking-wider text-muted-foreground font-semibold">You</span>`
+          : `<Icon name='lucide:bot' class='w-4 h-4 text-muted-foreground' />
+             <span class="text-sm uppercase tracking-wider text-muted-foreground font-semibold">Assistant</span>`;
+
+        // Note: For innerHTML icon injection, we'd normally use a real icon.
+        // Since we are in scripts, we'll use a simple SVG or skip icons in dynamic messages if needed.
+        // But let's stay close to reference layout.
+        header.innerHTML = isUser
+          ? `<span class="text-sm uppercase tracking-wider text-muted-foreground font-semibold">You</span>`
+          : `<div class="flex items-center gap-2">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="M12 6V2H8"/><path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z"/><path d="M2 12h2"/><path d="M9 11v2"/><path d="M15 11v2"/><path d="M20 12h2"/></svg>
+               <span class="text-sm uppercase tracking-wider text-muted-foreground font-semibold">Assistant</span>
+             </div>`;
+
+        const bubble = document.createElement('div');
+        bubble.className = isUser
+          ? `text-base bg-foreground text-background px-5 py-4 rounded-3xl rounded-tr-sm shadow-sm`
+          : `text-base text-foreground leading-relaxed bg-muted border border-border/40 px-5 py-4 rounded-3xl rounded-tl-sm shadow-sm message-bubble-wrapper message-bubble-content prose prose-sm dark:prose-invert max-w-none`;
+
+        if (isUser) {
+          bubble.textContent = content;
+        } else {
+          bubble.innerHTML = await marked.parse(content);
+        }
+
+        messageDiv.appendChild(header);
+        messageDiv.appendChild(bubble);
+        elements.messagesContainer.appendChild(messageDiv);
+
+        if (followUps.length > 0) {
+          this.renderFollowUps(followUps, messageDiv);
+        }
+
+        this.scrollToBottom();
+      },
+
+      renderFollowUps(questions: string[], targetEl: HTMLElement) {
+        let container = targetEl.querySelector('.dynamic-follow-up-container') as HTMLElement;
+        if (!container) {
+          container = document.createElement('div');
+          container.className =
+            'dynamic-follow-up-container flex flex-wrap gap-2 mt-2 animate-fade-in-up message-item';
+          targetEl.appendChild(container);
+        }
+
+        const questionsKey = JSON.stringify(questions);
+        if (container.dataset.rendered === questionsKey) return;
+
+        container.innerHTML = '';
+        questions.forEach(q => {
+          if (!q) return;
+          const btn = document.createElement('button');
+          btn.className =
+            'bg-card border-border hover:bg-muted text-foreground flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium shadow-sm transition-colors cursor-pointer text-left';
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> <span>${q}</span>`;
+          btn.onclick = () => {
+            if (elements.input) {
+              elements.input.value = q;
+              elements.form?.dispatchEvent(new Event('submit'));
+            }
+          };
+          container.appendChild(btn);
         });
-      });
+        container.dataset.rendered = questionsKey;
+        this.scrollToBottom();
+      },
 
-      // Clear chat button handler
-      elements.clearChat?.addEventListener('click', () => {
-        chat.clearConversation();
+      scrollToBottom() {
+        if (elements.messagesContainer) {
+          elements.messagesContainer.scrollTop = elements.messagesContainer.scrollHeight;
+        }
+      },
+
+      toggleLoading(loading: boolean) {
+        state.isLoading = loading;
+        const reachedLimit = state.userMessageCount >= MESSAGE_LIMIT;
+        const isDisabled = loading || reachedLimit;
+
+        if (elements.submitBtn) elements.submitBtn.disabled = isDisabled;
+        if (elements.input) elements.input.disabled = isDisabled;
+
+        // Disable suggestions and follow-ups
+        elements.suggestions
+          ?.querySelectorAll('button')
+          .forEach(btn => ((btn as HTMLButtonElement).disabled = isDisabled));
+        document
+          .querySelectorAll('.dynamic-follow-up-container button')
+          .forEach(btn => ((btn as HTMLButtonElement).disabled = isDisabled));
+
+        if (elements.sendIcon) elements.sendIcon.classList.toggle('hidden', loading);
+        if (elements.loadingIcon) elements.loadingIcon.classList.toggle('hidden', !loading);
+
+        if (loading) {
+          const thinking = document.createElement('div');
+          thinking.id = 'ai-thinking';
+          thinking.className =
+            'flex flex-col gap-2 max-w-[90%] md:max-w-[85%] animate-fade-in-up message-item';
+
+          thinking.innerHTML = `
+            <div class="flex items-center gap-2 mb-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="M12 6V2H8"/><path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z"/><path d="M2 12h2"/><path d="M9 11v2"/><path d="M15 11v2"/><path d="M20 12h2"/></svg>
+              <span class="text-sm uppercase tracking-wider text-muted-foreground font-semibold">Assistant</span>
+            </div>
+            <div class="message-bubble-wrapper bg-muted border border-border/40 px-5 py-3 rounded-3xl rounded-tl-sm shadow-sm w-fit">
+              <div class="flex gap-1.5 items-center h-4">
+                <div class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-dot-flashing" style="animation-delay: 0s;"></div>
+                <div class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-dot-flashing" style="animation-delay: 0.2s;"></div>
+                <div class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-dot-flashing" style="animation-delay: 0.4s;"></div>
+              </div>
+            </div>
+          `;
+
+          elements.messagesContainer?.appendChild(thinking);
+          this.scrollToBottom();
+        }
+      },
+
+      updateCounter() {
+        if (elements.messageCounter) {
+          elements.messageCounter.textContent = `${state.userMessageCount}/${MESSAGE_LIMIT} today`;
+          if (state.userMessageCount >= MESSAGE_LIMIT) {
+            elements.messageCounter.classList.add('text-destructive');
+            if (elements.input) elements.input.disabled = true;
+            if (elements.submitBtn) elements.submitBtn.disabled = true;
+
+            // Disable all suggestion buttons
+            elements.suggestions
+              ?.querySelectorAll('button')
+              .forEach(btn => ((btn as HTMLButtonElement).disabled = true));
+
+            // Also disable dynamic follow-ups
+            document
+              .querySelectorAll('.dynamic-follow-up-container button')
+              .forEach(btn => ((btn as HTMLButtonElement).disabled = true));
+          }
+        }
+      },
+
+      async renderStored() {
+        if (state.messages.length > 0) {
+          if (elements.suggestions) elements.suggestions.style.display = 'none';
+          if (elements.clearBtn) elements.clearBtn.classList.remove('hidden');
+        }
+        for (const msg of state.messages) {
+          await this.addMessage(msg.content, msg.role === 'user', true, msg.followUpQuestions);
+        }
+      },
+
+      clearConversation() {
+        if (elements.messagesContainer) {
+          const currentItems = elements.messagesContainer.querySelectorAll('.message-item');
+          currentItems.forEach(m => m.remove());
+
+          if (elements.suggestions) elements.suggestions.style.display = 'flex';
+          if (elements.clearBtn) elements.clearBtn.classList.add('hidden');
+        }
+      },
+    };
+
+    const chat = {
+      async sendMessage(text: string) {
+        if (!text.trim() || state.userMessageCount >= MESSAGE_LIMIT || state.isLoading) return;
+
+        state.userMessageCount++;
+        storage.saveState({
+          count: state.userMessageCount,
+          lastReset: new Date().toISOString().split('T')[0],
+        });
+        ui.updateCounter();
+
+        await ui.addMessage(text, true);
+        state.messages.push({ role: 'user', content: text });
+        storage.saveConversation(state.messages);
+
+        if (elements.clearBtn) elements.clearBtn.classList.remove('hidden');
+
+        ui.toggleLoading(true);
+
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: state.messages }),
+          });
+
+          if (!response.ok) throw new Error('API Error');
+
+          const reader = response.body?.getReader();
+          const decoder = new TextDecoder();
+          let fullResponse = '';
+          let finalFollowUps: string[] = [];
+
+          // Note: We DON'T toggleLoading(false) here yet
+          // to let addMessage recycle the thinking bubble.
+
+          while (reader) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n').filter(l => l.trim());
+
+            for (const line of lines) {
+              try {
+                const parsed = JSON.parse(line);
+                if (parsed.response) {
+                  fullResponse = parsed.response;
+                  await ui.addMessage(fullResponse, false, false, finalFollowUps);
+                  ui.toggleLoading(false);
+                }
+                if (parsed.followUpQuestions) {
+                  finalFollowUps = parsed.followUpQuestions;
+                  if (fullResponse) await ui.addMessage(fullResponse, false, false, finalFollowUps);
+                }
+              } catch (e) {}
+            }
+          }
+
+          const streamingEl = document.getElementById('streaming-message');
+          if (streamingEl) streamingEl.removeAttribute('id');
+
+          state.messages.push({
+            role: 'assistant',
+            content: fullResponse,
+            followUpQuestions: finalFollowUps,
+          });
+          storage.saveConversation(state.messages);
+        } catch (err) {
+          console.error(err);
+          await ui.addMessage('Sorry, I encountered an error. Please try again.', false);
+        } finally {
+          ui.toggleLoading(false);
+        }
+      },
+    };
+
+    // Global toggle function
+    (window as any).toggleChat = () => {
+      state.isOpen = !state.isOpen;
+      if (state.isOpen) {
+        elements.overlay?.classList.remove('opacity-0', 'pointer-events-none');
+        elements.window?.classList.remove('scale-95', 'opacity-0');
+        elements.window?.classList.add('scale-100', 'opacity-100');
+        if (window.innerWidth > 768) {
+          setTimeout(() => elements.input?.focus(), 150);
+        }
+        document.body.style.overflow = 'hidden';
+      } else {
+        elements.overlay?.classList.add('opacity-0', 'pointer-events-none');
+        elements.window?.classList.remove('scale-100', 'opacity-100');
+        elements.window?.classList.add('scale-95', 'opacity-0');
+        document.body.style.overflow = '';
+      }
+    };
+
+    elements.closeBtn?.addEventListener('click', (window as any).toggleChat);
+    elements.overlay?.addEventListener('click', e => {
+      if (e.target === elements.overlay) (window as any).toggleChat();
+    });
+
+    elements.form?.addEventListener('submit', e => {
+      e.preventDefault();
+      const text = elements.input?.value.trim();
+      if (text) {
+        chat.sendMessage(text);
+        elements.input.value = '';
+      }
+    });
+
+    elements.suggestions?.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const prompt = btn.getAttribute('data-prompt');
+        if (prompt) chat.sendMessage(prompt);
       });
     });
+
+    elements.clearBtn?.addEventListener('click', () => {
+      state.messages = [];
+      storage.saveConversation([]);
+      ui.clearConversation();
+    });
+
+    // Init
+    ui.updateCounter();
+    ui.renderStored();
   }
 </script>

@@ -1,0 +1,78 @@
+---
+import Card from '@/components/ui/card.astro';
+import { calculateReadingTime } from '@/lib/utils';
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+
+interface Props {
+  posts: any[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class='flex flex-col gap-6 md:gap-8'>
+  {
+    posts.map((post, index) => {
+      const readingTime = calculateReadingTime(post.body ?? '');
+      return (
+        <Card
+          href={`/blog/${post.id}`}
+          class='group p-4 transition-all duration-300'
+          contentClass='flex flex-col md:flex-row md:items-stretch gap-4'
+        >
+          {post.data.thumbnail ? (
+            <div class='border-border/50 relative aspect-video w-full min-w-0 flex-1 overflow-hidden rounded-xl border md:h-auto'>
+              <Image
+                src={post.data.thumbnail}
+                alt={post.data.title}
+                format={'webp'}
+                priority={index < 2}
+                class='h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]'
+              />
+            </div>
+          ) : (
+            <div class='bg-secondary/20 group-hover:bg-secondary/40 border-border/50 flex aspect-video w-full min-w-0 flex-1 items-center justify-center rounded-xl border transition-colors md:h-auto'>
+              <Icon name='lucide:file-text' class='text-muted-foreground/30 h-10 w-10' />
+            </div>
+          )}
+          <div class='flex w-full min-w-0 flex-1 flex-col justify-center'>
+            <div class='mb-2 flex items-start justify-between gap-4'>
+              <h3 class='text-foreground line-clamp-3 text-xl leading-tight font-semibold transition-opacity group-hover:opacity-80 md:text-2xl'>
+                {post.data.title}
+              </h3>
+              <Icon
+                name='lucide:arrow-up-right'
+                class='text-muted-foreground group-hover:text-foreground mt-1 h-5 w-5 shrink-0 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100'
+              />
+            </div>
+
+            <p class='text-muted-foreground mb-4 line-clamp-3 flex-1 text-base leading-relaxed md:line-clamp-3'>
+              {post.data.description}
+            </p>
+
+            <div class='mt-auto flex flex-wrap items-center gap-4 text-sm font-medium'>
+              <div class='flex items-center gap-2'>
+                <Icon name='lucide:calendar' class='text-muted-foreground h-4 w-4' />
+                <time class='text-muted-foreground' datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
+                </time>
+              </div>
+
+              <div class='bg-muted-foreground/30 h-1 w-1 rounded-full' />
+
+              <div class='flex items-center gap-2'>
+                <Icon name='lucide:clock' class='text-muted-foreground h-4 w-4' />
+                <span class='text-muted-foreground'>{readingTime} min read</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+      );
+    })
+  }
+</div>

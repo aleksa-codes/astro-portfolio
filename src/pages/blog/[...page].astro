@@ -1,25 +1,58 @@
 ---
+import BaseLayout from '@/layouts/base-layout.astro';
 import { getCollection } from 'astro:content';
-import BlogListLayout from '@/layouts/blog-list-layout.astro';
+import BlogListing from '@/components/blog-listing.astro';
+import Pagination from '@/components/pagination.astro';
+import type { Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
 
-export async function getStaticPaths({ paginate }: any) {
-  const posts = await getCollection('blog');
-
-  const allTags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
-  const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-  return paginate(sortedPosts, {
-    pageSize: 4,
-    props: { allTags },
-  });
+interface Props {
+  page: Page<CollectionEntry<'blog'>>;
 }
 
-const { page, allTags } = Astro.props;
+export async function getStaticPaths({ paginate }: { paginate: any }) {
+  const posts = await getCollection('blog');
+  const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+  return paginate(sortedPosts, { pageSize: 4 });
+}
+
+const { page } = Astro.props;
+
+const title = page.currentPage === 1 ? 'Blog' : `Blog - Page ${page.currentPage}`;
+
+const description =
+  'Articles and insights on web development, software engineering, and computer science — written from hands-on experience as a developer.';
+const ogImage = new URL('/open-graph/blog.png', Astro.site).toString();
 ---
 
-<BlogListLayout
-  title='Blog'
-  description='Explore articles, guides, and notes about things I learnt while building stuff.'
-  {page}
-  {allTags}
-/>
+<BaseLayout {title} {description} {ogImage}>
+  <div class='flex flex-col gap-8'>
+    <div class='flex flex-col items-start'>
+      <h1 class='text-foreground mb-3 text-3xl font-bold tracking-tighter md:text-4xl'>
+        Writing &{' '}
+        <span
+          class='from-foreground to-muted-foreground bg-linear-to-r bg-clip-text text-transparent'
+        >
+          Thoughts.
+        </span>
+      </h1>
+      <p class='text-muted-foreground max-w-xl text-sm leading-relaxed md:text-base'>
+        A collection of thoughts, tutorials, and insights about web development, architecture, and
+        technology.
+      </p>
+    </div>
+
+    <div class='flex flex-col gap-12 pb-24'>
+      <BlogListing posts={page.data} />
+
+      <Pagination
+        currentPage={page.currentPage}
+        lastPage={page.lastPage}
+        urlPrev={page.url.prev}
+        urlNext={page.url.next}
+        basePath='/blog'
+      />
+    </div>
+  </div>
+</BaseLayout>

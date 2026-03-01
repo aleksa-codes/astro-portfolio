@@ -1,0 +1,73 @@
+---
+import { Icon } from 'astro-icon/components';
+import ThemeToggle from '@/components/theme-toggle.astro';
+import Tooltip from '@/components/ui/tooltip.astro';
+---
+
+<header
+  class='bg-background/70 border-border fixed top-0 left-0 z-40 w-full border-b backdrop-blur-xl'
+>
+  <div class='container flex h-16 items-center justify-between'>
+    <a
+      href='/'
+      class='text-foreground flex items-center font-mono text-lg font-medium tracking-tight transition-opacity hover:opacity-80'
+    >
+      <span id='typewriter'></span><span
+        class='animate-blink ml-1.5 inline-block h-[1.1em] w-0.5 bg-current align-text-bottom'
+      ></span>
+    </a>
+
+    <div class='flex items-center gap-1 md:gap-3'>
+      <Tooltip content='GitHub'>
+        <a
+          href='https://github.com/aleksa-codes'
+          target='_blank'
+          class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
+        >
+          <Icon name='lucide:github' class='h-5 w-5' />
+        </a>
+      </Tooltip>
+
+      <Tooltip content='Resume'>
+        <a
+          href='/Aleksa_Resume_2026.pdf'
+          target='_blank'
+          class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
+        >
+          <Icon name='lucide:file-text' class='h-5 w-5' />
+        </a>
+      </Tooltip>
+
+      <Tooltip content='RSS Feed'>
+        <a
+          href='/rss.xml'
+          class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
+        >
+          <Icon name='lucide:rss' class='h-5 w-5' />
+        </a>
+      </Tooltip>
+
+      <div class='bg-border mx-1 h-6 w-px md:mx-2'></div>
+
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<script>
+  const typeText = 'aleksa.codes';
+  const typeElement = document.getElementById('typewriter');
+
+  if (typeElement) {
+    const element = typeElement;
+    let typeIndex = 0;
+    function typeWriter() {
+      if (typeIndex < typeText.length) {
+        element.innerHTML += typeText.charAt(typeIndex);
+        typeIndex++;
+        setTimeout(typeWriter, 120);
+      }
+    }
+    setTimeout(typeWriter, 400);
+  }
+</script>

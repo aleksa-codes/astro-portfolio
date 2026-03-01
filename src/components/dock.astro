@@ -1,0 +1,78 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div
+  class='pointer-events-none fixed inset-x-0 bottom-6 z-50 container flex justify-center sm:w-fit'
+>
+  <nav
+    class='border-border bg-background/85 pointer-events-auto flex w-full items-end justify-between gap-4 rounded-3xl border px-4 py-3 shadow-2xl backdrop-blur-xl'
+  >
+    <a href='/' class='group flex shrink-0 flex-col items-center gap-1.5'>
+      <div
+        class='bg-secondary/50 text-foreground border-border flex h-12 w-12 items-center justify-center rounded-2xl border shadow-sm transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-0.5 group-hover:scale-[1.15] md:h-13 md:w-13'
+      >
+        <Icon name='lucide:home' class='h-6 w-6' />
+      </div>
+      <span class='text-muted-foreground text-sm leading-none font-medium'>Home</span>
+    </a>
+
+    <a href='/projects' class='group flex shrink-0 flex-col items-center gap-1.5'>
+      <div
+        class='bg-secondary/50 text-foreground border-border flex h-12 w-12 items-center justify-center rounded-2xl border shadow-sm transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-0.5 group-hover:scale-[1.15] md:h-13 md:w-13'
+      >
+        <Icon name='lucide:code' class='h-6 w-6' />
+      </div>
+      <span class='text-muted-foreground text-sm leading-none font-medium'>Projects</span>
+    </a>
+
+    <a href='/blog' class='group flex shrink-0 flex-col items-center gap-1.5'>
+      <div
+        class='bg-secondary/50 text-foreground border-border flex h-12 w-12 items-center justify-center rounded-2xl border shadow-sm transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-0.5 group-hover:scale-[1.15] md:h-13 md:w-13'
+      >
+        <Icon name='lucide:pen-line' class='h-6 w-6' />
+      </div>
+      <span class='text-muted-foreground text-sm leading-none font-medium'>Blog</span>
+    </a>
+
+    <a href='/contact' class='group flex shrink-0 flex-col items-center gap-1.5'>
+      <div
+        class='bg-secondary/50 text-foreground border-border flex h-12 w-12 items-center justify-center rounded-2xl border shadow-sm transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-0.5 group-hover:scale-[1.15] md:h-13 md:w-13'
+      >
+        <Icon name='lucide:mail' class='h-6 w-6' />
+      </div>
+      <span class='text-muted-foreground text-sm leading-none font-medium'>Contact</span>
+    </a>
+
+    <div class='bg-border h-full w-px shrink-0 rounded-full'></div>
+
+    <button
+      id='dock-chat-btn'
+      class='group flex shrink-0 cursor-pointer flex-col items-center gap-1.5'
+    >
+      <div
+        class='bg-primary text-primary-foreground flex h-12 w-12 items-center justify-center rounded-2xl border border-transparent shadow-lg transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-0.5 group-hover:scale-[1.15] md:h-13 md:w-13'
+      >
+        <Icon name='lucide:bot-message-square' class='h-6 w-6' />
+      </div>
+      <span class='text-muted-foreground text-sm leading-none font-medium'>Ask AI</span>
+    </button>
+  </nav>
+</div>
+
+<script>
+  declare global {
+    interface Window {
+      toggleChat: () => void;
+    }
+  }
+
+  const chatBtn = document.getElementById('dock-chat-btn');
+  if (chatBtn) {
+    chatBtn.addEventListener('click', () => {
+      if (typeof window.toggleChat === 'function') {
+        window.toggleChat();
+      }
+    });
+  }
+</script>

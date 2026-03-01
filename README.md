@@ -1,167 +1,96 @@
-# aleksa.codes — Astro Portfolio
+# 🚀 Astro Portfolio - aleksa.codes
 
-A fast, content-driven personal website and blog built with Astro, featuring a modern design, AI-powered chat assistant, seasonal effects, and headless CMS integration.
+> **📅 March 2026 Update:** This repository has undergone a **major overhaul** and refactor!
 
-[![Astro](https://img.shields.io/badge/Astro-FF5D01?logo=astro&logoColor=white)](https://astro.build/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+Personal portfolio and blog built with Astro 5, Tailwind CSS 4, and TypeScript.
+
+[![Astro](https://img.shields.io/badge/Astro_5-FF5D01?logo=astro&logoColor=white)](https://astro.build/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Netlify](https://img.shields.io/badge/Netlify-00C46A?logo=netlify&logoColor=white)](https://www.netlify.com/)
 
-## ✨ Features
+## Features
 
-- **🚀 Astro v5+** - Modern static site generator with islands architecture
-- **🎨 Tailwind CSS v4** - Utility-first CSS framework with custom design tokens
-- **📝 MDX Blog** - Write blog posts with Markdown and JSX components
-- **🎛️ Decap CMS** - Headless CMS for content management
-- **🤖 AI Chat Assistant** - Groq-powered chat with daily limits and conversation persistence
-- **❄️ Seasonal Effects** - Winter snow animation and seasonal avatars
-- **📱 Responsive Design** - Mobile-first approach with dark mode support
-- **🔍 SEO Optimized** - Meta tags, sitemap, RSS feed, and structured data
-- **⚡ Performance** - Optimized with compression, lazy loading, and modern web standards
-- **♿ Accessibility** - ARIA labels, keyboard navigation, and semantic HTML
+- **Astro 5** — 🌌 Static-first with hybrid SSR for the AI chat endpoint
+- **Tailwind CSS 4** — 🎨 Vite plugin, CSS-only config, shadcn-style oklch design tokens
+- **MDX Blog** — 📝 Content collections, pagination, reading time, Giscus comments
+- **AI Chat** — 🤖 Groq-powered streaming assistant with follow-up questions and daily rate limits
+- **OG Images** — 🖼️ Auto-generated at build time via `astro-og-canvas`
+- **Decap CMS** — ⚙️ Git-based headless CMS at `/admin`
+- **Dark Mode** — 🌙 System-aware with instant toggle (no flash)
+- **Contact Form** — ✉️ Netlify Forms with reCAPTCHA and honeypot
+- **Performance** — ⚡ Compression, lazy loading, priority hints, preloaded fonts
+- **SEO** — 🔍 Sitemap, RSS, meta tags, structured OG data
 
-## 🚀 Quick Start
+## Quick Start
 
-### Prerequisites
+```bash
+# Clone & install
+git clone https://github.com/aleksa-codes/astro-portfolio.git
+cd astro-portfolio
+bun install
 
-- Node.js 18+
-- Bun (for Tailwind/PostCSS build steps)
+# Set up env
+echo 'GROQ_API_KEY=your_key_here' > .env
 
-### Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/aleksa-codes/astro-portfolio.git
-   cd astro-portfolio
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   bun install
-   ```
-
-3. **Set up environment variables**
-
-   ```bash
-   # GROQ API Key: https://console.groq.com/keys
-   GROQ_API_KEY="" # required for AI chat functionality
-
-   # Google Analytics: https://analytics.google.com/analytics/web/
-   GA_ID="G-XXXXXXXXX" # optional
-   ```
-
-4. **Start development server**
-
-   ```bash
-   bun run dev
-   ```
-
-5. **Open your browser**
-   - Navigate to `http://localhost:3000`
-
-## 📜 Available Scripts
-
-| Command           | Description                                      |
-| ----------------- | ------------------------------------------------ |
-| `bun run dev`     | Start development server with hot reload         |
-| `bun run dev:host`| Start development server accessible on network   |
-| `bun run build`   | Build for production (includes TypeScript check) |
-| `bun run preview` | Preview production build locally                 |
-| `bun run prod`    | Format, build, and preview (end-to-end workflow) |
-| `bun run format`  | Format code with Prettier                        |
-| `bun run decap`   | Start Decap CMS local development server         |
-
-> **Note**: If you prefer npm, you can use `npm run <script>` instead of `bun run <script>`.
-
-## 🎨 Customization
-
-### Content Management
-
-- **Blog Posts**: Add MDX files to `src/content/blog/` with required frontmatter
-- **Projects**: Update `src/pages/projects/index.astro` with new project data
-- **Site Config**: Modify `src/config/site.config.ts` for navigation and metadata
-
-### Styling
-
-- **Design Tokens**: Edit `src/styles/global.css` for colors and themes
-- **Components**: Use Tailwind utilities with semantic color variants
-- **Dark Mode**: Automatically toggles via `.dark` class on `<html>`
-
-### Features
-
-- **AI Chat**: Configure daily limits and prompts in `src/components/ai-chat.astro`
-- **Snow Effect**: Seasonal animation active Nov-Jan, toggleable via localStorage
-- **External Links**: Auto-open in new tabs via custom rehype plugin
-
-## 🔧 Configuration
-
-### Decap CMS
-
-Configure content collections in `public/admin/config.yml`. Sync with `src/content/config.ts` when changing schemas. The CMS is accessible at `/admin`.
-
-### Build Configuration
-
-Integrations configured in `astro.config.ts`:
-
-- **astro-compress**: Asset optimization
-- **astro-icon**: Icon management
-- **astro-expressive-code**: Syntax highlighting
-- **@astrojs/sitemap**: SEO sitemap generation
-
-## 📚 Content Schema
-
-### Blog Posts
-
-```yaml
----
-title: 'Post Title'
-description: 'Brief description'
-date: 2024-01-01
-author: 'Author Name'
-thumbnail: ./image.jpg
-tags: ['tag1', 'tag2']
----
+# Run dev server
+bun run dev
 ```
 
-### Projects
+Open [http://localhost:3000](http://localhost:3000).
 
-Projects are defined in `src/pages/projects/index.astro` with properties for title, description, tags, image, demo URL, GitHub URL, featured status, and category.
+## Scripts
 
-## 🚀 Deployment
+| Command           | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| `bun run dev`     | Dev server (port 3000)                               |
+| `bun run build`   | Type check → Astro build → Tailwind minify → PostCSS |
+| `bun run preview` | Preview production build                             |
+| `bun run format`  | Prettier (Astro + Tailwind + import sorting)         |
+| `bun run decap`   | Local Decap CMS server                               |
 
-### Netlify (Recommended)
+## Project Structure
 
-1. Connect your GitHub repository to Netlify
-2. Set build command: `bun run build`
-3. Set publish directory: `dist`
-4. Configure environment variables in Netlify dashboard
-5. Enable Netlify Forms for contact form functionality
+```
+src/
+├── assets/            # Images & fonts (Astro-optimized)
+├── components/        # Astro components (kebab-case)
+│   └── ui/            # Primitives (card, badge, button, tooltip)
+├── content/blog/      # MDX blog posts
+├── layouts/           # base-layout.astro
+├── lib/               # Utilities, project data, tech stack data
+├── pages/             # Routes (static + /api/chat SSR)
+└── styles/            # global.css (Tailwind v4 config + design tokens)
+```
 
-### Other Platforms
+## Environment Variables
 
-The site can be deployed to any static hosting service. Ensure the platform supports:
+| Variable       | Required       | Purpose                                                  |
+| -------------- | -------------- | -------------------------------------------------------- |
+| `GROQ_API_KEY` | Yes (for chat) | [Groq API](https://console.groq.com/keys) authentication |
 
-- Node.js build environment
-- Environment variable configuration
-- Form handling (or use alternative contact methods)
+## Tech Stack
 
-## 🤝 Contributing
+| Category        | Technology                                                                              |
+| --------------- | --------------------------------------------------------------------------------------- |
+| Framework       | [Astro 5](https://astro.build/)                                                         |
+| Styling         | [Tailwind CSS 4](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) tokens |
+| AI              | [Vercel AI SDK](https://ai-sdk.dev/) + [Groq](https://groq.com/)                        |
+| Content         | [MDX](https://mdxjs.com/) + [Decap CMS](https://decapcms.org/)                          |
+| Icons           | [astro-icon](https://github.com/natemoo-re/astro-icon) (Lucide, Simple Icons, etc.)     |
+| Code Blocks     | [Expressive Code](https://expressive-code.com/)                                         |
+| Deployment      | [Netlify](https://www.netlify.com/) (static + serverless)                               |
+| Package Manager | [Bun](https://bun.sh/)                                                                  |
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+## Deployment
 
-### Development Guidelines
+Deploy to Netlify with these settings:
 
-- Run `bun run format` before committing
-- Test builds with `bun run build`
-- Follow existing code patterns and conventions
-- Update documentation for new features
+- **Build command:** `bun run build`
+- **Publish directory:** `dist`
+- **Environment variables:** `GROQ_API_KEY`
+- Enable **Netlify Forms** and **Netlify Identity** (for Decap CMS)
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT — see [LICENSE](LICENSE).

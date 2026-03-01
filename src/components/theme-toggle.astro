@@ -1,26 +1,40 @@
 ---
-import Button from '@/components/ui/button.astro';
 import { Icon } from 'astro-icon/components';
+import Tooltip from '@/components/ui/tooltip.astro';
 ---
 
-<Button id='theme-selector' variant='outline' size='icon' class='relative overflow-hidden bg-transparent'>
-  <div class='sr-only'>
-    Enable <span class='dark:hidden'>light</span><span class='hidden dark:inline'>dark</span> mode
-  </div>
-  <Icon
-    name='lucide:moon'
-    class='absolute transform transition-transform duration-300 dark:-translate-y-4 dark:opacity-0'
-  />
-  <Icon
-    name='lucide:sun'
-    class='absolute translate-y-4 transform opacity-0 transition-transform duration-300 dark:translate-y-0 dark:opacity-100'
-  />
-</Button>
+<Tooltip content='Toggle Theme' side='bottom'>
+  <button
+    id='theme-toggle-btn'
+    class='text-muted-foreground hover:text-foreground hover:bg-accent relative flex cursor-pointer items-center justify-center rounded-xl p-2.5 transition-colors'
+  >
+    <Icon name='lucide:sun' class='sun-icon hidden h-5 w-5 dark:block' />
+    <Icon name='lucide:moon' class='moon-icon block h-5 w-5 dark:hidden' />
+  </button>
+</Tooltip>
 
 <script>
-  document.getElementById('theme-selector')?.addEventListener('click', () => {
-    const isDark = document.documentElement.classList.contains('dark');
-    document.documentElement.classList[isDark ? 'remove' : 'add']('dark');
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-  });
+  function initThemeToggle() {
+    const toggle = document.getElementById('theme-toggle-btn');
+    if (!toggle) return;
+
+    toggle.addEventListener('click', () => {
+      // Disable transitions temporarily to make the theme change instant
+      document.documentElement.classList.add('[&_*]:!transition-none');
+
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+      // Force a repaint to ensure color change is applied without transitions
+      window.getComputedStyle(document.documentElement).opacity;
+
+      // Re-enable transitions after the current frame
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('[&_*]:!transition-none');
+      });
+    });
+  }
+
+  initThemeToggle();
+  document.addEventListener('astro:after-swap', initThemeToggle);
 </script>

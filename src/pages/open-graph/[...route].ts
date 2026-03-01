@@ -1,58 +1,76 @@
-import { getCollection } from 'astro:content';
 import { OGImageRoute } from 'astro-og-canvas';
+import { getCollection } from 'astro:content';
 
-export const { getStaticPaths, GET } = OGImageRoute({
+const blogPosts = await getCollection('blog');
+
+export const { getStaticPaths, GET } = await OGImageRoute({
   param: 'route',
 
-  pages: await getCollection('blog').then((posts) =>
-    Object.fromEntries(
-      posts.map((post) => [
-        post.id,
+  pages: {
+    index: {
+      title: 'aleksa.codes',
+      description:
+        'Computer Science graduate and web developer specializing in performance optimization, clean UI design, and scalable architecture. Explore my work and get in touch.',
+    },
+    projects: {
+      title: 'Projects',
+      description:
+        'Browse my portfolio of web development projects, including side projects and open source contributions built with modern tools and best practices.',
+    },
+    blog: {
+      title: 'Blog',
+      description:
+        'Articles and insights on web development, software engineering, and computer science — written from hands-on experience as a developer.',
+    },
+    contact: {
+      title: 'Contact',
+      description:
+        "Have a project in mind or want to collaborate? Reach out for freelance work, partnership inquiries, or general questions — I'd love to hear from you.",
+    },
+    // Blog posts
+    ...Object.fromEntries(
+      blogPosts.map(post => [
+        `blog/${post.id}`,
         {
           title: post.data.title,
           description: post.data.description,
-          thumbnail: post.data.thumbnail,
         },
       ]),
     ),
-  ),
+  },
+
   getImageOptions: (_path, page) => ({
     title: page.title,
-    // description: page.description,
-    // bgImage: page.thumbnail
-    //   ? {
-    //       path: page.thumbnail,
-    //       fit: 'cover',
-    //     }
-    //   : undefined,
+    description: page.description,
     logo: {
-      path: './public/icons/android/android-launchericon-192-192.png',
-      // Width only, height will scale proportionally
-      size: [192],
+      path: './src/assets/logo-192x192.png',
+      size: [80],
     },
     font: {
       title: {
-        size: 60,
-        families: ['Inter'],
+        size: 64,
+        families: ['Geist'],
         weight: 'Bold',
+        color: [15, 23, 42], // slate-900
       },
       description: {
-        size: 30,
-        families: ['Inter'],
-        lineHeight: 1.4,
+        size: 32,
+        families: ['Geist'],
+        color: [100, 116, 139], // slate-500
       },
     },
     fonts: [
-      'https://api.fontsource.org/v1/fonts/inter/latin-400-normal.ttf',
-      'https://api.fontsource.org/v1/fonts/inter/latin-700-normal.ttf',
+      'https://api.fontsource.org/v1/fonts/geist/latin-400-normal.ttf',
+      'https://api.fontsource.org/v1/fonts/geist/latin-700-normal.ttf',
     ],
     bgGradient: [
-      [18, 18, 18],
-      [18, 18, 18],
-      [18, 18, 18],
-      [32, 32, 32],
-      [32, 32, 32],
-      [64, 64, 64],
+      [248, 250, 252], // slate-50
+      [241, 245, 249], // slate-100
     ],
+    border: {
+      color: [15, 23, 42], // slate-900
+      width: 12,
+      side: 'inline-start',
+    },
   }),
 });

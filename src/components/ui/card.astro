@@ -1,0 +1,51 @@
+---
+import { cn } from '@/lib/utils';
+
+interface Props {
+  href?: string;
+  class?: string;
+  contentClass?: string;
+  style?: string;
+  noGlow?: boolean;
+}
+
+const { href, class: className, contentClass, style, noGlow }: Props = Astro.props;
+
+const baseClassName = cn(
+  !noGlow && 'glow-card',
+  'group border-border bg-card relative flex flex-col overflow-hidden rounded-2xl border p-4',
+  className,
+);
+---
+
+{
+  href ? (
+    <a href={href} class={baseClassName} style={style} data-glow-card={!noGlow ? '' : undefined}>
+      <div class={cn('relative z-10 flex flex-1 flex-col', contentClass)}>
+        <slot />
+      </div>
+    </a>
+  ) : (
+    <div class={baseClassName} style={style} data-glow-card={!noGlow ? '' : undefined}>
+      <div class={cn('relative z-10 flex flex-1 flex-col', contentClass)}>
+        <slot />
+      </div>
+    </div>
+  )
+}
+
+<script>
+  function initGlowCards() {
+    document.querySelectorAll('[data-glow-card]').forEach(card => {
+      const element = card as HTMLElement;
+      element.addEventListener('mousemove', e => {
+        const rect = element.getBoundingClientRect();
+        element.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        element.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      });
+    });
+  }
+
+  initGlowCards();
+  document.addEventListener('astro:after-swap', initGlowCards);
+</script>

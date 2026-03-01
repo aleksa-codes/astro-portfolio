@@ -1,10 +1,15 @@
-## aleksa.codes ##
+/* TEAM */
+Developer: aleksa-codes
+Site: https://aleksa.codes
+Email: hello [at] aleksa.codes
+GitHub: https://github.com/aleksa-codes/astro-portfolio
 
-This website was built by Aleksa, passionate developer, creative thinker, and lifelong learner. It is continuously evolving, crafted with love, and powered by coffee and late-night inspiration.
+/* SITE */
+Last update: 2026/02/28
+Standards: TypeScript, Astro, Tailwind CSS
+Components: Astro components
+Software: VS Code, Bun, GitHub Copilot, AI Studio, OpenCode
+Hosting: Netlify
 
-Want to connect, collaborate, or just say hi?
-- Email: hello@aleksa.codes
-- Website: www.aleksa.codes
-- GitHub: github.com/aleksa-codes
-
-Thanks for stopping by and exploring my work!
+/* THANKS */
+Thanks to the Astro community for making this awesome framework!

@@ -1,0 +1,30 @@
+---
+import { Icon } from 'astro-icon/components';
+import ProjectCard from '@/components/project-card.astro';
+import { projects } from '@/lib/projects';
+
+const featuredProjects = projects.filter(p => p.featured).slice(0, 4);
+---
+
+<section id='projects-section' class='flex flex-col space-y-8'>
+  <h2 class='text-muted-foreground text-sm font-medium tracking-widest uppercase'>
+    Selected Projects
+  </h2>
+
+  <div class='flex flex-col gap-8'>
+    {
+      featuredProjects.map((project, index) => (
+        <ProjectCard project={project} alternate={index % 2 === 1} />
+      ))
+    }
+  </div>
+
+  <div class='flex justify-center'>
+    <a
+      href='/projects'
+      class='text-foreground flex items-center gap-2 text-base font-medium underline-offset-4 hover:underline'
+    >
+      View all projects <Icon name='lucide:arrow-right' class='h-5 w-5' />
+    </a>
+  </div>
+</section>

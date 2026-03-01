@@ -1,0 +1,78 @@
+---
+import { Icon } from 'astro-icon/components';
+import Card from '@/components/ui/card.astro';
+import GitHubActivity from '@/components/github-activity.astro';
+import { cn } from '@/lib/utils';
+
+const funFacts = [
+  {
+    icon: 'lucide:brain-circuit',
+    text: 'Building things with AI & code',
+    color: 'text-pink-500',
+  },
+  {
+    icon: 'iconoir:basketball',
+    text: 'Love hooping & watching NBA',
+    color: 'text-orange-500',
+  },
+  {
+    icon: 'lucide:gamepad-2',
+    text: 'Casual gamer in my free time',
+    color: 'text-blue-500',
+  },
+  {
+    icon: 'lucide:coffee',
+    text: 'Fueled by coffee & curiosity',
+    color: 'text-amber-700 dark:text-amber-500',
+  },
+];
+---
+
+<section id='about' class='flex flex-col space-y-8'>
+  <h2 class='text-muted-foreground text-sm font-medium tracking-widest uppercase'>About Me</h2>
+
+  <div class='text-foreground space-y-5 text-base leading-relaxed'>
+    <p>
+      My journey into web development started with a simple curiosity. I wanted to understand how
+      websites actually worked, and that curiosity turned into a passion pretty quickly.
+    </p>
+    <p>
+      With a degree in Computer Science, I've spent my time getting deep into modern web development
+      and building things that actually matter to people. From browser extensions to websites and
+      full-stack apps, every project is a chance to learn something new and push myself further.
+    </p>
+    <p>
+      These days I focus on building web applications where performance, accessibility, and user
+      experience aren't afterthoughts. They're the whole point.
+    </p>
+  </div>
+
+  <div class='grid grid-cols-1 gap-6 md:grid-cols-2'>
+    <Card class='h-full' contentClass='flex flex-col h-full'>
+      <h3 class='text-foreground mb-4 flex shrink-0 items-center gap-2.5 text-base font-semibold'>
+        <Icon name='lucide:terminal' class='h-5 w-5 text-green-500' /> whoami
+      </h3>
+      <div class='grid flex-1 grid-cols-2 gap-3'>
+        {
+          funFacts.map(fact => (
+            <div class='border-border bg-secondary/30 hover:bg-secondary/50 flex flex-col items-center justify-center gap-2.5 rounded-xl border p-4 text-center transition-colors'>
+              <Icon name={fact.icon} class={cn('h-6 w-6 shrink-0', fact.color)} />
+              <p class='text-muted-foreground text-[13px] leading-snug font-medium tracking-tight'>
+                {fact.text}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </Card>
+
+    <Card class='h-full' contentClass='flex flex-col h-full'>
+      <h3 class='text-foreground mb-4 flex shrink-0 items-center gap-2.5 text-base font-semibold'>
+        <Icon name='lucide:github' class='h-5 w-5 text-[#40c463]' /> GitHub Activity
+      </h3>
+      <div class='flex flex-1 flex-col gap-3'>
+        <GitHubActivity />
+      </div>
+    </Card>
+  </div>
+</section>

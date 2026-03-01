@@ -1,52 +1,16 @@
 ---
-import { siteConfig } from '@/config/site.config';
-import Layout from '@/layouts/layout.astro';
-import { Image } from 'astro:assets';
-import WavingHand from '@/assets/waving-hand.png';
-import LaptopAnimate from '@/assets/laptop-animate.svg';
+import BaseLayout from '@/layouts/base-layout.astro';
+import Hero from '@/components/hero.astro';
+import About from '@/components/about.astro';
+import Projects from '@/components/projects.astro';
+import TechStack from '@/components/tech-stack.astro';
 ---
 
-<Layout title={siteConfig.title} description={siteConfig.description}>
-  <section class='relative container space-y-4 pt-4'>
-    <div class='flex items-center gap-x-2 text-4xl font-extrabold sm:text-5xl'>
-      <span>Hello World</span>
-      <Image
-        src={WavingHand}
-        alt='waving hand'
-        width={48}
-        height={48}
-        densities={[1, 2]}
-        loading={'eager'}
-        format={'webp'}
-        quality={'max'}
-        class='animate-wave size-9 sm:size-12'
-      />
-    </div>
-    <div class='space-y-2'>
-      <h1 class='text-4xl font-extrabold sm:text-5xl'>
-        My name is <span
-          class='from-base-content to-highlight bg-gradient-to-r bg-clip-text font-extrabold text-transparent'
-          >Aleksa</span
-        >
-      </h1>
-      <h2 class='text-3xl font-bold'>
-        I design and build <span class='highlight-heading animate-highlight'>things for the web.</span>
-      </h2>
-    </div>
-    <h3 class='text-xl font-semibold'>Computer Science Graduate and Web Developer.</h3>
-    <div class='mx-auto mt-4 h-[275px] w-[275px] sm:h-[350px] sm:w-[350px] md:h-[450px] md:w-[450px]'>
-      <LaptopAnimate />
-    </div>
-  </section>
-</Layout>
-
-<script>
-  const urlParams = new URLSearchParams(window.location.hash.substring(1));
-  const tokenTypes = ['invite_token', 'confirmation_token', 'recovery_token', 'email_change_token'];
-
-  tokenTypes.forEach((tokenType) => {
-    if (urlParams.has(tokenType)) {
-      window.location.href = `/admin/#${tokenType}=${urlParams.get(tokenType)}`;
-    }
-  });
-</script>
+<BaseLayout>
+  <div class='flex flex-col gap-24 md:gap-32'>
+    <Hero />
+    <About />
+    <TechStack />
+    <Projects />
+  </div>
+</BaseLayout>
