@@ -12,7 +12,7 @@ import Tooltip from '@/components/ui/tooltip.astro';
       href='/'
       class='text-foreground flex items-center font-mono text-lg font-medium tracking-tight transition-opacity hover:opacity-80'
     >
-      <span id='typewriter'></span><span
+      <span id='typewriter'>aleksa.codes</span><span
         class='animate-blink ml-1.5 inline-block h-[1.1em] w-0.5 bg-current align-text-bottom'
       ></span>
     </a>
@@ -63,10 +63,12 @@ import Tooltip from '@/components/ui/tooltip.astro';
 
   if (typeElement) {
     const element = typeElement;
+    // Clear the pre-filled text to replay the typewriter animation
+    element.textContent = '';
     let typeIndex = 0;
     function typeWriter() {
       if (typeIndex < typeText.length) {
-        element.innerHTML += typeText.charAt(typeIndex);
+        element.textContent += typeText.charAt(typeIndex);
         typeIndex++;
         setTimeout(typeWriter, 120);
       }
