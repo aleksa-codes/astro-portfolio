@@ -8,7 +8,7 @@ import NextDay from '@/assets/projects/next-day.png';
 import NextMeal from '@/assets/projects/next-meal.png';
 import NextWorkout from '@/assets/projects/next-workout.png';
 import OneDarkModernPro from '@/assets/projects/one-dark-modern-pro.png';
-import UnYellowGPT from '@/assets/projects/unyellow-gpt.png';
+import UnYellowGPT from '@/assets/projects/unyellow-gpt.jpg';
 
 export const projects = [
   {
