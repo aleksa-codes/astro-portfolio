@@ -66,9 +66,22 @@ const funFacts = [
       </div>
     </Card>
 
-    <Card class='h-full' contentClass='flex flex-col h-full'>
-      <h3 class='text-foreground mb-4 flex shrink-0 items-center gap-2.5 text-base font-semibold'>
-        <Icon name='lucide:github' class='h-5 w-5 text-[#40c463]' /> GitHub Activity
+    <Card class='h-full' contentClass='flex flex-col h-full relative group'>
+      <h3
+        class='text-foreground mb-4 flex shrink-0 items-center justify-between gap-2.5 text-base font-semibold'
+      >
+        <div class='flex items-center gap-2.5'>
+          <Icon name='lucide:github' class='h-5 w-5 text-[#40c463]' /> GitHub Activity
+        </div>
+        <a
+          href='https://github.com/aleksa-codes'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-muted-foreground hover:text-foreground transition-colors'
+          aria-label='View GitHub Profile'
+        >
+          <Icon name='lucide:external-link' class='h-5 w-5' />
+        </a>
       </h3>
       <div class='flex flex-1 flex-col gap-3'>
         <GitHubActivity />
