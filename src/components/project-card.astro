@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { Picture } from 'astro:assets';
+import { Image } from 'astro:assets';
 import Card from '@/components/ui/card.astro';
 import { techMap } from '@/lib/tech';
 import { cn } from '@/lib/utils';
@@ -28,11 +28,11 @@ const { project, alternate = false, priority = false }: Props = Astro.props;
     rel='noopener noreferrer'
     class='border-border/50 group relative aspect-4/3 w-full min-w-0 flex-1 overflow-hidden rounded-xl border md:h-auto'
   >
-    <Picture
+    <Image
       src={project.image}
       alt={project.title}
-      formats={['webp']}
-      quality='mid'
+      format={'webp'}
+      quality={'mid'}
       sizes='(min-width: 768px) 384px, calc(100vw - 4rem)'
       priority={priority}
       class='h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]'

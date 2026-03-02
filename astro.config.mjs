@@ -53,14 +53,14 @@ export default defineConfig({
     sitemap(),
     playformInline(),
     playformCompress({
-      CSS: true,
       HTML: {
         'html-minifier-terser': {
           removeAttributeQuotes: false,
         },
       },
-      Image: false,
+      CSS: true,
       JavaScript: true,
+      Image: false,
       SVG: false,
       Logger: 1,
     }),
