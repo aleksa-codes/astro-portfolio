@@ -26,8 +26,7 @@ const { posts } = Astro.props;
               <Picture
                 src={post.data.thumbnail}
                 alt={post.data.title}
-                formats={['avif', 'webp']}
-                fallbackFormat='webp'
+                formats={['webp']}
                 quality='mid'
                 sizes='(min-width: 768px) 384px, calc(100vw - 4rem)'
                 priority={index < 2}
