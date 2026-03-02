@@ -140,7 +140,7 @@ Netlify Forms with reCAPTCHA:
 ```
 
 - **Color system:** shadcn-style semantic tokens in oklch color space (`:root` for light, `.dark` for dark).
-- **Fonts:** Geist (sans), Geist Mono (mono), Dancing Script (footer signature) — loaded from `src/assets/fonts/`.
+- **Fonts:** Geist (sans), Geist Mono (mono), Dancing Script (footer signature) — loaded from `public/fonts/` via `@font-face`.
 - **Container:** `max-width: 48rem` (768px) — narrow, content-focused layout.
 
 ## Content Collection
