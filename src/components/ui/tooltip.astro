@@ -28,7 +28,7 @@ const arrowClasses = {
   <slot />
   <div
     class={cn(
-      'pointer-events-none absolute z-50 whitespace-nowrap rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100',
+      'pointer-events-none absolute z-50 whitespace-nowrap rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-0 shadow-md transition-opacity duration-200 [@media(hover:hover)]:group-hover:opacity-100',
       sideClasses[side],
     )}
   >

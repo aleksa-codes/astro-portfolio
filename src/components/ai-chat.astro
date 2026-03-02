@@ -63,7 +63,7 @@ import { Icon } from 'astro-icon/components';
             >
           </div>
           <div
-            class='bg-muted border-border/40 text-foreground rounded-3xl rounded-tl-sm border px-5 py-4 text-base leading-relaxed shadow-sm'
+            class='bg-muted border-border/40 text-foreground rounded-3xl rounded-tl-sm border px-5 py-4 text-base leading-relaxed wrap-break-word shadow-sm'
           >
             Hello! I'm Aleksa's portfolio AI. I know all about his engineering experience, tech
             stack, and projects. What would you like to know?
@@ -284,8 +284,8 @@ import { Icon } from 'astro-icon/components';
 
         const bubble = document.createElement('div');
         bubble.className = isUser
-          ? `text-base bg-foreground text-background px-5 py-4 rounded-3xl rounded-tr-sm shadow-sm`
-          : `text-base text-foreground leading-relaxed bg-muted border border-border/40 px-5 py-4 rounded-3xl rounded-tl-sm shadow-sm message-bubble-wrapper message-bubble-content prose prose-sm dark:prose-invert max-w-none`;
+          ? `text-base bg-foreground text-background px-5 py-4 rounded-3xl rounded-tr-sm shadow-sm break-words`
+          : `text-base text-foreground leading-relaxed bg-muted border border-border/40 px-5 py-4 rounded-3xl rounded-tl-sm shadow-sm break-words message-bubble-wrapper message-bubble-content prose prose-sm dark:prose-invert max-w-none`;
 
         if (isUser) {
           bubble.textContent = content;
@@ -371,7 +371,7 @@ import { Icon } from 'astro-icon/components';
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground"><path d="M12 6V2H8"/><path d="m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z"/><path d="M2 12h2"/><path d="M9 11v2"/><path d="M15 11v2"/><path d="M20 12h2"/></svg>
               <span class="text-sm uppercase tracking-wider text-muted-foreground font-semibold">Assistant</span>
             </div>
-            <div class="message-bubble-wrapper bg-muted border border-border/40 px-5 py-3 rounded-3xl rounded-tl-sm shadow-sm w-fit">
+            <div class="message-bubble-wrapper bg-muted border border-border/40 px-5 py-3 rounded-3xl rounded-tl-sm shadow-sm w-fit break-words">
               <div class="flex gap-1.5 items-center h-4">
                 <div class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-dot-flashing" style="animation-delay: 0s;"></div>
                 <div class="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-dot-flashing" style="animation-delay: 0.2s;"></div>
