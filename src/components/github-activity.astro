@@ -38,8 +38,29 @@ const iconClass = 'h-4 w-4 text-muted-foreground/70';
   class='border-border bg-secondary/30 flex w-full flex-1 items-center justify-center rounded-xl border p-4'
 >
   <div class='flex w-fit flex-col gap-2'>
-    <div id='gh-labels' class='flex w-full justify-between px-1'></div>
-    <div id='gh-graph' data-username={username} class='flex gap-0.75'></div>
+    <div id='gh-labels' class='flex gap-0.75'>
+      <!-- Skeleton label placeholders to reserve height -->
+      {
+        Array.from({ length: 17 }).map(() => (
+          <span class='w-2.75 shrink-0 text-xs font-medium md:w-3'>&nbsp;</span>
+        ))
+      }
+    </div>
+    <div id='gh-graph' data-username={username} class='flex gap-0.75'>
+      <!-- Skeleton loading state -->
+      {
+        Array.from({ length: 17 }).map(() => (
+          <div class='flex flex-col gap-0.75'>
+            {Array.from({ length: 7 }).map(() => (
+              <div class='bg-secondary/60 h-2.75 w-2.75 animate-pulse rounded-[2px] md:h-3 md:w-3' />
+            ))}
+          </div>
+        ))
+      }
+    </div>
+    <p id='gh-graph-error' class='text-muted-foreground/60 hidden text-center text-xs'>
+      Could not load contribution data
+    </p>
   </div>
 </div>
 
@@ -115,7 +136,15 @@ const iconClass = 'h-4 w-4 text-muted-foreground/70';
   }
 </div>
 
-<script is:inline define:vars={{ username }}>
+<script>
+  const username =
+    document.getElementById('gh-graph')?.getAttribute('data-username') || 'aleksa-codes';
+
+  type Contribution = {
+    date: string;
+    count: number;
+  };
+
   async function fetchContributions() {
     try {
       const response = await fetch(
@@ -135,10 +164,17 @@ const iconClass = 'h-4 w-4 text-muted-foreground/70';
     const labelsContainer = document.getElementById('gh-labels');
     if (!graphContainer || !labelsContainer) return;
 
-    const contributions = await fetchContributions();
+    const contributions: Contribution[] = await fetchContributions();
 
     graphContainer.innerHTML = '';
     labelsContainer.innerHTML = '';
+
+    const errorEl = document.getElementById('gh-graph-error');
+    if (!contributions && errorEl) {
+      errorEl.classList.remove('hidden');
+    } else if (errorEl) {
+      errorEl.classList.add('hidden');
+    }
 
     const colors = [
       'bg-[var(--gh-0)]',
@@ -203,12 +239,6 @@ const iconClass = 'h-4 w-4 text-muted-foreground/70';
             else if (count <= 10) intensity = 3;
             else intensity = 4;
           }
-        } else {
-          const rand = Math.random();
-          if (rand > 0.6) intensity = 1;
-          if (rand > 0.8) intensity = 2;
-          if (rand > 0.9) intensity = 3;
-          if (rand > 0.95) intensity = 4;
         }
 
         const cell = document.createElement('div');
