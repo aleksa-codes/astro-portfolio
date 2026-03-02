@@ -2,7 +2,6 @@ import mdx from '@astrojs/mdx';
 import netlify from '@astrojs/netlify';
 import sitemap from '@astrojs/sitemap';
 import playformCompress from '@playform/compress';
-import playformInline from '@playform/inline';
 import tailwindcss from '@tailwindcss/vite';
 import expressiveCode from 'astro-expressive-code';
 import icon from 'astro-icon';
@@ -51,7 +50,6 @@ export default defineConfig({
     mdx(),
     icon(),
     sitemap(),
-    playformInline(),
     playformCompress({
       HTML: {
         'html-minifier-terser': {
