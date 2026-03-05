@@ -1,4 +1,4 @@
-# astro-portfolio
+# astro-portfolio - Agent Instructions
 
 **CRITICAL:** The dev server is likely already running. Do NOT start a new server or build unless explicitly asked. Use MCP tool Context7 to look up docs for rapidly evolving technologies like Astro 5, Tailwind v4, or unfamiliar libs (`astro-capo`, `astro-compress`, `astro-icon`, `@northsoon/astro-seo`, `astro-og-canvas`, `astro-expressive-code`).
 
