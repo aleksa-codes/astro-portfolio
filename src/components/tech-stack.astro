@@ -14,7 +14,7 @@ const filteredTech = techList.filter(tech => !['Supabase', 'Neon'].includes(tech
     {
       filteredTech.map(tech => (
         <a
-          href={tech.url}
+          href={`${tech.url}${tech.url.includes('?') ? '&' : '?'}utm_source=aleksa.codes`}
           target='_blank'
           rel='noopener noreferrer'
           class={cn(
