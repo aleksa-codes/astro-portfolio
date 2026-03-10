@@ -3,8 +3,8 @@
 @custom-variant dark (&:is(.dark *));
 @utility container {
   margin-inline: auto;
-  padding-inline: 1rem;
-  max-width: 48rem;
+  padding-inline: 1.5rem;
+  max-width: 56rem;
 }
 
 :root {
