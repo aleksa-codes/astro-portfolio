@@ -1,6 +1,6 @@
 ---
-title: "Your First GitHub Pull Request: A Beginner's Tutorial"
-description: 'Master the art of GitHub Pull Requests with this beginner-friendly guide. Gain expert insights and step-by-step instructions for creating flawless PRs.'
+title: 'How to Make Your First GitHub Pull Request'
+description: 'A beginner-friendly walkthrough for making your first GitHub pull request. No jargon, just the steps you need.'
 date: '2023-09-02T15:41:00.000Z'
 thumbnail: ../../assets/blog/github-first-pr-guide.png
 tags:
@@ -11,85 +11,95 @@ tags:
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Why GitHub Pull Requests Are Crucial](#why-github-pull-requests-are-crucial)
-- [Must-Know Prerequisites](#must-know-prerequisites)
-- [Step-by-Step Tutorial](#step-by-step-tutorial)
-  - [Step 1: Fork the Repository](#step-1-fork-the-repository)
-  - [Step 2: Clone Your Fork to Your Local Machine](#step-2-clone-your-fork-to-your-local-machine)
-  - [Step 3: Create a New Branch](#step-3-create-a-new-branch)
-  - [Step 4: Implement Your Changes](#step-4-implement-your-changes)
-  - [Step 5: Commit and Push Your Changes](#step-5-commit-and-push-your-changes)
-  - [Step 6: Create the Pull Request](#step-6-create-the-pull-request)
-- [Conclusion](#conclusion)
+- [What's this about?](#whats-this-about)
+- [Why pull requests matter](#why-pull-requests-matter)
+- [What you'll need](#what-youll-need)
+- [Let's do it step by step](#lets-do-it-step-by-step)
+  - [Step 1: Fork the repo](#step-1-fork-the-repo)
+  - [Step 2: Clone it to your machine](#step-2-clone-it-to-your-machine)
+  - [Step 3: Make a new branch](#step-3-make-a-new-branch)
+  - [Step 4: Make your changes](#step-4-make-your-changes)
+  - [Step 5: Commit and push](#step-5-commit-and-push)
+  - [Step 6: Open the pull request](#step-6-open-the-pull-request)
+- [You did it](#you-did-it)
 
-## Introduction
+## What's this about?
 
-Welcome to this comprehensive tutorial on making your first GitHub Pull Request (PR). This guide aims to provide you with a deep understanding of PRs, a critical component of collaborative software development.
+If you've never made a pull request (PR) on GitHub before, it can seem kind of intimidating. But it's really not that bad once you've done it once. This post walks you through the whole process from start to finish.
 
-## Why GitHub Pull Requests Are Crucial
+## Why pull requests matter
 
-Pull Requests are essential for multiple reasons:
+PRs are basically how developers propose changes to a codebase. Here's why they're a big deal:
 
-- **Code Review**: PRs offer a platform for meticulous code scrutiny, ultimately improving code quality.
-- **Collaboration**: They serve as a key collaborative tool in team-based software projects.
-- **Version Control**: PRs act as a filter, ensuring that only reviewed and approved changes make it to the main codebase.
+- **Code review**: Other people get to look at your code before it gets merged. Catches bugs and keeps quality high.
+- **Teamwork**: It's the standard way teams collaborate on code. If you work with other devs, you'll be making PRs constantly.
+- **Safety net**: Nothing goes into the main branch without being reviewed first. That's a good thing.
 
-## Must-Know Prerequisites
+## What you'll need
 
-Before embarking on your PR journey, ensure you have:
+Nothing crazy:
 
-- An active GitHub account.
-- Basic knowledge of Git commands and workflows.
-- A specific project or repository to which you aim to contribute.
+- A GitHub account (free).
+- Basic knowledge of Git (clone, commit, push, branch). If those words mean nothing to you, look up a quick Git tutorial first.
+- A repo you want to contribute to.
 
-## Step-by-Step Tutorial
+## Let's do it step by step
 
-### Step 1: Fork the Repository
+### Step 1: Fork the repo
 
-The initial step is to fork the GitHub repository you wish to contribute to. This action creates a personal copy for you to work on.
+Go to the GitHub repo you want to contribute to and click the "Fork" button in the top right. This makes a copy of the repo under your account.
 
-### Step 2: Clone Your Fork to Your Local Machine
+### Step 2: Clone it to your machine
 
-To clone your fork, execute:
+Open your terminal and run:
 
 ```bash
 git clone https://github.com/your-username/repository-name.git
 ```
 
-### Step 3: Create a New Branch
+This downloads the repo to your computer so you can work on it locally.
 
-Navigate to the cloned repository and create a new branch:
+### Step 3: Make a new branch
+
+Go into the project folder and create a branch for your changes:
 
 ```bash
 git checkout -b feature-or-fix-branch
 ```
 
-### Step 4: Implement Your Changes
+Name it something descriptive. Like `fix-typo-in-readme` or `add-dark-mode`. Not just `my-branch`.
 
-Open the codebase in your text editor. Implement your changes, enhancements, or fixes and save your work.
+### Step 4: Make your changes
 
-### Step 5: Commit and Push Your Changes
+Open the code in your editor, do your thing, and save. Whether it's fixing a bug, adding a feature, or updating docs, just make sure your changes are clean and focused.
 
-Once content with your changes, commit them:
+### Step 5: Commit and push
+
+Stage and commit your changes:
 
 ```bash
 git add .
-git commit -m "Detailed commit message explaining the changes"
+git commit -m "Fix typo in README"
 ```
 
-Push the changes to your online GitHub fork:
+Write a clear commit message. Future you (and other devs) will thank you.
+
+Then push it up to your fork:
 
 ```bash
 git push origin feature-or-fix-branch
 ```
 
-### Step 6: Create the Pull Request
+### Step 6: Open the pull request
 
-Navigate to the 'Pull Requests' tab of the original repository. Click 'New Pull Request', select your fork and branch, and then fill out and submit the PR form.
+Go back to the original repo on GitHub. You should see a banner saying you recently pushed a branch. Click "Compare & pull request."
 
-## Conclusion
+Fill out the PR form. Explain what you changed and why. If there's a related issue, mention it. Then hit "Create pull request."
 
-By understanding and mastering the art of Pull Requests, you equip yourself with a crucial skill in collaborative software development. This guide aimed to provide a thorough, step-by-step approach to making your first PR, demystifying the process and setting you up for future contributions.
+That's literally it.
 
-Thank you for reading this comprehensive guide. You're now well-prepared to make meaningful contributions to any GitHub project.
+## You did it
+
+Your first PR is out there. The maintainers will review it, maybe leave some comments or ask for changes, and eventually (hopefully) merge it. Don't stress if they ask you to tweak something, that's normal and it's how you learn.
+
+Now go find another repo and do it again. The more you contribute, the more comfortable it gets. Happy coding!

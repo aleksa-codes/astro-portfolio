@@ -11,16 +11,16 @@ Personal portfolio and blog built with Astro 5, Tailwind CSS 4, and TypeScript.
 
 ## Features
 
-- **Astro 5** — 🌌 Static-first with hybrid SSR for the AI chat endpoint
-- **Tailwind CSS 4** — 🎨 Vite plugin, CSS-only config, shadcn-style oklch design tokens
-- **MDX Blog** — 📝 Content collections, pagination, reading time, Giscus comments
-- **AI Chat** — 🤖 Groq-powered streaming assistant with follow-up questions and daily rate limits
-- **OG Images** — 🖼️ Auto-generated at build time via `astro-og-canvas`
-- **Decap CMS** — ⚙️ Git-based headless CMS at `/admin`
-- **Dark Mode** — 🌙 System-aware with instant toggle (no flash)
-- **Contact Form** — ✉️ Netlify Forms with reCAPTCHA and honeypot
-- **Performance** — ⚡ Compression, lazy loading, priority hints, preloaded fonts
-- **SEO** — 🔍 Sitemap, RSS, meta tags, structured OG data
+- **Astro 5** 🌌 Static-first with hybrid SSR for the AI chat endpoint
+- **Tailwind CSS 4** 🎨 Vite plugin, CSS-only config, shadcn-style oklch design tokens
+- **MDX Blog** 📝 Content collections, pagination, reading time, Giscus comments
+- **AI Chat** 🤖 Groq-powered streaming assistant with follow-up questions and daily rate limits
+- **OG Images** 🖼️ Auto-generated at build time via `astro-og-canvas`
+- **Decap CMS** ⚙️ Git-based headless CMS at `/admin`
+- **Dark Mode** 🌙 System-aware with instant toggle (no flash)
+- **Contact Form** ✉️ Netlify Forms with reCAPTCHA and honeypot
+- **Performance** ⚡ Compression, lazy loading, priority hints, preloaded fonts
+- **SEO** 🔍 Sitemap, RSS, meta tags, structured OG data
 
 ## Quick Start
 
@@ -93,4 +93,4 @@ Deploy to Netlify with these settings:
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).
