@@ -1,46 +1,53 @@
 ---
+import { cn } from '@/lib/utils';
 import { Icon } from 'astro-icon/components';
+
+const pathname = Astro.url.pathname;
+
+const navItems = [
+  { href: '/', label: 'Home', icon: 'lucide:home' },
+  { href: '/projects', label: 'Projects', icon: 'lucide:code' },
+  { href: '/blog', label: 'Blog', icon: 'lucide:pen-line' },
+  { href: '/contact', label: 'Contact', icon: 'lucide:mail' },
+] as const;
+
+function isActive(href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+}
 ---
 
 <div class='pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center px-4'>
   <nav
     class='border-border bg-background/80 xs:gap-3 xs:rounded-3xl xs:px-4 xs:py-3 pointer-events-auto flex w-fit items-end gap-2 rounded-2xl border px-3 py-2.5 shadow-2xl backdrop-blur-xl sm:gap-3.5'
   >
-    <a href='/' class='group flex shrink-0 flex-col items-center gap-1.5'>
-      <div
-        class='bg-secondary/50 text-foreground border-border xs:h-12 xs:w-12 xs:rounded-2xl flex h-11 w-11 items-center justify-center rounded-xl border shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)] group-hover:-translate-y-1 group-hover:scale-[1.2] group-hover:shadow-md md:h-13 md:w-13'
-      >
-        <Icon name='lucide:home' class='xs:h-6 xs:w-6 h-5 w-5' />
-      </div>
-      <span class='text-muted-foreground text-sm leading-none font-medium'>Home</span>
-    </a>
-
-    <a href='/projects' class='group flex shrink-0 flex-col items-center gap-1.5'>
-      <div
-        class='bg-secondary/50 text-foreground border-border xs:h-12 xs:w-12 xs:rounded-2xl flex h-11 w-11 items-center justify-center rounded-xl border shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)] group-hover:-translate-y-1 group-hover:scale-[1.2] group-hover:shadow-md md:h-13 md:w-13'
-      >
-        <Icon name='lucide:code' class='xs:h-6 xs:w-6 h-5 w-5' />
-      </div>
-      <span class='text-muted-foreground text-sm leading-none font-medium'>Projects</span>
-    </a>
-
-    <a href='/blog' class='group flex shrink-0 flex-col items-center gap-1.5'>
-      <div
-        class='bg-secondary/50 text-foreground border-border xs:h-12 xs:w-12 xs:rounded-2xl flex h-11 w-11 items-center justify-center rounded-xl border shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)] group-hover:-translate-y-1 group-hover:scale-[1.2] group-hover:shadow-md md:h-13 md:w-13'
-      >
-        <Icon name='lucide:pen-line' class='xs:h-6 xs:w-6 h-5 w-5' />
-      </div>
-      <span class='text-muted-foreground text-sm leading-none font-medium'>Blog</span>
-    </a>
-
-    <a href='/contact' class='group flex shrink-0 flex-col items-center gap-1.5'>
-      <div
-        class='bg-secondary/50 text-foreground border-border xs:h-12 xs:w-12 xs:rounded-2xl flex h-11 w-11 items-center justify-center rounded-xl border shadow-sm transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)] group-hover:-translate-y-1 group-hover:scale-[1.2] group-hover:shadow-md md:h-13 md:w-13'
-      >
-        <Icon name='lucide:mail' class='xs:h-6 xs:w-6 h-5 w-5' />
-      </div>
-      <span class='text-muted-foreground text-sm leading-none font-medium'>Contact</span>
-    </a>
+    {
+      navItems.map(({ href, label, icon }) => {
+        const active = isActive(href);
+        return (
+          <a href={href} class='group flex shrink-0 flex-col items-center gap-1.5'>
+            <div
+              class={cn(
+                'xs:h-12 xs:w-12 xs:rounded-2xl flex h-11 w-11 items-center justify-center rounded-xl border shadow-sm transition-[transform,box-shadow,background-color,border-color,color] duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)] group-hover:-translate-y-1 group-hover:scale-[1.2] group-hover:shadow-md md:h-13 md:w-13',
+                active
+                  ? 'bg-primary/10 text-primary border-primary/25'
+                  : 'bg-secondary/50 text-foreground border-border',
+              )}
+            >
+              <Icon name={icon} class='xs:h-6 xs:w-6 h-5 w-5' />
+            </div>
+            <span
+              class={cn(
+                'text-sm leading-none font-medium transition-colors duration-300',
+                active ? 'text-primary' : 'text-muted-foreground',
+              )}
+            >
+              {label}
+            </span>
+          </a>
+        );
+      })
+    }
 
     <div class='bg-border mx-1 w-px shrink-0 self-stretch rounded-full'></div>
 
