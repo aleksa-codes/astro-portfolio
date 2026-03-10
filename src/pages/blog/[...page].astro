@@ -46,13 +46,17 @@ const ogImage = new URL('/open-graph/blog.png', Astro.site).toString();
     <div class='flex flex-col gap-12 pb-24'>
       <BlogListing posts={page.data} />
 
-      <Pagination
-        currentPage={page.currentPage}
-        lastPage={page.lastPage}
-        urlPrev={page.url.prev}
-        urlNext={page.url.next}
-        basePath='/blog'
-      />
+      {
+        page.lastPage > 1 && (
+          <Pagination
+            currentPage={page.currentPage}
+            lastPage={page.lastPage}
+            urlPrev={page.url.prev}
+            urlNext={page.url.next}
+            basePath='/blog'
+          />
+        )
+      }
     </div>
   </div>
 </BaseLayout>
