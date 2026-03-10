@@ -1,6 +1,6 @@
 # astro-portfolio - Agent Instructions
 
-**CRITICAL:** The dev server is likely already running. Do NOT start a new server or build unless explicitly asked. Use MCP tool Context7 to look up docs for rapidly evolving technologies like Astro 5, Tailwind v4, or unfamiliar libs (`astro-capo`, `astro-compress`, `astro-icon`, `@northsoon/astro-seo`, `astro-og-canvas`, `astro-expressive-code`).
+**CRITICAL:** The dev server is likely already running. Do NOT start a new server or build unless explicitly asked. Use MCP tool Context7 to look up docs for rapidly evolving technologies like Astro 5, Tailwind v4, or unfamiliar libs (`@felixicaza/astro-capo`, `astro-compress`, `astro-icon`, `@northsoon/astro-seo`, `astro-og-canvas`, `astro-expressive-code`).
 
 ## Architecture
 
@@ -88,7 +88,7 @@ const { title, class: className } = Astro.props;
 
 ### Head & SEO
 
-Use `astro-capo` (`<Head>` with capital H, not `<head>`) and `@northsoon/astro-seo` (`AstroSeo`). Both are configured in `base-layout.astro`.
+Use `@felixicaza/astro-capo` (`<Head>` with capital H, not `<head>`) and `@northsoon/astro-seo` (`AstroSeo`). Both are configured in `base-layout.astro`.
 
 ### Dark Mode
 
