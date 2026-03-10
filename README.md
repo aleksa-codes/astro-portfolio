@@ -13,7 +13,7 @@ Personal portfolio and blog built with Astro 6, Tailwind CSS 4, and TypeScript.
 
 - **Astro 6** 🌌 Static-first with hybrid SSR for the AI chat endpoint
 - **Tailwind CSS 4** 🎨 Vite plugin, CSS-only config, shadcn-style oklch design tokens
-- **MDX Blog** 📝 Content collections, pagination, reading time, Giscus comments
+- **Markdown Blog** 📝 Content collections, pagination, reading time, Giscus comments
 - **AI Chat** 🤖 Groq-powered streaming assistant with follow-up questions and daily rate limits
 - **OG Images** 🖼️ Auto-generated at build time via `astro-og-canvas`
 - **Decap CMS** ⚙️ Git-based headless CMS at `/admin`
@@ -56,7 +56,7 @@ src/
 ├── assets/            # Images & fonts (Astro-optimized)
 ├── components/        # Astro components (kebab-case)
 │   └── ui/            # Primitives (card, badge, button, tooltip)
-├── content/blog/      # MDX blog posts
+├── content/blog/      # Markdown blog posts
 ├── layouts/           # base-layout.astro
 ├── lib/               # Utilities, project data, tech stack data
 ├── pages/             # Routes (static + /api/chat SSR)
@@ -76,7 +76,7 @@ src/
 | Framework       | [Astro 6](https://astro.build/)                                                         |
 | Styling         | [Tailwind CSS 4](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) tokens |
 | AI              | [Vercel AI SDK](https://ai-sdk.dev/) + [Groq](https://groq.com/)                        |
-| Content         | [MDX](https://mdxjs.com/) + [Decap CMS](https://decapcms.org/)                          |
+| Content         | [Markdown](https://www.markdownguide.org/) + [Decap CMS](https://decapcms.org/)         |
 | Icons           | [astro-icon](https://github.com/natemoo-re/astro-icon) (Lucide, Simple Icons, etc.)     |
 | Code Blocks     | [Expressive Code](https://expressive-code.com/)                                         |
 | Deployment      | [Netlify](https://www.netlify.com/) (static + serverless)                               |

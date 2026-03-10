@@ -1,4 +1,3 @@
-import mdx from '@astrojs/mdx';
 import netlify from '@astrojs/netlify';
 import sitemap from '@astrojs/sitemap';
 import playformCompress from '@playform/compress';
@@ -47,7 +46,6 @@ export default defineConfig({
         },
       },
     }),
-    mdx(),
     icon(),
     sitemap(),
     playformCompress({

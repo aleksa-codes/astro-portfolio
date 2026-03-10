@@ -6,7 +6,7 @@
 
 - **Stack:** Astro 6, Tailwind CSS 4 (Vite plugin), TypeScript (strict), Bun.
 - **Adapter:** `@astrojs/netlify` — hybrid rendering (static + SSR for `/api/chat`).
-- **Content:** Single `blog` collection in `src/content/blog/` (MDX) via `src/content.config.ts`.
+- **Content:** Single `blog` collection in `src/content/blog/` (Markdown files with `.md`) via `src/content.config.ts`.
 - **Projects:** Static TypeScript array in `src/lib/projects.ts` (NOT a content collection).
 - **Layout:** Single layout `src/layouts/base-layout.astro` — includes SEO, Header, Footer, Dock, AIChat.
 - **Assets:** `src/assets/` (Astro-optimized images/fonts), `public/` (static files).
@@ -162,7 +162,7 @@ schema: ({ image }) =>
   });
 ```
 
-Blog posts are MDX files in `src/content/blog/`. Paginated at 4 per page.
+Blog posts are Markdown (`.md`) files in `src/content/blog/`. Paginated at 4 per page.
 
 ## Routing
 
