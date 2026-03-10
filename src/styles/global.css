@@ -251,9 +251,6 @@
   h6 {
     @apply font-serif;
   }
-}
-
-@layer base {
   /* Vercel Mouse Tracking Glow */
   .glow-card {
     position: relative;
