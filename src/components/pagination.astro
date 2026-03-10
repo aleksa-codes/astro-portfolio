@@ -1,4 +1,5 @@
 ---
+import { cn } from '@/lib/utils';
 import { Icon } from 'astro-icon/components';
 
 interface Props {
@@ -44,12 +45,12 @@ for (let i = 1; i <= lastPage; i++) {
         return (
           <a
             href={href}
-            class:list={[
+            class={cn(
               'flex h-10 min-w-10 items-center justify-center rounded-xl border px-3 text-sm font-medium transition-all',
               isCurrent
                 ? 'bg-foreground text-background border-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground hover:bg-muted border-border/50',
-            ]}
+            )}
           >
             {page}
           </a>
