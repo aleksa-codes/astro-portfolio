@@ -2,7 +2,7 @@
 
 > **📅 March 2026 Update:** This repository has undergone a **major overhaul** and refactor!
 
-Personal portfolio and blog built with Astro 5, Tailwind CSS 4, and TypeScript.
+Personal portfolio and blog built with Astro 6, Tailwind CSS 4, and TypeScript.
 
 [![Astro](https://img.shields.io/badge/Astro_5-FF5D01?logo=astro&logoColor=white)](https://astro.build/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -11,7 +11,7 @@ Personal portfolio and blog built with Astro 5, Tailwind CSS 4, and TypeScript.
 
 ## Features
 
-- **Astro 5** 🌌 Static-first with hybrid SSR for the AI chat endpoint
+- **Astro 6** 🌌 Static-first with hybrid SSR for the AI chat endpoint
 - **Tailwind CSS 4** 🎨 Vite plugin, CSS-only config, shadcn-style oklch design tokens
 - **MDX Blog** 📝 Content collections, pagination, reading time, Giscus comments
 - **AI Chat** 🤖 Groq-powered streaming assistant with follow-up questions and daily rate limits
@@ -73,7 +73,7 @@ src/
 
 | Category        | Technology                                                                              |
 | --------------- | --------------------------------------------------------------------------------------- |
-| Framework       | [Astro 5](https://astro.build/)                                                         |
+| Framework       | [Astro 6](https://astro.build/)                                                         |
 | Styling         | [Tailwind CSS 4](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) tokens |
 | AI              | [Vercel AI SDK](https://ai-sdk.dev/) + [Groq](https://groq.com/)                        |
 | Content         | [MDX](https://mdxjs.com/) + [Decap CMS](https://decapcms.org/)                          |
