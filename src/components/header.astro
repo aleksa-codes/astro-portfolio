@@ -2,6 +2,17 @@
 import { Icon } from 'astro-icon/components';
 import ThemeToggle from '@/components/theme-toggle.astro';
 import Tooltip from '@/components/ui/tooltip.astro';
+
+const links = [
+  {
+    href: 'https://github.com/aleksa-codes',
+    icon: 'lucide:github',
+    label: 'GitHub',
+    target: '_blank',
+  },
+  { href: '/Aleksa_Resume_2026.pdf', icon: 'lucide:file-text', label: 'Resume', target: '_blank' },
+  { href: '/rss.xml', icon: 'lucide:rss', label: 'RSS Feed' },
+];
 ---
 
 <header
@@ -10,69 +21,53 @@ import Tooltip from '@/components/ui/tooltip.astro';
   <div class='container flex h-16 items-center justify-between'>
     <a
       href='/'
-      class='text-foreground flex items-center font-mono text-lg font-medium tracking-tight transition-opacity hover:opacity-80'
+      class='text-foreground flex items-center font-mono text-lg font-medium transition-opacity hover:opacity-80'
+      aria-label='Home'
     >
       <span id='typewriter'>aleksa.codes</span><span
-        class='animate-blink ml-1.5 inline-block h-[1.1em] w-0.5 bg-current align-text-bottom'
-      ></span>
+        class='animate-blink ml-1.5 h-[1.1em] w-0.5 bg-current align-text-bottom'></span>
     </a>
 
     <div class='flex items-center gap-1 md:gap-3'>
-      <Tooltip content='GitHub'>
-        <a
-          href='https://github.com/aleksa-codes'
-          target='_blank'
-          aria-label='GitHub profile'
-          class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
-        >
-          <Icon name='lucide:github' class='h-5 w-5' />
-        </a>
-      </Tooltip>
-
-      <Tooltip content='Resume'>
-        <a
-          href='/Aleksa_Resume_2026.pdf'
-          target='_blank'
-          aria-label='Download resume PDF'
-          class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
-        >
-          <Icon name='lucide:file-text' class='h-5 w-5' />
-        </a>
-      </Tooltip>
-
-      <Tooltip content='RSS Feed'>
-        <a
-          href='/rss.xml'
-          aria-label='RSS feed'
-          class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
-        >
-          <Icon name='lucide:rss' class='h-5 w-5' />
-        </a>
-      </Tooltip>
+      {
+        links.map(({ href, icon, label, target }) => (
+          <Tooltip content={label}>
+            <a
+              {href}
+              {target}
+              aria-label={label}
+              class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
+            >
+              <Icon name={icon} class='h-5 w-5' />
+            </a>
+          </Tooltip>
+        ))
+      }
 
       <div class='bg-border mx-1 h-6 w-px md:mx-2'></div>
-
       <ThemeToggle />
     </div>
   </div>
 </header>
 
 <script>
-  const typeText = 'aleksa.codes';
-  const typeElement = document.getElementById('typewriter');
+  // IIFE to keep scope clean
+  (() => {
+    const el = document.getElementById('typewriter');
+    if (!el) return;
 
-  if (typeElement) {
-    const element = typeElement;
-    // Clear the pre-filled text to replay the typewriter animation
-    element.textContent = '';
-    let typeIndex = 0;
-    function typeWriter() {
-      if (typeIndex < typeText.length) {
-        element.textContent += typeText.charAt(typeIndex);
-        typeIndex++;
-        setTimeout(typeWriter, 120);
+    const text = el.textContent || '';
+    el.textContent = ''; // Clear for animation
+
+    let i = 0;
+    const type = () => {
+      if (i < text.length) {
+        el.textContent += text[i++];
+        setTimeout(type, 120);
       }
-    }
-    setTimeout(typeWriter, 400);
-  }
+    };
+
+    // Slight delay before starting for a better feel
+    setTimeout(type, 400);
+  })();
 </script>

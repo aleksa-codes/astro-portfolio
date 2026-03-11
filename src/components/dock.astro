@@ -2,19 +2,17 @@
 import { cn } from '@/lib/utils';
 import { Icon } from 'astro-icon/components';
 
-const pathname = Astro.url.pathname;
+const { pathname } = Astro.url;
 
 const navItems = [
   { href: '/', label: 'Home', icon: 'lucide:home' },
   { href: '/projects', label: 'Projects', icon: 'lucide:code' },
   { href: '/blog', label: 'Blog', icon: 'lucide:pen-line' },
   { href: '/contact', label: 'Contact', icon: 'lucide:mail' },
-] as const;
+];
 
-function isActive(href: string): boolean {
-  if (href === '/') return pathname === '/';
-  return pathname.startsWith(href);
-}
+const boxBase =
+  'xs:h-12 xs:w-12 xs:rounded-2xl flex h-11 w-11 items-center justify-center rounded-xl border shadow-sm transition-all duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)] group-hover:-translate-y-1 group-hover:scale-[1.2] md:h-13 md:w-13';
 ---
 
 <div class='pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center px-4'>
@@ -23,12 +21,13 @@ function isActive(href: string): boolean {
   >
     {
       navItems.map(({ href, label, icon }) => {
-        const active = isActive(href);
+        const active = href === '/' ? pathname === '/' : pathname.startsWith(href);
         return (
           <a href={href} class='group flex shrink-0 flex-col items-center gap-1.5'>
             <div
               class={cn(
-                'xs:h-12 xs:w-12 xs:rounded-2xl flex h-11 w-11 items-center justify-center rounded-xl border shadow-sm transition-[transform,box-shadow,background-color,border-color,color] duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)] group-hover:-translate-y-1 group-hover:scale-[1.2] group-hover:shadow-md md:h-13 md:w-13',
+                boxBase,
+                'group-hover:shadow-md',
                 active
                   ? 'bg-primary/10 text-primary border-primary/25'
                   : 'bg-secondary/50 text-foreground border-border',
@@ -56,7 +55,10 @@ function isActive(href: string): boolean {
       class='group flex shrink-0 cursor-pointer flex-col items-center gap-1.5'
     >
       <div
-        class='bg-primary text-primary-foreground xs:h-12 xs:w-12 xs:rounded-2xl flex h-11 w-11 items-center justify-center rounded-xl border border-transparent shadow-lg transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.34,1.3,0.64,1)] group-hover:-translate-y-1 group-hover:scale-[1.2] group-hover:shadow-xl md:h-13 md:w-13'
+        class={cn(
+          boxBase,
+          'bg-primary text-primary-foreground border-transparent shadow-lg group-hover:shadow-xl',
+        )}
       >
         <Icon name='lucide:bot-message-square' class='xs:h-6 xs:w-6 h-5 w-5' />
       </div>
@@ -66,18 +68,7 @@ function isActive(href: string): boolean {
 </div>
 
 <script>
-  declare global {
-    interface Window {
-      toggleChat: () => void;
-    }
-  }
-
-  const chatBtn = document.getElementById('dock-chat-btn');
-  if (chatBtn) {
-    chatBtn.addEventListener('click', () => {
-      if (typeof window.toggleChat === 'function') {
-        window.toggleChat();
-      }
-    });
-  }
+  document.getElementById('dock-chat-btn')?.addEventListener('click', () => {
+    (window as any).toggleChat?.();
+  });
 </script>

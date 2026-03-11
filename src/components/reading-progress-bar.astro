@@ -1,34 +1,34 @@
----
-
----
-
 <div class='pointer-events-none fixed top-16 left-0 z-50 h-px w-full'>
-  <div class='bg-foreground h-full w-0 opacity-0 transition-opacity duration-200' id='progress-bar'>
+  <div id='progress-bar' class='bg-foreground h-full w-0 opacity-0 transition-opacity duration-200'>
   </div>
 </div>
 
 <script>
-  function initProgressBar() {
-    const progressBar = document.getElementById('progress-bar') as HTMLDivElement;
+  // Self-executing function to avoid global scope pollution
+  (() => {
+    const bar = document.getElementById('progress-bar');
+    if (!bar) return;
 
-    if (progressBar) {
-      const updateProgress = () => {
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        if (scrollHeight <= 0) {
-          progressBar.style.opacity = '0';
-          return;
-        }
+    const update = () => {
+      const scrollH = document.documentElement.scrollHeight - window.innerHeight;
 
-        const progressWidth = (window.scrollY / scrollHeight) * 100;
-        progressBar.style.width = `${progressWidth}%`;
-        progressBar.style.opacity = progressWidth > 0.5 ? '1' : '0';
-      };
+      // Safety check for short pages
+      if (scrollH <= 0) {
+        bar.style.opacity = '0';
+        return;
+      }
 
-      window.addEventListener('scroll', updateProgress);
-      updateProgress();
-    }
-  }
+      const progress = (window.scrollY / scrollH) * 100;
 
-  initProgressBar();
-  document.addEventListener('astro:after-swap', initProgressBar);
+      bar.style.width = `${progress}%`;
+      // Show only after 0.5% scroll for a cleaner look
+      bar.style.opacity = progress > 0.5 ? '1' : '0';
+    };
+
+    // { passive: true } improves scroll performance significantly
+    window.addEventListener('scroll', update, { passive: true });
+
+    // Initial call to set state if page is refreshed mid-scroll
+    update();
+  })();
 </script>

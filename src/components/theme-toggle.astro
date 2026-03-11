@@ -5,37 +5,31 @@ import Tooltip from '@/components/ui/tooltip.astro';
 
 <Tooltip content='Toggle Theme' side='bottom'>
   <button
-    id='theme-toggle-btn'
     aria-label='Toggle theme'
-    class='text-muted-foreground hover:text-foreground hover:bg-accent relative flex cursor-pointer items-center justify-center rounded-xl p-2.5 transition-colors'
+    class='theme-toggle text-muted-foreground hover:text-foreground hover:bg-accent relative flex cursor-pointer items-center justify-center rounded-xl p-2.5 transition-colors'
   >
-    <Icon name='lucide:sun' class='sun-icon hidden h-5 w-5 dark:block' />
-    <Icon name='lucide:moon' class='moon-icon block h-5 w-5 dark:hidden' />
+    <Icon name='lucide:sun' class='hidden h-5 w-5 dark:block' />
+    <Icon name='lucide:moon' class='block h-5 w-5 dark:hidden' />
   </button>
 </Tooltip>
 
 <script>
-  function initThemeToggle() {
-    const toggle = document.getElementById('theme-toggle-btn');
-    if (!toggle) return;
+  document.addEventListener('click', e => {
+    if (!(e.target as HTMLElement).closest('.theme-toggle')) return;
 
-    toggle.addEventListener('click', () => {
-      // Disable transitions temporarily to make the theme change instant
-      document.documentElement.classList.add('[&_*]:!transition-none');
+    const doc = document.documentElement;
 
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    // Disable transitions temporarily
+    doc.classList.add('[&_*]:!transition-none');
 
-      // Force a repaint to ensure color change is applied without transitions
-      window.getComputedStyle(document.documentElement).opacity;
+    // Toggle theme & save
+    const isDark = doc.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
 
-      // Re-enable transitions after the current frame
-      requestAnimationFrame(() => {
-        document.documentElement.classList.remove('[&_*]:!transition-none');
-      });
-    });
-  }
+    // Force DOM repaint
+    doc.offsetHeight;
 
-  initThemeToggle();
-  document.addEventListener('astro:after-swap', initThemeToggle);
+    // Re-enable transitions
+    requestAnimationFrame(() => doc.classList.remove('[&_*]:!transition-none'));
+  });
 </script>

@@ -29,289 +29,264 @@ const ogImage = new URL('/open-graph/contact.png', Astro.site).toString();
 
     <!-- Consolidated Communication Hub -->
     <div class='flex flex-col gap-6'>
-      <div>
-        <Card class='overflow-hidden p-0' noGlow>
-          <!-- Integrated Premium Header -->
+      <Card class='overflow-hidden p-0' noGlow>
+        <!-- Integrated Premium Header -->
+        <div
+          class='glow-card bg-secondary/10 border-border/50 relative border-b p-4 md:p-8'
+          data-glow-card
+        >
           <div
-            class='glow-card bg-secondary/10 border-border/50 relative border-b p-4 md:p-8'
-            data-glow-card
+            class='relative z-10 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between md:text-left'
           >
-            <div
-              class='relative z-10 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between md:text-left'
-            >
-              <!-- Profile Info -->
-              <div class='flex flex-col items-center gap-4 sm:flex-row sm:items-center md:gap-6'>
-                <!-- Avatar with Status Dot -->
-                <div class='relative shrink-0'>
-                  <div
-                    class='border-border/50 bg-card h-20 w-20 rounded-full border p-0.5 shadow-sm md:h-28 md:w-28'
-                  >
-                    <Image
-                      src={Avatar}
-                      alt='Avatar of Aleksa'
-                      format={'webp'}
-                      width={112}
-                      height={112}
-                      priority
-                      class='h-full w-full rounded-full object-cover'
-                    />
-                  </div>
-                  <div
-                    class='border-card absolute right-1 bottom-1 h-4 w-4 rounded-full border-[3px] bg-green-500 md:right-1.5 md:bottom-1.5 md:h-5 md:w-5'
-                    title='Open to work'
-                  >
-                  </div>
+            <!-- Profile Info -->
+            <div class='flex flex-col items-center gap-4 sm:flex-row sm:items-center md:gap-6'>
+              <!-- Avatar with Status Dot -->
+              <div class='relative shrink-0'>
+                <div
+                  class='border-border/50 bg-card h-20 w-20 rounded-full border p-0.5 shadow-sm md:h-28 md:w-28'
+                >
+                  <Image
+                    src={Avatar}
+                    alt='Avatar of Aleksa'
+                    format={'webp'}
+                    width={112}
+                    height={112}
+                    priority
+                    class='h-full w-full rounded-full object-cover'
+                  />
                 </div>
-
-                <!-- Context Details -->
-                <div class='flex flex-col items-center gap-1 sm:items-start'>
-                  <h2 class='text-foreground text-xl font-bold tracking-tight md:text-2xl'>
-                    Aleksa
-                  </h2>
-                  <p class='text-muted-foreground text-sm font-medium'>Full-Stack Web Developer</p>
-                  <div
-                    class='text-muted-foreground/80 mt-1 flex flex-wrap items-center justify-center gap-3 text-sm sm:justify-start'
-                  >
-                    <span class='flex items-center gap-1.5'>
-                      <Icon name='lucide:map-pin' class='h-3.5 w-3.5' />
-                      Europe (CET)
-                    </span>
-                    <!-- <span class='hidden opacity-50 sm:inline'>•</span>
-                    <span class='flex items-center gap-1.5'>
-                      <Icon name='lucide:clock' class='h-3.5 w-3.5' />
-                      Replies in &lt; 24h
-                    </span> -->
-                  </div>
+                <div
+                  class='border-card absolute right-1 bottom-1 h-4 w-4 rounded-full border-[3px] bg-green-500 md:right-1.5 md:bottom-1.5 md:h-5 md:w-5'
+                  title='Open to work'
+                >
                 </div>
               </div>
 
-              <!-- Quick Access Portals -->
-              <div class='flex w-full items-center gap-2 sm:w-auto md:gap-3'>
-                <a
-                  href='mailto:hello@aleksa.codes'
-                  class='group/portal bg-card border-border/50 hover:bg-secondary/50 flex flex-1 items-center justify-center gap-2 rounded-xl border px-4 py-3 transition-all active:scale-95 md:flex-none md:rounded-xl md:px-5 md:py-2.5'
+              <!-- Context Details -->
+              <div class='flex flex-col items-center gap-1 sm:items-start'>
+                <h2 class='text-foreground text-xl font-bold tracking-tight md:text-2xl'>Aleksa</h2>
+                <p class='text-muted-foreground text-sm font-medium'>Full-Stack Web Developer</p>
+                <div
+                  class='text-muted-foreground/80 mt-1 flex flex-wrap items-center justify-center gap-3 text-sm sm:justify-start'
                 >
-                  <Icon
-                    name='lucide:mail'
-                    class='text-muted-foreground group-hover/portal:text-foreground h-4.5 w-4.5 transition-colors'
-                  />
-                  <span class='text-foreground text-sm font-medium'>Email</span>
-                </a>
-                <a
-                  href='https://discordapp.com/users/1078249969775038514'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  class='group/portal bg-card border-border/50 hover:bg-secondary/50 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-all active:scale-95 md:h-10 md:w-10 md:rounded-xl'
-                  aria-label='Discord'
-                >
-                  <Icon
-                    name='simple-icons:discord'
-                    class='text-muted-foreground group-hover/portal:text-foreground h-4.5 w-4.5 transition-colors'
-                  />
-                </a>
-                <a
-                  href='https://github.com/aleksa-codes'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  class='group/portal bg-card border-border/50 hover:bg-secondary/50 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-all active:scale-95 md:h-10 md:w-10 md:rounded-xl'
-                  aria-label='GitHub'
-                >
-                  <Icon
-                    name='simple-icons:github'
-                    class='text-muted-foreground group-hover/portal:text-foreground h-4.5 w-4.5 transition-colors'
-                  />
-                </a>
+                  <span class='flex items-center gap-1.5'>
+                    <Icon name='lucide:map-pin' class='h-3.5 w-3.5' />
+                    Europe (CET)
+                  </span>
+                </div>
               </div>
+            </div>
+
+            <!-- Quick Access Portals -->
+            <div class='flex w-full items-center gap-2 sm:w-auto md:gap-3'>
+              <a
+                href='mailto:hello@aleksa.codes'
+                class='group/portal bg-card border-border/50 hover:bg-secondary/50 flex flex-1 items-center justify-center gap-2 rounded-xl border px-4 py-3 transition-all active:scale-95 md:flex-none md:rounded-xl md:px-5 md:py-2.5'
+              >
+                <Icon
+                  name='lucide:mail'
+                  class='text-muted-foreground group-hover/portal:text-foreground h-4.5 w-4.5 transition-colors'
+                />
+                <span class='text-foreground text-sm font-medium'>Email</span>
+              </a>
+              <a
+                href='https://discordapp.com/users/1078249969775038514'
+                target='_blank'
+                rel='noopener noreferrer'
+                class='group/portal bg-card border-border/50 hover:bg-secondary/50 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-all active:scale-95 md:h-10 md:w-10 md:rounded-xl'
+                aria-label='Discord'
+              >
+                <Icon
+                  name='simple-icons:discord'
+                  class='text-muted-foreground group-hover/portal:text-foreground h-4.5 w-4.5 transition-colors'
+                />
+              </a>
+              <a
+                href='https://github.com/aleksa-codes'
+                target='_blank'
+                rel='noopener noreferrer'
+                class='group/portal bg-card border-border/50 hover:bg-secondary/50 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-all active:scale-95 md:h-10 md:w-10 md:rounded-xl'
+                aria-label='GitHub'
+              >
+                <Icon
+                  name='simple-icons:github'
+                  class='text-muted-foreground group-hover/portal:text-foreground h-4.5 w-4.5 transition-colors'
+                />
+              </a>
             </div>
           </div>
+        </div>
 
-          <div class='p-4 md:p-8'>
-            <div id='success-message' class='hidden flex-col items-center py-10 text-center'>
-              <div
-                class='bg-foreground text-background mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border shadow-lg'
-              >
-                <Icon name='lucide:check' class='h-8 w-8' />
-              </div>
-              <h3 class='text-foreground mb-2 text-2xl font-bold tracking-tight'>Message Sent!</h3>
-              <p class='text-muted-foreground mb-8 max-w-xs text-sm'>
-                Thank you for reaching out. I'll get back to you as soon as possible.
-              </p>
-              <button
-                type='button'
-                id='send-another'
-                class='bg-secondary text-foreground hover:bg-foreground hover:text-background border-border/50 inline-flex items-center justify-center rounded-xl border px-6 py-2 text-xs font-bold transition-all active:scale-95'
-              >
-                Send another message
-              </button>
-            </div>
-
-            <form
-              id='contact-form'
-              name='contact'
-              method='POST'
-              data-netlify='true'
-              data-netlify-recaptcha='true'
-              netlify-honeypot='bot-field'
-              class='flex flex-col gap-6'
+        <div class='p-4 md:p-8'>
+          <div id='success-message' class='hidden flex-col items-center py-10 text-center'>
+            <div
+              class='bg-foreground text-background mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border shadow-lg'
             >
-              <p class='hidden'>
-                <label>Don't fill this out if you're human: <input name='bot-field' /></label>
-              </p>
-              <input type='hidden' name='form-name' value='contact' />
+              <Icon name='lucide:check' class='h-8 w-8' />
+            </div>
+            <h3 class='text-foreground mb-2 text-2xl font-bold tracking-tight'>Message Sent!</h3>
+            <p class='text-muted-foreground mb-8 max-w-xs text-sm'>
+              Thank you for reaching out. I'll get back to you as soon as possible.
+            </p>
+            <button
+              type='button'
+              id='send-another'
+              class='bg-secondary text-foreground hover:bg-foreground hover:text-background border-border/50 inline-flex items-center justify-center rounded-xl border px-6 py-2 text-xs font-bold transition-all active:scale-95'
+            >
+              Send another message
+            </button>
+          </div>
 
-              <div class='grid gap-6 md:grid-cols-2'>
-                <div class='flex flex-col gap-2'>
-                  <label
-                    for='name'
-                    class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
-                    >Full Name</label
-                  >
-                  <input
-                    type='text'
-                    id='name'
-                    name='name'
-                    placeholder='John Doe'
-                    required
-                    class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
-                  />
-                </div>
-                <div class='flex flex-col gap-2'>
-                  <label
-                    for='email'
-                    class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
-                    >Email Address</label
-                  >
-                  <input
-                    type='email'
-                    id='email'
-                    name='email'
-                    placeholder='john@example.com'
-                    required
-                    class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
-                  />
-                </div>
-              </div>
+          <form
+            id='contact-form'
+            name='contact'
+            method='POST'
+            data-netlify='true'
+            data-netlify-recaptcha='true'
+            netlify-honeypot='bot-field'
+            class='flex flex-col gap-6'
+          >
+            <p class='hidden'>
+              <label>Don't fill this out if you're human: <input name='bot-field' /></label>
+            </p>
+            <input type='hidden' name='form-name' value='contact' />
 
+            <div class='grid gap-6 md:grid-cols-2'>
               <div class='flex flex-col gap-2'>
                 <label
-                  for='subject'
+                  for='name'
                   class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
-                  >Subject</label
+                  >Full Name</label
                 >
                 <input
                   type='text'
-                  id='subject'
-                  name='subject'
-                  placeholder='How can I help you?'
+                  id='name'
+                  name='name'
+                  placeholder='John Doe'
                   required
                   class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
                 />
               </div>
-
               <div class='flex flex-col gap-2'>
                 <label
-                  for='message'
+                  for='email'
                   class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
-                  >Message</label
+                  >Email Address</label
                 >
-                <textarea
-                  id='message'
-                  name='message'
-                  rows='5'
-                  placeholder='Tell me about your project...'
+                <input
+                  type='email'
+                  id='email'
+                  name='email'
+                  placeholder='john@example.com'
                   required
-                  class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full resize-none rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
-                ></textarea>
+                  class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
+                />
               </div>
+            </div>
 
-              <!-- CAPTCHA Container -->
-              <div class='flex justify-start' data-netlify-recaptcha='true'></div>
+            <div class='flex flex-col gap-2'>
+              <label
+                for='subject'
+                class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
+                >Subject</label
+              >
+              <input
+                type='text'
+                id='subject'
+                name='subject'
+                placeholder='How can I help you?'
+                required
+                class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
+              />
+            </div>
 
-              <!-- Form Actions -->
-              <div class='mt-2 flex flex-row gap-3'>
-                <button
-                  type='reset'
-                  id='clear-form'
-                  class='bg-secondary/50 text-foreground border-border/50 hover:bg-secondary/80 flex items-center justify-center gap-2 rounded-xl border px-4 py-4 text-sm font-bold transition-all active:scale-[0.98] sm:px-8'
-                >
-                  <Icon name='lucide:trash-2' class='h-4.5 w-4.5' />
-                  <span class='hidden sm:inline'>Clear</span>
-                </button>
-                <button
-                  type='submit'
-                  class='bg-foreground text-background flex flex-1 items-center justify-center gap-2 rounded-xl py-4 text-sm font-bold shadow-sm transition-all hover:opacity-90 active:scale-[0.98]'
-                >
-                  <span>Send Message</span>
-                  <Icon name='lucide:send' class='h-4.5 w-4.5' />
-                </button>
-              </div>
-            </form>
-          </div>
-        </Card>
-      </div>
+            <div class='flex flex-col gap-2'>
+              <label
+                for='message'
+                class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
+                >Message</label
+              >
+              <textarea
+                id='message'
+                name='message'
+                rows='5'
+                placeholder='Tell me about your project...'
+                required
+                class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full resize-none rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
+              ></textarea>
+            </div>
+
+            <!-- CAPTCHA Container -->
+            <div class='flex justify-start' data-netlify-recaptcha='true'></div>
+
+            <!-- Form Actions -->
+            <div class='mt-2 flex flex-row gap-3'>
+              <button
+                type='reset'
+                class='bg-secondary/50 text-foreground border-border/50 hover:bg-secondary/80 flex items-center justify-center gap-2 rounded-xl border px-4 py-4 text-sm font-bold transition-all active:scale-[0.98] sm:px-8'
+              >
+                <Icon name='lucide:trash-2' class='h-4.5 w-4.5' />
+                <span class='hidden sm:inline'>Clear</span>
+              </button>
+              <button
+                type='submit'
+                class='bg-foreground text-background flex flex-1 items-center justify-center gap-2 rounded-xl py-4 text-sm font-bold shadow-sm transition-all hover:opacity-90 active:scale-[0.98]'
+              >
+                <span>Send Message</span>
+                <Icon name='lucide:send' class='h-4.5 w-4.5' />
+              </button>
+            </div>
+          </form>
+        </div>
+      </Card>
     </div>
   </div>
 </BaseLayout>
 
 <script>
-  function initContactForm() {
-    const form = document.querySelector('#contact-form') as HTMLFormElement;
-    const successMessage = document.querySelector('#success-message') as HTMLElement;
-    const sendAnotherBtn = document.querySelector('#send-another') as HTMLButtonElement;
-    const clearFormBtn = document.querySelector('#clear-form') as HTMLButtonElement;
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  const successMessage = document.querySelector<HTMLElement>('#success-message');
 
-    if (!form) return;
-
+  if (form && successMessage) {
+    // 1. Handle Form Submission
     form.addEventListener('submit', async e => {
       e.preventDefault();
 
-      // Check reCAPTCHA if present
-      const recaptchaResponse = (window as any).grecaptcha?.getResponse();
-      const hasRecaptcha = !!document.querySelector('[data-netlify-recaptcha="true"]');
-
-      if (hasRecaptcha && !recaptchaResponse) {
-        alert('Please complete the reCAPTCHA verification.');
-        return;
+      // Ensure reCAPTCHA is verified if the widget exists
+      if (
+        document.querySelector('[data-netlify-recaptcha]') &&
+        !(window as any).grecaptcha?.getResponse()
+      ) {
+        return alert('Please complete the reCAPTCHA verification.');
       }
-
-      const formData = new FormData(form);
 
       try {
         const response = await fetch('/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData as any).toString(),
+          body: new URLSearchParams(new FormData(form) as any).toString(),
         });
 
-        if (response.ok) {
-          form.classList.add('hidden');
-          successMessage.classList.remove('hidden');
-          successMessage.classList.add('flex');
-          form.reset();
-          (window as any).grecaptcha?.reset();
-        } else {
-          throw new Error('Form submission failed');
-        }
-      } catch (error) {
-        console.error('Submission error:', error);
+        if (!response.ok) throw new Error();
+
+        // Show success state
+        form.classList.add('hidden');
+        successMessage.classList.replace('hidden', 'flex');
+        form.reset(); // Native form reset
+      } catch {
         alert('Something went wrong. Please try again or email me directly.');
       }
     });
 
-    sendAnotherBtn?.addEventListener('click', () => {
-      successMessage.classList.add('hidden');
-      successMessage.classList.remove('flex');
-      form.classList.remove('hidden');
-    });
-
-    clearFormBtn?.addEventListener('click', () => {
+    // 2. Handle Native Form Reset (Clears inputs AND reCAPTCHA automatically)
+    form.addEventListener('reset', () => {
       (window as any).grecaptcha?.reset();
     });
+
+    // 3. Handle "Send another message"
+    document.querySelector('#send-another')?.addEventListener('click', () => {
+      successMessage.classList.replace('flex', 'hidden');
+      form.classList.remove('hidden');
+    });
   }
-
-  // Run on initial load
-  initContactForm();
-
-  // Support Astro view transitions
-  document.addEventListener('astro:after-swap', initContactForm);
 </script>

@@ -78,13 +78,11 @@ const { title, class: className } = Astro.props;
     });
   }
   initFeature();
-  document.addEventListener('astro:after-swap', initFeature);
 </script>
 ```
 
 - Use `<script>` (module, TypeScript) for most interactivity.
 - Use `<script is:inline>` only when it must run before hydration (e.g., theme init) or for external CDN scripts.
-- Always re-attach listeners on `astro:after-swap` for view transition support.
 
 ### Head & SEO
 

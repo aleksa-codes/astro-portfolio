@@ -11,41 +11,32 @@ interface Props {
 
 const { href, class: className, contentClass, style, noGlow }: Props = Astro.props;
 
-const baseClassName = cn(
-  !noGlow && 'glow-card',
-  'group border-border bg-card relative flex flex-col overflow-hidden rounded-2xl border p-4',
-  className,
-);
+// Use Astro's dynamic tag feature
+const Tag = href ? 'a' : 'div';
 ---
 
-{
-  href ? (
-    <a href={href} class={baseClassName} style={style} data-glow-card={!noGlow ? '' : undefined}>
-      <div class={cn('relative z-10 flex flex-1 flex-col', contentClass)}>
-        <slot />
-      </div>
-    </a>
-  ) : (
-    <div class={baseClassName} style={style} data-glow-card={!noGlow ? '' : undefined}>
-      <div class={cn('relative z-10 flex flex-1 flex-col', contentClass)}>
-        <slot />
-      </div>
-    </div>
-  )
-}
+<Tag
+  href={href}
+  class={cn(
+    !noGlow && 'glow-card',
+    'group border-border bg-card relative flex flex-col overflow-hidden rounded-2xl border p-4',
+    className,
+  )}
+  style={style}
+  data-glow-card={!noGlow ? '' : undefined}
+>
+  <div class={cn('relative z-10 flex flex-1 flex-col', contentClass)}>
+    <slot />
+  </div>
+</Tag>
 
 <script>
-  function initGlowCards() {
-    document.querySelectorAll('[data-glow-card]').forEach(card => {
-      const element = card as HTMLElement;
-      element.addEventListener('mousemove', e => {
-        const rect = element.getBoundingClientRect();
-        element.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        element.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-      });
-    });
-  }
+  document.addEventListener('mousemove', e => {
+    const card = (e.target as HTMLElement).closest('[data-glow-card]') as HTMLElement;
+    if (!card) return;
 
-  initGlowCards();
-  document.addEventListener('astro:after-swap', initGlowCards);
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  });
 </script>
