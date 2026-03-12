@@ -15,7 +15,7 @@
   "dependencies": {
     "@ai-sdk/groq": "^3.0.29",
     "@astrojs/check": "^0.9.7",
-    "@astrojs/netlify": "^7.0.1",
+    "@astrojs/netlify": "^7.0.2",
     "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.1",
     "@felixicaza/astro-capo": "^1.0.1",
@@ -23,7 +23,7 @@
     "@playform/compress": "^0.2.1",
     "@tailwindcss/vite": "^4.2.1",
     "ai": "^6.0.116",
-    "astro": "^6.0.2",
+    "astro": "^6.0.4",
     "astro-expressive-code": "^0.41.7",
     "astro-icon": "^1.1.5",
     "astro-og-canvas": "^0.10.1",
@@ -37,7 +37,7 @@
   "devDependencies": {
     "@iconify-json/bxl": "^1.2.4",
     "@iconify-json/iconoir": "^1.2.10",
-    "@iconify-json/lucide": "^1.2.96",
+    "@iconify-json/lucide": "^1.2.97",
     "@iconify-json/simple-icons": "^1.2.73",
     "@iconify-json/tabler": "^1.2.31",
     "@tailwindcss/typography": "^0.5.19",
