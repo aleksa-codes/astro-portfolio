@@ -1,63 +1,67 @@
 ---
-import { cn } from '@/lib/utils';
-import { Icon } from 'astro-icon/components';
+import { cn } from "@/lib/utils"
+import { Icon } from "astro-icon/components"
 
 type ButtonVariant =
-  | 'default'
-  | 'outline'
-  | 'ghost'
-  | 'secondary'
-  | 'accent'
-  | 'link'
-  | 'destructive';
-type ButtonSize = 'sm' | 'default' | 'lg' | 'icon';
+  | "default"
+  | "outline"
+  | "ghost"
+  | "secondary"
+  | "accent"
+  | "link"
+  | "destructive"
+type ButtonSize = "sm" | "default" | "lg" | "icon"
 
 interface Props {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  loading?: boolean;
-  disabled?: boolean;
-  href?: string;
-  class?: string;
-  type?: 'button' | 'submit' | 'reset';
-  [key: string]: any;
+  variant?: ButtonVariant
+  size?: ButtonSize
+  loading?: boolean
+  disabled?: boolean
+  href?: string
+  class?: string
+  type?: "button" | "submit" | "reset"
+  [key: string]: any
 }
 
 const {
-  variant = 'default',
-  size = 'default',
+  variant = "default",
+  size = "default",
   loading = false,
   disabled = false,
   href,
   class: className,
-  type = 'button',
+  type = "button",
   ...rest
-}: Props = Astro.props;
+}: Props = Astro.props
 
 const baseClassName = cn(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 cursor-pointer',
-  size === 'sm' && 'h-9 px-3',
-  size === 'default' && 'h-10 px-4 py-2',
-  size === 'lg' && 'h-11 px-8',
-  size === 'icon' && 'h-10 w-10',
-  variant === 'default' && 'bg-primary text-primary-foreground hover:bg-primary/90',
-  variant === 'secondary' && 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-  variant === 'accent' && 'bg-accent text-accent-foreground hover:bg-accent/80',
-  variant === 'destructive' && 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-  variant === 'outline' &&
-    'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-  variant === 'ghost' && 'hover:bg-accent hover:text-accent-foreground',
-  variant === 'link' && 'text-primary underline-offset-4 hover:underline p-0 h-auto',
-  className,
-);
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  size === "sm" && "h-9 px-3",
+  size === "default" && "h-10 px-4 py-2",
+  size === "lg" && "h-11 px-8",
+  size === "icon" && "h-10 w-10",
+  variant === "default" &&
+    "bg-primary text-primary-foreground hover:bg-primary/90",
+  variant === "secondary" &&
+    "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+  variant === "accent" && "bg-accent text-accent-foreground hover:bg-accent/80",
+  variant === "destructive" &&
+    "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+  variant === "outline" &&
+    "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+  variant === "ghost" && "hover:bg-accent hover:text-accent-foreground",
+  variant === "link" &&
+    "h-auto p-0 text-primary underline-offset-4 hover:underline",
+  className
+)
 ---
 
 {
   href ? (
     <a href={href} class={baseClassName} {...rest}>
       {loading ? (
-        <div class='flex items-center gap-2'>
-          <Icon name='lucide:loader-2' class='animate-spin' />
+        <div class="flex items-center gap-2">
+          <Icon name="lucide:loader-2" class="animate-spin" />
           <slot />
         </div>
       ) : (
@@ -65,10 +69,15 @@ const baseClassName = cn(
       )}
     </a>
   ) : (
-    <button type={type} class={baseClassName} disabled={disabled || loading} {...rest}>
+    <button
+      type={type}
+      class={baseClassName}
+      disabled={disabled || loading}
+      {...rest}
+    >
       {loading ? (
-        <div class='flex items-center gap-2'>
-          <Icon name='lucide:loader-2' class='animate-spin' />
+        <div class="flex items-center gap-2">
+          <Icon name="lucide:loader-2" class="animate-spin" />
           <slot />
         </div>
       ) : (

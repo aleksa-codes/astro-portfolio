@@ -1,34 +1,40 @@
 ---
-import { Icon } from 'astro-icon/components';
-import ThemeToggle from '@/components/theme-toggle.astro';
-import Tooltip from '@/components/ui/tooltip.astro';
+import { Icon } from "astro-icon/components"
+import ThemeToggle from "@/components/theme-toggle.astro"
+import Tooltip from "@/components/ui/tooltip.astro"
 
 const links = [
   {
-    href: 'https://github.com/aleksa-codes',
-    icon: 'lucide:github',
-    label: 'GitHub',
-    target: '_blank',
+    href: "https://github.com/aleksa-codes",
+    icon: "lucide:github",
+    label: "GitHub",
+    target: "_blank",
   },
-  { href: '/Aleksa_Resume_2026.pdf', icon: 'lucide:file-text', label: 'Resume', target: '_blank' },
-  { href: '/rss.xml', icon: 'lucide:rss', label: 'RSS Feed' },
-];
+  {
+    href: "/Aleksa_Resume_2026.pdf",
+    icon: "lucide:file-text",
+    label: "Resume",
+    target: "_blank",
+  },
+  { href: "/rss.xml", icon: "lucide:rss", label: "RSS Feed" },
+]
 ---
 
 <header
-  class='bg-background/70 border-border fixed top-0 left-0 z-40 w-full border-b backdrop-blur-xl'
+  class="fixed top-0 left-0 z-40 w-full border-b border-border bg-background/70 backdrop-blur-xl"
 >
-  <div class='container flex h-16 items-center justify-between'>
+  <div class="container flex h-16 items-center justify-between">
     <a
-      href='/'
-      class='text-foreground flex items-center font-mono text-lg font-medium transition-opacity hover:opacity-80'
-      aria-label='Home'
+      href="/"
+      class="flex items-center font-mono text-lg font-medium text-foreground transition-opacity hover:opacity-80"
+      aria-label="Home"
     >
-      <span id='typewriter'>aleksa.codes</span><span
-        class='animate-blink ml-1.5 h-[1.1em] w-0.5 bg-current align-text-bottom'></span>
+      <span id="typewriter">aleksa.codes</span><span
+        class="ml-1.5 h-[1.1em] w-0.5 animate-blink bg-current align-text-bottom"
+      ></span>
     </a>
 
-    <div class='flex items-center gap-1 md:gap-3'>
+    <div class="flex items-center gap-1 md:gap-3">
       {
         links.map(({ href, icon, label, target }) => (
           <Tooltip content={label}>
@@ -36,15 +42,15 @@ const links = [
               {href}
               {target}
               aria-label={label}
-              class='text-muted-foreground hover:text-foreground hover:bg-accent rounded-xl p-2.5 transition-colors'
+              class="rounded-xl p-2.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
-              <Icon name={icon} class='h-5 w-5' />
+              <Icon name={icon} class="h-5 w-5" />
             </a>
           </Tooltip>
         ))
       }
 
-      <div class='bg-border mx-1 h-6 w-px md:mx-2'></div>
+      <div class="mx-1 h-6 w-px bg-border md:mx-2"></div>
       <ThemeToggle />
     </div>
   </div>
@@ -52,22 +58,22 @@ const links = [
 
 <script>
   // IIFE to keep scope clean
-  (() => {
-    const el = document.getElementById('typewriter');
-    if (!el) return;
+  ;(() => {
+    const el = document.getElementById("typewriter")
+    if (!el) return
 
-    const text = el.textContent || '';
-    el.textContent = ''; // Clear for animation
+    const text = el.textContent || ""
+    el.textContent = "" // Clear for animation
 
-    let i = 0;
+    let i = 0
     const type = () => {
       if (i < text.length) {
-        el.textContent += text[i++];
-        setTimeout(type, 120);
+        el.textContent += text[i++]
+        setTimeout(type, 120)
       }
-    };
+    }
 
     // Slight delay before starting for a better feel
-    setTimeout(type, 400);
-  })();
+    setTimeout(type, 400)
+  })()
 </script>

@@ -1,65 +1,77 @@
 ---
-import { Icon } from 'astro-icon/components';
-import Card from '@/components/ui/card.astro';
-import GitHubActivity from '@/components/github-activity.astro';
-import { cn } from '@/lib/utils';
+import { Icon } from "astro-icon/components"
+import Card from "@/components/ui/card.astro"
+import GitHubActivity from "@/components/github-activity.astro"
+import { cn } from "@/lib/utils"
 
 const funFacts = [
   {
-    icon: 'lucide:brain-circuit',
-    text: 'Building things with AI & code',
-    color: 'text-pink-500',
+    icon: "lucide:brain-circuit",
+    text: "Building things with AI & code",
+    color: "text-pink-500",
   },
   {
-    icon: 'iconoir:basketball',
-    text: 'Love hooping & watching NBA',
-    color: 'text-orange-500',
+    icon: "iconoir:basketball",
+    text: "Love hooping & watching NBA",
+    color: "text-orange-500",
   },
   {
-    icon: 'lucide:gamepad-2',
-    text: 'Casual gamer in my free time',
-    color: 'text-blue-500',
+    icon: "lucide:gamepad-2",
+    text: "Casual gamer in my free time",
+    color: "text-blue-500",
   },
   {
-    icon: 'lucide:coffee',
-    text: 'Fueled by coffee & curiosity',
-    color: 'text-amber-700 dark:text-amber-500',
+    icon: "lucide:coffee",
+    text: "Fueled by coffee & curiosity",
+    color: "text-amber-700 dark:text-amber-500",
   },
-];
+]
 ---
 
-<section id='about' class='flex flex-col space-y-8'>
-  <h2 class='text-muted-foreground text-sm font-medium tracking-widest uppercase'>About Me</h2>
+<section id="about" class="flex flex-col space-y-8">
+  <h2
+    class="text-sm font-medium tracking-widest text-muted-foreground uppercase"
+  >
+    About Me
+  </h2>
 
-  <div class='text-foreground space-y-5 text-base leading-relaxed'>
+  <div class="space-y-5 text-base leading-relaxed text-foreground">
     <p>
-      I got into web dev because I right-clicked "Inspect" on a website one day and thought, "wait,
-      I could totally mess with this." That rabbit hole never really ended.
+      I got into web dev because I right-clicked "Inspect" on a website one day
+      and thought, "wait, I could totally mess with this." That rabbit hole
+      never really ended.
     </p>
     <p>
-      I went to school for Computer Science, which helped a lot with the fundamentals. But honestly,
-      most of what I actually know comes from late nights, side projects, and breaking things until
-      they worked. Browser extensions, full-stack apps, portfolio sites, all kinds of stuff. Each
+      I went to school for Computer Science, which helped a lot with the
+      fundamentals. But honestly, most of what I actually know comes from late
+      nights, side projects, and breaking things until they worked. Browser
+      extensions, full-stack apps, portfolio sites, all kinds of stuff. Each
       project taught me something the last one didn't.
     </p>
     <p>
-      What keeps me going is making things that feel good to use. Not just functional, but fast,
-      accessible, and put together with care. If a page takes forever to load or the UI feels
-      clunky, that bugs me. So I try to make sure it doesn't.
+      What keeps me going is making things that feel good to use. Not just
+      functional, but fast, accessible, and put together with care. If a page
+      takes forever to load or the UI feels clunky, that bugs me. So I try to
+      make sure it doesn't.
     </p>
   </div>
 
-  <div class='grid grid-cols-1 gap-6 md:grid-cols-2'>
-    <Card class='h-full' contentClass='flex flex-col h-full'>
-      <h3 class='text-foreground mb-4 flex shrink-0 items-center gap-2.5 text-base font-semibold'>
-        <Icon name='lucide:terminal' class='h-5 w-5 text-green-500' /> whoami
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <Card class="h-full" contentClass="flex flex-col h-full">
+      <h3
+        class="mb-4 flex shrink-0 items-center gap-2.5 text-base font-semibold text-foreground"
+      >
+        <Icon name="lucide:terminal" class="h-5 w-5 text-green-500" /> whoami
       </h3>
-      <div class='grid flex-1 grid-cols-2 gap-3'>
+      <div class="grid flex-1 grid-cols-2 gap-3">
         {
-          funFacts.map(fact => (
-            <div class='border-border bg-secondary/30 hover:bg-secondary/50 flex flex-col items-center justify-center gap-2.5 rounded-xl border p-4 text-center transition-colors'>
-              <Icon name={fact.icon} class={cn('h-6 w-6 shrink-0', fact.color)} />
-              <p class='text-muted-foreground text-sm leading-snug font-medium tracking-tight'>
+          funFacts.map((fact) => (
+            <div class="flex flex-col items-center justify-center gap-2.5 rounded-xl border border-border bg-secondary/30 p-4 text-center transition-colors hover:bg-secondary/50">
+              <Icon
+                name={fact.icon}
+                class={cn("h-6 w-6 shrink-0", fact.color)}
+              />
+              <p class="text-sm leading-snug font-medium tracking-tight text-muted-foreground">
                 {fact.text}
               </p>
             </div>
@@ -68,24 +80,24 @@ const funFacts = [
       </div>
     </Card>
 
-    <Card class='h-full' contentClass='flex flex-col h-full relative group'>
+    <Card class="h-full" contentClass="flex flex-col h-full relative group">
       <h3
-        class='text-foreground mb-4 flex shrink-0 items-center justify-between gap-2.5 text-base font-semibold'
+        class="mb-4 flex shrink-0 items-center justify-between gap-2.5 text-base font-semibold text-foreground"
       >
-        <div class='flex items-center gap-2.5'>
-          <Icon name='lucide:github' class='h-5 w-5 text-green-500' /> GitHub Activity
+        <div class="flex items-center gap-2.5">
+          <Icon name="lucide:github" class="h-5 w-5 text-green-500" /> GitHub Activity
         </div>
         <a
-          href='https://github.com/aleksa-codes'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='text-muted-foreground hover:text-foreground transition-colors'
-          aria-label='View GitHub Profile'
+          href="https://github.com/aleksa-codes"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted-foreground transition-colors hover:text-foreground"
+          aria-label="View GitHub Profile"
         >
-          <Icon name='lucide:external-link' class='h-5 w-5' />
+          <Icon name="lucide:external-link" class="h-5 w-5" />
         </a>
       </h3>
-      <div class='flex flex-1 flex-col gap-3'>
+      <div class="flex flex-1 flex-col gap-3">
         <GitHubActivity />
       </div>
     </Card>

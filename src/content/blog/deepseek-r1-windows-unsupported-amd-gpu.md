@@ -1,6 +1,6 @@
 ---
-title: 'How to Run DeepSeek R1 on Windows with an Unsupported AMD GPU'
-description: 'A step-by-step guide to running DeepSeek R1 locally on Windows with an unsupported AMD GPU like the RX 6600 XT using a community Ollama fork and ROCm libraries.'
+title: "How to Run DeepSeek R1 on Windows with an Unsupported AMD GPU"
+description: "A step-by-step guide to running DeepSeek R1 locally on Windows with an unsupported AMD GPU like the RX 6600 XT using a community Ollama fork and ROCm libraries."
 date: 2025-01-29T12:00:00.000Z
 thumbnail: ../../assets/blog/deepseek-chat.png
 tags:

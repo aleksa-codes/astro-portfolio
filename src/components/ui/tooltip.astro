@@ -1,38 +1,44 @@
 ---
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils"
 
 interface Props {
-  content: string;
-  class?: string;
-  side?: 'top' | 'bottom' | 'left' | 'right';
+  content: string
+  class?: string
+  side?: "top" | "bottom" | "left" | "right"
 }
 
-const { content, class: className, side = 'bottom' }: Props = Astro.props;
+const { content, class: className, side = "bottom" }: Props = Astro.props
 
 const sideClasses = {
-  top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
-  bottom: 'top-full left-1/2 -translate-x-1/2 mt-2',
-  left: 'right-full top-1/2 -translate-y-1/2 mr-2',
-  right: 'left-full top-1/2 -translate-y-1/2 ml-2',
-};
+  top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
+  bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
+  left: "right-full top-1/2 -translate-y-1/2 mr-2",
+  right: "left-full top-1/2 -translate-y-1/2 ml-2",
+}
 
 const arrowClasses = {
-  top: 'top-full left-1/2 -translate-x-1/2 border-t-primary',
-  bottom: 'bottom-full left-1/2 -translate-x-1/2 border-b-primary',
-  left: 'left-full top-1/2 -translate-y-1/2 border-l-primary',
-  right: 'right-full top-1/2 -translate-y-1/2 border-r-primary',
-};
+  top: "top-full left-1/2 -translate-x-1/2 border-t-primary",
+  bottom: "bottom-full left-1/2 -translate-x-1/2 border-b-primary",
+  left: "left-full top-1/2 -translate-y-1/2 border-l-primary",
+  right: "right-full top-1/2 -translate-y-1/2 border-r-primary",
+}
 ---
 
-<div class={cn('group relative flex items-center justify-center', className)}>
+<div class={cn("group relative flex items-center justify-center", className)}>
   <slot />
   <div
     class={cn(
-      'pointer-events-none absolute z-50 whitespace-nowrap rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-0 shadow-md transition-opacity duration-200 [@media(hover:hover)]:group-hover:opacity-100',
-      sideClasses[side],
+      "pointer-events-none absolute z-50 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium whitespace-nowrap text-primary-foreground opacity-0 shadow-md transition-opacity duration-200 [@media(hover:hover)]:group-hover:opacity-100",
+      sideClasses[side]
     )}
   >
     {content}
-    <div class={cn('absolute h-0 w-0 border-4 border-transparent', arrowClasses[side])}></div>
+    <div
+      class={cn(
+        "absolute h-0 w-0 border-4 border-transparent",
+        arrowClasses[side]
+      )}
+    >
+    </div>
   </div>
 </div>

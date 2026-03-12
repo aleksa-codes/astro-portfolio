@@ -1,7 +1,7 @@
 ---
-title: 'How to Make Your First GitHub Pull Request'
-description: 'A beginner-friendly walkthrough for making your first GitHub pull request. No jargon, just the steps you need.'
-date: '2023-09-02T15:41:00.000Z'
+title: "How to Make Your First GitHub Pull Request"
+description: "A beginner-friendly walkthrough for making your first GitHub pull request. No jargon, just the steps you need."
+date: "2023-09-02T15:41:00.000Z"
 thumbnail: ../../assets/blog/github-first-pr-guide.png
 tags:
   - Development

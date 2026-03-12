@@ -1,42 +1,51 @@
-<section class='mt-16 w-full' aria-label='Comments section'>
-  <h2 class='text-foreground mb-8 text-2xl font-bold tracking-tight'>Comments</h2>
-  <div class='giscus'></div>
+<section class="mt-16 w-full" aria-label="Comments section">
+  <h2 class="mb-8 text-2xl font-bold tracking-tight text-foreground">
+    Comments
+  </h2>
+  <div class="giscus"></div>
   <script
     is:inline
-    src='https://giscus.app/client.js'
-    data-repo='aleksa-codes/astro-portfolio'
-    data-repo-id='R_kgDOH9bAGg'
-    data-category='Announcements'
-    data-category-id='DIC_kwDOH9bAGs4CmQFv'
-    data-mapping='pathname'
-    data-strict='0'
-    data-reactions-enabled='1'
-    data-emit-metadata='0'
-    data-input-position='top'
-    data-theme='preferred_color_scheme'
-    data-lang='en'
-    crossorigin='anonymous'
+    src="https://giscus.app/client.js"
+    data-repo="aleksa-codes/astro-portfolio"
+    data-repo-id="R_kgDOH9bAGg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOH9bAGs4CmQFv"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="preferred_color_scheme"
+    data-lang="en"
+    crossorigin="anonymous"
     async></script>
 </section>
 
 <script>
   const updateGiscusTheme = () => {
-    const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    const theme = document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light"
+    const iframe = document.querySelector<HTMLIFrameElement>(
+      "iframe.giscus-frame"
+    )
 
-    iframe?.contentWindow?.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
-  };
+    iframe?.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme } } },
+      "https://giscus.app"
+    )
+  }
 
   // 1. Listen for theme toggles while the user is on the page
   new MutationObserver(updateGiscusTheme).observe(document.documentElement, {
     attributes: true,
-    attributeFilter: ['class'],
-  });
+    attributeFilter: ["class"],
+  })
 
   // 2. Listen for Giscus "ready" signal to set the initial theme on refresh
-  window.addEventListener('message', event => {
-    if (event.origin === 'https://giscus.app' && event.data?.giscus) {
-      updateGiscusTheme();
+  window.addEventListener("message", (event) => {
+    if (event.origin === "https://giscus.app" && event.data?.giscus) {
+      updateGiscusTheme()
     }
-  });
+  })
 </script>

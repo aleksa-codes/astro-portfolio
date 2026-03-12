@@ -1,125 +1,141 @@
 ---
 interface Props {
-  username?: string;
+  username?: string
 }
 
-const { username = 'aleksa-codes' } = Astro.props;
+const { username = "aleksa-codes" } = Astro.props
 
 let totalStars = 0,
   followers = 0,
   publicRepos = 0,
-  fetchError = false;
+  fetchError = false
 
 try {
   const [userRes, reposRes] = await Promise.all([
     fetch(`https://api.github.com/users/${username}`),
     fetch(`https://api.github.com/users/${username}/repos?per_page=100`),
-  ]);
-  if (!userRes.ok || !reposRes.ok) throw new Error();
+  ])
+  if (!userRes.ok || !reposRes.ok) throw new Error()
 
-  const userData = await userRes.json();
-  const reposData = await reposRes.json();
+  const userData = await userRes.json()
+  const reposData = await reposRes.json()
 
-  followers = userData.followers;
-  publicRepos = userData.public_repos;
-  totalStars = reposData.reduce((acc: number, repo: any) => acc + repo.stargazers_count, 0);
+  followers = userData.followers
+  publicRepos = userData.public_repos
+  totalStars = reposData.reduce(
+    (acc: number, repo: any) => acc + repo.stargazers_count,
+    0
+  )
 } catch (e) {
-  fetchError = true;
+  fetchError = true
 }
 
 const boxClass =
-  'p-3 sm:p-4 bg-secondary/30 rounded-xl border border-border flex flex-col items-center justify-center gap-2 transition-colors hover:bg-secondary/50 min-h-[84px]';
-const iconClass = 'h-4 w-4 text-muted-foreground/70';
+  "p-3 sm:p-4 bg-secondary/30 rounded-xl border border-border flex flex-col items-center justify-center gap-2 transition-colors hover:bg-secondary/50 min-h-[84px]"
+const iconClass = "h-4 w-4 text-muted-foreground/70"
 ---
 
-<div class='border-border bg-secondary/30 block w-full flex-1 rounded-xl border p-4'>
-  <div class='mx-auto flex w-fit flex-col gap-2'>
-    <div id='gh-labels' class='flex gap-0.75'>
+<div
+  class="block w-full flex-1 rounded-xl border border-border bg-secondary/30 p-4"
+>
+  <div class="mx-auto flex w-fit flex-col gap-2">
+    <div id="gh-labels" class="flex gap-0.75">
       {
         Array.from({ length: 17 }).map(() => (
-          <span class='w-2.75 shrink-0 text-xs font-medium md:w-3'>&nbsp;</span>
+          <span class="w-2.75 shrink-0 text-xs font-medium md:w-3">&nbsp;</span>
         ))
       }
     </div>
-    <div id='gh-graph' data-username={username} class='flex gap-0.75'>
+    <div id="gh-graph" data-username={username} class="flex gap-0.75">
       {
         Array.from({ length: 17 }).map(() => (
-          <div class='flex flex-col gap-0.75'>
+          <div class="flex flex-col gap-0.75">
             {Array.from({ length: 7 }).map(() => (
-              <div class='bg-secondary/60 h-2.75 w-2.75 animate-pulse rounded-[2px] md:h-3 md:w-3' />
+              <div class="h-2.75 w-2.75 animate-pulse rounded-[2px] bg-secondary/60 md:h-3 md:w-3" />
             ))}
           </div>
         ))
       }
     </div>
-    <p id='gh-error' class='text-muted-foreground/60 hidden text-center text-xs'>
+    <p
+      id="gh-error"
+      class="hidden text-center text-xs text-muted-foreground/60"
+    >
       Could not load contribution data
     </p>
   </div>
 </div>
 
-<div class='mt-auto grid grid-cols-3 gap-3'>
+<div class="mt-auto grid grid-cols-3 gap-3">
   {
     fetchError ? (
-      <div class='col-span-3 p-3 text-center text-sm text-red-500/80'>Failed to load stats.</div>
+      <div class="col-span-3 p-3 text-center text-sm text-red-500/80">
+        Failed to load stats.
+      </div>
     ) : (
       <>
         <div class={boxClass}>
-          <div class='flex items-center gap-1.5'>
+          <div class="flex items-center gap-1.5">
             <svg
               class={iconClass}
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2.5'
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
             >
-              <polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2' />
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
             </svg>
-            <div class='text-foreground text-xl leading-none font-bold'>{totalStars}</div>
+            <div class="text-xl leading-none font-bold text-foreground">
+              {totalStars}
+            </div>
           </div>
-          <div class='text-muted-foreground text-[11px] font-semibold tracking-widest uppercase'>
+          <div class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
             Stars
           </div>
         </div>
         <div class={boxClass}>
-          <div class='flex items-center gap-1.5'>
+          <div class="flex items-center gap-1.5">
             <svg
               class={iconClass}
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2.5'
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
             >
               <>
-                <path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />
-                <circle cx='9' cy='7' r='4' />
-                <path d='M22 21v-2a4 4 0 0 0-3-3.87' />
-                <path d='M16 3.13a4 4 0 0 1 0 7.75' />
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </>
             </svg>
-            <div class='text-foreground text-xl leading-none font-bold'>{followers}</div>
+            <div class="text-xl leading-none font-bold text-foreground">
+              {followers}
+            </div>
           </div>
-          <div class='text-muted-foreground text-[11px] font-semibold tracking-widest uppercase'>
+          <div class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
             Followers
           </div>
         </div>
         <div class={boxClass}>
-          <div class='flex items-center gap-1.5'>
+          <div class="flex items-center gap-1.5">
             <svg
               class={iconClass}
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2.5'
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
             >
               <>
-                <path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20' />
-                <path d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z' />
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
               </>
             </svg>
-            <div class='text-foreground text-xl leading-none font-bold'>{publicRepos}</div>
+            <div class="text-xl leading-none font-bold text-foreground">
+              {publicRepos}
+            </div>
           </div>
-          <div class='text-muted-foreground text-[11px] font-semibold tracking-widest uppercase'>
+          <div class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
             Repos
           </div>
         </div>
@@ -129,102 +145,122 @@ const iconClass = 'h-4 w-4 text-muted-foreground/70';
 </div>
 
 <script>
-  (async () => {
-    const graphEl = document.getElementById('gh-graph');
-    if (!graphEl) return;
+  ;(async () => {
+    const graphEl = document.getElementById("gh-graph")
+    if (!graphEl) return
 
-    const username = graphEl.dataset.username;
+    const username = graphEl.dataset.username
     const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ]
 
     // IMPORTANT: These must be written out fully so Tailwind scanner finds them
     const colors = [
-      'bg-[var(--gh-0)]',
-      'bg-[var(--gh-1)]',
-      'bg-[var(--gh-2)]',
-      'bg-[var(--gh-3)]',
-      'bg-[var(--gh-4)]',
-    ];
+      "bg-[var(--gh-0)]",
+      "bg-[var(--gh-1)]",
+      "bg-[var(--gh-2)]",
+      "bg-[var(--gh-3)]",
+      "bg-[var(--gh-4)]",
+    ]
 
     try {
-      const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`);
-      if (!res.ok) throw new Error();
-      const { contributions } = await res.json();
+      const res = await fetch(
+        `https://github-contributions-api.jogruber.de/v4/${username}?y=last`
+      )
+      if (!res.ok) throw new Error()
+      const { contributions } = await res.json()
 
       // O(1) performance lookup
-      const contribMap = new Map<string, number>(contributions.map((c: any) => [c.date, c.count]));
+      const contribMap = new Map<string, number>(
+        contributions.map((c: any) => [c.date, c.count])
+      )
 
       const cols = 17,
-        rows = 7;
-      const today = new Date();
-      const start = new Date(today.setDate(today.getDate() - today.getDay() - (cols - 1) * 7));
+        rows = 7
+      const today = new Date()
+      const start = new Date(
+        today.setDate(today.getDate() - today.getDay() - (cols - 1) * 7)
+      )
 
-      let labelsHtml = '',
-        graphHtml = '',
-        lastMonth = -1;
+      let labelsHtml = "",
+        graphHtml = "",
+        lastMonth = -1
 
       for (let i = 0; i < cols; i++) {
-        const colDate = new Date(start);
-        colDate.setDate(start.getDate() + i * 7);
-        const m = colDate.getMonth();
+        const colDate = new Date(start)
+        colDate.setDate(start.getDate() + i * 7)
+        const m = colDate.getMonth()
 
-        labelsHtml += `<span class="w-[11px] md:w-3 shrink-0 text-xs font-medium text-muted-foreground">${m !== lastMonth ? months[m] : '&nbsp;'}</span>`;
-        lastMonth = m;
+        labelsHtml += `<span class="w-[11px] md:w-3 shrink-0 text-xs font-medium text-muted-foreground">${m !== lastMonth ? months[m] : "&nbsp;"}</span>`
+        lastMonth = m
 
-        graphHtml += `<div class="flex flex-col gap-[3px]">`;
+        graphHtml += `<div class="flex flex-col gap-[3px]">`
         for (let j = 0; j < rows; j++) {
-          const d = new Date(colDate);
-          d.setDate(d.getDate() + j);
+          const d = new Date(colDate)
+          d.setDate(d.getDate() + j)
 
-          const count = contribMap.get(d.toISOString().split('T')[0]) || 0;
-          const int = count === 0 ? 0 : count <= 2 ? 1 : count <= 5 ? 2 : count <= 10 ? 3 : 4;
-          const label = `${count} contributions on ${months[d.getMonth()]} ${d.getDate()}`;
+          const count = contribMap.get(d.toISOString().split("T")[0]) || 0
+          const int =
+            count === 0
+              ? 0
+              : count <= 2
+                ? 1
+                : count <= 5
+                  ? 2
+                  : count <= 10
+                    ? 3
+                    : 4
+          const label = `${count} contributions on ${months[d.getMonth()]} ${d.getDate()}`
 
-          graphHtml += `<div class="contribution-cell w-[11px] h-[11px] md:w-3 md:h-3 rounded-[2px] ${colors[int]} transition-colors" data-tooltip="${label}"></div>`;
+          graphHtml += `<div class="contribution-cell w-[11px] h-[11px] md:w-3 md:h-3 rounded-[2px] ${colors[int]} transition-colors" data-tooltip="${label}"></div>`
         }
-        graphHtml += `</div>`;
+        graphHtml += `</div>`
       }
 
-      document.getElementById('gh-labels')!.innerHTML = labelsHtml;
-      graphEl.innerHTML = graphHtml;
+      document.getElementById("gh-labels")!.innerHTML = labelsHtml
+      graphEl.innerHTML = graphHtml
 
       // Tooltip Delegation Logic
-      let tooltip = document.getElementById('gh-tooltip');
+      let tooltip = document.getElementById("gh-tooltip")
       if (!tooltip) {
         document.body.insertAdjacentHTML(
-          'beforeend',
-          `<div id="gh-tooltip" class="pointer-events-none fixed z-[100] whitespace-nowrap rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-0 shadow-md transition-opacity duration-200 flex flex-col items-center justify-center"><div class="absolute top-full left-1/2 -translate-x-1/2 h-0 w-0 border-4 border-transparent border-t-primary"></div><span id="gh-tooltip-content"></span></div>`,
-        );
-        tooltip = document.getElementById('gh-tooltip')!;
+          "beforeend",
+          `<div id="gh-tooltip" class="pointer-events-none fixed z-[100] whitespace-nowrap rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-0 shadow-md transition-opacity duration-200 flex flex-col items-center justify-center"><div class="absolute top-full left-1/2 -translate-x-1/2 h-0 w-0 border-4 border-transparent border-t-primary"></div><span id="gh-tooltip-content"></span></div>`
+        )
+        tooltip = document.getElementById("gh-tooltip")!
       }
-      const content = document.getElementById('gh-tooltip-content')!;
+      const content = document.getElementById("gh-tooltip-content")!
 
-      graphEl.addEventListener('mouseover', e => {
-        const cell = (e.target as HTMLElement).closest('.contribution-cell') as HTMLElement;
-        if (!cell) return (tooltip!.style.opacity = '0');
+      graphEl.addEventListener("mouseover", (e) => {
+        const cell = (e.target as HTMLElement).closest(
+          ".contribution-cell"
+        ) as HTMLElement
+        if (!cell) return (tooltip!.style.opacity = "0")
 
-        content.textContent = cell.dataset.tooltip!;
-        tooltip!.style.opacity = '1';
-        const rect = cell.getBoundingClientRect();
-        tooltip!.style.left = `${rect.left + rect.width / 2 - tooltip!.offsetWidth / 2}px`;
-        tooltip!.style.top = `${rect.top - tooltip!.offsetHeight - 8}px`;
-      });
+        content.textContent = cell.dataset.tooltip!
+        tooltip!.style.opacity = "1"
+        const rect = cell.getBoundingClientRect()
+        tooltip!.style.left = `${rect.left + rect.width / 2 - tooltip!.offsetWidth / 2}px`
+        tooltip!.style.top = `${rect.top - tooltip!.offsetHeight - 8}px`
+      })
 
-      graphEl.addEventListener('mouseleave', () => (tooltip!.style.opacity = '0'));
+      graphEl.addEventListener(
+        "mouseleave",
+        () => (tooltip!.style.opacity = "0")
+      )
     } catch {
-      document.getElementById('gh-error')?.classList.remove('hidden');
+      document.getElementById("gh-error")?.classList.remove("hidden")
     }
-  })();
+  })()
 </script>

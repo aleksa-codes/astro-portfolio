@@ -28,15 +28,15 @@
 Always use the `@/` alias (maps to `src/`):
 
 ```ts
-import Card from '@/components/ui/card.astro';
-import { cn } from '@/lib/utils';
+import Card from "@/components/ui/card.astro"
+import { cn } from "@/lib/utils"
 ```
 
 ### Icons
 
 ```astro
 import {Icon} from 'astro-icon/components';
-<Icon name='lucide:star' class='h-5 w-5' />
+<Icon name="lucide:star" class="h-5 w-5" />
 ```
 
 Available icon sets: `lucide`, `simple-icons`, `bxl`, `iconoir`, `tabler`.
@@ -46,9 +46,9 @@ Available icon sets: `lucide`, `simple-icons`, `bxl`, `iconoir`, `tabler`.
 Always use `cn()` for conditional/merged Tailwind classes:
 
 ```ts
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils"
 // cn() = clsx() + tailwind-merge
-cn('base-class', condition && 'conditional', className);
+cn("base-class", condition && "conditional", className)
 ```
 
 ### Component Props
@@ -58,10 +58,10 @@ Every component defines `interface Props` in frontmatter:
 ```astro
 ---
 interface Props {
-  title: string;
-  class?: string;
+  title: string
+  class?: string
 }
-const { title, class: className } = Astro.props;
+const { title, class: className } = Astro.props
 ---
 ```
 
@@ -72,12 +72,12 @@ const { title, class: className } = Astro.props;
 ```astro
 <script>
   function initFeature() {
-    const el = document.getElementById('my-element')!;
-    el.addEventListener('click', () => {
+    const el = document.getElementById("my-element")!
+    el.addEventListener("click", () => {
       /* ... */
-    });
+    })
   }
-  initFeature();
+  initFeature()
 </script>
 ```
 
@@ -102,7 +102,7 @@ Use Astro's `<Image>` component with `priority` attribute for above-the-fold ima
 
 ```astro
 import {Image} from 'astro:assets';
-<Image src={myImage} alt='description' format='webp' priority />
+<Image src={myImage} alt="description" format="webp" priority />
 ```
 
 ### Forms
@@ -118,12 +118,12 @@ Netlify Forms with reCAPTCHA:
 **No `tailwind.config.js`** — all config lives in `src/styles/global.css`:
 
 ```css
-@import 'tailwindcss';
-@plugin '@tailwindcss/typography';
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme inline {
-  --font-sans: 'Geist', sans-serif;
-  --font-mono: 'Geist Mono', monospace;
+  --font-sans: "Geist", sans-serif;
+  --font-mono: "Geist Mono", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   /* ... maps shadcn CSS variables to Tailwind tokens */
@@ -145,19 +145,19 @@ Netlify Forms with reCAPTCHA:
 
 ```ts
 // src/content.config.ts — single "blog" collection
-import { glob } from 'astro/loaders';
-import { z } from 'astro/zod';
-import { defineCollection } from 'astro:content';
+import { glob } from "astro/loaders"
+import { z } from "astro/zod"
+import { defineCollection } from "astro:content"
 
 schema: ({ image }) =>
   z.object({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
-    author: z.string().default('Aleksa'),
+    author: z.string().default("Aleksa"),
     thumbnail: image().optional(),
     tags: z.array(z.string()).default([]),
-  });
+  })
 ```
 
 Blog posts are Markdown (`.md`) files in `src/content/blog/`. Paginated at 4 per page.

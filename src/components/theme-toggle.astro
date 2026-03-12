@@ -1,35 +1,35 @@
 ---
-import { Icon } from 'astro-icon/components';
-import Tooltip from '@/components/ui/tooltip.astro';
+import { Icon } from "astro-icon/components"
+import Tooltip from "@/components/ui/tooltip.astro"
 ---
 
-<Tooltip content='Toggle Theme' side='bottom'>
+<Tooltip content="Toggle Theme" side="bottom">
   <button
-    aria-label='Toggle theme'
-    class='theme-toggle text-muted-foreground hover:text-foreground hover:bg-accent relative flex cursor-pointer items-center justify-center rounded-xl p-2.5 transition-colors'
+    aria-label="Toggle theme"
+    class="theme-toggle relative flex cursor-pointer items-center justify-center rounded-xl p-2.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
   >
-    <Icon name='lucide:sun' class='hidden h-5 w-5 dark:block' />
-    <Icon name='lucide:moon' class='block h-5 w-5 dark:hidden' />
+    <Icon name="lucide:sun" class="hidden h-5 w-5 dark:block" />
+    <Icon name="lucide:moon" class="block h-5 w-5 dark:hidden" />
   </button>
 </Tooltip>
 
 <script>
-  document.addEventListener('click', e => {
-    if (!(e.target as HTMLElement).closest('.theme-toggle')) return;
+  document.addEventListener("click", (e) => {
+    if (!(e.target as HTMLElement).closest(".theme-toggle")) return
 
-    const doc = document.documentElement;
+    const doc = document.documentElement
 
     // Disable transitions temporarily
-    doc.classList.add('[&_*]:!transition-none');
+    doc.classList.add("[&_*]:!transition-none")
 
     // Toggle theme & save
-    const isDark = doc.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    const isDark = doc.classList.toggle("dark")
+    localStorage.setItem("theme", isDark ? "dark" : "light")
 
     // Force DOM repaint
-    doc.offsetHeight;
+    doc.offsetHeight
 
     // Re-enable transitions
-    requestAnimationFrame(() => doc.classList.remove('[&_*]:!transition-none'));
-  });
+    requestAnimationFrame(() => doc.classList.remove("[&_*]:!transition-none"))
+  })
 </script>

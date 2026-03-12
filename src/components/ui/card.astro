@@ -1,42 +1,50 @@
 ---
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils"
 
 interface Props {
-  href?: string;
-  class?: string;
-  contentClass?: string;
-  style?: string;
-  noGlow?: boolean;
+  href?: string
+  class?: string
+  contentClass?: string
+  style?: string
+  noGlow?: boolean
 }
 
-const { href, class: className, contentClass, style, noGlow }: Props = Astro.props;
+const {
+  href,
+  class: className,
+  contentClass,
+  style,
+  noGlow,
+}: Props = Astro.props
 
 // Use Astro's dynamic tag feature
-const Tag = href ? 'a' : 'div';
+const Tag = href ? "a" : "div"
 ---
 
 <Tag
   href={href}
   class={cn(
-    !noGlow && 'glow-card',
-    'group border-border bg-card relative flex flex-col overflow-hidden rounded-2xl border p-4',
-    className,
+    !noGlow && "glow-card",
+    "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-4",
+    className
   )}
   style={style}
-  data-glow-card={!noGlow ? '' : undefined}
+  data-glow-card={!noGlow ? "" : undefined}
 >
-  <div class={cn('relative z-10 flex flex-1 flex-col', contentClass)}>
+  <div class={cn("relative z-10 flex flex-1 flex-col", contentClass)}>
     <slot />
   </div>
 </Tag>
 
 <script>
-  document.addEventListener('mousemove', e => {
-    const card = (e.target as HTMLElement).closest('[data-glow-card]') as HTMLElement;
-    if (!card) return;
+  document.addEventListener("mousemove", (e) => {
+    const card = (e.target as HTMLElement).closest(
+      "[data-glow-card]"
+    ) as HTMLElement
+    if (!card) return
 
-    const rect = card.getBoundingClientRect();
-    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-  });
+    const rect = card.getBoundingClientRect()
+    card.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`)
+    card.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`)
+  })
 </script>

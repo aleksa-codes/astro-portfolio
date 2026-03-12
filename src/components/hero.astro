@@ -1,45 +1,55 @@
 ---
-import { Image } from 'astro:assets';
-import Avatar from '@/assets/avatar.png';
+import { Image } from "astro:assets"
+import Avatar from "@/assets/avatar.png"
 ---
 
-<section id='home' class='flex flex-col items-start'>
-  <div class='mb-14'>
-    <div class='relative inline-block'>
+<section id="home" class="flex flex-col items-start">
+  <div class="mb-14">
+    <div class="relative inline-block">
       <div
-        class='border-border/50 bg-card h-24 w-24 rounded-full border p-0.5 shadow-sm md:h-32 md:w-32'
+        class="h-24 w-24 rounded-full border border-border/50 bg-card p-0.5 shadow-sm md:h-32 md:w-32"
       >
         <Image
           src={Avatar}
-          alt='Avatar of Aleksa'
-          format={'webp'}
+          alt="Avatar of Aleksa"
+          format={"webp"}
           width={128}
           height={128}
           priority
-          class='h-full w-full rounded-full object-cover'
+          class="h-full w-full rounded-full object-cover"
         />
       </div>
       <div
-        class='bg-card border-border absolute bottom-1 left-16.5 flex items-center gap-1.5 rounded-full border px-3 py-1.5 whitespace-nowrap shadow-sm md:bottom-2 md:left-23.5 md:gap-2 md:px-4 md:py-2.5'
+        class="absolute bottom-1 left-16.5 flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 whitespace-nowrap shadow-sm md:bottom-2 md:left-23.5 md:gap-2 md:px-4 md:py-2.5"
       >
-        <div class='h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 md:h-2 md:w-2'></div>
-        <span class='text-foreground text-xs leading-none font-medium md:text-sm'>Open to work</span
+        <div
+          class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 md:h-2 md:w-2"
+        >
+        </div>
+        <span
+          class="text-xs leading-none font-medium text-foreground md:text-sm"
+          >Open to work</span
         >
       </div>
     </div>
   </div>
 
   <h1
-    class='text-foreground mb-6 text-4xl leading-[1.1] font-bold tracking-tighter sm:text-5xl md:text-6xl'
+    class="mb-6 text-4xl leading-[1.1] font-bold tracking-tighter text-foreground sm:text-5xl md:text-6xl"
   >
     I design and build <br />
-    <span class='from-foreground to-muted-foreground bg-linear-to-r bg-clip-text text-transparent'
+    <span
+      class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
       >things for the web.</span
     >
   </h1>
 
-  <p class='text-muted-foreground max-w-2xl text-base leading-relaxed md:text-lg'>
-    Hey there <span class='animate-wave inline-block origin-bottom-right'>👋</span> I'm Aleksa. I build
-    fast, good-looking websites and apps that actually hold up when real people use them.
+  <p
+    class="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg"
+  >
+    Hey there <span class="inline-block origin-bottom-right animate-wave"
+      >👋</span
+    > I'm Aleksa. I build fast, good-looking websites and apps that actually hold
+    up when real people use them.
   </p>
 </section>

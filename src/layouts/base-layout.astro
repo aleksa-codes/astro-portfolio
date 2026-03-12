@@ -1,97 +1,102 @@
 ---
-import '@/styles/global.css';
-import { Head } from '@felixicaza/astro-capo';
-import { AstroSeo } from '@northsoon/astro-seo';
-import Header from '@/components/header.astro';
-import Footer from '@/components/footer.astro';
-import Dock from '@/components/dock.astro';
-import AIChat from '@/components/ai-chat.astro';
-import TailwindIndicator from '@/components/ui/tailwind-indicator.astro';
+import "@/styles/global.css"
+import { Head } from "@felixicaza/astro-capo"
+import { AstroSeo } from "@northsoon/astro-seo"
+import Header from "@/components/header.astro"
+import Footer from "@/components/footer.astro"
+import Dock from "@/components/dock.astro"
+import AIChat from "@/components/ai-chat.astro"
+import TailwindIndicator from "@/components/ui/tailwind-indicator.astro"
 
 export interface Props {
-  title?: string;
-  description?: string;
-  canonical?: string;
-  ogImage?: string;
+  title?: string
+  description?: string
+  canonical?: string
+  ogImage?: string
 }
 
-const SITE_NAME = 'aleksa.codes';
+const SITE_NAME = "aleksa.codes"
 
 const {
   title,
-  description = 'CS graduate and web developer specializing in performance optimization, clean UI design, and scalable architecture. Explore my work and get in touch.',
+  description = "CS graduate and web developer specializing in performance optimization, clean UI design, and scalable architecture. Explore my work and get in touch.",
   canonical,
-  ogImage = new URL('/open-graph/index.png', Astro.url).toString(),
-} = Astro.props;
+  ogImage = new URL("/open-graph/index.png", Astro.url).toString(),
+} = Astro.props
 
-const { pathname } = Astro.url;
+const { pathname } = Astro.url
 // Construct the full title
-const fullTitle = pathname !== '/' ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Web Developer`;
+const fullTitle =
+  pathname !== "/" ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Web Developer`
 ---
 
 <!doctype html>
-<html lang='en'>
+<html lang="en">
   <Head>
-    <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <AstroSeo
       title={fullTitle}
       description={description}
-      canonical={canonical || new URL(Astro.request.url).origin + Astro.url.pathname}
+      canonical={canonical ||
+        new URL(Astro.request.url).origin + Astro.url.pathname}
       openGraph={{
-        url: canonical || new URL(Astro.request.url).origin + Astro.url.pathname,
+        url:
+          canonical || new URL(Astro.request.url).origin + Astro.url.pathname,
         title: fullTitle,
         description,
-        type: 'website',
-        locale: 'en_US',
-        site_name: 'Aleksa',
+        type: "website",
+        locale: "en_US",
+        site_name: "Aleksa",
         images: [{ url: ogImage, alt: fullTitle }],
       }}
       twitter={{
-        cardType: 'summary_large_image',
+        cardType: "summary_large_image",
         image: ogImage,
       }}
       additionalLinkTags={[
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        { rel: 'sitemap', href: '/sitemap-index.xml' },
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        { rel: "sitemap", href: "/sitemap-index.xml" },
         {
-          rel: 'preload',
-          href: '/fonts/Geist.woff2',
-          as: 'font',
-          type: 'font/woff2',
-          crossOrigin: 'anonymous',
+          rel: "preload",
+          href: "/fonts/Geist.woff2",
+          as: "font",
+          type: "font/woff2",
+          crossOrigin: "anonymous",
         },
         {
-          rel: 'preload',
-          href: '/fonts/GeistMono.woff2',
-          as: 'font',
-          type: 'font/woff2',
-          crossOrigin: 'anonymous',
+          rel: "preload",
+          href: "/fonts/GeistMono.woff2",
+          as: "font",
+          type: "font/woff2",
+          crossOrigin: "anonymous",
         },
         {
-          rel: 'alternate',
-          type: 'application/rss+xml',
-          title: 'aleksa.codes RSS',
-          href: new URL('rss.xml', Astro.site).toString(),
+          rel: "alternate",
+          type: "application/rss+xml",
+          title: "aleksa.codes RSS",
+          href: new URL("rss.xml", Astro.site).toString(),
         },
       ]}
     />
     <script is:inline>
-      (function () {
+      ;(function () {
         var theme =
-          localStorage.getItem('theme') ||
-          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-      })();
+          localStorage.getItem("theme") ||
+          (matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light")
+        document.documentElement.classList.toggle("dark", theme === "dark")
+      })()
     </script>
   </Head>
   <body>
     <div
-      class='pointer-events-none fixed inset-0 -z-50 bg-[linear-gradient(to_right,rgba(128,128,128,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(128,128,128,0.05)_1px,transparent_1px)] mask-[radial-gradient(circle_at_center,black_40%,transparent_100%)] bg-size-[30px_30px] opacity-50 [-webkit-mask-image:radial-gradient(circle_at_center,black_40%,transparent_100%)]'
+      class="pointer-events-none fixed inset-0 -z-50 bg-[linear-gradient(to_right,rgba(128,128,128,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(128,128,128,0.05)_1px,transparent_1px)] mask-[radial-gradient(circle_at_center,black_40%,transparent_100%)] bg-size-[30px_30px] opacity-50 [-webkit-mask-image:radial-gradient(circle_at_center,black_40%,transparent_100%)]"
     >
     </div>
     <Header />
-    <main id='main' class='container pt-32 pb-48'>
+    <main id="main" class="container pt-32 pb-48">
       <slot />
     </main>
     <Footer />

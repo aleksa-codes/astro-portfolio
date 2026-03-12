@@ -1,5 +1,7 @@
 dist/
 node_modules/
 .astro/
-*.min.js
-*.min.css
+.netlify/
+coverage/
+pnpm-lock.yaml
+.pnpm-store/

@@ -3,33 +3,38 @@
 ---
 
 <footer
-  class='xs:gap-23.5 flex cursor-default flex-col items-center justify-center gap-21.5 md:gap-24.5'
+  class="flex cursor-default flex-col items-center justify-center gap-21.5 xs:gap-23.5 md:gap-24.5"
 >
   <svg
-    aria-hidden='true'
-    class='text-accent xs:w-100 w-90 sm:w-105 md:w-110'
-    xmlns='http://www.w3.org/2000/svg'
-    viewBox='0 0 440 72'
-    style='overflow: visible;'
+    aria-hidden="true"
+    class="w-90 text-accent xs:w-100 sm:w-105 md:w-110"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 440 72"
+    style="overflow: visible;"
   >
     <text
-      x='220'
-      y='64'
-      text-anchor='middle'
+      x="220"
+      y="64"
+      text-anchor="middle"
       font-family="'Dancing Script', cursive"
-      font-weight='700'
-      font-size='72'
-      fill='currentColor'>aleksa.codes</text
+      font-weight="700"
+      font-size="72"
+      fill="currentColor">aleksa.codes</text
     >
   </svg>
-  <p class='text-muted-foreground text-sm leading-6 font-medium'>
-    © <span id='current-year'>2026</span> · Have a great <span id='current-day'>Friday</span>
+  <p class="text-sm leading-6 font-medium text-muted-foreground">
+    © <span id="current-year">2026</span> · Have a great <span id="current-day"
+      >Friday</span
+    >
   </p>
 </footer>
 
 <script>
-  const yearEl = document.getElementById('current-year');
-  const dayEl = document.getElementById('current-day');
-  if (yearEl) yearEl.textContent = new Date().getFullYear().toString();
-  if (dayEl) dayEl.textContent = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+  const yearEl = document.getElementById("current-year")
+  const dayEl = document.getElementById("current-day")
+  if (yearEl) yearEl.textContent = new Date().getFullYear().toString()
+  if (dayEl)
+    dayEl.textContent = new Date().toLocaleDateString("en-US", {
+      weekday: "long",
+    })
 </script>

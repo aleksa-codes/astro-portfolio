@@ -1,13 +1,15 @@
-import netlify from '@astrojs/netlify';
-import sitemap from '@astrojs/sitemap';
-import playformCompress from '@playform/compress';
-import tailwindcss from '@tailwindcss/vite';
-import expressiveCode from 'astro-expressive-code';
-import icon from 'astro-icon';
-import { defineConfig } from 'astro/config';
-import { targetBlank } from './src/lib/target-blank';
+import netlify from "@astrojs/netlify"
+import sitemap from "@astrojs/sitemap"
+import playformCompress from "@playform/compress"
+import tailwindcss from "@tailwindcss/vite"
+import expressiveCode from "astro-expressive-code"
+import icon from "astro-icon"
+import { defineConfig } from "astro/config"
+import { targetBlank } from "./src/lib/target-blank"
 
-const SITE = import.meta.env.PROD ? 'https://aleksa.codes' : 'http://localhost:3000';
+const SITE = import.meta.env.PROD
+  ? "https://aleksa.codes"
+  : "http://localhost:3000"
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,7 +20,7 @@ export default defineConfig({
   image: {
     // Generate srcset for all <Image> components so browsers download the right size.
     // responsiveStyles is intentionally left false (default) — Tailwind 4 handles sizing.
-    layout: 'constrained',
+    layout: "constrained",
   },
   // build: {
   //   inlineStylesheets: 'always',
@@ -34,15 +36,17 @@ export default defineConfig({
   },
   integrations: [
     expressiveCode({
-      themes: ['one-dark-pro', 'one-light'],
-      themeCssSelector: theme => (theme.name === 'one-dark-pro' ? '.dark' : ':root:not(.dark)'),
+      themes: ["one-dark-pro", "one-light"],
+      themeCssSelector: (theme) =>
+        theme.name === "one-dark-pro" ? ".dark" : ":root:not(.dark)",
       styleOverrides: {
         codeFontFamily:
           'var(--font-mono), SF Mono, SF Mono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace',
         frames: {
-          frameBoxShadowCssValue: '0 0 0 1px var(--border), 0 2px 4px -1px var(--shadow)',
-          tooltipSuccessBackground: 'var(--foreground)',
-          tooltipSuccessForeground: 'var(--background)',
+          frameBoxShadowCssValue:
+            "0 0 0 1px var(--border), 0 2px 4px -1px var(--shadow)",
+          tooltipSuccessBackground: "var(--foreground)",
+          tooltipSuccessForeground: "var(--background)",
         },
       },
     }),
@@ -50,7 +54,7 @@ export default defineConfig({
     sitemap(),
     playformCompress({
       HTML: {
-        'html-minifier-terser': {
+        "html-minifier-terser": {
           removeAttributeQuotes: false,
         },
       },
@@ -61,4 +65,4 @@ export default defineConfig({
       Logger: 1,
     }),
   ],
-});
+})

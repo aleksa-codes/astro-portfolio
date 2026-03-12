@@ -1,76 +1,88 @@
 ---
-import BaseLayout from '@/layouts/base-layout.astro';
-import { Icon } from 'astro-icon/components';
-import Card from '@/components/ui/card.astro';
-import { Image } from 'astro:assets';
-import Avatar from '@/assets/avatar.png';
+import BaseLayout from "@/layouts/base-layout.astro"
+import { Icon } from "astro-icon/components"
+import Card from "@/components/ui/card.astro"
+import { Image } from "astro:assets"
+import Avatar from "@/assets/avatar.png"
 
-const title = 'Contact';
+const title = "Contact"
 const description =
-  "Have a project in mind or want to collaborate? Reach out for freelance work, partnership inquiries, or general questions — I'd love to hear from you.";
-const ogImage = new URL('/open-graph/contact.png', Astro.site).toString();
+  "Have a project in mind or want to collaborate? Reach out for freelance work, partnership inquiries, or general questions — I'd love to hear from you."
+const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
 ---
 
 <BaseLayout {title} {description} {ogImage}>
-  <div class='flex flex-col gap-8'>
+  <div class="flex flex-col gap-8">
     <!-- Header -->
-    <div class='flex flex-col items-start'>
-      <h1 class='text-foreground mb-3 text-3xl font-bold tracking-tighter md:text-4xl'>
+    <div class="flex flex-col items-start">
+      <h1
+        class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl"
+      >
         Get in <span
-          class='from-foreground to-muted-foreground bg-linear-to-r bg-clip-text text-transparent'
+          class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
           >Touch.</span
         >
       </h1>
-      <p class='text-muted-foreground max-w-xl text-sm leading-relaxed md:text-base'>
-        Have a project in mind, a question, or just want to say hello? I'm always open to new
-        opportunities and interesting conversations.
+      <p
+        class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
+      >
+        Have a project in mind, a question, or just want to say hello? I'm
+        always open to new opportunities and interesting conversations.
       </p>
     </div>
 
     <!-- Consolidated Communication Hub -->
-    <div class='flex flex-col gap-6'>
-      <Card class='overflow-hidden p-0' noGlow>
+    <div class="flex flex-col gap-6">
+      <Card class="overflow-hidden p-0" noGlow>
         <!-- Integrated Premium Header -->
         <div
-          class='glow-card bg-secondary/10 border-border/50 relative border-b p-4 md:p-8'
+          class="glow-card relative border-b border-border/50 bg-secondary/10 p-4 md:p-8"
           data-glow-card
         >
           <div
-            class='relative z-10 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between md:text-left'
+            class="relative z-10 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between md:text-left"
           >
             <!-- Profile Info -->
-            <div class='flex flex-col items-center gap-4 sm:flex-row sm:items-center md:gap-6'>
+            <div
+              class="flex flex-col items-center gap-4 sm:flex-row sm:items-center md:gap-6"
+            >
               <!-- Avatar with Status Dot -->
-              <div class='relative shrink-0'>
+              <div class="relative shrink-0">
                 <div
-                  class='border-border/50 bg-card h-20 w-20 rounded-full border p-0.5 shadow-sm md:h-28 md:w-28'
+                  class="h-20 w-20 rounded-full border border-border/50 bg-card p-0.5 shadow-sm md:h-28 md:w-28"
                 >
                   <Image
                     src={Avatar}
-                    alt='Avatar of Aleksa'
-                    format={'webp'}
+                    alt="Avatar of Aleksa"
+                    format={"webp"}
                     width={112}
                     height={112}
                     priority
-                    class='h-full w-full rounded-full object-cover'
+                    class="h-full w-full rounded-full object-cover"
                   />
                 </div>
                 <div
-                  class='border-card absolute right-1 bottom-1 h-4 w-4 rounded-full border-[3px] bg-green-500 md:right-1.5 md:bottom-1.5 md:h-5 md:w-5'
-                  title='Open to work'
+                  class="absolute right-1 bottom-1 h-4 w-4 rounded-full border-[3px] border-card bg-green-500 md:right-1.5 md:bottom-1.5 md:h-5 md:w-5"
+                  title="Open to work"
                 >
                 </div>
               </div>
 
               <!-- Context Details -->
-              <div class='flex flex-col items-center gap-1 sm:items-start'>
-                <h2 class='text-foreground text-xl font-bold tracking-tight md:text-2xl'>Aleksa</h2>
-                <p class='text-muted-foreground text-sm font-medium'>Full-Stack Web Developer</p>
-                <div
-                  class='text-muted-foreground/80 mt-1 flex flex-wrap items-center justify-center gap-3 text-sm sm:justify-start'
+              <div class="flex flex-col items-center gap-1 sm:items-start">
+                <h2
+                  class="text-xl font-bold tracking-tight text-foreground md:text-2xl"
                 >
-                  <span class='flex items-center gap-1.5'>
-                    <Icon name='lucide:map-pin' class='h-3.5 w-3.5' />
+                  Aleksa
+                </h2>
+                <p class="text-sm font-medium text-muted-foreground">
+                  Full-Stack Web Developer
+                </p>
+                <div
+                  class="mt-1 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground/80 sm:justify-start"
+                >
+                  <span class="flex items-center gap-1.5">
+                    <Icon name="lucide:map-pin" class="h-3.5 w-3.5" />
                     Europe (CET)
                   </span>
                 </div>
@@ -78,162 +90,172 @@ const ogImage = new URL('/open-graph/contact.png', Astro.site).toString();
             </div>
 
             <!-- Quick Access Portals -->
-            <div class='flex w-full items-center gap-2 sm:w-auto md:gap-3'>
+            <div class="flex w-full items-center gap-2 sm:w-auto md:gap-3">
               <a
-                href='mailto:hello@aleksa.codes'
-                class='group/portal bg-card border-border/50 hover:bg-secondary/50 flex flex-1 items-center justify-center gap-2 rounded-xl border px-4 py-3 transition-all active:scale-95 md:flex-none md:rounded-xl md:px-5 md:py-2.5'
+                href="mailto:hello@aleksa.codes"
+                class="group/portal flex flex-1 items-center justify-center gap-2 rounded-xl border border-border/50 bg-card px-4 py-3 transition-all hover:bg-secondary/50 active:scale-95 md:flex-none md:rounded-xl md:px-5 md:py-2.5"
               >
                 <Icon
-                  name='lucide:mail'
-                  class='text-muted-foreground group-hover/portal:text-foreground h-4.5 w-4.5 transition-colors'
+                  name="lucide:mail"
+                  class="h-4.5 w-4.5 text-muted-foreground transition-colors group-hover/portal:text-foreground"
                 />
-                <span class='text-foreground text-sm font-medium'>Email</span>
+                <span class="text-sm font-medium text-foreground">Email</span>
               </a>
               <a
-                href='https://discordapp.com/users/1078249969775038514'
-                target='_blank'
-                rel='noopener noreferrer'
-                class='group/portal bg-card border-border/50 hover:bg-secondary/50 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-all active:scale-95 md:h-10 md:w-10 md:rounded-xl'
-                aria-label='Discord'
+                href="https://discordapp.com/users/1078249969775038514"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group/portal flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/50 bg-card transition-all hover:bg-secondary/50 active:scale-95 md:h-10 md:w-10 md:rounded-xl"
+                aria-label="Discord"
               >
                 <Icon
-                  name='simple-icons:discord'
-                  class='text-muted-foreground group-hover/portal:text-foreground h-4.5 w-4.5 transition-colors'
+                  name="simple-icons:discord"
+                  class="h-4.5 w-4.5 text-muted-foreground transition-colors group-hover/portal:text-foreground"
                 />
               </a>
               <a
-                href='https://github.com/aleksa-codes'
-                target='_blank'
-                rel='noopener noreferrer'
-                class='group/portal bg-card border-border/50 hover:bg-secondary/50 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-all active:scale-95 md:h-10 md:w-10 md:rounded-xl'
-                aria-label='GitHub'
+                href="https://github.com/aleksa-codes"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group/portal flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/50 bg-card transition-all hover:bg-secondary/50 active:scale-95 md:h-10 md:w-10 md:rounded-xl"
+                aria-label="GitHub"
               >
                 <Icon
-                  name='simple-icons:github'
-                  class='text-muted-foreground group-hover/portal:text-foreground h-4.5 w-4.5 transition-colors'
+                  name="simple-icons:github"
+                  class="h-4.5 w-4.5 text-muted-foreground transition-colors group-hover/portal:text-foreground"
                 />
               </a>
             </div>
           </div>
         </div>
 
-        <div class='p-4 md:p-8'>
-          <div id='success-message' class='hidden flex-col items-center py-10 text-center'>
+        <div class="p-4 md:p-8">
+          <div
+            id="success-message"
+            class="hidden flex-col items-center py-10 text-center"
+          >
             <div
-              class='bg-foreground text-background mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border shadow-lg'
+              class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border bg-foreground text-background shadow-lg"
             >
-              <Icon name='lucide:check' class='h-8 w-8' />
+              <Icon name="lucide:check" class="h-8 w-8" />
             </div>
-            <h3 class='text-foreground mb-2 text-2xl font-bold tracking-tight'>Message Sent!</h3>
-            <p class='text-muted-foreground mb-8 max-w-xs text-sm'>
-              Thank you for reaching out. I'll get back to you as soon as possible.
+            <h3 class="mb-2 text-2xl font-bold tracking-tight text-foreground">
+              Message Sent!
+            </h3>
+            <p class="mb-8 max-w-xs text-sm text-muted-foreground">
+              Thank you for reaching out. I'll get back to you as soon as
+              possible.
             </p>
             <button
-              type='button'
-              id='send-another'
-              class='bg-secondary text-foreground hover:bg-foreground hover:text-background border-border/50 inline-flex items-center justify-center rounded-xl border px-6 py-2 text-xs font-bold transition-all active:scale-95'
+              type="button"
+              id="send-another"
+              class="inline-flex items-center justify-center rounded-xl border border-border/50 bg-secondary px-6 py-2 text-xs font-bold text-foreground transition-all hover:bg-foreground hover:text-background active:scale-95"
             >
               Send another message
             </button>
           </div>
 
           <form
-            id='contact-form'
-            name='contact'
-            method='POST'
-            data-netlify='true'
-            data-netlify-recaptcha='true'
-            netlify-honeypot='bot-field'
-            class='flex flex-col gap-6'
+            id="contact-form"
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            data-netlify-recaptcha="true"
+            netlify-honeypot="bot-field"
+            class="flex flex-col gap-6"
           >
-            <p class='hidden'>
-              <label>Don't fill this out if you're human: <input name='bot-field' /></label>
+            <p class="hidden">
+              <label
+                >Don't fill this out if you're human: <input
+                  name="bot-field"
+                /></label
+              >
             </p>
-            <input type='hidden' name='form-name' value='contact' />
+            <input type="hidden" name="form-name" value="contact" />
 
-            <div class='grid gap-6 md:grid-cols-2'>
-              <div class='flex flex-col gap-2'>
+            <div class="grid gap-6 md:grid-cols-2">
+              <div class="flex flex-col gap-2">
                 <label
-                  for='name'
-                  class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
+                  for="name"
+                  class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
                   >Full Name</label
                 >
                 <input
-                  type='text'
-                  id='name'
-                  name='name'
-                  placeholder='John Doe'
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="John Doe"
                   required
-                  class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
+                  class="w-full rounded-xl border border-border/50 bg-secondary/30 px-4 py-3.5 text-base transition-all placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-4 focus:ring-foreground/5 focus:outline-none"
                 />
               </div>
-              <div class='flex flex-col gap-2'>
+              <div class="flex flex-col gap-2">
                 <label
-                  for='email'
-                  class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
+                  for="email"
+                  class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
                   >Email Address</label
                 >
                 <input
-                  type='email'
-                  id='email'
-                  name='email'
-                  placeholder='john@example.com'
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="john@example.com"
                   required
-                  class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
+                  class="w-full rounded-xl border border-border/50 bg-secondary/30 px-4 py-3.5 text-base transition-all placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-4 focus:ring-foreground/5 focus:outline-none"
                 />
               </div>
             </div>
 
-            <div class='flex flex-col gap-2'>
+            <div class="flex flex-col gap-2">
               <label
-                for='subject'
-                class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
+                for="subject"
+                class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
                 >Subject</label
               >
               <input
-                type='text'
-                id='subject'
-                name='subject'
-                placeholder='How can I help you?'
+                type="text"
+                id="subject"
+                name="subject"
+                placeholder="How can I help you?"
                 required
-                class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
+                class="w-full rounded-xl border border-border/50 bg-secondary/30 px-4 py-3.5 text-base transition-all placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-4 focus:ring-foreground/5 focus:outline-none"
               />
             </div>
 
-            <div class='flex flex-col gap-2'>
+            <div class="flex flex-col gap-2">
               <label
-                for='message'
-                class='text-muted-foreground pl-1 text-xs font-bold tracking-widest uppercase'
+                for="message"
+                class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
                 >Message</label
               >
               <textarea
-                id='message'
-                name='message'
-                rows='5'
-                placeholder='Tell me about your project...'
+                id="message"
+                name="message"
+                rows="5"
+                placeholder="Tell me about your project..."
                 required
-                class='bg-secondary/30 border-border/50 placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-foreground/5 w-full resize-none rounded-xl border px-4 py-3.5 text-base transition-all focus:ring-4 focus:outline-none'
+                class="w-full resize-none rounded-xl border border-border/50 bg-secondary/30 px-4 py-3.5 text-base transition-all placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-4 focus:ring-foreground/5 focus:outline-none"
               ></textarea>
             </div>
 
             <!-- CAPTCHA Container -->
-            <div class='flex justify-start' data-netlify-recaptcha='true'></div>
+            <div class="flex justify-start" data-netlify-recaptcha="true"></div>
 
             <!-- Form Actions -->
-            <div class='mt-2 flex flex-row gap-3'>
+            <div class="mt-2 flex flex-row gap-3">
               <button
-                type='reset'
-                class='bg-secondary/50 text-foreground border-border/50 hover:bg-secondary/80 flex items-center justify-center gap-2 rounded-xl border px-4 py-4 text-sm font-bold transition-all active:scale-[0.98] sm:px-8'
+                type="reset"
+                class="flex items-center justify-center gap-2 rounded-xl border border-border/50 bg-secondary/50 px-4 py-4 text-sm font-bold text-foreground transition-all hover:bg-secondary/80 active:scale-[0.98] sm:px-8"
               >
-                <Icon name='lucide:trash-2' class='h-4.5 w-4.5' />
-                <span class='hidden sm:inline'>Clear</span>
+                <Icon name="lucide:trash-2" class="h-4.5 w-4.5" />
+                <span class="hidden sm:inline">Clear</span>
               </button>
               <button
-                type='submit'
-                class='bg-foreground text-background flex flex-1 items-center justify-center gap-2 rounded-xl py-4 text-sm font-bold shadow-sm transition-all hover:opacity-90 active:scale-[0.98]'
+                type="submit"
+                class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-foreground py-4 text-sm font-bold text-background shadow-sm transition-all hover:opacity-90 active:scale-[0.98]"
               >
                 <span>Send Message</span>
-                <Icon name='lucide:send' class='h-4.5 w-4.5' />
+                <Icon name="lucide:send" class="h-4.5 w-4.5" />
               </button>
             </div>
           </form>
@@ -244,49 +266,49 @@ const ogImage = new URL('/open-graph/contact.png', Astro.site).toString();
 </BaseLayout>
 
 <script>
-  const form = document.querySelector<HTMLFormElement>('#contact-form');
-  const successMessage = document.querySelector<HTMLElement>('#success-message');
+  const form = document.querySelector<HTMLFormElement>("#contact-form")
+  const successMessage = document.querySelector<HTMLElement>("#success-message")
 
   if (form && successMessage) {
     // 1. Handle Form Submission
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault()
 
       // Ensure reCAPTCHA is verified if the widget exists
       if (
-        document.querySelector('[data-netlify-recaptcha]') &&
+        document.querySelector("[data-netlify-recaptcha]") &&
         !(window as any).grecaptcha?.getResponse()
       ) {
-        return alert('Please complete the reCAPTCHA verification.');
+        return alert("Please complete the reCAPTCHA verification.")
       }
 
       try {
-        const response = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        const response = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams(new FormData(form) as any).toString(),
-        });
+        })
 
-        if (!response.ok) throw new Error();
+        if (!response.ok) throw new Error()
 
         // Show success state
-        form.classList.add('hidden');
-        successMessage.classList.replace('hidden', 'flex');
-        form.reset(); // Native form reset
+        form.classList.add("hidden")
+        successMessage.classList.replace("hidden", "flex")
+        form.reset() // Native form reset
       } catch {
-        alert('Something went wrong. Please try again or email me directly.');
+        alert("Something went wrong. Please try again or email me directly.")
       }
-    });
+    })
 
     // 2. Handle Native Form Reset (Clears inputs AND reCAPTCHA automatically)
-    form.addEventListener('reset', () => {
-      (window as any).grecaptcha?.reset();
-    });
+    form.addEventListener("reset", () => {
+      ;(window as any).grecaptcha?.reset()
+    })
 
     // 3. Handle "Send another message"
-    document.querySelector('#send-another')?.addEventListener('click', () => {
-      successMessage.classList.replace('flex', 'hidden');
-      form.classList.remove('hidden');
-    });
+    document.querySelector("#send-another")?.addEventListener("click", () => {
+      successMessage.classList.replace("flex", "hidden")
+      form.classList.remove("hidden")
+    })
   }
 </script>

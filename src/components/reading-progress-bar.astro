@@ -1,34 +1,37 @@
-<div class='pointer-events-none fixed top-16 left-0 z-50 h-px w-full'>
-  <div id='progress-bar' class='bg-foreground h-full w-0 opacity-0 transition-opacity duration-200'>
+<div class="pointer-events-none fixed top-16 left-0 z-50 h-px w-full">
+  <div
+    id="progress-bar"
+    class="h-full w-0 bg-foreground opacity-0 transition-opacity duration-200"
+  >
   </div>
 </div>
 
 <script>
   // Self-executing function to avoid global scope pollution
-  (() => {
-    const bar = document.getElementById('progress-bar');
-    if (!bar) return;
+  ;(() => {
+    const bar = document.getElementById("progress-bar")
+    if (!bar) return
 
     const update = () => {
-      const scrollH = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollH = document.documentElement.scrollHeight - window.innerHeight
 
       // Safety check for short pages
       if (scrollH <= 0) {
-        bar.style.opacity = '0';
-        return;
+        bar.style.opacity = "0"
+        return
       }
 
-      const progress = (window.scrollY / scrollH) * 100;
+      const progress = (window.scrollY / scrollH) * 100
 
-      bar.style.width = `${progress}%`;
+      bar.style.width = `${progress}%`
       // Show only after 0.5% scroll for a cleaner look
-      bar.style.opacity = progress > 0.5 ? '1' : '0';
-    };
+      bar.style.opacity = progress > 0.5 ? "1" : "0"
+    }
 
     // { passive: true } improves scroll performance significantly
-    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener("scroll", update, { passive: true })
 
     // Initial call to set state if page is refreshed mid-scroll
-    update();
-  })();
+    update()
+  })()
 </script>

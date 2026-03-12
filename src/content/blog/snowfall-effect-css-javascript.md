@@ -1,6 +1,6 @@
 ---
-title: 'How to Add a Snowfall Effect to Your Website with CSS and JavaScript'
-description: 'A quick tutorial on creating a snowfall effect using CSS and JavaScript. Perfect for adding some holiday vibes to your site.'
+title: "How to Add a Snowfall Effect to Your Website with CSS and JavaScript"
+description: "A quick tutorial on creating a snowfall effect using CSS and JavaScript. Perfect for adding some holiday vibes to your site."
 date: 2022-12-10T12:34:56.000Z
 thumbnail: ../../assets/blog/pexels-kristin-vogt-54200.jpg
 tags:
@@ -105,32 +105,32 @@ First, we'll set up some variables:
 
 ```js
 // snowflake characters
-const snow = ['❄', '❅', '❆'];
+const snow = ["❄", "❅", "❆"]
 // snowflake colors
-const colors = ['#aaa', '#bbb', '#ccc', '#ddd', '#eee'];
+const colors = ["#aaa", "#bbb", "#ccc", "#ddd", "#eee"]
 // number of snowflakes
-const flakes = 24;
+const flakes = 24
 ```
 
 Then we grab the container element with the `.snow` class:
 
 ```js
 // snowflake container
-const container = document.querySelector('.snow');
+const container = document.querySelector(".snow")
 ```
 
 We also need the container width so we can position snowflakes randomly across it:
 
 ```js
 // snowflake container width
-const containerWidth = container?.clientWidth;
+const containerWidth = container?.clientWidth
 ```
 
 And an array to keep track of our snowflakes:
 
 ```js
 // snowflake array
-const snowflakes = [];
+const snowflakes = []
 ```
 
 Now here's where the magic happens. We loop through and create each snowflake with some random styles:
@@ -139,19 +139,19 @@ Now here's where the magic happens. We loop through and create each snowflake wi
 // create snowflakes
 for (let i = 0; i < flakes; i++) {
   // create the snowflake element
-  const flake = document.createElement('div');
+  const flake = document.createElement("div")
   // set the snowflake character
-  flake.innerHTML = snow[Math.floor(Math.random() * snow.length)];
+  flake.innerHTML = snow[Math.floor(Math.random() * snow.length)]
   // add the common snowflake styles
-  flake.classList.add('snowflake');
+  flake.classList.add("snowflake")
   // set the unique snowflake styles
-  flake.style.position = 'absolute';
-  flake.style.left = `${Math.random() * containerWidth}px`;
-  flake.style.fontSize = `${Math.floor(Math.random() * 30) + 10}px`;
-  flake.style.color = colors[Math.floor(Math.random() * colors.length)];
-  flake.style.animationDelay = `${Math.random() * 12}s`;
-  container.appendChild(flake);
-  snowflakes.push(flake);
+  flake.style.position = "absolute"
+  flake.style.left = `${Math.random() * containerWidth}px`
+  flake.style.fontSize = `${Math.floor(Math.random() * 30) + 10}px`
+  flake.style.color = colors[Math.floor(Math.random() * colors.length)]
+  flake.style.animationDelay = `${Math.random() * 12}s`
+  container.appendChild(flake)
+  snowflakes.push(flake)
 }
 ```
 
@@ -160,23 +160,23 @@ For each snowflake, we're creating a `div`, giving it a random snowflake charact
 Here's the final JavaScript all together:
 
 ```js
-const snow = ['❄', '❅', '❆'];
-const colors = ['#aaa', '#bbb', '#ccc', '#ddd', '#eee'];
-const flakes = 16;
-const container = document.querySelector('.snow');
-const containerWidth = container?.clientWidth;
-const snowflakes = [];
+const snow = ["❄", "❅", "❆"]
+const colors = ["#aaa", "#bbb", "#ccc", "#ddd", "#eee"]
+const flakes = 16
+const container = document.querySelector(".snow")
+const containerWidth = container?.clientWidth
+const snowflakes = []
 for (let i = 0; i < flakes; i++) {
-  const flake = document.createElement('div');
-  flake.innerHTML = snow[Math.floor(Math.random() * snow.length)];
-  flake.classList.add('snowflake');
-  flake.style.position = 'absolute';
-  flake.style.left = `${Math.random() * containerWidth}px`;
-  flake.style.fontSize = `${Math.floor(Math.random() * 30) + 10}px`;
-  flake.style.color = colors[Math.floor(Math.random() * colors.length)];
-  flake.style.animationDelay = `${Math.random() * 12}s`;
-  container.appendChild(flake);
-  snowflakes.push(flake);
+  const flake = document.createElement("div")
+  flake.innerHTML = snow[Math.floor(Math.random() * snow.length)]
+  flake.classList.add("snowflake")
+  flake.style.position = "absolute"
+  flake.style.left = `${Math.random() * containerWidth}px`
+  flake.style.fontSize = `${Math.floor(Math.random() * 30) + 10}px`
+  flake.style.color = colors[Math.floor(Math.random() * colors.length)]
+  flake.style.animationDelay = `${Math.random() * 12}s`
+  container.appendChild(flake)
+  snowflakes.push(flake)
 }
 ```
 

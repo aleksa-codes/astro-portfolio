@@ -1,49 +1,56 @@
 ---
-import BaseLayout from '@/layouts/base-layout.astro';
-import { getCollection } from 'astro:content';
-import BlogListing from '@/components/blog-listing.astro';
-import Pagination from '@/components/pagination.astro';
-import type { Page } from 'astro';
-import type { CollectionEntry } from 'astro:content';
+import BaseLayout from "@/layouts/base-layout.astro"
+import { getCollection } from "astro:content"
+import BlogListing from "@/components/blog-listing.astro"
+import Pagination from "@/components/pagination.astro"
+import type { Page } from "astro"
+import type { CollectionEntry } from "astro:content"
 
 interface Props {
-  page: Page<CollectionEntry<'blog'>>;
+  page: Page<CollectionEntry<"blog">>
 }
 
 export async function getStaticPaths({ paginate }: { paginate: any }) {
-  const posts = await getCollection('blog');
-  const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  const posts = await getCollection("blog")
+  const sortedPosts = posts.sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime()
+  )
 
-  return paginate(sortedPosts, { pageSize: 4 });
+  return paginate(sortedPosts, { pageSize: 4 })
 }
 
-const { page } = Astro.props;
+const { page } = Astro.props
 
-const title = page.currentPage === 1 ? 'Blog' : `Blog - Page ${page.currentPage}`;
+const title =
+  page.currentPage === 1 ? "Blog" : `Blog - Page ${page.currentPage}`
 
 const description =
-  'Articles and insights on web development, software engineering, and computer science — written from hands-on experience as a developer.';
-const ogImage = new URL('/open-graph/blog.png', Astro.site).toString();
+  "Articles and insights on web development, software engineering, and computer science — written from hands-on experience as a developer."
+const ogImage = new URL("/open-graph/blog.png", Astro.site).toString()
 ---
 
 <BaseLayout {title} {description} {ogImage}>
-  <div class='flex flex-col gap-8'>
-    <div class='flex flex-col items-start'>
-      <h1 class='text-foreground mb-3 text-3xl font-bold tracking-tighter md:text-4xl'>
-        Writing &{' '}
+  <div class="flex flex-col gap-8">
+    <div class="flex flex-col items-start">
+      <h1
+        class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl"
+      >
+        Writing &{" "}
         <span
-          class='from-foreground to-muted-foreground bg-linear-to-r bg-clip-text text-transparent'
+          class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
         >
           Thoughts.
         </span>
       </h1>
-      <p class='text-muted-foreground max-w-xl text-sm leading-relaxed md:text-base'>
-        A collection of thoughts, tutorials, and insights about web development, architecture, and
-        technology.
+      <p
+        class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
+      >
+        A collection of thoughts, tutorials, and insights about web development,
+        architecture, and technology.
       </p>
     </div>
 
-    <div class='flex flex-col gap-12 pb-24'>
+    <div class="flex flex-col gap-12 pb-24">
       <BlogListing posts={page.data} />
 
       {
@@ -53,7 +60,7 @@ const ogImage = new URL('/open-graph/blog.png', Astro.site).toString();
             lastPage={page.lastPage}
             urlPrev={page.url.prev}
             urlNext={page.url.next}
-            basePath='/blog'
+            basePath="/blog"
           />
         )
       }

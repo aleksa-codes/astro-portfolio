@@ -1,60 +1,60 @@
 ---
-import { cn } from '@/lib/utils';
-import { Icon } from 'astro-icon/components';
+import { cn } from "@/lib/utils"
+import { Icon } from "astro-icon/components"
 
 interface Props {
-  currentPage: number;
-  lastPage: number;
-  urlPrev: string | undefined;
-  urlNext: string | undefined;
-  basePath: string;
+  currentPage: number
+  lastPage: number
+  urlPrev: string | undefined
+  urlNext: string | undefined
+  basePath: string
 }
 
-const { currentPage, lastPage, urlPrev, urlNext, basePath } = Astro.props;
+const { currentPage, lastPage, urlPrev, urlNext, basePath } = Astro.props
 
 // Generate page numbers to show
-const pages = [];
+const pages = []
 for (let i = 1; i <= lastPage; i++) {
-  pages.push(i);
+  pages.push(i)
 }
 ---
 
-<nav class='flex items-center justify-center gap-2 pb-0'>
+<nav class="flex items-center justify-center gap-2 pb-0">
   {
     urlPrev ? (
       <a
-        href={urlPrev === '/blog/1' ? '/blog' : urlPrev}
-        class='text-muted-foreground hover:text-foreground hover:bg-muted border-border/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-colors'
-        aria-label='Previous Page'
+        href={urlPrev === "/blog/1" ? "/blog" : urlPrev}
+        class="flex h-10 w-10 items-center justify-center rounded-xl border border-border/50 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        aria-label="Previous Page"
       >
-        <Icon name='lucide:chevron-left' class='h-5 w-5' />
+        <Icon name="lucide:chevron-left" class="h-5 w-5" />
       </a>
     ) : (
-      <div class='text-muted-foreground/30 border-border/20 flex h-10 w-10 items-center justify-center rounded-xl border'>
-        <Icon name='lucide:chevron-left' class='h-5 w-5' />
+      <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-border/20 text-muted-foreground/30">
+        <Icon name="lucide:chevron-left" class="h-5 w-5" />
       </div>
     )
   }
 
-  <div class='flex items-center gap-1.5'>
+  <div class="flex items-center gap-1.5">
     {
-      pages.map(page => {
-        const isCurrent = page === currentPage;
-        const href = page === 1 ? basePath : `${basePath}/${page}`;
+      pages.map((page) => {
+        const isCurrent = page === currentPage
+        const href = page === 1 ? basePath : `${basePath}/${page}`
 
         return (
           <a
             href={href}
             class={cn(
-              'flex h-10 min-w-10 items-center justify-center rounded-xl border px-3 text-sm font-medium transition-all',
+              "flex h-10 min-w-10 items-center justify-center rounded-xl border px-3 text-sm font-medium transition-all",
               isCurrent
-                ? 'bg-foreground text-background border-foreground shadow-sm'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted border-border/50',
+                ? "border-foreground bg-foreground text-background shadow-sm"
+                : "border-border/50 text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
           >
             {page}
           </a>
-        );
+        )
       })
     }
   </div>
@@ -63,14 +63,14 @@ for (let i = 1; i <= lastPage; i++) {
     urlNext ? (
       <a
         href={urlNext}
-        class='text-muted-foreground hover:text-foreground hover:bg-muted border-border/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-colors'
-        aria-label='Next Page'
+        class="flex h-10 w-10 items-center justify-center rounded-xl border border-border/50 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        aria-label="Next Page"
       >
-        <Icon name='lucide:chevron-right' class='h-5 w-5' />
+        <Icon name="lucide:chevron-right" class="h-5 w-5" />
       </a>
     ) : (
-      <div class='text-muted-foreground/30 border-border/20 flex h-10 w-10 items-center justify-center rounded-xl border'>
-        <Icon name='lucide:chevron-right' class='h-5 w-5' />
+      <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-border/20 text-muted-foreground/30">
+        <Icon name="lucide:chevron-right" class="h-5 w-5" />
       </div>
     )
   }
