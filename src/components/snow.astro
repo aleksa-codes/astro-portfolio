@@ -1,0 +1,51 @@
+<div
+  id="snow-container"
+  class="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+  aria-hidden="true"
+>
+</div>
+
+<script>
+  const init = () => {
+    const m = new Date().getMonth()
+    if (m !== 11 && m !== 0) return
+
+    const container = document.getElementById("snow-container")
+    if (!container) return
+
+    const snow = ["❄", "❅", "❆"]
+    const colors = ["#ffffff", "#e0f7fa", "#b3e5fc", "#e3f2fd"]
+    let interval: ReturnType<typeof setInterval> | null = null
+    const R = Math.random
+
+    const start = () => {
+      if (interval) return
+      interval = setInterval(() => {
+        const el = document.createElement("div")
+        el.className =
+          "animate-snow absolute -top-8 text-transparent will-change-transform select-none"
+        const d = R() * 5 + 3
+
+        el.style.cssText = `left:${R() < 0.35 ? R() * 20 : R() < 0.65 ? 20 + R() * 60 : 80 + R() * 20}vw;opacity:${Math.min(R() + 0.3, 1)};--end-x:${R() * 10 - 5}vw;--duration:${d}s;font-size:${R() * 1.25 + 0.5}em;text-shadow:0 0 0 ${colors[~~(R() * colors.length)]}`
+        el.textContent = snow[~~(R() * snow.length)]
+
+        container.appendChild(el)
+        setTimeout(() => el.remove(), d * 1000)
+      }, 200)
+    }
+
+    const stop = () => {
+      if (interval) clearInterval(interval)
+      interval = null
+      container.innerHTML = ""
+    }
+
+    localStorage.getItem("snowEffect") !== "false" && start()
+    window.addEventListener("snowEffectChange", ((e: CustomEvent) =>
+      e.detail ? start() : stop()) as EventListener)
+  }
+
+  document.readyState === "loading"
+    ? document.addEventListener("DOMContentLoaded", init)
+    : init()
+</script>

@@ -1,37 +1,10 @@
 ---
-import { Image } from "astro:assets"
-import Avatar from "@/assets/avatar.png"
+import Avatar from "@/components/avatar.astro"
 ---
 
 <section id="home" class="flex flex-col items-start">
   <div class="mb-14">
-    <div class="relative inline-block">
-      <div
-        class="h-24 w-24 rounded-full border border-border/50 bg-card p-0.5 shadow-sm md:h-32 md:w-32"
-      >
-        <Image
-          src={Avatar}
-          alt="Avatar of Aleksa"
-          format={"webp"}
-          width={128}
-          height={128}
-          priority
-          class="h-full w-full rounded-full object-cover"
-        />
-      </div>
-      <div
-        class="absolute bottom-1 left-16.5 flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 whitespace-nowrap shadow-sm md:bottom-2 md:left-23.5 md:gap-2 md:px-4 md:py-2.5"
-      >
-        <div
-          class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 md:h-2 md:w-2"
-        >
-        </div>
-        <span
-          class="text-xs leading-none font-medium text-foreground md:text-sm"
-          >Open to work</span
-        >
-      </div>
-    </div>
+    <Avatar statusText="Open to work" class="h-24 w-24 md:h-32 md:w-32" />
   </div>
 
   <h1

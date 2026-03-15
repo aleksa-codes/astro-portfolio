@@ -1,0 +1,113 @@
+---
+import { getImage } from "astro:assets"
+import AvatarDefault from "@/assets/avatar.png"
+import AvatarHalloween from "@/assets/avatar-halloween.png"
+import AvatarSanta from "@/assets/avatar-santa.png"
+import AvatarSummer from "@/assets/avatar-summer.png"
+import { cn } from "@/lib/utils"
+
+interface Props {
+  statusText?: string
+  showStatus?: boolean
+  class?: string
+}
+
+const { statusText, showStatus = true, class: className } = Astro.props
+
+const defaultAvatar = await getImage({
+  src: AvatarDefault,
+  format: "webp",
+  width: 128,
+  height: 128,
+})
+
+const halloweenAvatar = await getImage({
+  src: AvatarHalloween,
+  format: "webp",
+  width: 128,
+  height: 128,
+})
+
+const santaAvatar = await getImage({
+  src: AvatarSanta,
+  format: "webp",
+  width: 128,
+  height: 128,
+})
+
+const summerAvatar = await getImage({
+  src: AvatarSummer,
+  format: "webp",
+  width: 128,
+  height: 128,
+})
+---
+
+<div class="relative inline-block w-fit">
+  <div class={cn("rounded-full", className)}>
+    <img
+      src={defaultAvatar.src}
+      alt="Avatar of Aleksa"
+      width={128}
+      height={128}
+      loading="eager"
+      data-avatar-default={defaultAvatar.src}
+      data-avatar-halloween={halloweenAvatar.src}
+      data-avatar-santa={santaAvatar.src}
+      data-avatar-summer={summerAvatar.src}
+      id="seasonal-avatar"
+      class="h-full w-full rounded-full object-cover"
+    />
+  </div>
+
+  {
+    showStatus &&
+      (statusText ? (
+        <div class="absolute bottom-1 left-16.5 flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 whitespace-nowrap shadow-sm md:bottom-2 md:left-23.5 md:gap-2 md:px-4 md:py-2.5">
+          <div class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 md:h-2 md:w-2" />
+          <span class="text-xs leading-none font-medium text-foreground md:text-sm">
+            {statusText}
+          </span>
+        </div>
+      ) : (
+        <div
+          class="absolute right-1 bottom-1 h-4 w-4 rounded-full border-[3px] border-card bg-green-500 md:right-1.5 md:bottom-1.5 md:h-5 md:w-5"
+          title="Online"
+        />
+      ))
+  }
+</div>
+
+<script is:inline>
+  function updateAvatarBasedOnSeason() {
+    const avatarImg = document.getElementById("seasonal-avatar")
+
+    if (!avatarImg) return
+
+    const now = new Date()
+    const month = now.getMonth() // 0-indexed: 0 = Jan, 11 = Dec
+
+    // Default Fallback
+    let chosenSrc = avatarImg.dataset.avatarDefault
+
+    // Halloween (October)
+    if (month === 9) {
+      chosenSrc = avatarImg.dataset.avatarHalloween
+    }
+    // Christmas / Santa (December & January)
+    else if (month === 11 || month === 0) {
+      chosenSrc = avatarImg.dataset.avatarSanta
+    }
+    // Summer (June, July, August)
+    else if (month === 5 || month === 6 || month === 7) {
+      chosenSrc = avatarImg.dataset.avatarSummer
+    }
+
+    if (chosenSrc && avatarImg.src !== chosenSrc) {
+      avatarImg.src = chosenSrc
+    }
+  }
+
+  // Run on mount
+  updateAvatarBasedOnSeason()
+</script>

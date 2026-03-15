@@ -1,0 +1,78 @@
+---
+import { Icon } from "astro-icon/components"
+import Tooltip from "@/components/ui/tooltip.astro"
+---
+
+<div id="snow-toggle-wrapper" class="hidden">
+  <Tooltip content="Toggle Snow" side="bottom">
+    <button
+      id="snow-toggle"
+      aria-label="Toggle snow effect"
+      class="relative flex cursor-pointer items-center justify-center rounded-xl p-2.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+    >
+      <span class="sr-only">Toggle snow effect</span>
+      <Icon
+        id="snow-on"
+        name="lucide:snowflake"
+        class="h-5 w-5 transform opacity-0 transition-all duration-300"
+      />
+      <div
+        id="snow-off"
+        class="absolute h-5 w-5 transform transition-all duration-300"
+      >
+        <Icon name="lucide:snowflake" class="h-5 w-5" />
+        <Icon
+          name="lucide:circle-slash"
+          class="absolute inset-0 h-5 w-5 text-destructive"
+        />
+      </div>
+    </button>
+  </Tooltip>
+</div>
+
+<script>
+  const init = () => {
+    const m = new Date().getMonth()
+    if (m !== 11 && m !== 0) return
+
+    const wrap = document.getElementById("snow-toggle-wrapper")
+    const btn = document.getElementById("snow-toggle")
+    const onIcon = document.getElementById("snow-on")
+    const offIcon = document.getElementById("snow-off")
+
+    if (!wrap || !btn || !onIcon || !offIcon) return
+
+    wrap.classList.replace("hidden", "flex")
+
+    let active = localStorage.getItem("snowEffect") !== "false"
+
+    const update = () => {
+      ;["opacity-0", "-translate-y-4", "scale-50"].forEach((c) =>
+        onIcon.classList.toggle(c, active)
+      )
+      ;["opacity-0", "translate-y-4", "scale-50"].forEach((c) =>
+        offIcon.classList.toggle(c, !active)
+      )
+    }
+
+    const toggle = () => {
+      active = !active
+      localStorage.setItem("snowEffect", String(active))
+      update()
+      window.dispatchEvent(
+        new CustomEvent("snowEffectChange", { detail: active })
+      )
+    }
+
+    update()
+    window.dispatchEvent(
+      new CustomEvent("snowEffectChange", { detail: active })
+    )
+
+    btn.addEventListener("click", toggle)
+  }
+
+  document.readyState === "loading"
+    ? document.addEventListener("DOMContentLoaded", init)
+    : init()
+</script>

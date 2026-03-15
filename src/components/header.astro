@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components"
 import ThemeToggle from "@/components/theme-toggle.astro"
 import Tooltip from "@/components/ui/tooltip.astro"
+import SnowToggle from "./snow-toggle.astro"
 
 const links = [
   {
@@ -51,6 +52,7 @@ const links = [
       }
 
       <div class="mx-1 h-6 w-px bg-border md:mx-2"></div>
+      <SnowToggle />
       <ThemeToggle />
     </div>
   </div>

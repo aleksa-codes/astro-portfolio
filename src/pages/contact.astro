@@ -2,8 +2,7 @@
 import BaseLayout from "@/layouts/base-layout.astro"
 import { Icon } from "astro-icon/components"
 import Card from "@/components/ui/card.astro"
-import { Image } from "astro:assets"
-import Avatar from "@/assets/avatar.png"
+import Avatar from "@/components/avatar.astro"
 
 const title = "Contact"
 const description =
@@ -46,27 +45,7 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
             <div
               class="flex flex-col items-center gap-4 sm:flex-row sm:items-center md:gap-6"
             >
-              <!-- Avatar with Status Dot -->
-              <div class="relative shrink-0">
-                <div
-                  class="h-20 w-20 rounded-full border border-border/50 bg-card p-0.5 shadow-sm md:h-28 md:w-28"
-                >
-                  <Image
-                    src={Avatar}
-                    alt="Avatar of Aleksa"
-                    format={"webp"}
-                    width={112}
-                    height={112}
-                    priority
-                    class="h-full w-full rounded-full object-cover"
-                  />
-                </div>
-                <div
-                  class="absolute right-1 bottom-1 h-4 w-4 rounded-full border-[3px] border-card bg-green-500 md:right-1.5 md:bottom-1.5 md:h-5 md:w-5"
-                  title="Open to work"
-                >
-                </div>
-              </div>
+              <Avatar class="h-20 w-20 md:h-28 md:w-28" />
 
               <!-- Context Details -->
               <div class="flex flex-col items-center gap-1 sm:items-start">
