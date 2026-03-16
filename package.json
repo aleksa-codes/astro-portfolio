@@ -37,8 +37,8 @@
   "devDependencies": {
     "@iconify-json/bxl": "^1.2.4",
     "@iconify-json/iconoir": "^1.2.10",
-    "@iconify-json/lucide": "^1.2.97",
-    "@iconify-json/simple-icons": "^1.2.73",
+    "@iconify-json/lucide": "^1.2.98",
+    "@iconify-json/simple-icons": "^1.2.74",
     "@iconify-json/tabler": "^1.2.31",
     "@tailwindcss/typography": "^0.5.19",
     "postcss-cli": "^11.0.1",
