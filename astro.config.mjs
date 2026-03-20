@@ -51,7 +51,11 @@ export default defineConfig({
       },
     }),
     icon(),
-    sitemap(),
+    sitemap({
+      filter(page) {
+        return !page.startsWith(`${SITE}/admin`)
+      },
+    }),
     playformCompress({
       HTML: {
         "html-minifier-terser": {
