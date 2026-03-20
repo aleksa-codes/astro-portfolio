@@ -1,6 +1,6 @@
 ---
-title: "How to Run DeepSeek R1 on Windows with an Unsupported AMD GPU"
-description: "A step-by-step guide to running DeepSeek R1 locally on Windows with an unsupported AMD GPU like the RX 6600 XT using a community Ollama fork and ROCm libraries."
+title: "How to Run Ollama on Windows with an Unsupported AMD GPU"
+description: "A step-by-step guide to running Ollama locally on Windows with an unsupported AMD GPU like the RX 6600 XT using a community Ollama fork and ROCm libraries."
 date: 2025-01-29T12:00:00.000Z
 thumbnail: ../../assets/blog/deepseek-chat.png
 tags:
@@ -10,7 +10,7 @@ tags:
   - Tutorial
 ---
 
-So you've got an AMD GPU that isn't on Ollama's official supported list, and you still want to run DeepSeek R1 locally? Yeah, I was in the same boat with my Radeon RX 6600 XT. The good news is that it's totally possible thanks to a community fork. Here's how I got it working.
+So you've got an AMD GPU that isn't on Ollama's official supported list, and you still want to run a model like DeepSeek R1 locally? Yeah, I was in the same boat with my Radeon RX 6600 XT. The good news is that it's totally possible thanks to a community fork. Here's how I got it working.
 
 If you want to check whether your GPU is officially supported, here's [AMD's list](https://ollama.com/blog/amd-preview). If yours isn't on there (like mine), keep reading.
 
