@@ -19,7 +19,7 @@
     "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.1",
     "@felixicaza/astro-capo": "^1.0.1",
-    "@northsoon/astro-seo": "^1.0.2",
+    "@lexingtonthemes/seo": "^0.1.0",
     "@playform/compress": "^0.2.2",
     "@tailwindcss/vite": "^4.2.2",
     "ai": "^6.0.134",

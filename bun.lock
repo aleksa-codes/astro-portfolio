@@ -11,7 +11,7 @@
         "@astrojs/rss": "^4.0.17",
         "@astrojs/sitemap": "^3.7.1",
         "@felixicaza/astro-capo": "^1.0.1",
-        "@northsoon/astro-seo": "^1.0.2",
+        "@lexingtonthemes/seo": "^0.1.0",
         "@playform/compress": "^0.2.2",
         "@tailwindcss/vite": "^4.2.2",
         "ai": "^6.0.134",
@@ -275,6 +275,8 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
+    "@lexingtonthemes/seo": ["@lexingtonthemes/seo@0.1.0", "", { "peerDependencies": { "astro": "^1.2.1 || ^2.0.0 || ^3.0.0-beta.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0" } }, "sha512-t2NMivXymh9183765y3ddbiGBXQDMWiJZ9adniv0Lk7c1i2LYq9tWP1QPLx+0lggQylxCyA6Qsp1uSDPSmnycw=="],
+
     "@mapbox/node-pre-gyp": ["@mapbox/node-pre-gyp@2.0.3", "", { "dependencies": { "consola": "^3.2.3", "detect-libc": "^2.0.0", "https-proxy-agent": "^7.0.5", "node-fetch": "^2.6.7", "nopt": "^8.0.0", "semver": "^7.5.3", "tar": "^7.4.0" }, "bin": { "node-pre-gyp": "bin/node-pre-gyp" } }, "sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg=="],
 
     "@netlify/ai": ["@netlify/ai@0.4.0", "", { "dependencies": { "@netlify/api": "^14.0.17" } }, "sha512-ZSDSR5RuV9qkW4L2uwKvwDdSGBqef2NyLGsrdoEx0Yj7ulSWjPSTVCrl+uY23lgaEsoCVj+dSbN9yC+uXw7dJw=="],
@@ -340,8 +342,6 @@
     "@nodelib/fs.stat": ["@nodelib/fs.stat@2.0.5", "", {}, "sha512-RkhPPp2zrqDAQA/2jNhnztcPAlv64XdhIp7a7454A5ovI7Bukxgt7MX7udwAu3zg1DcpPU0rz3VV1SeaqvY4+A=="],
 
     "@nodelib/fs.walk": ["@nodelib/fs.walk@1.2.8", "", { "dependencies": { "@nodelib/fs.scandir": "2.1.5", "fastq": "^1.6.0" } }, "sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg=="],
-
-    "@northsoon/astro-seo": ["@northsoon/astro-seo@1.0.2", "", { "dependencies": { "html-escaper": "^3.0.3" }, "peerDependencies": { "astro": "^4.0.0 || ^5.0.0" } }, "sha512-AFRrUhkwCoQJGn1kvzYcwMmDUWSUr0zo1QzVo4QWvm6tX2B5xDtT4mKlMDcLIr0QmfIPMfmTSip8e9HBHfpFcg=="],
 
     "@opentelemetry/api": ["@opentelemetry/api@1.9.0", "", {}, "sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg=="],
 

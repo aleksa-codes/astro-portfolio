@@ -1,7 +1,7 @@
 ---
 import "@/styles/global.css"
 import { Head } from "@felixicaza/astro-capo"
-import { AstroSeo } from "@northsoon/astro-seo"
+import { AstroSeo } from "@lexingtonthemes/seo"
 import Header from "@/components/header.astro"
 import Footer from "@/components/footer.astro"
 import Dock from "@/components/dock.astro"
@@ -53,7 +53,6 @@ const fullTitle =
       }}
       twitter={{
         cardType: "summary_large_image",
-        image: ogImage,
       }}
       additionalLinkTags={[
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
@@ -75,7 +74,6 @@ const fullTitle =
         {
           rel: "alternate",
           type: "application/rss+xml",
-          title: "aleksa.codes RSS",
           href: new URL("rss.xml", Astro.site).toString(),
         },
       ]}
