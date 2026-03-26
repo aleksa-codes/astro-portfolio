@@ -89,14 +89,14 @@ const fullTitle =
       })()
     </script>
   </Head>
-  <body>
+  <body class="flex min-h-screen flex-col">
     <div
       class="pointer-events-none fixed inset-0 -z-50 bg-[linear-gradient(to_right,rgba(128,128,128,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(128,128,128,0.05)_1px,transparent_1px)] mask-[radial-gradient(circle_at_center,black_40%,transparent_100%)] bg-size-[30px_30px] opacity-50 [-webkit-mask-image:radial-gradient(circle_at_center,black_40%,transparent_100%)]"
     >
     </div>
     <Snow />
     <Header />
-    <main id="main" class="container pt-32 pb-48">
+    <main id="main" class="container flex grow flex-col pt-32 pb-48">
       <slot />
     </main>
     <Footer />

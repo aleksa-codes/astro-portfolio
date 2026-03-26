@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@/layouts/base-layout.astro"
+---
+
+<BaseLayout title="404 - Page Not Found">
+  <section class="flex grow flex-col items-center justify-center text-center">
+    <div class="relative flex flex-col items-center justify-center">
+      <div
+        class="absolute inset-0 -z-10 m-auto h-50 w-50 rounded-full bg-primary/20 blur-[80px]"
+      >
+      </div>
+
+      <h1
+        class="text-[8rem] leading-none font-bold tracking-tighter sm:text-[12rem]"
+      >
+        <span
+          class="bg-linear-to-b from-foreground to-muted-foreground/30 bg-clip-text text-transparent drop-shadow-sm"
+        >
+          404
+        </span>
+      </h1>
+      <h2
+        class="mt-4 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+      >
+        Page not found
+      </h2>
+      <p class="mt-4 max-w-75 text-base text-muted-foreground sm:max-w-md">
+        The page you are looking for doesn't exist or has been moved.
+      </p>
+      <div class="mt-8">
+        <a
+          href="/"
+          class="group inline-flex h-10 items-center justify-center rounded-lg border border-border bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:bg-primary/90 hover:shadow-md focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:outline-none"
+        >
+          <span
+            class="mr-2 flex items-center transition-transform duration-300 group-hover:-translate-x-1"
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+            >
+              <path
+                d="M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+                clip-rule="evenodd"></path>
+            </svg>
+          </span>
+          Back to home
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
