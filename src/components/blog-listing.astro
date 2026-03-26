@@ -26,8 +26,6 @@ const { posts } = Astro.props
               <Image
                 src={post.data.thumbnail}
                 alt={post.data.title}
-                format={"webp"}
-                quality={"high"}
                 sizes="(min-width: 768px) 384px, calc(100vw - 4rem)"
                 priority={index < 2}
                 class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
