@@ -89,12 +89,6 @@ SaaS platform trusted by over 4,000 users that instantly fixes yellow tints and 
 - **Live:** https://unyellowgpt.com
 - **Stack:** Next.js, TypeScript, TailwindCSS, shadcn/ui, Neon, DrizzleORM, Better Auth, Polar.sh
 
-### Next Day
-Full-stack productivity app combining todo lists with built-in Pomodoro timers. Real-time cross-device syncing and secure authentication.
-- **Live:** https://nextday.aleksa.codes
-- **GitHub:** https://github.com/aleksa-codes/nextday-todo-app
-- **Stack:** Next.js, TypeScript, TailwindCSS, shadcn/ui, Supabase, DrizzleORM, Better Auth
-
 ### GPT Image Captioner
 Advanced tool for generating highly detailed image descriptions, optimized for AI LoRA model training with batch processing.
 - **Live:** https://gptcaptioner.aleksa.codes

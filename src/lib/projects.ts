@@ -4,7 +4,6 @@ import EasyWebsiteGPT from "@/assets/projects/easy-websitegpt.png"
 import FluxGhibsky from "@/assets/projects/flux-ghibsky.jpg"
 import GptFileSmith from "@/assets/projects/gpt-filesmith.png"
 import GptImgCaptioner from "@/assets/projects/gpt-img-captioner.png"
-import NextDay from "@/assets/projects/next-day.png"
 import NextMeal from "@/assets/projects/next-meal.png"
 import NextWorkout from "@/assets/projects/next-workout.png"
 import OneDarkModernPro from "@/assets/projects/one-dark-modern-pro.png"
@@ -29,24 +28,6 @@ export const projects = [
     image: UnYellowGPT,
     demo: "https://unyellowgpt.com",
     featured: true,
-    category: "Web Apps",
-  },
-  {
-    title: "Next Day",
-    description:
-      "Full-stack productivity app combining todo lists with built-in Pomodoro timers. Features real-time cross-device syncing, secure authentication, and intuitive nested task organization.",
-    tags: [
-      "Next.js",
-      "TypeScript",
-      "TailwindCSS",
-      "shadcn/ui",
-      "Supabase",
-      "DrizzleORM",
-      "Better Auth",
-    ],
-    image: NextDay,
-    github: "https://github.com/aleksa-codes/nextday-todo-app",
-    demo: "https://nextday.aleksa.codes",
     category: "Web Apps",
   },
   {
