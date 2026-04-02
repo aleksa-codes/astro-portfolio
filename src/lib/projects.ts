@@ -2,11 +2,11 @@ import AleksaPortfolio from "@/assets/projects/aleksa.codes.png"
 import EasyWebsiteBlocker from "@/assets/projects/easy-website-blocker.png"
 import EasyWebsiteGPT from "@/assets/projects/easy-websitegpt.png"
 import FluxGhibsky from "@/assets/projects/flux-ghibsky.jpg"
-import GptFileSmith from "@/assets/projects/gpt-filesmith.png"
 import GptImgCaptioner from "@/assets/projects/gpt-img-captioner.png"
 import NextMeal from "@/assets/projects/next-meal.png"
 import NextWorkout from "@/assets/projects/next-workout.png"
 import OneDarkModernPro from "@/assets/projects/one-dark-modern-pro.png"
+import Portal from "@/assets/projects/portal.png"
 import UnYellowGPT from "@/assets/projects/unyellow-gpt.png"
 
 export const projects = [
@@ -82,13 +82,22 @@ export const projects = [
     category: "AI & Tools",
   },
   {
-    title: "GPT FileSmith",
+    title: "Portal",
     description:
-      "Creative AI content generator inspired by infinite multiverses. Instantly crafts highly unique, imaginative text and documents with real-time preview and download options.",
-    tags: ["Astro", "TailwindCSS", "OpenAI API"],
-    image: GptFileSmith,
-    github: "https://github.com/aleksa-codes/gpt-filesmith",
-    demo: "https://filesmith.aleksa.codes",
+      "Creative AI content generator heavily inspired by Rick and Morty's interdimensional portal technology. Instantly crafts imaginative documents with multi-model support (OpenAI, Gemini, Claude), and immersive CSS animations.",
+    tags: [
+      "Astro",
+      "TypeScript",
+      "CSS",
+      "TailwindCSS",
+      "Vercel AI SDK",
+      "Gemini",
+      "OpenAI",
+      "Claude",
+    ],
+    image: Portal,
+    github: "https://github.com/aleksa-codes/portal",
+    demo: "https://portal.aleksa.codes",
     category: "AI & Tools",
   },
   {
