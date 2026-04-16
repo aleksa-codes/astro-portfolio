@@ -18,7 +18,7 @@ const { project, alternate = false, priority = false }: Props = Astro.props
 <Card
   class="group p-4 transition-all duration-300"
   contentClass={cn(
-    "flex flex-col gap-4 md:flex-row md:items-stretch",
+    "flex flex-col gap-4 md:flex-row md:items-center",
     alternate && "md:flex-row-reverse"
   )}
 >
@@ -30,7 +30,7 @@ const { project, alternate = false, priority = false }: Props = Astro.props
       "#"}
     target="_blank"
     rel="noopener noreferrer"
-    class="group relative aspect-4/3 w-full min-w-0 flex-1 overflow-hidden rounded-xl border border-border/50 md:h-auto"
+    class="group relative w-full min-w-0 flex-1 overflow-hidden rounded-xl border border-border/50"
   >
     <Image
       src={project.image}
@@ -39,7 +39,7 @@ const { project, alternate = false, priority = false }: Props = Astro.props
       quality={"high"}
       sizes="(min-width: 768px) 384px, calc(100vw - 4rem)"
       priority={priority}
-      class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+      class="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
     />
   </a>
 
