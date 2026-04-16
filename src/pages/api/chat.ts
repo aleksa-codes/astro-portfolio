@@ -132,11 +132,11 @@ Personal portfolio and blog built with Astro for peak performance and SEO. Featu
 - **Live:** https://aleksa.codes
 - **GitHub:** https://github.com/aleksa-codes/astro-portfolio
 
-### Next Meal
-PWA for instant randomized meal suggestions with full ingredient lists, step-by-step instructions, and video tutorials.
-- **Live:** https://nextmeal.aleksa.codes
-- **GitHub:** https://github.com/aleksa-codes/my-next-meal-pwa
-- **Stack:** Next.js, TypeScript, TailwindCSS, shadcn/ui, TheMealDB API
+### NBA Zone
+A fast, modern NBA dashboard presenting live standings, in-depth team statistics, latest schedules, and up-to-date NBA news and videos fetched via ESPN API and YouTube RSS.
+- **Live:** https://nbazone.vercel.app
+- **GitHub:** https://github.com/aleksa-codes/nba-zone
+- **Stack:** Next.js 16, React 19, TypeScript, TanStack Query, TailwindCSS, shadcn/ui
 
 ---
 
