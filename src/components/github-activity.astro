@@ -41,14 +41,14 @@ const iconClass = "h-4 w-4 text-muted-foreground/70"
   <div class="mx-auto flex w-fit flex-col gap-2">
     <div id="gh-labels" class="flex gap-0.75">
       {
-        Array.from({ length: 17 }).map(() => (
+        Array.from({ length: 22 }).map(() => (
           <span class="w-2.75 shrink-0 text-xs font-medium md:w-3">&nbsp;</span>
         ))
       }
     </div>
     <div id="gh-graph" data-username={username} class="flex gap-0.75">
       {
-        Array.from({ length: 17 }).map(() => (
+        Array.from({ length: 22 }).map(() => (
           <div class="flex flex-col gap-0.75">
             {Array.from({ length: 7 }).map(() => (
               <div class="h-2.75 w-2.75 animate-pulse rounded-[2px] bg-secondary/60 md:h-3 md:w-3" />
@@ -186,7 +186,7 @@ const iconClass = "h-4 w-4 text-muted-foreground/70"
         contributions.map((c: any) => [c.date, c.count])
       )
 
-      const cols = 17,
+      const cols = 22,
         rows = 7
       const today = new Date()
       const start = new Date(
