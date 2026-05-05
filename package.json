@@ -13,7 +13,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@ai-sdk/groq": "^3.0.36",
+    "@ai-sdk/groq": "^3.0.38",
     "@astrojs/check": "^0.9.9",
     "@astrojs/netlify": "^7.0.8",
     "@astrojs/rss": "^4.0.18",
@@ -22,22 +22,22 @@
     "@lexingtonthemes/seo": "^0.2.0",
     "@playform/compress": "^0.2.3",
     "@tailwindcss/vite": "^4.2.4",
-    "ai": "^6.0.170",
-    "astro": "^6.1.10",
-    "astro-expressive-code": "^0.41.7",
+    "ai": "^6.0.175",
+    "astro": "^6.2.2",
+    "astro-expressive-code": "^0.42.0",
     "astro-icon": "^1.1.5",
     "astro-og-canvas": "^0.11.1",
     "clsx": "^2.1.1",
-    "marked": "^18.0.2",
+    "marked": "^18.0.3",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.4",
     "typescript": "^6.0.3",
-    "zod": "^4.3.6"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@iconify-json/bxl": "^1.2.4",
     "@iconify-json/iconoir": "^1.2.11",
-    "@iconify-json/lucide": "^1.2.104",
+    "@iconify-json/lucide": "^1.2.105",
     "@iconify-json/simple-icons": "^1.2.80",
     "@iconify-json/tabler": "^1.2.33",
     "@tailwindcss/typography": "^0.5.19",
