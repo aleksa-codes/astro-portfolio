@@ -342,7 +342,7 @@ import { Icon } from "astro-icon/components"
           if (!q) return
           const btn = document.createElement("button")
           btn.className =
-            "bg-card border-border hover:bg-muted text-foreground flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium shadow-sm transition-colors cursor-pointer text-left"
+            "bg-card border-border hover:bg-muted text-foreground flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium shadow-sm transition-colors text-left"
           btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> <span>${q}</span>`
           btn.onclick = () => {
             if (elements.input) {
