@@ -1,3 +1,4 @@
+import { unified } from "@astrojs/markdown-remark"
 import netlify from "@astrojs/netlify"
 import sitemap from "@astrojs/sitemap"
 import playformCompress from "@playform/compress"
@@ -29,7 +30,9 @@ export default defineConfig({
     imageCDN: false,
   }),
   markdown: {
-    rehypePlugins: [[targetBlank, { domain: SITE }]],
+    processor: unified({
+      rehypePlugins: [[targetBlank, { domain: SITE }]],
+    }),
   },
   vite: {
     plugins: [tailwindcss()],
