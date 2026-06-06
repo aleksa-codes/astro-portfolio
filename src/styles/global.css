@@ -41,7 +41,6 @@
   --sidebar-border: oklch(0.94 0 0);
   --sidebar-ring: oklch(0 0 0);
   --font-sans: "Geist", sans-serif;
-  --font-serif: "Geist", sans-serif;
   --font-mono: "Geist Mono", monospace;
   --font-signature: "Dancing Script", cursive;
   --radius: 0.5rem;
@@ -107,10 +106,6 @@
   --sidebar-accent-foreground: oklch(1 0 0);
   --sidebar-border: oklch(0.32 0 0);
   --sidebar-ring: oklch(0.72 0 0);
-  --font-sans: "Geist", sans-serif;
-  --font-serif: "Geist", sans-serif;
-  --font-mono: "Geist Mono", monospace;
-  --font-signature: "Dancing Script", cursive;
   --radius: 0.5rem;
   --breakpoint-xs: 475px;
   --shadow-x: 0px;
@@ -176,7 +171,6 @@
 
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
-  --font-serif: var(--font-serif);
   --font-signature: var(--font-signature);
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -261,14 +255,6 @@
   }
   button {
     @apply hover:cursor-pointer;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-serif;
   }
   /* Vercel Mouse Tracking Glow */
   .glow-card {
