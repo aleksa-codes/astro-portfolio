@@ -65,7 +65,12 @@ export default defineConfig({
           removeAttributeQuotes: false,
         },
       },
-      CSS: false, // causes issues with Astro 7 when on/true
+      CSS: {
+        csso: false,
+        lightningcss: {
+          minify: true,
+        },
+      },
       JavaScript: true,
       Image: false,
       SVG: false,
