@@ -54,7 +54,7 @@ import { Icon } from "astro-icon/components"
       <!-- Messages Area -->
       <div
         id="chat-messages"
-        class="flex-1 [scrollbar-width:thin] [scrollbar-color:var(--color-muted-foreground)_transparent] space-y-6 overflow-y-auto p-6 pb-8 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/20 [&::-webkit-scrollbar-thumb:hover]:[background:var(--color-muted-foreground)] [&::-webkit-scrollbar-track]:bg-transparent"
+        class="flex-1 scrollbar-thin [scrollbar-color:var(--color-muted-foreground)_transparent] space-y-6 overflow-y-auto p-6 pb-8 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/20 [&::-webkit-scrollbar-thumb:hover]:[background:var(--color-muted-foreground)] [&::-webkit-scrollbar-track]:bg-transparent"
       >
         <!-- Initial Message -->
         <div class="flex max-w-[90%] flex-col gap-2 md:max-w-[85%]">
@@ -139,6 +139,11 @@ import { Icon } from "astro-icon/components"
 
 <script>
   import { marked } from "marked"
+  import remend from "remend"
+
+  async function parseMarkdown(text: string): Promise<string> {
+    return marked.parse(remend(text))
+  }
 
   declare global {
     interface Window {
@@ -158,8 +163,8 @@ import { Icon } from "astro-icon/components"
   }
 
   const MESSAGE_LIMIT = 5
-  const DAILY_STORAGE_KEY = "lux-chat-state"
-  const CONVERSATION_STORAGE_KEY = "lux-chat-conversation"
+  const DAILY_STORAGE_KEY = "portfolio-ai-message-state"
+  const CONVERSATION_STORAGE_KEY = "portfolio-ai-conversation"
 
   if (typeof window !== "undefined") {
     const elements = {
@@ -245,7 +250,7 @@ import { Icon } from "astro-icon/components"
 
         // 1. If we are already streaming, just update content
         if (!isUser && existingStreaming && !renderStored) {
-          const parsedContent = await marked.parse(content)
+          const parsedContent = await parseMarkdown(content)
           const contentEl = existingStreaming.querySelector(
             ".message-bubble-content"
           )
@@ -262,7 +267,7 @@ import { Icon } from "astro-icon/components"
           thinkingEl.classList.remove("animate-fade-in-up") // Prevent double animation
           const bubble = thinkingEl.querySelector(".message-bubble-wrapper")
           if (bubble) {
-            bubble.innerHTML = await marked.parse(content)
+            bubble.innerHTML = await parseMarkdown(content)
             bubble.classList.add(
               "message-bubble-content",
               "text-base",
@@ -303,13 +308,13 @@ import { Icon } from "astro-icon/components"
 
         const bubble = document.createElement("div")
         bubble.className = isUser
-          ? `text-base bg-foreground text-background px-5 py-4 rounded-3xl rounded-tr-sm shadow-sm break-words`
+          ? `text-base bg-foreground text-background selection:bg-background selection:text-foreground px-5 py-4 rounded-3xl rounded-tr-sm shadow-sm break-words`
           : `text-base text-foreground leading-relaxed bg-muted border border-border/40 px-5 py-4 rounded-3xl rounded-tl-sm shadow-sm break-words [&_a]:break-all message-bubble-wrapper message-bubble-content prose prose-sm dark:prose-invert max-w-none`
 
         if (isUser) {
           bubble.textContent = content
         } else {
-          bubble.innerHTML = await marked.parse(content)
+          bubble.innerHTML = await parseMarkdown(content)
         }
 
         messageDiv.appendChild(header)
