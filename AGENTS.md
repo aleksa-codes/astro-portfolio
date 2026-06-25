@@ -1,10 +1,10 @@
 # astro-portfolio - Agent Instructions
 
-**CRITICAL:** The dev server is likely already running. Do NOT start a new server or build unless explicitly asked. Use MCP tool Context7 to look up docs for rapidly evolving technologies like Astro 6, Tailwind v4, or unfamiliar libs (`@felixicaza/astro-capo`, `astro-compress`, `astro-icon`, `@lexingtonthemes/seo`, `astro-og-canvas`, `astro-expressive-code`).
+**CRITICAL:** The dev server is likely already running. Do NOT start a new server or build unless explicitly asked. Use MCP tool Context7 to look up docs for rapidly evolving technologies like Astro 7, Tailwind v4, or unfamiliar libs (`@felixicaza/astro-capo`, `astro-compress`, `astro-icon`, `@lexingtonthemes/seo`, `astro-og-canvas`, `astro-expressive-code`).
 
 ## Architecture
 
-- **Stack:** Astro 6, Tailwind CSS 4 (Vite plugin), TypeScript (strict), Bun.
+- **Stack:** Astro 7, Tailwind CSS 4 (Vite plugin), TypeScript (strict), Bun.
 - **Adapter:** `@astrojs/netlify` — hybrid rendering (static + SSR for `/api/chat`).
 - **Content:** Single `blog` collection in `src/content/blog/` (Markdown files with `.md`) via `src/content.config.ts`.
 - **Projects:** Static TypeScript array in `src/lib/projects.ts` (NOT a content collection).

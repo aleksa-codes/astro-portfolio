@@ -1,4 +1,4 @@
-import { unified } from "@astrojs/markdown-remark"
+import { satteri } from "@astrojs/markdown-satteri"
 import netlify from "@astrojs/netlify"
 import sitemap from "@astrojs/sitemap"
 import playformCompress from "@playform/compress"
@@ -30,8 +30,8 @@ export default defineConfig({
     imageCDN: false,
   }),
   markdown: {
-    processor: unified({
-      rehypePlugins: [[targetBlank, { domain: SITE }]],
+    processor: satteri({
+      hastPlugins: [targetBlank(SITE)],
     }),
   },
   vite: {
@@ -65,7 +65,7 @@ export default defineConfig({
           removeAttributeQuotes: false,
         },
       },
-      CSS: true,
+      CSS: false, // causes issues with Astro 7 when on/true
       JavaScript: true,
       Image: false,
       SVG: false,
