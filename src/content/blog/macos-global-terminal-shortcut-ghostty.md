@@ -1,5 +1,5 @@
 ---
-title: "A Linux-style global terminal shortcut on macOS (Ghostty edition)"
+title: "Linux-style global terminal shortcut on macOS (Ghostty)"
 description: "How to set up a global Ctrl+Backtick hotkey that summons your Ghostty terminal from anywhere on macOS using only the built-in Shortcuts app."
 date: 2026-06-20T12:00:00.000Z
 thumbnail: ../../assets/blog/macos-terminal-shortcut-ghostty.png
