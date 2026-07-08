@@ -4,8 +4,6 @@ import { getCollection } from "astro:content"
 const blogPosts = await getCollection("blog")
 
 export const { getStaticPaths, GET } = await OGImageRoute({
-  param: "route",
-
   pages: {
     index: {
       title: "aleksa.codes",
