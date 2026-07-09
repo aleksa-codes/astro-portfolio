@@ -1,7 +1,6 @@
 ---
 import "@/styles/global.css"
-import { Head } from "@felixicaza/astro-capo"
-import { AstroSeo } from "@lexingtonthemes/seo"
+import AstroSeo from "@/components/astro-seo.astro"
 import Header from "@/components/header.astro"
 import Footer from "@/components/footer.astro"
 import Dock from "@/components/dock.astro"
@@ -16,8 +15,6 @@ interface Props {
   ogImage?: string
 }
 
-const SITE_NAME = "aleksa.codes"
-
 const {
   title,
   description = "CS graduate and web developer specializing in performance optimization, clean UI design, and scalable architecture. Explore my work and get in touch.",
@@ -26,14 +23,15 @@ const {
 } = Astro.props
 
 const { pathname } = Astro.url
-// Construct the full title
+const SITE_NAME = "aleksa.codes"
+
 const fullTitle =
   pathname !== "/" ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Web Developer`
 ---
 
 <!doctype html>
 <html lang="en">
-  <Head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <AstroSeo
@@ -88,7 +86,7 @@ const fullTitle =
         document.documentElement.classList.toggle("dark", theme === "dark")
       })()
     </script>
-  </Head>
+  </head>
   <body class="flex min-h-screen flex-col">
     <div
       class="pointer-events-none fixed inset-0 -z-50 bg-[linear-gradient(to_right,rgba(128,128,128,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(128,128,128,0.05)_1px,transparent_1px)] mask-[radial-gradient(circle_at_center,black_40%,transparent_100%)] bg-size-[30px_30px] opacity-50 [-webkit-mask-image:radial-gradient(circle_at_center,black_40%,transparent_100%)]"

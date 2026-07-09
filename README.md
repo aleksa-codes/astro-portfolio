@@ -4,7 +4,7 @@
 
 Personal portfolio and blog built with Astro 7, Tailwind CSS 4, and TypeScript.
 
-[![Astro](https://img.shields.io/badge/Astro_5-FF5D01?logo=astro&logoColor=white)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro_7-FF5D01?logo=astro&logoColor=white)](https://astro.build/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Netlify](https://img.shields.io/badge/Netlify-00C46A?logo=netlify&logoColor=white)](https://www.netlify.com/)

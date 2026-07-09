@@ -1,0 +1,416 @@
+---
+import type { WithContext, Thing, Graph } from "schema-dts"
+
+export interface Props {
+  title?: string
+  titleTemplate?: string
+  noindex?: boolean
+  nofollow?: boolean
+  robotsProps?: {
+    nosnippet?: boolean
+    maxSnippet?: number
+    maxImagePreview?: "none" | "standard" | "large"
+    maxVideoPreview?: number
+    noarchive?: boolean
+    unavailableAfter?: string
+    noimageindex?: boolean
+    notranslate?: boolean
+  }
+  description?: string
+  canonical?: string
+  mobileAlternate?: { media: string; href: string }
+  languageAlternates?: ReadonlyArray<{ hreflang: string; href: string }>
+  openGraph?: {
+    url?: string
+    type?: string
+    title?: string
+    description?: string
+    images?: ReadonlyArray<{
+      url: string
+      width?: number
+      height?: number
+      alt?: string
+      type?: string
+      secureUrl?: string
+    }>
+    videos?: ReadonlyArray<{
+      url: string
+      width?: number
+      height?: number
+      alt?: string
+      type?: string
+      secureUrl?: string
+    }>
+    locale?: string
+    site_name?: string
+    profile?: {
+      firstName?: string
+      lastName?: string
+      username?: string
+      gender?: string
+    }
+    book?: {
+      authors?: ReadonlyArray<string>
+      isbn?: string
+      releaseDate?: string
+      tags?: ReadonlyArray<string>
+    }
+    article?: {
+      publishedTime?: string
+      modifiedTime?: string
+      expirationTime?: string
+      authors?: ReadonlyArray<string>
+      section?: string
+      tags?: ReadonlyArray<string>
+    }
+    video?: {
+      actors?: ReadonlyArray<{ profile: string; role?: string }>
+      directors?: ReadonlyArray<string>
+      writers?: ReadonlyArray<string>
+      duration?: number
+      releaseDate?: string
+      tags?: ReadonlyArray<string>
+      series?: string
+    }
+  }
+  facebook?: { appId: string }
+  twitter?: {
+    handle?: string
+    site?: string
+    cardType?: string
+    title?: string
+    description?: string
+    image?: string
+  }
+  additionalMetaTags?: ReadonlyArray<{
+    content: string
+    name?: string
+    property?: string
+    httpEquiv?:
+      | "content-security-policy"
+      | "content-type"
+      | "default-style"
+      | "x-ua-compatible"
+      | "refresh"
+  }>
+  additionalLinkTags?: ReadonlyArray<{
+    rel: string
+    href: string
+    sizes?: string
+    media?: string
+    type?: string
+    color?: string
+    as?: string
+    crossOrigin?: string
+  }>
+  jsonLd?:
+    | WithContext<Thing>
+    | Graph
+    | Record<string, unknown>
+    | ReadonlyArray<WithContext<Thing> | Graph | Record<string, unknown>>
+}
+
+const {
+  title,
+  titleTemplate,
+  noindex,
+  nofollow,
+  robotsProps,
+  description,
+  canonical,
+  mobileAlternate,
+  languageAlternates,
+  openGraph,
+  facebook,
+  twitter,
+  additionalMetaTags,
+  additionalLinkTags,
+  jsonLd,
+} = Astro.props
+
+const formattedTitle = title
+  ? titleTemplate
+    ? titleTemplate.replace("%s", title)
+    : title
+  : undefined
+
+// Astro omits any attribute whose value is undefined/null/false, so this
+// array just needs to contain the directives that apply.
+const robotsContent = [
+  typeof noindex !== "undefined" && (noindex ? "noindex" : "index"),
+  typeof nofollow !== "undefined" && (nofollow ? "nofollow" : "follow"),
+  robotsProps?.nosnippet && "nosnippet",
+  typeof robotsProps?.maxSnippet === "number" &&
+    `max-snippet:${robotsProps.maxSnippet}`,
+  robotsProps?.maxImagePreview &&
+    `max-image-preview:${robotsProps.maxImagePreview}`,
+  typeof robotsProps?.maxVideoPreview === "number" &&
+    `max-video-preview:${robotsProps.maxVideoPreview}`,
+  robotsProps?.noarchive && "noarchive",
+  robotsProps?.unavailableAfter &&
+    `unavailable_after:${robotsProps.unavailableAfter}`,
+  robotsProps?.noimageindex && "noimageindex",
+  robotsProps?.notranslate && "notranslate",
+]
+  .filter((v): v is string => typeof v === "string")
+  .join(",")
+
+const ogTitle = openGraph?.title || title
+const ogDescription = openGraph?.description || description
+const twitterTitle = twitter?.title ?? ogTitle
+const twitterDescription = twitter?.description ?? ogDescription
+const twitterImage = twitter?.image ?? openGraph?.images?.[0]?.url
+
+const jsonLdSchemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
+---
+
+{formattedTitle && <title>{formattedTitle}</title>}
+{description && <meta name="description" content={description} />}
+{robotsContent && <meta name="robots" content={robotsContent} />}
+{canonical && <link rel="canonical" href={canonical} />}
+{
+  mobileAlternate && (
+    <link
+      rel="alternate"
+      media={mobileAlternate.media}
+      href={mobileAlternate.href}
+    />
+  )
+}
+{
+  languageAlternates?.map((alt) => (
+    <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+  ))
+}
+
+{
+  openGraph && (
+    <Fragment>
+      {ogTitle && <meta property="og:title" content={ogTitle} />}
+      {ogDescription && (
+        <meta property="og:description" content={ogDescription} />
+      )}
+      {openGraph.url && <meta property="og:url" content={openGraph.url} />}
+      {openGraph.type && <meta property="og:type" content={openGraph.type} />}
+
+      {openGraph.images?.map((image) => (
+        <Fragment>
+          <meta property="og:image" content={image.url} />
+          {image.alt && <meta property="og:image:alt" content={image.alt} />}
+          {image.secureUrl && (
+            <meta property="og:image:secure_url" content={image.secureUrl} />
+          )}
+          {image.type && <meta property="og:image:type" content={image.type} />}
+          {image.width && (
+            <meta property="og:image:width" content={String(image.width)} />
+          )}
+          {image.height && (
+            <meta property="og:image:height" content={String(image.height)} />
+          )}
+        </Fragment>
+      ))}
+
+      {openGraph.videos?.map((video) => (
+        <Fragment>
+          <meta property="og:video" content={video.url} />
+          {video.alt && <meta property="og:video:alt" content={video.alt} />}
+          {video.secureUrl && (
+            <meta property="og:video:secure_url" content={video.secureUrl} />
+          )}
+          {video.type && <meta property="og:video:type" content={video.type} />}
+          {video.width && (
+            <meta property="og:video:width" content={String(video.width)} />
+          )}
+          {video.height && (
+            <meta property="og:video:height" content={String(video.height)} />
+          )}
+        </Fragment>
+      ))}
+
+      {openGraph.locale && (
+        <meta property="og:locale" content={openGraph.locale} />
+      )}
+      {openGraph.site_name && (
+        <meta property="og:site_name" content={openGraph.site_name} />
+      )}
+
+      {openGraph.profile && (
+        <Fragment>
+          {openGraph.profile.firstName && (
+            <meta
+              property="profile:first_name"
+              content={openGraph.profile.firstName}
+            />
+          )}
+          {openGraph.profile.lastName && (
+            <meta
+              property="profile:last_name"
+              content={openGraph.profile.lastName}
+            />
+          )}
+          {openGraph.profile.username && (
+            <meta
+              property="profile:username"
+              content={openGraph.profile.username}
+            />
+          )}
+          {openGraph.profile.gender && (
+            <meta
+              property="profile:gender"
+              content={openGraph.profile.gender}
+            />
+          )}
+        </Fragment>
+      )}
+
+      {openGraph.book && (
+        <Fragment>
+          {openGraph.book.authors?.map((author) => (
+            <meta property="book:author" content={author} />
+          ))}
+          {openGraph.book.isbn && (
+            <meta property="book:isbn" content={openGraph.book.isbn} />
+          )}
+          {openGraph.book.releaseDate && (
+            <meta
+              property="book:release_date"
+              content={openGraph.book.releaseDate}
+            />
+          )}
+          {openGraph.book.tags?.map((tag) => (
+            <meta property="book:tag" content={tag} />
+          ))}
+        </Fragment>
+      )}
+
+      {openGraph.article && (
+        <Fragment>
+          {openGraph.article.publishedTime && (
+            <meta
+              property="article:published_time"
+              content={openGraph.article.publishedTime}
+            />
+          )}
+          {openGraph.article.modifiedTime && (
+            <meta
+              property="article:modified_time"
+              content={openGraph.article.modifiedTime}
+            />
+          )}
+          {openGraph.article.expirationTime && (
+            <meta
+              property="article:expiration_time"
+              content={openGraph.article.expirationTime}
+            />
+          )}
+          {openGraph.article.authors?.map((author) => (
+            <meta property="article:author" content={author} />
+          ))}
+          {openGraph.article.section && (
+            <meta
+              property="article:section"
+              content={openGraph.article.section}
+            />
+          )}
+          {openGraph.article.tags?.map((tag) => (
+            <meta property="article:tag" content={tag} />
+          ))}
+        </Fragment>
+      )}
+
+      {openGraph.video && (
+        <Fragment>
+          {openGraph.video.actors?.map((actor) => (
+            <Fragment>
+              <meta property="video:actor" content={actor.profile} />
+              {actor.role && (
+                <meta property="video:actor:role" content={actor.role} />
+              )}
+            </Fragment>
+          ))}
+          {openGraph.video.directors?.map((director) => (
+            <meta property="video:director" content={director} />
+          ))}
+          {openGraph.video.writers?.map((writer) => (
+            <meta property="video:writer" content={writer} />
+          ))}
+          {openGraph.video.duration && (
+            <meta
+              property="video:duration"
+              content={String(openGraph.video.duration)}
+            />
+          )}
+          {openGraph.video.releaseDate && (
+            <meta
+              property="video:release_date"
+              content={openGraph.video.releaseDate}
+            />
+          )}
+          {openGraph.video.tags?.map((tag) => (
+            <meta property="video:tag" content={tag} />
+          ))}
+          {openGraph.video.series && (
+            <meta property="video:series" content={openGraph.video.series} />
+          )}
+        </Fragment>
+      )}
+    </Fragment>
+  )
+}
+
+{facebook?.appId && <meta property="fb:app_id" content={facebook.appId} />}
+
+{
+  twitter && (
+    <Fragment>
+      {twitter.cardType && (
+        <meta name="twitter:card" content={twitter.cardType} />
+      )}
+      {twitter.site && <meta name="twitter:site" content={twitter.site} />}
+      {twitter.handle && (
+        <meta name="twitter:creator" content={twitter.handle} />
+      )}
+      {twitterTitle && <meta name="twitter:title" content={twitterTitle} />}
+      {twitterDescription && (
+        <meta name="twitter:description" content={twitterDescription} />
+      )}
+      {twitterImage && <meta name="twitter:image" content={twitterImage} />}
+    </Fragment>
+  )
+}
+
+{
+  additionalMetaTags?.map((tag) => (
+    <meta
+      name={tag.name}
+      property={tag.property}
+      http-equiv={tag.httpEquiv}
+      content={tag.content}
+    />
+  ))
+}
+
+{
+  additionalLinkTags?.map((tag) => (
+    <link
+      rel={tag.rel}
+      href={tag.href}
+      sizes={tag.sizes}
+      media={tag.media}
+      type={tag.type}
+      color={tag.color}
+      as={tag.as}
+      crossorigin={tag.crossOrigin}
+    />
+  ))
+}
+
+{
+  jsonLdSchemas.map((schema) => (
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(schema).replace(/<\/script/gi, "<\\/script")}
+    />
+  ))
+}

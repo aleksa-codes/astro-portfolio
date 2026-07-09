@@ -1,11 +1,11 @@
 import { satteri } from "@astrojs/markdown-satteri"
 import netlify from "@astrojs/netlify"
 import sitemap from "@astrojs/sitemap"
-import playformCompress from "@playform/compress"
 import tailwindcss from "@tailwindcss/vite"
 import expressiveCode from "astro-expressive-code"
 import icon from "astro-icon"
 import { defineConfig } from "astro/config"
+import { minifyDist } from "./src/integrations/minify"
 import { targetBlank } from "./src/lib/target-blank"
 
 const SITE = import.meta.env.PROD
@@ -54,27 +54,11 @@ export default defineConfig({
       },
     }),
     icon(),
+    minifyDist(),
     sitemap({
       filter(page) {
         return !page.startsWith(`${SITE}/admin`)
       },
-    }),
-    playformCompress({
-      HTML: {
-        "html-minifier-terser": {
-          removeAttributeQuotes: false,
-        },
-      },
-      CSS: {
-        csso: false,
-        lightningcss: {
-          minify: true,
-        },
-      },
-      JavaScript: true,
-      Image: false,
-      SVG: false,
-      Logger: 1,
     }),
   ],
 })

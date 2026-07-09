@@ -1,6 +1,6 @@
 # astro-portfolio - Agent Instructions
 
-**CRITICAL:** The dev server is likely already running. Do NOT start a new server or build unless explicitly asked. Use MCP tool Context7 to look up docs for rapidly evolving technologies like Astro 7, Tailwind v4, or unfamiliar libs (`@felixicaza/astro-capo`, `astro-compress`, `astro-icon`, `@lexingtonthemes/seo`, `astro-og-canvas`, `astro-expressive-code`).
+**CRITICAL:** The dev server is likely already running. Do NOT start a new server or build unless explicitly asked. Use MCP tool Context7 to look up docs for rapidly evolving technologies like Astro 7, Tailwind v4, or unfamiliar libs (`astro-icon`, `astro-og-canvas`, `astro-expressive-code`, `@swc/core`, `@swc/html`).
 
 ## Architecture
 
@@ -86,13 +86,13 @@ const { title, class: className } = Astro.props
 
 ### Head & SEO
 
-Use `@felixicaza/astro-capo` (`<Head>` with capital H, not `<head>`) and `@lexingtonthemes/seo` (`AstroSeo`). Both are configured in `base-layout.astro`.
+Use standard `<head>` (not `<Head>`) and the custom `AstroSeo` component from `@/components/astro-seo.astro`. Configured in `base-layout.astro`. The component has all SEO props (`AstroSeoProps`), including JSON-LD via `schema-dts`.
 
 ### Dark Mode
 
 Three-layer implementation:
 
-1. **Inline script** in `<Head>` reads `localStorage.theme` / `prefers-color-scheme` and sets `.dark` class before paint.
+1. **Inline script** in `<head>` reads `localStorage.theme` / `prefers-color-scheme` and sets `.dark` class before paint.
 2. **Theme toggle** (`theme-toggle.astro`) toggles `.dark`, saves to `localStorage`, uses instant transition trick (`[&_*]:!transition-none`).
 3. **CSS**: `@custom-variant dark (&:is(.dark *))` in `global.css`.
 
@@ -194,7 +194,7 @@ Only `/api/chat` is server-rendered (Netlify Functions). Everything else is prer
 
 ## Key Gotchas
 
-1. **Build has 3 stages:** `astro build` → `@tailwindcss/cli` → `postcss`. All three must pass.
+1. **Build has 3 stages:** `astro build` (includes custom minify integration via `@swc/core` + `@swc/html`) → `@tailwindcss/cli` → `postcss`. All three must pass.
 2. **GitHub Activity** is fetched at build time (frontmatter), but contribution graph rendered client-side via external API.
 3. **Expressive Code** themes sync with dark mode: `one-dark-pro` for `.dark`, `one-light` for `:root:not(.dark)`.
 4. **Projects data** is in `src/lib/projects.ts` with image imports — not a content collection.

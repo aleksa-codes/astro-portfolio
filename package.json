@@ -17,8 +17,6 @@
     "@astrojs/netlify": "^8.1.1",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
-    "@felixicaza/astro-capo": "^1.2.1",
-    "@lexingtonthemes/seo": "^0.4.0",
     "ai": "^7.0.17",
     "astro": "^7.0.6",
     "astro-expressive-code": "^0.44.0",
@@ -37,7 +35,8 @@
     "@iconify-json/lucide": "^1.2.116",
     "@iconify-json/simple-icons": "^1.2.89",
     "@iconify-json/tabler": "^1.2.35",
-    "@playform/compress": "^0.2.3",
+    "@swc/core": "^1.15.43",
+    "@swc/html": "^1.15.43",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.2",
     "postcss-cli": "^11.0.1",
@@ -45,6 +44,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "schema-dts": "^2.0.0",
     "tailwindcss": "^4.3.2",
     "typescript": "^6.0.3"
   }
