@@ -1,5 +1,31 @@
 ---
 import { Icon } from "astro-icon/components"
+import Button from "@/components/ui/button.astro"
+
+// Shared shape for the chunky chat chips (initial suggestions + follow-ups)
+const suggestionClass =
+  "h-auto w-fit gap-3 rounded-2xl bg-card px-5 py-3 text-left whitespace-normal shadow-sm [&_svg:not([class*=size-])]:size-5"
+
+const followUpClass =
+  "h-auto w-fit gap-2 rounded-xl bg-card px-4 py-2 text-left whitespace-normal shadow-sm"
+
+const suggestions = [
+  {
+    prompt: "What are your main projects?",
+    icon: "lucide:folder",
+    iconClass: "text-yellow-500",
+  },
+  {
+    prompt: "What technologies do you use?",
+    icon: "lucide:code-2",
+    iconClass: "text-blue-500",
+  },
+  {
+    prompt: "How can I contact you?",
+    icon: "lucide:mail",
+    iconClass: "text-emerald-500",
+  },
+]
 ---
 
 <div data-nosnippet>
@@ -33,21 +59,25 @@ import { Icon } from "astro-icon/components"
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <button
+          <Button
             id="clear-chat-btn"
-            class="hidden rounded-lg p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-destructive"
+            variant="ghost"
+            size="icon-xl"
+            class="hidden text-muted-foreground hover:text-destructive"
             aria-label="Clear conversation"
             title="Clear conversation"
           >
-            <Icon name="lucide:trash-2" class="h-5 w-5" />
-          </button>
-          <button
+            <Icon name="lucide:trash-2" />
+          </Button>
+          <Button
             id="chat-close-btn"
-            class="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            variant="ghost"
+            size="icon-xl"
+            class="text-muted-foreground"
             aria-label="Close chat"
           >
-            <Icon name="lucide:x" class="h-6 w-6" />
-          </button>
+            <Icon name="lucide:x" />
+          </Button>
         </div>
       </div>
 
@@ -78,28 +108,27 @@ import { Icon } from "astro-icon/components"
 
         <!-- Initial Suggestions -->
         <div id="chat-suggestions" class="mt-5 flex flex-col gap-3">
-          <button
-            data-prompt="What are your main projects?"
-            class="flex w-fit items-center gap-3 rounded-2xl border border-border bg-card px-5 py-3 text-left text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <Icon name="lucide:folder" class="h-5 w-5 text-yellow-500" /> What are
-            your main projects?
-          </button>
-          <button
-            data-prompt="What technologies do you use?"
-            class="flex w-fit items-center gap-3 rounded-2xl border border-border bg-card px-5 py-3 text-left text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <Icon name="lucide:code-2" class="h-5 w-5 text-blue-500" /> What technologies
-            do you use?
-          </button>
-          <button
-            data-prompt="How can I contact you?"
-            class="flex w-fit items-center gap-3 rounded-2xl border border-border bg-card px-5 py-3 text-left text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <Icon name="lucide:mail" class="h-5 w-5 text-emerald-500" /> How can I
-            contact you?
-          </button>
+          {
+            suggestions.map(({ prompt, icon, iconClass }) => (
+              <Button
+                variant="outline"
+                data-prompt={prompt}
+                class={suggestionClass}
+              >
+                <Icon name={icon} class={iconClass} />
+                {prompt}
+              </Button>
+            ))
+          }
         </div>
+
+        <!-- Markup source for the follow-up chips rendered by the script -->
+        <template id="follow-up-template">
+          <Button variant="outline" class={followUpClass}>
+            <Icon name="lucide:arrow-right" class="text-primary" />
+            <span></span>
+          </Button>
+        </template>
       </div>
 
       <!-- Footer/Input -->
@@ -112,19 +141,20 @@ import { Icon } from "astro-icon/components"
             autocomplete="off"
             class="w-full rounded-2xl border border-border bg-muted/50 py-4 pr-14 pl-5 text-base text-foreground shadow-inner transition-all placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
           />
-          <button
+          <Button
             type="submit"
             id="submit-button"
+            size="icon-xl"
             aria-label="Send message"
-            class="absolute right-3 flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-background transition-all hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
+            class="absolute right-3 disabled:cursor-not-allowed"
           >
-            <Icon name="lucide:send" id="send-icon" class="h-5 w-5" />
+            <Icon name="lucide:send" id="send-icon" />
             <Icon
               name="lucide:loader-circle"
               id="loading-icon"
-              class="hidden h-5 w-5 animate-spin"
+              class="hidden animate-spin"
             />
-          </button>
+          </Button>
         </form>
         <div
           class="mt-3 flex items-center justify-between text-sm text-muted-foreground"
@@ -319,13 +349,18 @@ import { Icon } from "astro-icon/components"
       const questionsKey = JSON.stringify(questions)
       if (container.dataset.rendered === questionsKey) return
 
+      const template = document.getElementById(
+        "follow-up-template"
+      ) as HTMLTemplateElement | null
+      if (!template) return
+
       container.innerHTML = ""
       questions.forEach((q) => {
         if (!q) return
-        const btn = document.createElement("button")
-        btn.className =
-          "bg-card border-border hover:bg-muted text-foreground flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium shadow-sm transition-colors text-left"
-        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> <span>${q}</span>`
+        const btn = template.content.firstElementChild!.cloneNode(
+          true
+        ) as HTMLButtonElement
+        btn.querySelector("span")!.textContent = q
         btn.onclick = () => {
           if (elements.input) {
             elements.input.value = q

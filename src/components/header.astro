@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components"
+import Button from "@/components/ui/button.astro"
 import ThemeToggle from "@/components/theme-toggle.astro"
 import Tooltip from "@/components/ui/tooltip.astro"
 import SnowToggle from "./snow-toggle.astro"
@@ -39,14 +40,16 @@ const links = [
       {
         links.map(({ href, icon, label, target }) => (
           <Tooltip content={label} side="bottom">
-            <a
+            <Button
+              variant="ghost"
+              size="icon-xl"
               {href}
               {target}
               aria-label={label}
-              class="rounded-xl p-2.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              class="text-muted-foreground"
             >
-              <Icon name={icon} class="h-5 w-5" />
-            </a>
+              <Icon name={icon} />
+            </Button>
           </Tooltip>
         ))
       }

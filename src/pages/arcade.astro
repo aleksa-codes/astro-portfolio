@@ -55,8 +55,6 @@ const sortedGames = [...games].sort((a, b) =>
               data-game-file={game.file}
               data-game-title={game.title}
               data-game-model={game.model}
-              data-game-model-icon={getModelBadge(game.model).icon}
-              data-game-model-color={getModelBadge(game.model).color}
               aria-label={`Play ${game.title}`}
             >
               {game.image ? (
@@ -77,7 +75,7 @@ const sortedGames = [...games].sort((a, b) =>
               )}
               <span class="absolute inset-0 flex items-center justify-center bg-background/40 opacity-0 backdrop-blur-xs transition-all duration-300 group-hover:opacity-100">
                 <span class="flex translate-y-2 items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-xl transition-transform duration-300 group-hover:translate-y-0 group-hover:scale-105">
-                  <Icon name="lucide:play" class="h-4 w-4" />
+                  <Icon name="lucide:play" />
                   Play
                 </span>
               </span>
@@ -117,41 +115,37 @@ const sortedGames = [...games].sort((a, b) =>
 
               <div class="mt-4 flex items-center gap-2">
                 <Button
-                  size="sm"
-                  class="h-9 cursor-pointer"
+                  size="lg"
                   data-game-play
                   data-game-slug={game.slug}
                   data-game-file={game.file}
                   data-game-title={game.title}
                   data-game-model={game.model}
-                  data-game-model-icon={getModelBadge(game.model).icon}
-                  data-game-model-color={getModelBadge(game.model).color}
                 >
-                  <Icon name="lucide:play" class="h-4 w-4" />
+                  <Icon name="lucide:play" />
                   Play
                 </Button>
                 <Button
                   variant="secondary"
-                  size="sm"
+                  size="lg"
                   href={game.file}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="h-9"
                   title="Open the raw HTML file in a new tab"
                 >
-                  <Icon name="lucide:external-link" class="h-4 w-4" />
+                  <Icon name="lucide:external-link" />
                   New tab
                 </Button>
                 <Button
                   variant="outline"
-                  size="sm"
-                  class="ml-auto h-9 cursor-pointer"
+                  size="lg"
+                  class="ml-auto"
                   data-prompt-open
                   data-prompt={game.prompt}
                   data-prompt-title={game.title}
                   data-prompt-model={game.model}
                 >
-                  <Icon name="lucide:text-quote" class="h-4 w-4" />
+                  <Icon name="lucide:text-quote" />
                   Prompt
                 </Button>
               </div>

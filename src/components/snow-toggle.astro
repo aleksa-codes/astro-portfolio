@@ -1,32 +1,35 @@
 ---
 import { Icon } from "astro-icon/components"
+import Button from "@/components/ui/button.astro"
 import Tooltip from "@/components/ui/tooltip.astro"
 ---
 
 <div id="snow-toggle-wrapper" class="hidden">
   <Tooltip content="Toggle Snow" side="bottom">
-    <button
+    <Button
       id="snow-toggle"
+      variant="ghost"
+      size="icon-xl"
       aria-label="Toggle snow effect"
-      class="relative flex items-center justify-center rounded-xl p-2.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+      class="relative text-muted-foreground"
     >
       <span class="sr-only">Toggle snow effect</span>
       <Icon
         id="snow-on"
         name="lucide:snowflake"
-        class="h-5 w-5 transform opacity-0 transition-all duration-300"
+        class="transform opacity-0 transition-all duration-300"
       />
       <div
         id="snow-off"
-        class="absolute h-5 w-5 transform transition-all duration-300"
+        class="absolute size-5 transform transition-all duration-300"
       >
-        <Icon name="lucide:snowflake" class="h-5 w-5" />
+        <Icon name="lucide:snowflake" />
         <Icon
           name="lucide:circle-slash"
-          class="absolute inset-0 h-5 w-5 text-destructive"
+          class="absolute inset-0 text-destructive"
         />
       </div>
-    </button>
+    </Button>
   </Tooltip>
 </div>
 

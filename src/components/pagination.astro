@@ -1,5 +1,5 @@
 ---
-import { cn } from "@/lib/utils"
+import Button from "@/components/ui/button.astro"
 import { Icon } from "astro-icon/components"
 
 interface Props {
@@ -19,20 +19,29 @@ for (let i = 1; i <= lastPage; i++) {
 }
 ---
 
-<nav class="flex items-center justify-center gap-2 pb-0">
+<nav
+  class="flex items-center justify-center gap-2 pb-0"
+  aria-label="Pagination"
+>
   {
     urlPrev ? (
-      <a
+      <Button
+        variant="outline"
+        size="icon-xl"
         href={urlPrev === "/blog/1" ? "/blog" : urlPrev}
-        class="flex h-10 w-10 items-center justify-center rounded-xl border border-border/50 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         aria-label="Previous Page"
       >
-        <Icon name="lucide:chevron-left" class="h-5 w-5" />
-      </a>
+        <Icon name="lucide:chevron-left" />
+      </Button>
     ) : (
-      <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-border/20 text-muted-foreground/30">
-        <Icon name="lucide:chevron-left" class="h-5 w-5" />
-      </div>
+      <Button
+        variant="outline"
+        size="icon-xl"
+        disabled
+        aria-label="Previous Page"
+      >
+        <Icon name="lucide:chevron-left" />
+      </Button>
     )
   }
 
@@ -43,17 +52,16 @@ for (let i = 1; i <= lastPage; i++) {
         const href = page === 1 ? basePath : `${basePath}/${page}`
 
         return (
-          <a
+          <Button
+            variant={isCurrent ? "default" : "outline"}
+            size="xl"
             href={href}
-            class={cn(
-              "flex h-10 min-w-10 items-center justify-center rounded-xl border px-3 text-sm font-medium transition-all",
-              isCurrent
-                ? "border-foreground bg-foreground text-background shadow-sm"
-                : "border-border/50 text-muted-foreground hover:bg-muted hover:text-foreground"
-            )}
+            class="min-w-10"
+            aria-label={`Page ${page}`}
+            aria-current={isCurrent ? "page" : undefined}
           >
             {page}
-          </a>
+          </Button>
         )
       })
     }
@@ -61,17 +69,18 @@ for (let i = 1; i <= lastPage; i++) {
 
   {
     urlNext ? (
-      <a
+      <Button
+        variant="outline"
+        size="icon-xl"
         href={urlNext}
-        class="flex h-10 w-10 items-center justify-center rounded-xl border border-border/50 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         aria-label="Next Page"
       >
-        <Icon name="lucide:chevron-right" class="h-5 w-5" />
-      </a>
+        <Icon name="lucide:chevron-right" />
+      </Button>
     ) : (
-      <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-border/20 text-muted-foreground/30">
-        <Icon name="lucide:chevron-right" class="h-5 w-5" />
-      </div>
+      <Button variant="outline" size="icon-xl" disabled aria-label="Next Page">
+        <Icon name="lucide:chevron-right" />
+      </Button>
     )
   }
 </nav>

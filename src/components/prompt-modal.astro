@@ -1,5 +1,12 @@
 ---
 import { Icon } from "astro-icon/components"
+import Badge from "@/components/ui/badge.astro"
+import Button from "@/components/ui/button.astro"
+import { games, getModelBadge } from "@/lib/games"
+
+// One badge per model, rendered up front so the script can clone the real
+// Badge markup instead of rebuilding it by hand
+const models = [...new Set(games.map((game) => game.model))]
 ---
 
 <div
@@ -14,28 +21,25 @@ import { Icon } from "astro-icon/components"
     class="flex max-h-[85dvh] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
   >
     <!-- Header -->
-    <div class="flex items-start gap-3 border-b border-border px-4 py-3">
-      <div class="min-w-0 flex-1">
+    <div class="flex items-center gap-3 border-b border-border px-4 py-3">
+      <div class="flex min-w-0 flex-1 items-center gap-2">
         <h2
           id="prompt-modal-title"
           class="truncate text-base font-semibold text-foreground"
         >
         </h2>
-        <span
-          id="prompt-modal-model"
-          class="mt-1 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
-        >
-        </span>
+        <span id="prompt-modal-model" class="contents"></span>
       </div>
-      <button
+      <Button
         id="prompt-modal-close"
-        type="button"
+        variant="ghost"
+        size="icon-lg"
         title="Close (Esc)"
         aria-label="Close"
-        class="-mr-1 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        class="-mr-1 text-muted-foreground"
       >
-        <Icon name="lucide:x" class="h-5 w-5" />
-      </button>
+        <Icon name="lucide:x" />
+      </Button>
     </div>
 
     <!-- Prompt body -->
@@ -49,16 +53,26 @@ import { Icon } from "astro-icon/components"
 
     <!-- Footer -->
     <div class="flex justify-end border-t border-border px-4 py-3">
-      <button
-        id="prompt-modal-copy"
-        type="button"
-        class="inline-flex cursor-pointer items-center gap-2 rounded-md border border-input px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-      >
-        <Icon name="lucide:copy" class="h-4 w-4" />
+      <Button id="prompt-modal-copy" variant="outline" size="lg">
+        <Icon name="lucide:copy" />
         <span id="prompt-modal-copy-label">Copy prompt</span>
-      </button>
+      </Button>
     </div>
   </div>
+
+  {
+    models.map((model) => (
+      <template data-model-badge={model}>
+        <Badge variant="secondary" size="lg" class="shrink-0">
+          <Icon
+            name={getModelBadge(model).icon}
+            style={`color: ${getModelBadge(model).color};`}
+          />
+          {model}
+        </Badge>
+      </template>
+    ))
+  }
 </div>
 
 <script>
@@ -73,10 +87,25 @@ import { Icon } from "astro-icon/components"
   let open = false
   let current = ""
 
+  const badgeTemplates = Array.from(
+    modal.querySelectorAll<HTMLTemplateElement>("template[data-model-badge]")
+  )
+
+  function setModel(model: string) {
+    const template = badgeTemplates.find((t) => t.dataset.modelBadge === model)
+    if (template?.content.firstElementChild) {
+      modelEl.replaceChildren(
+        template.content.firstElementChild.cloneNode(true)
+      )
+    } else {
+      modelEl.textContent = model
+    }
+  }
+
   function show(btn: HTMLElement) {
     current = btn.dataset.prompt ?? ""
     titleEl.textContent = btn.dataset.promptTitle ?? ""
-    modelEl.textContent = btn.dataset.promptModel ?? ""
+    setModel(btn.dataset.promptModel ?? "")
     textEl.textContent = current
     copyLabel.textContent = "Copy prompt"
     modal.classList.remove("hidden")
