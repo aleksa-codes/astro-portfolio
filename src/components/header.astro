@@ -38,7 +38,7 @@ const links = [
     <div class="flex items-center gap-1 md:gap-3">
       {
         links.map(({ href, icon, label, target }) => (
-          <Tooltip content={label}>
+          <Tooltip content={label} side="bottom">
             <a
               {href}
               {target}

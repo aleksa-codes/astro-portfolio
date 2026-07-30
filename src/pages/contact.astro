@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "@/layouts/base-layout.astro"
 import { Icon } from "astro-icon/components"
+import Button from "@/components/ui/button.astro"
+import Input from "@/components/ui/input.astro"
+import Textarea from "@/components/ui/textarea.astro"
 import Card from "@/components/ui/card.astro"
 import Avatar from "@/components/avatar.astro"
 
@@ -70,40 +73,37 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
 
             <!-- Quick Access Portals -->
             <div class="flex w-full items-center gap-2 sm:w-auto md:gap-3">
-              <a
+              <Button
                 href="mailto:hello@aleksa.codes"
-                class="group/portal flex flex-1 items-center justify-center gap-2 rounded-xl border border-border/50 bg-card px-4 py-3 transition-all hover:bg-secondary/50 active:scale-95 md:flex-none md:rounded-xl md:px-5 md:py-2.5"
+                variant="outline"
+                size="lg"
+                class="rounded-xl max-md:flex-1"
               >
-                <Icon
-                  name="lucide:mail"
-                  class="h-4.5 w-4.5 text-muted-foreground transition-colors group-hover/portal:text-foreground"
-                />
-                <span class="text-sm font-medium text-foreground">Email</span>
-              </a>
-              <a
+                <Icon name="lucide:mail" />
+                <span>Email</span>
+              </Button>
+              <Button
                 href="https://discordapp.com/users/1078249969775038514"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="group/portal flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/50 bg-card transition-all hover:bg-secondary/50 active:scale-95 md:h-10 md:w-10 md:rounded-xl"
+                variant="outline"
+                size="icon-lg"
+                class="rounded-xl"
                 aria-label="Discord"
               >
-                <Icon
-                  name="simple-icons:discord"
-                  class="h-4.5 w-4.5 text-muted-foreground transition-colors group-hover/portal:text-foreground"
-                />
-              </a>
-              <a
+                <Icon name="simple-icons:discord" />
+              </Button>
+              <Button
                 href="https://github.com/aleksa-codes"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="group/portal flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border/50 bg-card transition-all hover:bg-secondary/50 active:scale-95 md:h-10 md:w-10 md:rounded-xl"
+                variant="outline"
+                size="icon-lg"
+                class="rounded-xl"
                 aria-label="GitHub"
               >
-                <Icon
-                  name="simple-icons:github"
-                  class="h-4.5 w-4.5 text-muted-foreground transition-colors group-hover/portal:text-foreground"
-                />
-              </a>
+                <Icon name="simple-icons:github" />
+              </Button>
             </div>
           </div>
         </div>
@@ -125,13 +125,15 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
               Thank you for reaching out. I'll get back to you as soon as
               possible.
             </p>
-            <button
+            <Button
               type="button"
               id="send-another"
-              class="inline-flex items-center justify-center rounded-xl border border-border/50 bg-secondary px-6 py-2 text-xs font-bold text-foreground transition-all hover:bg-foreground hover:text-background active:scale-95"
+              variant="secondary"
+              size="sm"
+              class="rounded-xl"
             >
               Send another message
-            </button>
+            </Button>
           </div>
 
           <form
@@ -159,13 +161,12 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
                   class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
                   >Full Name</label
                 >
-                <input
+                <Input
                   type="text"
                   id="name"
                   name="name"
                   placeholder="John Doe"
                   required
-                  class="w-full rounded-xl border border-border/50 bg-secondary/30 px-4 py-3.5 text-base transition-all placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-4 focus:ring-foreground/5 focus:outline-none"
                 />
               </div>
               <div class="flex flex-col gap-2">
@@ -174,13 +175,12 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
                   class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
                   >Email Address</label
                 >
-                <input
+                <Input
                   type="email"
                   id="email"
                   name="email"
                   placeholder="john@example.com"
                   required
-                  class="w-full rounded-xl border border-border/50 bg-secondary/30 px-4 py-3.5 text-base transition-all placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-4 focus:ring-foreground/5 focus:outline-none"
                 />
               </div>
             </div>
@@ -191,13 +191,12 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
                 class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
                 >Subject</label
               >
-              <input
+              <Input
                 type="text"
                 id="subject"
                 name="subject"
                 placeholder="How can I help you?"
                 required
-                class="w-full rounded-xl border border-border/50 bg-secondary/30 px-4 py-3.5 text-base transition-all placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-4 focus:ring-foreground/5 focus:outline-none"
               />
             </div>
 
@@ -207,14 +206,14 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
                 class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
                 >Message</label
               >
-              <textarea
+              <Textarea
                 id="message"
                 name="message"
-                rows="5"
+                rows="3"
                 placeholder="Tell me about your project..."
                 required
-                class="w-full resize-none rounded-xl border border-border/50 bg-secondary/30 px-4 py-3.5 text-base transition-all placeholder:text-muted-foreground/30 focus:border-foreground focus:ring-4 focus:ring-foreground/5 focus:outline-none"
-              ></textarea>
+                class="min-h-45"
+              />
             </div>
 
             <!-- CAPTCHA Container -->
@@ -222,20 +221,14 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
 
             <!-- Form Actions -->
             <div class="mt-2 flex flex-row gap-3">
-              <button
-                type="reset"
-                class="flex items-center justify-center gap-2 rounded-xl border border-border/50 bg-secondary/50 px-4 py-4 text-sm font-bold text-foreground transition-all hover:bg-secondary/80 active:scale-[0.98] sm:px-8"
-              >
-                <Icon name="lucide:trash-2" class="h-4.5 w-4.5" />
+              <Button type="reset" variant="secondary" size="lg">
+                <Icon name="lucide:trash-2" />
                 <span class="hidden sm:inline">Clear</span>
-              </button>
-              <button
-                type="submit"
-                class="flex flex-1 items-center justify-center gap-2 rounded-xl bg-foreground py-4 text-sm font-bold text-background shadow-sm transition-all hover:opacity-90 active:scale-[0.98]"
-              >
+              </Button>
+              <Button type="submit" size="lg" class="flex-1">
+                <Icon name="lucide:send" />
                 <span>Send Message</span>
-                <Icon name="lucide:send" class="h-4.5 w-4.5" />
-              </button>
+              </Button>
             </div>
           </form>
         </div>

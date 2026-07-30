@@ -21,6 +21,30 @@ export interface Game {
   image?: ImageMetadata
 }
 
+interface ModelBadge {
+  icon: string
+  color: string
+}
+
+const providerBadges: Record<string, ModelBadge> = {
+  claude: { icon: "simple-icons:claude", color: "#D97757" },
+  anthropic: { icon: "simple-icons:anthropic", color: "#D97757" },
+  gemini: { icon: "simple-icons:googlegemini", color: "#1C7CF4" },
+  openai: { icon: "simple-icons:openai", color: "#10A37F" },
+  gpt: { icon: "simple-icons:openai", color: "#10A37F" },
+  ollama: { icon: "simple-icons:ollama", color: "#6B7280" },
+}
+
+const defaultBadge: ModelBadge = { icon: "lucide:sparkles", color: "" }
+
+export function getModelBadge(model: string): ModelBadge {
+  const lower = model.toLowerCase()
+  for (const [key, badge] of Object.entries(providerBadges)) {
+    if (lower.includes(key)) return badge
+  }
+  return defaultBadge
+}
+
 export const games: Game[] = [
   {
     slug: "doodle-jump",

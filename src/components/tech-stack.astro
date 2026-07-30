@@ -1,4 +1,5 @@
 ---
+import Button from "@/components/ui/button.astro"
 import { Icon } from "astro-icon/components"
 import { techList } from "@/lib/tech"
 import { cn } from "@/lib/utils"
@@ -8,7 +9,7 @@ const filteredTech = techList.filter(
 )
 ---
 
-<section id="tech-stack" class="flex flex-col space-y-5 md:space-y-8">
+<section id="tech-stack" class="flex flex-col gap-5 md:gap-8">
   <h2
     class="text-sm font-medium tracking-widest text-muted-foreground uppercase"
   >
@@ -17,30 +18,23 @@ const filteredTech = techList.filter(
   <div class="flex flex-wrap gap-2 md:gap-3">
     {
       filteredTech.map((tech) => (
-        <a
+        <Button
+          variant="outline"
+          size="lg"
           href={`${tech.url}${tech.url.includes("?") ? "&" : "?"}utm_source=aleksa.codes`}
           target="_blank"
           rel="noopener noreferrer"
-          class={cn(
-            "group flex items-center gap-1.5 rounded-lg border border-border bg-secondary/30 px-2.5 py-1.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-foreground/20 hover:bg-secondary/60 hover:shadow-sm md:gap-2.5 md:rounded-xl md:py-2 md:pr-3 md:pl-3.5",
-            tech.hover
-          )}
+          class="group hover:border-foreground/10"
         >
-          <Icon
-            name={tech.icon}
-            class={cn(
-              "h-4 w-4 shrink-0 transition-transform duration-300 group-hover:scale-110 md:h-5 md:w-5",
-              tech.color
-            )}
-          />
+          <Icon name={tech.icon} class={cn(tech.color)} />
           <span class="text-xs font-medium tracking-tight text-foreground md:text-sm">
             {tech.name}
           </span>
           <Icon
             name="lucide:arrow-up-right"
-            class="h-3 w-3 shrink-0 text-muted-foreground/30 transition-colors duration-300 group-hover:text-foreground/80 md:h-3.5 md:w-3.5"
+            class="shrink-0 text-muted-foreground/30 transition-colors duration-300 group-hover:text-foreground/80"
           />
-        </a>
+        </Button>
       ))
     }
   </div>

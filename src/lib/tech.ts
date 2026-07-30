@@ -248,6 +248,20 @@ export const techList: TechInfo[] = [
     hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
     url: "https://github.com/features/copilot",
   },
+  {
+    name: "Claude Code",
+    icon: "simple-icons:claudecode",
+    color: "text-[#D97757]",
+    hover: "hover:shadow-[#D97757]/20",
+    url: "https://claude.com/product/claude-code",
+  },
+  {
+    name: "OpenCode",
+    icon: "simple-icons:opencode",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://opencode.ai",
+  },
 ]
 
 // normalize a name for keying (lowercase + remove non-alphanumeric)

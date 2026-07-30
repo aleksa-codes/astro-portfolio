@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components"
+import Button from "@/components/ui/button.astro"
 import Card from "@/components/ui/card.astro"
 import GitHubActivity from "@/components/github-activity.astro"
 import { cn } from "@/lib/utils"
@@ -88,15 +89,16 @@ const funFacts = [
         <div class="flex items-center gap-2.5">
           <Icon name="lucide:github" class="h-5 w-5 text-green-500" /> GitHub Activity
         </div>
-        <a
+        <Button
+          variant="ghost"
+          size="icon"
           href="https://github.com/aleksa-codes"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-muted-foreground transition-colors hover:text-foreground"
           aria-label="View GitHub Profile"
         >
           <Icon name="lucide:external-link" class="h-5 w-5" />
-        </a>
+        </Button>
       </h3>
       <div class="flex flex-1 flex-col gap-3">
         <GitHubActivity />

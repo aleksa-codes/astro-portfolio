@@ -1,9 +1,10 @@
 ---
+import Badge from "@/components/ui/badge.astro"
 import GamePlayer from "@/components/game-player.astro"
 import PromptModal from "@/components/prompt-modal.astro"
 import Button from "@/components/ui/button.astro"
 import Card from "@/components/ui/card.astro"
-import { games } from "@/lib/games"
+import { games, getModelBadge } from "@/lib/games"
 import BaseLayout from "@/layouts/base-layout.astro"
 import { Icon } from "astro-icon/components"
 import { Image } from "astro:assets"
@@ -20,7 +21,6 @@ const sortedGames = [...games].sort((a, b) =>
 
 <BaseLayout {title} {description} {ogImage}>
   <div class="flex flex-col gap-8">
-    <!-- Header -->
     <div class="flex flex-col items-start">
       <h1
         class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl"
@@ -40,20 +40,23 @@ const sortedGames = [...games].sort((a, b) =>
       </p>
     </div>
 
-    <!-- Games grid -->
     <div class="grid gap-6 sm:grid-cols-2">
       {
         sortedGames.map((game, index) => (
-          <Card class="group p-0" contentClass="h-full">
-            {/* Thumbnail */}
+          <Card
+            class="group overflow-hidden p-0"
+            contentClass="flex h-full flex-col p-0"
+          >
             <button
               type="button"
-              class="relative block aspect-video w-full cursor-pointer overflow-hidden border-b border-border/50"
+              class="relative block aspect-video w-full cursor-pointer overflow-hidden border-b border-border/50 outline-none focus-visible:ring-2 focus-visible:ring-ring"
               data-game-play
               data-game-slug={game.slug}
               data-game-file={game.file}
               data-game-title={game.title}
               data-game-model={game.model}
+              data-game-model-icon={getModelBadge(game.model).icon}
+              data-game-model-color={getModelBadge(game.model).color}
               aria-label={`Play ${game.title}`}
             >
               {game.image ? (
@@ -62,7 +65,7 @@ const sortedGames = [...games].sort((a, b) =>
                   alt={game.title}
                   sizes="(min-width: 768px) 384px, calc(100vw - 3rem)"
                   priority={index < 2}
-                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  class="block h-full w-full transform-gpu object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
                 />
               ) : (
                 <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-secondary/40 to-secondary/10 transition-colors group-hover:from-secondary/60">
@@ -72,42 +75,47 @@ const sortedGames = [...games].sort((a, b) =>
                   />
                 </div>
               )}
-              {/* Play overlay */}
-              <span class="absolute inset-0 flex items-center justify-center bg-background/60 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
-                <span class="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg">
+              <span class="absolute inset-0 flex items-center justify-center bg-background/40 opacity-0 backdrop-blur-xs transition-all duration-300 group-hover:opacity-100">
+                <span class="flex translate-y-2 items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-xl transition-transform duration-300 group-hover:translate-y-0 group-hover:scale-105">
                   <Icon name="lucide:play" class="h-4 w-4" />
                   Play
                 </span>
               </span>
             </button>
 
-            {/* Body */}
-            <div class="flex flex-1 flex-col gap-3 p-4">
+            <div class="flex flex-1 flex-col justify-center p-4">
               <div class="flex items-start justify-between gap-3">
                 <h2 class="text-lg leading-tight font-semibold text-foreground md:text-xl">
                   {game.title}
                 </h2>
-                <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-                  <Icon name="lucide:sparkles" class="h-3.5 w-3.5" />
+                <Badge variant="secondary" size="lg">
+                  <Icon
+                    name={getModelBadge(game.model).icon}
+                    style={`color: ${getModelBadge(game.model).color};`}
+                  />
                   {game.model}
-                </span>
+                </Badge>
               </div>
 
-              <p class="text-sm leading-relaxed text-muted-foreground">
-                {game.description}
-              </p>
-
               {game.tags && game.tags.length > 0 && (
-                <div class="flex flex-wrap gap-2">
+                <div class="mt-2 flex flex-wrap gap-2">
                   {game.tags.map((tag) => (
-                    <span class="rounded-md border border-border bg-secondary/50 px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                    <Badge
+                      variant="outline"
+                      size="lg"
+                      class="text-muted-foreground"
+                    >
                       {tag}
-                    </span>
+                    </Badge>
                   ))}
                 </div>
               )}
 
-              <div class="mt-auto flex items-center gap-2 pt-1">
+              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+                {game.description}
+              </p>
+
+              <div class="mt-4 flex items-center gap-2">
                 <Button
                   size="sm"
                   class="h-9 cursor-pointer"
@@ -116,6 +124,8 @@ const sortedGames = [...games].sort((a, b) =>
                   data-game-file={game.file}
                   data-game-title={game.title}
                   data-game-model={game.model}
+                  data-game-model-icon={getModelBadge(game.model).icon}
+                  data-game-model-color={getModelBadge(game.model).color}
                 >
                   <Icon name="lucide:play" class="h-4 w-4" />
                   Play
@@ -141,7 +151,7 @@ const sortedGames = [...games].sort((a, b) =>
                   data-prompt-title={game.title}
                   data-prompt-model={game.model}
                 >
-                  <Icon name="lucide:sparkles" class="h-4 w-4" />
+                  <Icon name="lucide:text-quote" class="h-4 w-4" />
                   Prompt
                 </Button>
               </div>
