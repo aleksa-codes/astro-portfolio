@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cute Whack-a-Mole</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+      body {
+        background: linear-gradient(180deg, #87ceeb, #f0f8ff);
+        font-family: "Fredoka One", cursive;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+        color: #444;
+      }
+
+      h1 {
+        font-size: 3.5em;
+        text-shadow:
+          2px 2px 0px white,
+          4px 4px 0px #ccc;
+        margin-bottom: 20px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 25px;
+        font-size: 2em;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 10px 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .controls h2 {
+        margin: 0;
+      }
+
+      #start-button {
+        padding: 15px 30px;
+        font-size: 1.5em;
+        font-family: "Fredoka One", cursive;
+        cursor: pointer;
+        border-radius: 50px;
+        border: none;
+        background-color: #ff6347; /* Tomato */
+        color: white;
+        box-shadow: 0 5px 0 #c44d36;
+        transition: all 0.1s ease-in-out;
+      }
+
+      #start-button:hover {
+        background-color: #ff7861;
+      }
+
+      #start-button:active,
+      #start-button:disabled {
+        transform: translateY(5px);
+        box-shadow: 0 0px 0 #c44d36;
+        background-color: #d3543c;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 120px);
+        grid-template-rows: repeat(3, 120px);
+        gap: 25px;
+        margin-top: 20px;
+        background-color: #90ee90; /* Light Green */
+        padding: 25px;
+        border-radius: 20px;
+        border: 10px solid #8b4513; /* Saddle Brown */
+      }
+
+      .hole {
+        width: 120px;
+        height: 120px;
+        background-image: radial-gradient(#6b4028 60%, transparent 61%);
+        border-radius: 50%;
+        position: relative;
+        overflow: hidden;
+        border: 5px solid #228b22; /* Forest Green */
+      }
+
+      .mole {
+        /* Cute mole SVG as a background image */
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g><path d="M50,20 C80,20 95,45 95,65 C95,95 75,100 50,100 C25,100 5,95 5,65 C5,45 20,20 50,20 Z" fill="%238B4513"/><circle cx="35" cy="55" r="6" fill="black"/><circle cx="65" cy="55" r="6" fill="black"/><ellipse cx="50" cy="75" rx="12" ry="8" fill="%23FFC0CB"/></g></svg>');
+        background-size: 80%;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        bottom: -100%; /* Start hidden below the hole */
+        animation: rise 0.3s ease-out forwards;
+        cursor: pointer;
+        transition: transform 0.1s;
+      }
+
+      @keyframes rise {
+        from {
+          bottom: -100%;
+        }
+        to {
+          bottom: 0;
+        }
+      }
+
+      .mole.whacked {
+        animation: whack 0.2s ease-in forwards;
+      }
+
+      @keyframes whack {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(0);
+          bottom: -50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Whack-a-Mole!</h1>
+
+    <div class="controls">
+      <h2>Score: <span id="score">0</span></h2>
+      <h2>Time: <span id="time-left">30</span></h2>
+    </div>
+
+    <button id="start-button">Start Game</button>
+
+    <div class="grid">
+      <div class="hole" id="1"></div>
+      <div class="hole" id="2"></div>
+      <div class="hole" id="3"></div>
+      <div class="hole" id="4"></div>
+      <div class="hole" id="5"></div>
+      <div class="hole" id="6"></div>
+      <div class="hole" id="7"></div>
+      <div class="hole" id="8"></div>
+      <div class="hole" id="9"></div>
+    </div>
+
+    <script>
+      const holes = document.querySelectorAll(".hole")
+      const scoreBoard = document.querySelector("#score")
+      const timeLeftBoard = document.querySelector("#time-left")
+      const startButton = document.querySelector("#start-button")
+
+      let score = 0
+      let timeLeft = 30
+      let molePositionId = null
+      let moleTimerId = null
+      let countdownTimerId = null
+      let isGameActive = false
+      let moleSpeed = 800 // Time in ms between moles
+
+      function popUpRandomMole() {
+        // Clear any lingering mole
+        holes.forEach((hole) => {
+          const mole = hole.querySelector(".mole")
+          if (mole) {
+            hole.removeChild(mole)
+          }
+        })
+
+        // Get a random hole and pop up a mole
+        const randomHole = holes[Math.floor(Math.random() * holes.length)]
+        const mole = document.createElement("div")
+        mole.classList.add("mole")
+        randomHole.appendChild(mole)
+
+        molePositionId = randomHole.id
+      }
+
+      function startGame() {
+        if (isGameActive) return
+
+        isGameActive = true
+        score = 0
+        timeLeft = 30
+        scoreBoard.textContent = score
+        timeLeftBoard.textContent = timeLeft
+        startButton.disabled = true
+
+        moleTimerId = setInterval(popUpRandomMole, moleSpeed)
+
+        countdownTimerId = setInterval(() => {
+          timeLeft--
+          timeLeftBoard.textContent = timeLeft
+          if (timeLeft === 0) {
+            endGame()
+          }
+        }, 1000)
+      }
+
+      function endGame() {
+        clearInterval(moleTimerId)
+        clearInterval(countdownTimerId)
+
+        isGameActive = false
+        startButton.disabled = false
+
+        // Wait for a moment before showing the alert to let the last "whack" animation finish
+        setTimeout(() => {
+          alert("Game Over! Your final score is: " + score)
+          // Clear the last mole
+          const lastMole = document.querySelector(".mole")
+          if (lastMole) lastMole.parentElement.removeChild(lastMole)
+        }, 300)
+      }
+
+      // Use event delegation for efficiency
+      document.querySelector(".grid").addEventListener("mousedown", (e) => {
+        // Check if a mole was clicked and the game is active
+        if (isGameActive && e.target.classList.contains("mole")) {
+          score++
+          scoreBoard.textContent = score
+
+          // Add "whacked" animation and remove mole
+          const mole = e.target
+          mole.classList.add("whacked")
+          molePositionId = null // Prevent multiple scores for the same mole
+
+          // Remove the mole element after the animation finishes
+          setTimeout(() => {
+            if (mole.parentElement) {
+              mole.parentElement.removeChild(mole)
+            }
+          }, 200)
+        }
+      })
+
+      startButton.addEventListener("click", startGame)
+    </script>
+  </body>
+</html>

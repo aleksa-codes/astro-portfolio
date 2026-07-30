@@ -1,0 +1,180 @@
+---
+import { Icon } from "astro-icon/components"
+---
+
+<div
+  id="game-player"
+  class="fixed inset-0 z-100 hidden bg-background/80 backdrop-blur-md"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="game-player-title"
+>
+  <div class="flex h-dvh w-full flex-col p-0 sm:p-3">
+    <!-- Top bar -->
+    <div
+      class="flex shrink-0 items-center gap-3 border-b-0 border-border bg-card px-3 py-2 sm:rounded-t-2xl sm:border"
+    >
+      <div class="flex min-w-0 flex-1 items-center gap-3">
+        <Icon
+          name="lucide:gamepad-2"
+          class="h-5 w-5 shrink-0 text-muted-foreground"
+        />
+        <h2
+          id="game-player-title"
+          class="truncate text-sm font-semibold text-foreground sm:text-base"
+        >
+        </h2>
+        <span
+          id="game-player-model"
+          class="hidden shrink-0 items-center gap-1.5 rounded-full border border-border bg-secondary/50 px-2.5 py-1 text-xs font-medium text-muted-foreground sm:inline-flex"
+        >
+        </span>
+      </div>
+      <div class="flex shrink-0 items-center gap-1">
+        <a
+          id="game-player-raw"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Open in new tab"
+          aria-label="Open in new tab"
+          class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        >
+          <Icon name="lucide:external-link" class="h-4.5 w-4.5" />
+        </a>
+        <button
+          id="game-player-fullscreen"
+          type="button"
+          title="Fullscreen"
+          aria-label="Fullscreen"
+          class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        >
+          <Icon name="lucide:maximize" class="h-4.5 w-4.5" />
+        </button>
+        <button
+          id="game-player-close"
+          type="button"
+          title="Close (Esc)"
+          aria-label="Close"
+          class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+        >
+          <Icon name="lucide:x" class="h-5 w-5" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Game frame -->
+    <div
+      id="game-player-frame"
+      class="relative min-h-0 flex-1 overflow-hidden border-border bg-black sm:rounded-b-2xl sm:border"
+    >
+      <iframe
+        id="game-player-iframe"
+        title="Game"
+        class="h-full w-full border-0 bg-black"
+        allow="fullscreen; autoplay; gamepad; accelerometer; gyroscope"
+      ></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById("game-player")!
+  const iframe = document.getElementById(
+    "game-player-iframe"
+  ) as HTMLIFrameElement
+  const frame = document.getElementById("game-player-frame")!
+  const titleEl = document.getElementById("game-player-title")!
+  const modelEl = document.getElementById("game-player-model")!
+  const rawLink = document.getElementById(
+    "game-player-raw"
+  ) as HTMLAnchorElement
+
+  let open = false
+
+  const buttons = () =>
+    Array.from(
+      document.querySelectorAll<HTMLElement>("[data-game-play]")
+    ) as HTMLElement[]
+
+  // Navigating the iframe with .src would push its own entry onto session
+  // history, so Back / close would have to be pressed twice. location.replace
+  // swaps the document without adding one.
+  function loadFrame(url: string) {
+    const win = iframe.contentWindow
+    if (win) win.location.replace(url)
+    else iframe.src = url
+  }
+
+  function show(btn: HTMLElement) {
+    const file = btn.dataset.gameFile!
+    titleEl.textContent = btn.dataset.gameTitle ?? "Game"
+    modelEl.textContent = btn.dataset.gameModel ?? ""
+    rawLink.href = file
+    loadFrame(file)
+
+    modal.classList.remove("hidden")
+    document.body.style.overflow = "hidden"
+    open = true
+    iframe.focus()
+  }
+
+  function hide() {
+    if (!open) return
+    if (document.fullscreenElement) document.exitFullscreen()
+    modal.classList.add("hidden")
+    loadFrame("about:blank")
+    document.body.style.overflow = ""
+    open = false
+  }
+
+  function syncFromUrl() {
+    const slug = location.hash.startsWith("#play-")
+      ? location.hash.slice("#play-".length)
+      : null
+
+    if (!slug) {
+      hide()
+      return
+    }
+
+    const btn = buttons().find((b) => b.dataset.gameSlug === slug)
+    if (btn) show(btn)
+    else hide()
+  }
+
+  buttons().forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault()
+      const url = `${location.pathname}${location.search}#play-${btn.dataset.gameSlug}`
+      history.pushState({ game: btn.dataset.gameSlug }, "", url)
+      show(btn)
+    })
+  })
+
+  // Close by rewriting the current entry instead of going back, so a stray
+  // history entry can never leave the modal open after one click.
+  function close() {
+    hide()
+    if (location.hash.startsWith("#play-"))
+      history.replaceState(null, "", location.pathname + location.search)
+  }
+
+  document.getElementById("game-player-close")!.addEventListener("click", close)
+
+  document
+    .getElementById("game-player-fullscreen")!
+    .addEventListener("click", () => {
+      if (document.fullscreenElement) document.exitFullscreen()
+      else frame.requestFullscreen?.()
+    })
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && open && !document.fullscreenElement) close()
+  })
+
+  // Back button (and a shared #play- link on load) still work
+  window.addEventListener("popstate", syncFromUrl)
+  window.addEventListener("hashchange", syncFromUrl)
+  syncFromUrl()
+</script>

@@ -8,6 +8,7 @@
 - **Adapter:** `@astrojs/netlify` — hybrid rendering (static + SSR for `/api/chat`).
 - **Content:** Single `blog` collection in `src/content/blog/` (Markdown files with `.md`) via `src/content.config.ts`.
 - **Projects:** Static TypeScript array in `src/lib/projects.ts` (NOT a content collection).
+- **Arcade:** AI-generated single-file games. HTML files live in `public/arcade/`, metadata (title, model, prompt, tags) in the static array `src/lib/games.ts`. Adding a game = drop the file + add one entry. Played in an iframe modal (`src/components/game-player.astro`) on `/arcade`.
 - **Layout:** Single layout `src/layouts/base-layout.astro` — includes SEO, Header, Footer, Dock, AIChat.
 - **Assets:** `src/assets/` (Astro-optimized images/fonts), `public/` (static files).
 

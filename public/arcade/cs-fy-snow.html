@@ -1,0 +1,1375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CS 1.6 - fy_snow (Web Edition v2)</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #000;
+        font-family: "Courier New", Courier, monospace;
+        user-select: none;
+      }
+      canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      /* UI & HUD */
+      #ui-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      .hud-text {
+        color: #0f0;
+        text-shadow: 2px 2px 0px #000;
+        font-weight: bold;
+      }
+
+      #hud-bottom {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 32px;
+      }
+
+      #crosshair {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+      }
+      .ch-line {
+        position: absolute;
+        background-color: #0f0;
+        box-shadow: 1px 1px 0px #000;
+        transition: all 0.05s;
+      }
+      #ch-top {
+        top: 0;
+        left: 9px;
+        width: 2px;
+        height: 6px;
+      }
+      #ch-bottom {
+        bottom: 0;
+        left: 9px;
+        width: 2px;
+        height: 6px;
+      }
+      #ch-left {
+        top: 9px;
+        left: 0;
+        width: 6px;
+        height: 2px;
+      }
+      #ch-right {
+        top: 9px;
+        right: 0;
+        width: 6px;
+        height: 2px;
+      }
+
+      #killfeed {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        font-size: 16px;
+        gap: 5px;
+      }
+      .kill-entry {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px 10px;
+        border-radius: 3px;
+        color: #fff;
+        font-family: Arial, sans-serif;
+      }
+      .hs-icon {
+        color: red;
+        font-weight: bold;
+      }
+
+      #round-info {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 24px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+
+      #awp-scope {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, transparent 20%, #000 70%);
+        display: none;
+      }
+      #awp-scope::before,
+      #awp-scope::after {
+        content: "";
+        position: absolute;
+        background: #000;
+      }
+      #awp-scope::before {
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        transform: translateY(-50%);
+      }
+      #awp-scope::after {
+        left: 50%;
+        top: 0;
+        width: 2px;
+        height: 100%;
+        transform: translateX(-50%);
+      }
+
+      #menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+      }
+      #menu h1 {
+        color: #0f0;
+        font-size: 64px;
+        margin-bottom: 10px;
+      }
+      #menu p {
+        color: #fff;
+        font-size: 24px;
+        margin-bottom: 30px;
+        text-align: center;
+        max-width: 800px;
+        line-height: 1.5;
+      }
+      #start-btn {
+        padding: 15px 40px;
+        font-size: 24px;
+        font-family: "Courier New", monospace;
+        background: #0f0;
+        color: #000;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      #start-btn:hover {
+        background: #fff;
+      }
+
+      #damage-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: inset 0 0 100px red;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.1s;
+      }
+    </style>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  </head>
+  <body>
+    <div id="ui-layer">
+      <div id="damage-overlay"></div>
+      <div id="awp-scope"></div>
+
+      <div id="round-info" class="hud-text">
+        Round Time: <span id="time-disp">2:00</span><br />
+        Enemies Alive: <span id="enemy-disp">3 / 3</span>
+      </div>
+
+      <div id="killfeed"></div>
+
+      <div id="crosshair">
+        <div class="ch-line" id="ch-top"></div>
+        <div class="ch-line" id="ch-bottom"></div>
+        <div class="ch-line" id="ch-left"></div>
+        <div class="ch-line" id="ch-right"></div>
+      </div>
+
+      <div id="hud-bottom">
+        <div class="hud-text">HP: <span id="hp-disp">100</span> | AP: 100</div>
+        <div class="hud-text">
+          <span id="weapon-name">AK-47</span> |
+          <span id="ammo-disp">30 / 90</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="menu">
+      <h1>fy_snow (v2)</h1>
+      <p>
+        1v3 Bot Match<br />WASD: Move | SPACE: Jump | SHIFT: Crouch<br />1, 2,
+        3: Switch Weapons | R: Reload | L/R Click: Shoot/Scope
+      </p>
+      <button id="start-btn">CLICK TO PLAY</button>
+    </div>
+
+    <script>
+      // ==========================================
+      // 1. GLOBAL VARIABLES & ENGINE SETUP
+      // ==========================================
+      let scene, camera, renderer, dt
+      let lastTime = performance.now()
+      const keys = {}
+      let isLocked = false
+      let gameActive = false
+
+      // Physics & Map (Slightly Bigger)
+      const colliders = []
+      const mapSize = 80
+      const gravity = 40
+
+      // Audio Context
+      let actx
+
+      // ==========================================
+      // 2. PROCEDURAL TEXTURES
+      // ==========================================
+      function createNoiseTexture(color1, color2, width = 256, height = 256) {
+        const canvas = document.createElement("canvas")
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext("2d")
+        ctx.fillStyle = color1
+        ctx.fillRect(0, 0, width, height)
+        for (let i = 0; i < width * height * 0.5; i++) {
+          ctx.fillStyle = color2
+          ctx.fillRect(Math.random() * width, Math.random() * height, 2, 2)
+        }
+        const tex = new THREE.CanvasTexture(canvas)
+        tex.wrapS = THREE.RepeatWrapping
+        tex.wrapT = THREE.RepeatWrapping
+        return tex
+      }
+
+      function createCrateTexture() {
+        const canvas = document.createElement("canvas")
+        canvas.width = 256
+        canvas.height = 256
+        const ctx = canvas.getContext("2d")
+        ctx.fillStyle = "#8B5A2B"
+        ctx.fillRect(0, 0, 256, 256)
+        ctx.strokeStyle = "#3d2510"
+        ctx.lineWidth = 4
+        for (let i = 0; i < 256; i += 16) {
+          ctx.beginPath()
+          ctx.moveTo(i, 0)
+          ctx.lineTo(i, 256)
+          ctx.stroke()
+        }
+        ctx.strokeRect(0, 0, 256, 256)
+        ctx.beginPath()
+        ctx.moveTo(0, 0)
+        ctx.lineTo(256, 256)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(256, 0)
+        ctx.lineTo(0, 256)
+        ctx.stroke()
+        return new THREE.CanvasTexture(canvas)
+      }
+
+      function createBrickTexture() {
+        const canvas = document.createElement("canvas")
+        canvas.width = 256
+        canvas.height = 256
+        const ctx = canvas.getContext("2d")
+        ctx.fillStyle = "#b0b0b0"
+        ctx.fillRect(0, 0, 256, 256)
+        ctx.fillStyle = "#8b2222"
+        for (let y = 0; y < 256; y += 32) {
+          let offset = (y / 32) % 2 === 0 ? 0 : -32
+          for (let x = offset; x < 256; x += 64) {
+            ctx.fillRect(x + 2, y + 2, 60, 28)
+          }
+        }
+        const tex = new THREE.CanvasTexture(canvas)
+        tex.wrapS = THREE.RepeatWrapping
+        tex.wrapT = THREE.RepeatWrapping
+        return tex
+      }
+
+      // ==========================================
+      // 3. WEAPON BUILDER
+      // ==========================================
+      const materials = {
+        metal: new THREE.MeshLambertMaterial({ color: 0x333333 }),
+        silver: new THREE.MeshLambertMaterial({ color: 0xaaaaaa }),
+        wood: new THREE.MeshLambertMaterial({ color: 0x5c3a21 }),
+        green: new THREE.MeshLambertMaterial({ color: 0x2e422b }),
+        black: new THREE.MeshLambertMaterial({ color: 0x111111 }),
+      }
+
+      function buildWeaponModel(type) {
+        const group = new THREE.Group()
+        if (type === "Deagle") {
+          let barrel = new THREE.Mesh(
+            new THREE.BoxGeometry(0.08, 0.12, 0.4),
+            materials.silver
+          )
+          barrel.position.set(0, 0.05, -0.1)
+          let grip = new THREE.Mesh(
+            new THREE.BoxGeometry(0.06, 0.2, 0.12),
+            materials.black
+          )
+          grip.position.set(0, -0.1, 0.05)
+          grip.rotation.x = 0.2
+          group.add(barrel)
+          group.add(grip)
+          group.muzzleZ = -0.3 // Offset for VFX
+        } else if (type === "AK-47") {
+          let body = new THREE.Mesh(
+            new THREE.BoxGeometry(0.06, 0.15, 0.5),
+            materials.metal
+          )
+          let barrel = new THREE.Mesh(
+            new THREE.BoxGeometry(0.03, 0.03, 0.6),
+            materials.metal
+          )
+          barrel.position.set(0, 0.03, -0.4)
+          let woodGuard = new THREE.Mesh(
+            new THREE.BoxGeometry(0.08, 0.1, 0.25),
+            materials.wood
+          )
+          woodGuard.position.set(0, 0, -0.25)
+          let stock = new THREE.Mesh(
+            new THREE.BoxGeometry(0.06, 0.12, 0.3),
+            materials.wood
+          )
+          stock.position.set(0, -0.05, 0.3)
+          stock.rotation.x = -0.15
+          let mag = new THREE.Mesh(
+            new THREE.BoxGeometry(0.05, 0.25, 0.1),
+            materials.black
+          )
+          mag.position.set(0, -0.15, -0.05)
+          mag.rotation.x = -0.2
+          group.add(body)
+          group.add(barrel)
+          group.add(woodGuard)
+          group.add(stock)
+          group.add(mag)
+          group.muzzleZ = -0.7
+        } else if (type === "AWP") {
+          let body = new THREE.Mesh(
+            new THREE.BoxGeometry(0.08, 0.15, 0.9),
+            materials.green
+          )
+          let barrel = new THREE.Mesh(
+            new THREE.BoxGeometry(0.04, 0.04, 0.8),
+            materials.black
+          )
+          barrel.position.set(0, 0.02, -0.75)
+          let scope = new THREE.Mesh(
+            new THREE.BoxGeometry(0.06, 0.06, 0.4),
+            materials.black
+          )
+          scope.position.set(0, 0.12, -0.1)
+          let stockEnd = new THREE.Mesh(
+            new THREE.BoxGeometry(0.08, 0.15, 0.2),
+            materials.black
+          )
+          stockEnd.position.set(0, 0, 0.45)
+          group.add(body)
+          group.add(barrel)
+          group.add(scope)
+          group.add(stockEnd)
+          group.muzzleZ = -1.15
+        }
+        return group
+      }
+
+      const weapons = {
+        Deagle: {
+          name: "Desert Eagle",
+          type: "pistol",
+          dmg: 45,
+          rpm: 300,
+          mag: 7,
+          res: 35,
+          spread: 0.03,
+          speed: 1.25,
+        },
+        "AK-47": {
+          name: "AK-47",
+          type: "auto",
+          dmg: 35,
+          rpm: 600,
+          mag: 30,
+          res: 90,
+          spread: 0.06,
+          speed: 1.15,
+        },
+        AWP: {
+          name: "AWP",
+          type: "sniper",
+          dmg: 110,
+          rpm: 50,
+          mag: 10,
+          res: 30,
+          spread: 0.2,
+          spreadZoom: 0.001,
+          speed: 0.95,
+        },
+      }
+
+      // ==========================================
+      // 4. AUDIO SYSTEM
+      // ==========================================
+      const AudioSys = {
+        init: function () {
+          actx = new (window.AudioContext || window.webkitAudioContext)()
+        },
+        playShoot: function (weapon) {
+          if (!actx) return
+          const t = actx.currentTime
+          const osc = actx.createOscillator()
+          const gain = actx.createGain()
+          const filter = actx.createBiquadFilter()
+          osc.connect(filter)
+          filter.connect(gain)
+          gain.connect(actx.destination)
+          if (weapon === "AWP") {
+            osc.type = "square"
+            osc.frequency.setValueAtTime(100, t)
+            osc.frequency.exponentialRampToValueAtTime(10, t + 0.3)
+            filter.type = "lowpass"
+            filter.frequency.value = 1000
+            gain.gain.setValueAtTime(1, t)
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.5)
+          } else if (weapon === "AK-47") {
+            osc.type = "sawtooth"
+            osc.frequency.setValueAtTime(300, t)
+            osc.frequency.exponentialRampToValueAtTime(50, t + 0.1)
+            filter.type = "bandpass"
+            filter.frequency.value = 1500
+            gain.gain.setValueAtTime(0.8, t)
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2)
+          } else {
+            osc.type = "triangle"
+            osc.frequency.setValueAtTime(600, t)
+            osc.frequency.exponentialRampToValueAtTime(100, t + 0.1)
+            filter.type = "highpass"
+            filter.frequency.value = 800
+            gain.gain.setValueAtTime(0.9, t)
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2)
+          }
+          osc.start(t)
+          osc.stop(t + 0.5)
+        },
+        playHit: function (isHS) {
+          if (!actx) return
+          const osc = actx.createOscillator()
+          const gain = actx.createGain()
+          osc.connect(gain)
+          gain.connect(actx.destination)
+          osc.type = "sine"
+          osc.frequency.value = isHS ? 1200 : 400
+          gain.gain.setValueAtTime(0.5, actx.currentTime)
+          gain.gain.exponentialRampToValueAtTime(0.01, actx.currentTime + 0.1)
+          osc.start()
+          osc.stop(actx.currentTime + 0.1)
+        },
+        playStep: function () {
+          if (!actx || Math.random() > 0.5) return
+          const osc = actx.createOscillator()
+          const gain = actx.createGain()
+          osc.connect(gain)
+          gain.connect(actx.destination)
+          osc.type = "sine"
+          osc.frequency.value = 50 + Math.random() * 20
+          gain.gain.setValueAtTime(0.1, actx.currentTime)
+          gain.gain.linearRampToValueAtTime(0, actx.currentTime + 0.05)
+          osc.start()
+          osc.stop(actx.currentTime + 0.05)
+        },
+      }
+
+      // ==========================================
+      // 5. GAME ENTITIES
+      // ==========================================
+      class Player {
+        constructor() {
+          this.radius = 1
+          this.height = 3.5
+          this.crouchHeight = 2.0
+          this.pos = new THREE.Vector3(0, this.height, 30)
+          this.vel = new THREE.Vector3()
+          this.hp = 100
+
+          this.weapons = [
+            {
+              ...weapons["Deagle"],
+              curMag: 7,
+              curRes: 35,
+              mesh: buildWeaponModel("Deagle"),
+            },
+            {
+              ...weapons["AK-47"],
+              curMag: 30,
+              curRes: 90,
+              mesh: buildWeaponModel("AK-47"),
+            },
+            {
+              ...weapons["AWP"],
+              curMag: 10,
+              curRes: 30,
+              mesh: buildWeaponModel("AWP"),
+            },
+          ]
+          this.activeWepIdx = 1
+
+          this.pitch = new THREE.Object3D()
+          this.yaw = new THREE.Object3D()
+          this.yaw.position.copy(this.pos)
+          this.yaw.add(this.pitch)
+          this.pitch.add(camera)
+          scene.add(this.yaw)
+
+          // Weapon Group Container
+          this.gunGroup = new THREE.Group()
+          this.gunGroup.position.set(0.5, -0.4, -0.6)
+          this.weapons.forEach((w, i) => {
+            w.mesh.visible = i === this.activeWepIdx
+            this.gunGroup.add(w.mesh)
+          })
+          this.pitch.add(this.gunGroup)
+
+          this.lastShot = 0
+          this.reloading = false
+          this.bloom = 0
+          this.isCrouching = false
+          this.zoomed = false
+          this.bobTimer = 0
+        }
+
+        update(dt) {
+          if (this.hp <= 0) return
+
+          // Input & Slightly Faster Speed
+          let speedMult =
+            this.weapons[this.activeWepIdx].speed *
+            (this.isCrouching ? 0.5 : 1.0)
+          let accel = 55 * speedMult
+          let friction = 9.0
+
+          let targetHeight = this.isCrouching ? this.crouchHeight : this.height
+          this.yaw.position.y += (targetHeight - this.yaw.position.y) * 10 * dt
+
+          let dir = new THREE.Vector3()
+          if (keys["KeyW"]) dir.z -= 1
+          if (keys["KeyS"]) dir.z += 1
+          if (keys["KeyA"]) dir.x -= 1
+          if (keys["KeyD"]) dir.x += 1
+          dir.normalize()
+          dir.applyQuaternion(this.yaw.quaternion)
+
+          this.vel.x -= this.vel.x * friction * dt
+          this.vel.z -= this.vel.z * friction * dt
+
+          if (dir.lengthSq() > 0) {
+            this.vel.x += dir.x * accel * dt
+            this.vel.z += dir.z * accel * dt
+            this.bobTimer += dt * 12
+            if (Math.floor(this.bobTimer) % 3 === 0) AudioSys.playStep()
+          }
+
+          // View bobbing
+          if (!this.zoomed) {
+            this.gunGroup.position.y = -0.4 + Math.sin(this.bobTimer) * 0.03
+            this.gunGroup.position.x =
+              0.5 + Math.cos(this.bobTimer * 0.5) * 0.03
+          }
+
+          this.vel.y -= gravity * dt
+          if (keys["Space"] && this.pos.y <= targetHeight + 0.1) {
+            this.vel.y = 15
+            keys["Space"] = false
+          }
+
+          this.pos.x += this.vel.x * dt
+          if (this.checkCollision(this.pos)) {
+            this.pos.x -= this.vel.x * dt
+            this.vel.x = 0
+          }
+
+          this.pos.z += this.vel.z * dt
+          if (this.checkCollision(this.pos)) {
+            this.pos.z -= this.vel.z * dt
+            this.vel.z = 0
+          }
+
+          this.pos.y += this.vel.y * dt
+          if (this.pos.y < targetHeight) {
+            this.pos.y = targetHeight
+            this.vel.y = 0
+          }
+
+          this.yaw.position.x = this.pos.x
+          this.yaw.position.z = this.pos.z
+
+          if (this.bloom > 0) this.bloom -= dt * 2
+          if (this.bloom < 0) this.bloom = 0
+
+          if (keys["Mouse0"] && this.weapons[this.activeWepIdx].type === "auto")
+            this.shoot()
+
+          updateHUD()
+        }
+
+        checkCollision(p) {
+          let px = p.x,
+            pz = p.z,
+            pr = this.radius
+          for (let c of colliders) {
+            if (
+              px + pr > c.min.x &&
+              px - pr < c.max.x &&
+              pz + pr > c.min.z &&
+              pz - pr < c.max.z
+            ) {
+              if (p.y - this.height < c.max.y) return true
+            }
+          }
+          return false
+        }
+
+        switchWeapon(idx) {
+          if (this.reloading || this.activeWepIdx === idx) return
+          this.weapons[this.activeWepIdx].mesh.visible = false
+          this.activeWepIdx = idx
+          this.weapons[this.activeWepIdx].mesh.visible = true
+          this.zoomed = false
+          this.applyZoom()
+          updateHUD()
+        }
+
+        reload() {
+          let w = this.weapons[this.activeWepIdx]
+          if (w.curMag === w.mag || w.curRes <= 0 || this.reloading) return
+          this.reloading = true
+          setTimeout(() => {
+            if (!gameActive) return
+            let needed = w.mag - w.curMag
+            let take = Math.min(needed, w.curRes)
+            w.curMag += take
+            w.curRes -= take
+            this.reloading = false
+            updateHUD()
+          }, 2000)
+        }
+
+        shoot() {
+          if (this.reloading) return
+          let w = this.weapons[this.activeWepIdx]
+          let now = performance.now()
+          if (now - this.lastShot < 60000 / w.rpm) return
+          if (w.curMag <= 0) return this.reload()
+
+          w.curMag--
+          this.lastShot = now
+          AudioSys.playShoot(w.name)
+
+          this.pitch.rotation.x += 0.02
+          let currentSpread =
+            w.name === "AWP" && this.zoomed ? w.spreadZoom : w.spread
+          currentSpread += this.bloom
+          this.bloom += w.type === "auto" ? 0.02 : 0.05
+
+          let camDir = new THREE.Vector3()
+          camera.getWorldDirection(camDir)
+          camDir.x += (Math.random() - 0.5) * currentSpread
+          camDir.y += (Math.random() - 0.5) * currentSpread
+          camDir.z += (Math.random() - 0.5) * currentSpread
+          camDir.normalize()
+
+          let ray = new THREE.Raycaster(
+            camera.getWorldPosition(new THREE.Vector3()),
+            camDir
+          )
+
+          // Muzzle pos
+          let muzzleOffset = new THREE.Vector3(0, 0, w.mesh.muzzleZ)
+          muzzleOffset.applyMatrix4(w.mesh.matrixWorld)
+          VFX.muzzleFlash(muzzleOffset)
+
+          let hit = null
+          let hitDist = Infinity
+          let hitBot = null
+
+          let mapHits = ray.intersectObjects(
+            scene.children.filter((c) => c.isMap)
+          )
+          if (mapHits.length > 0) {
+            hit = mapHits[0].point
+            hitDist = mapHits[0].distance
+          }
+
+          for (let b of bots) {
+            if (b.hp <= 0) continue
+            let bHits = ray.intersectObject(b.mesh, true)
+            if (bHits.length > 0 && bHits[0].distance < hitDist) {
+              hit = bHits[0].point
+              hitDist = bHits[0].distance
+              hitBot = b
+            }
+          }
+
+          if (hit) {
+            VFX.tracer(muzzleOffset, hit)
+            if (hitBot) {
+              VFX.blood(hit)
+              // Headshot logic adapted to new bot height (feet at 0, head at ~2.5)
+              let isHeadshot = hit.y > hitBot.pos.y + 2.2
+              let dmg =
+                w.dmg * (isHeadshot ? 3 : 1) * (w.name === "AWP" ? 1.5 : 1)
+              hitBot.takeDamage(dmg)
+              AudioSys.playHit(isHeadshot)
+              if (hitBot.hp <= 0)
+                addKillfeed("Player", `Bot ${hitBot.id}`, w.name, isHeadshot)
+            } else {
+              VFX.decal(hit, mapHits[0].face.normal)
+            }
+          }
+
+          if (w.name === "AWP") this.zoomed = false
+          this.applyZoom()
+          updateHUD()
+        }
+
+        applyZoom() {
+          if (this.weapons[this.activeWepIdx].name !== "AWP")
+            this.zoomed = false
+          camera.fov = this.zoomed ? 15 : 75
+          camera.updateProjectionMatrix()
+          document.getElementById("awp-scope").style.display = this.zoomed
+            ? "block"
+            : "none"
+          this.weapons[this.activeWepIdx].mesh.visible = !this.zoomed
+        }
+      }
+
+      class Bot {
+        constructor(id, x, z) {
+          this.id = id
+          this.hp = 100
+          this.pos = new THREE.Vector3(x, 0, z) // Ground level
+          this.targetPos = new THREE.Vector3()
+          this.state = "WANDER"
+          this.lastShot = 0
+          this.animTime = Math.random() * 10
+          this.pickRandomTarget()
+
+          // Humanoid Model (Arctic Camo)
+          this.mesh = new THREE.Group()
+          let matCamo = new THREE.MeshLambertMaterial({ color: 0xdddddd }) // White/Grey Camo
+          let matSkin = new THREE.MeshLambertMaterial({ color: 0xffccaa })
+          let matBlack = new THREE.MeshLambertMaterial({ color: 0x222222 }) // Balaclava/Pants
+
+          // Legs (Pivoted at top)
+          let legGeo = new THREE.BoxGeometry(0.3, 1.2, 0.3)
+          legGeo.translate(0, -0.6, 0)
+          this.legL = new THREE.Mesh(legGeo, matBlack)
+          this.legL.position.set(-0.2, 1.2, 0)
+          this.legR = new THREE.Mesh(legGeo, matBlack)
+          this.legR.position.set(0.2, 1.2, 0)
+
+          // Torso
+          this.torso = new THREE.Mesh(
+            new THREE.BoxGeometry(0.8, 1.2, 0.4),
+            matCamo
+          )
+          this.torso.position.y = 1.8
+
+          // Head
+          this.head = new THREE.Mesh(
+            new THREE.BoxGeometry(0.5, 0.5, 0.5),
+            matBlack
+          )
+          this.head.position.y = 2.65
+          let face = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.15), matSkin)
+          face.position.set(0, 0, 0.26)
+          this.head.add(face)
+
+          // Arms (Pivoted at shoulder)
+          let armGeo = new THREE.BoxGeometry(0.25, 1.0, 0.25)
+          armGeo.translate(0, -0.5, 0)
+          this.armL = new THREE.Mesh(armGeo, matCamo)
+          this.armL.position.set(-0.55, 2.3, 0)
+          this.armR = new THREE.Mesh(armGeo, matCamo)
+          this.armR.position.set(0.55, 2.3, 0)
+
+          // Bot's Weapon (AK-47 simplified)
+          let bGun = buildWeaponModel("AK-47")
+          bGun.scale.set(0.8, 0.8, 0.8)
+          bGun.position.set(0, -0.8, -0.2)
+          bGun.rotation.x = Math.PI / 2 // Point forward from angled arm
+          this.armR.add(bGun)
+
+          this.mesh.add(this.legL)
+          this.mesh.add(this.legR)
+          this.mesh.add(this.torso)
+          this.mesh.add(this.head)
+          this.mesh.add(this.armL)
+          this.mesh.add(this.armR)
+
+          this.mesh.position.copy(this.pos)
+          scene.add(this.mesh)
+        }
+
+        pickRandomTarget() {
+          this.targetPos.set(
+            (Math.random() - 0.5) * (mapSize - 10),
+            0,
+            (Math.random() - 0.5) * (mapSize - 10)
+          )
+        }
+
+        takeDamage(amt) {
+          this.hp -= amt
+          if (this.hp <= 0) {
+            scene.remove(this.mesh)
+            checkWinCondition()
+          }
+        }
+
+        update(dt) {
+          if (this.hp <= 0) return
+
+          let distToPlayer = this.pos.distanceTo(
+            new THREE.Vector3(player.pos.x, 0, player.pos.z)
+          )
+          let hasLOS = false
+
+          // Sight line
+          if (distToPlayer < 60) {
+            let dir = player.pos
+              .clone()
+              .sub(this.pos.clone().add(new THREE.Vector3(0, 2, 0)))
+              .normalize()
+            let ray = new THREE.Raycaster(
+              this.pos.clone().add(new THREE.Vector3(0, 2, 0)),
+              dir
+            )
+            let hits = ray.intersectObjects(
+              scene.children.filter((c) => c.isMap)
+            )
+            if (hits.length === 0 || hits[0].distance > distToPlayer)
+              hasLOS = true
+          }
+
+          if (hasLOS) {
+            this.state = "ATTACK"
+            this.mesh.lookAt(
+              player.yaw.position.x,
+              this.mesh.position.y,
+              player.yaw.position.z
+            )
+
+            // Aiming pose
+            this.armR.rotation.x = Math.PI / 2
+            this.armR.rotation.z = 0.2
+            this.armL.rotation.x = Math.PI / 3
+
+            if (Math.random() < 0.02) {
+              this.targetPos = this.pos
+                .clone()
+                .add(
+                  new THREE.Vector3(
+                    (Math.random() - 0.5) * 15,
+                    0,
+                    (Math.random() - 0.5) * 15
+                  )
+                )
+            }
+
+            let now = performance.now()
+            if (now - this.lastShot > 400 + Math.random() * 300) {
+              this.shoot()
+              this.lastShot = now
+            }
+          } else {
+            this.state = "WANDER"
+            if (this.pos.distanceTo(this.targetPos) < 2) this.pickRandomTarget()
+            this.mesh.lookAt(
+              this.targetPos.x,
+              this.mesh.position.y,
+              this.targetPos.z
+            )
+
+            // Relaxed arms
+            this.armR.rotation.z = 0
+          }
+
+          // Movement & Animation
+          let moveVec = new THREE.Vector3(
+            this.targetPos.x - this.pos.x,
+            0,
+            this.targetPos.z - this.pos.z
+          )
+          if (moveVec.length() > 0.1) {
+            let moveDir = moveVec.normalize()
+            let speed = this.state === "ATTACK" ? 6 : 10
+
+            this.pos.x += moveDir.x * speed * dt
+            if (this.checkCol(this.pos)) {
+              this.pos.x -= moveDir.x * speed * dt
+              this.pickRandomTarget()
+            }
+
+            this.pos.z += moveDir.z * speed * dt
+            if (this.checkCol(this.pos)) {
+              this.pos.z -= moveDir.z * speed * dt
+              this.pickRandomTarget()
+            }
+
+            // Walk Animation
+            this.animTime += dt * speed * 1.5
+            this.legL.rotation.x = Math.sin(this.animTime) * 0.6
+            this.legR.rotation.x = Math.sin(this.animTime + Math.PI) * 0.6
+            if (this.state === "WANDER") {
+              this.armL.rotation.x = Math.sin(this.animTime + Math.PI) * 0.4
+              this.armR.rotation.x = Math.sin(this.animTime) * 0.4
+            }
+          } else {
+            this.legL.rotation.x = 0
+            this.legR.rotation.x = 0
+          }
+
+          this.mesh.position.copy(this.pos)
+        }
+
+        checkCol(p) {
+          let r = 1
+          for (let c of colliders) {
+            if (
+              p.x + r > c.min.x &&
+              p.x - r < c.max.x &&
+              p.z + r > c.min.z &&
+              p.z - r < c.max.z
+            )
+              return true
+          }
+          return false
+        }
+
+        shoot() {
+          AudioSys.playShoot("AK-47")
+          let muzzlePos = this.pos.clone().add(new THREE.Vector3(0, 2, 0))
+          let camDir = player.pos.clone().sub(muzzlePos).normalize()
+
+          camDir.x += (Math.random() - 0.5) * 0.1
+          camDir.y += (Math.random() - 0.5) * 0.1
+          camDir.z += (Math.random() - 0.5) * 0.1
+          camDir.normalize()
+
+          VFX.muzzleFlash(muzzlePos.clone().add(camDir))
+
+          let ray = new THREE.Raycaster(muzzlePos, camDir)
+          let mapHits = ray.intersectObjects(
+            scene.children.filter((c) => c.isMap)
+          )
+          let pDist =
+            ray.ray.distanceSqToPoint(player.pos) < 4
+              ? muzzlePos.distanceTo(player.pos)
+              : Infinity
+          let mapDist = mapHits.length > 0 ? mapHits[0].distance : Infinity
+
+          let endP = muzzlePos
+            .clone()
+            .add(camDir.multiplyScalar(Math.min(mapDist, 100)))
+          VFX.tracer(muzzlePos, endP)
+
+          if (pDist < mapDist) {
+            player.hp -= 15
+            document.getElementById("damage-overlay").style.display = "block"
+            document.getElementById("damage-overlay").style.opacity = 1
+            setTimeout(() => {
+              document.getElementById("damage-overlay").style.opacity = 0
+            }, 50)
+            updateHUD()
+            if (player.hp <= 0) {
+              addKillfeed(`Bot ${this.id}`, "Player", "AK-47", false)
+              checkWinCondition()
+            }
+          } else if (mapHits.length > 0) {
+            VFX.decal(mapHits[0].point, mapHits[0].face.normal)
+          }
+        }
+      }
+
+      // ==========================================
+      // 6. VISUAL EFFECTS (VFX)
+      // ==========================================
+      const VFX = {
+        particles: [],
+        decals: [],
+        tracers: [],
+        blood: function (pos) {
+          for (let i = 0; i < 5; i++) {
+            let m = new THREE.Mesh(
+              new THREE.BoxGeometry(0.15, 0.15, 0.15),
+              new THREE.MeshBasicMaterial({ color: 0xff0000 })
+            )
+            m.position.copy(pos)
+            m.vel = new THREE.Vector3(
+              (Math.random() - 0.5) * 5,
+              Math.random() * 5,
+              (Math.random() - 0.5) * 5
+            )
+            m.life = 1.0
+            scene.add(m)
+            this.particles.push(m)
+          }
+        },
+        decal: function (pos, normal) {
+          let m = new THREE.Mesh(
+            new THREE.PlaneGeometry(0.3, 0.3),
+            new THREE.MeshBasicMaterial({ color: 0x222222, depthWrite: false })
+          )
+          m.position.copy(pos).add(normal.clone().multiplyScalar(0.01))
+          m.lookAt(pos.clone().add(normal))
+          scene.add(m)
+          this.decals.push({ m: m, life: 5.0 })
+        },
+        tracer: function (start, end) {
+          let dist = start.distanceTo(end)
+          let m = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.02, 0.02, dist, 4),
+            new THREE.MeshBasicMaterial({ color: 0xffffaa })
+          )
+          m.position.copy(start).lerp(end, 0.5)
+          m.quaternion.setFromUnitVectors(
+            new THREE.Vector3(0, 1, 0),
+            end.clone().sub(start).normalize()
+          )
+          scene.add(m)
+          this.tracers.push({ m: m, life: 0.05 })
+        },
+        muzzleFlash: function (pos) {
+          let l = new THREE.PointLight(0xffaa00, 2, 5)
+          l.position.copy(pos)
+          scene.add(l)
+          setTimeout(() => scene.remove(l), 50)
+        },
+        update: function (dt) {
+          for (let i = this.particles.length - 1; i >= 0; i--) {
+            let p = this.particles[i]
+            p.life -= dt
+            if (p.life <= 0) {
+              scene.remove(p)
+              this.particles.splice(i, 1)
+              continue
+            }
+            p.vel.y -= gravity * dt
+            p.position.add(p.vel.clone().multiplyScalar(dt))
+            p.scale.multiplyScalar(0.95)
+          }
+          for (let i = this.decals.length - 1; i >= 0; i--) {
+            let d = this.decals[i]
+            d.life -= dt
+            if (d.life <= 0) {
+              scene.remove(d.m)
+              this.decals.splice(i, 1)
+            }
+          }
+          for (let i = this.tracers.length - 1; i >= 0; i--) {
+            let t = this.tracers[i]
+            t.life -= dt
+            if (t.life <= 0) {
+              scene.remove(t.m)
+              this.tracers.splice(i, 1)
+            }
+          }
+        },
+      }
+
+      // ==========================================
+      // 7. INITIALIZATION & MAP BUILDER
+      // ==========================================
+      let player,
+        bots = []
+
+      function buildMap() {
+        const texSnow = createNoiseTexture("#eeeeee", "#cccccc", 512, 512)
+        texSnow.repeat.set(12, 12)
+        const texWood = createCrateTexture()
+        const texBrick = createBrickTexture()
+        texBrick.repeat.set(2, 2)
+
+        const matSnow = new THREE.MeshLambertMaterial({ map: texSnow })
+        const matWood = new THREE.MeshLambertMaterial({ map: texWood })
+        const matBrick = new THREE.MeshLambertMaterial({ map: texBrick })
+
+        const floor = new THREE.Mesh(
+          new THREE.PlaneGeometry(mapSize, mapSize),
+          matSnow
+        )
+        floor.rotation.x = -Math.PI / 2
+        floor.isMap = true
+        scene.add(floor)
+
+        function addBox(w, h, d, x, y, z, mat) {
+          const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat)
+          mesh.position.set(x, y, z)
+          mesh.isMap = true
+          scene.add(mesh)
+          let min = new THREE.Vector3(x - w / 2, y - h / 2, z - d / 2)
+          let max = new THREE.Vector3(x + w / 2, y + h / 2, z + d / 2)
+          colliders.push({ min: min, max: max })
+        }
+
+        // Walls
+        addBox(mapSize, 10, 2, 0, 5, -mapSize / 2, matBrick)
+        addBox(mapSize, 10, 2, 0, 5, mapSize / 2, matBrick)
+        addBox(2, 10, mapSize, -mapSize / 2, 5, 0, matBrick)
+        addBox(2, 10, mapSize, mapSize / 2, 5, 0, matBrick)
+
+        // Center Cross
+        addBox(14, 6, 4, 0, 3, 0, matBrick)
+        addBox(4, 6, 14, 0, 3, 0, matBrick)
+
+        // Extended Crates Layout
+        const cratePos = [
+          [6, 1, 6],
+          [-6, 1, -6],
+          [6, 1, -6],
+          [-6, 1, 6],
+          [18, 1, 18],
+          [18, 1, -18],
+          [-18, 1, 18],
+          [-18, 1, -18],
+          [24, 1, 0],
+          [-24, 1, 0],
+          [0, 1, 24],
+          [0, 1, -24],
+          [28, 1, 15],
+          [-28, 1, -15],
+          [15, 1, 28],
+          [-15, 1, -28],
+        ]
+        cratePos.forEach((p) => {
+          addBox(2.5, 2.5, 2.5, p[0], p[1] * 1.25, p[2], matWood)
+          if (Math.random() > 0.4)
+            addBox(2.5, 2.5, 2.5, p[0], p[1] * 1.25 + 2.5, p[2], matWood)
+        })
+      }
+
+      function init() {
+        scene = new THREE.Scene()
+        scene.background = new THREE.Color(0xaaccff)
+        scene.fog = new THREE.Fog(0xaaccff, 20, mapSize)
+
+        camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        )
+        renderer = new THREE.WebGLRenderer({ antialias: true })
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        document.body.appendChild(renderer.domElement)
+
+        const amb = new THREE.AmbientLight(0xffffff, 0.7)
+        scene.add(amb)
+        const dir = new THREE.DirectionalLight(0xffffff, 0.5)
+        dir.position.set(10, 20, 10)
+        scene.add(dir)
+
+        buildMap()
+
+        player = new Player()
+
+        // Spawn Bots farther out for bigger map
+        bots.push(new Bot(1, 0, -32))
+        bots.push(new Bot(2, -20, -32))
+        bots.push(new Bot(3, 20, -32))
+
+        // Input
+        document.addEventListener("keydown", (e) => {
+          keys[e.code] = true
+          if (gameActive && !player.reloading) {
+            if (e.code === "Digit1") player.switchWeapon(0)
+            if (e.code === "Digit2") player.switchWeapon(1)
+            if (e.code === "Digit3") player.switchWeapon(2)
+            if (e.code === "KeyR") player.reload()
+            if (e.code === "ShiftLeft" || e.code === "KeyC")
+              player.isCrouching = true
+          }
+        })
+        document.addEventListener("keyup", (e) => {
+          keys[e.code] = false
+          if (e.code === "ShiftLeft" || e.code === "KeyC")
+            player.isCrouching = false
+        })
+        document.addEventListener("mousedown", (e) => {
+          if (!isLocked) return
+          keys["Mouse" + e.button] = true
+          if (
+            e.button === 0 &&
+            player.weapons[player.activeWepIdx].type !== "auto"
+          )
+            player.shoot()
+          if (
+            e.button === 2 &&
+            player.weapons[player.activeWepIdx].name === "AWP"
+          ) {
+            player.zoomed = !player.zoomed
+            player.applyZoom()
+          }
+        })
+        document.addEventListener(
+          "mouseup",
+          (e) => (keys["Mouse" + e.button] = false)
+        )
+
+        document.addEventListener("mousemove", (e) => {
+          if (!isLocked || player.hp <= 0) return
+          let sens = player.zoomed ? 0.0005 : 0.002
+          player.yaw.rotation.y -= e.movementX * sens
+          player.pitch.rotation.x -= e.movementY * sens
+          player.pitch.rotation.x = Math.max(
+            -Math.PI / 2,
+            Math.min(Math.PI / 2, player.pitch.rotation.x)
+          )
+        })
+
+        window.addEventListener("resize", () => {
+          camera.aspect = window.innerWidth / window.innerHeight
+          camera.updateProjectionMatrix()
+          renderer.setSize(window.innerWidth, window.innerHeight)
+        })
+
+        document.getElementById("start-btn").addEventListener("click", () => {
+          document.body.requestPointerLock()
+          AudioSys.init()
+        })
+
+        document.addEventListener("pointerlockchange", () => {
+          if (document.pointerLockElement === document.body) {
+            isLocked = true
+            gameActive = true
+            document.getElementById("menu").style.display = "none"
+          } else {
+            isLocked = false
+            gameActive = false
+            document.getElementById("menu").style.display = "flex"
+          }
+        })
+
+        updateHUD()
+        requestAnimationFrame(animate)
+      }
+
+      // ==========================================
+      // 8. UI & GAME LOGIC
+      // ==========================================
+      function updateHUD() {
+        if (!player) return
+        document.getElementById("hp-disp").innerText = Math.max(0, player.hp)
+        let w = player.weapons[player.activeWepIdx]
+        document.getElementById("weapon-name").innerText = w.name
+        document.getElementById("ammo-disp").innerText = player.reloading
+          ? "RELOADING"
+          : `${w.curMag}/${w.curRes}`
+
+        let alive = bots.filter((b) => b.hp > 0).length
+        document.getElementById("enemy-disp").innerText = `${alive} / 3`
+
+        let chSpread = 20 + player.bloom * 200
+        document.getElementById("ch-top").style.top = `-${chSpread}px`
+        document.getElementById("ch-bottom").style.bottom = `-${chSpread}px`
+        document.getElementById("ch-left").style.left = `-${chSpread}px`
+        document.getElementById("ch-right").style.right = `-${chSpread}px`
+        document.getElementById("crosshair").style.opacity = player.zoomed
+          ? 0
+          : 1
+      }
+
+      function addKillfeed(killer, victim, weapon, isHS) {
+        let kf = document.getElementById("killfeed")
+        let entry = document.createElement("div")
+        entry.className = "kill-entry"
+        entry.innerHTML = `<span style="color:#0f0">${killer}</span> [${weapon}] ${isHS ? '<span class="hs-icon">◎</span> ' : ""}<span style="color:#f00">${victim}</span>`
+        kf.appendChild(entry)
+        setTimeout(() => entry.remove(), 5000)
+      }
+
+      let roundOver = false
+      function checkWinCondition() {
+        if (roundOver) return
+        let alive = bots.filter((b) => b.hp > 0).length
+        if (alive === 0 || player.hp <= 0) {
+          roundOver = true
+          let msg = alive === 0 ? "COUNTER-TERRORISTS WIN" : "TERRORISTS WIN"
+          let m = document.getElementById("menu")
+          m.style.display = "flex"
+          m.innerHTML = `<h1>${msg}</h1><p>Restarting in 5...</p>`
+          document.exitPointerLock()
+          let cnt = 5
+          let int = setInterval(() => {
+            cnt--
+            if (cnt <= 0) {
+              clearInterval(int)
+              location.reload()
+            } else m.innerHTML = `<h1>${msg}</h1><p>Restarting in ${cnt}...</p>`
+          }, 1000)
+        }
+      }
+
+      // ==========================================
+      // 9. MAIN GAME LOOP
+      // ==========================================
+      function animate() {
+        requestAnimationFrame(animate)
+        let now = performance.now()
+        dt = (now - lastTime) / 1000
+        lastTime = now
+        if (dt > 0.1) dt = 0.1
+
+        if (gameActive && !roundOver) {
+          player.update(dt)
+          bots.forEach((b) => b.update(dt))
+          VFX.update(dt)
+        }
+        renderer.render(scene, camera)
+      }
+
+      window.onload = init
+    </script>
+  </body>
+</html>

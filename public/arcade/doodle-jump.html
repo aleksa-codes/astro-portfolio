@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Doodle Jump</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #d9d2c4;
+        font-family:
+          "Comic Sans MS", "Chalkboard SE", "Segoe Print", cursive, sans-serif;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #wrap {
+        position: relative;
+        height: 100dvh;
+        aspect-ratio: 5 / 8;
+        max-width: 100vw;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #fdf9ec;
+      }
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        text-align: center;
+        background: rgba(253, 249, 236, 0.88);
+        backdrop-filter: blur(2px);
+        color: #4a4032;
+        padding: 24px;
+      }
+      .overlay.hidden {
+        display: none;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(28px, 8vh, 46px);
+        letter-spacing: -1px;
+        color: #2f2a22;
+      }
+      h1 span {
+        color: #4caf50;
+      }
+      .sub {
+        margin: 0;
+        font-size: clamp(13px, 2.2vh, 16px);
+        line-height: 1.6;
+        opacity: 0.75;
+        max-width: 30ch;
+      }
+      .score-big {
+        font-size: clamp(34px, 9vh, 56px);
+        font-weight: bold;
+        color: #2f2a22;
+        line-height: 1;
+      }
+      .best {
+        font-size: clamp(13px, 2.2vh, 16px);
+        opacity: 0.7;
+      }
+      button {
+        font-family: inherit;
+        font-size: clamp(15px, 2.6vh, 19px);
+        font-weight: bold;
+        padding: 12px 30px;
+        border: 3px solid #2f2a22;
+        border-radius: 999px;
+        background: #8bc34a;
+        color: #2f2a22;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #2f2a22;
+        transition:
+          transform 0.08s,
+          box-shadow 0.08s;
+      }
+      button:active {
+        transform: translateY(4px);
+        box-shadow: 0 0 0 #2f2a22;
+      }
+      .keys {
+        font-size: clamp(11px, 1.9vh, 13px);
+        opacity: 0.55;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrap">
+      <canvas id="c"></canvas>
+      <div id="start" class="overlay">
+        <h1>Doodle <span>Jump</span></h1>
+        <p class="sub">Bounce as high as you can. Don't look down.</p>
+        <button id="startBtn">Play</button>
+        <p class="keys">← → or A / D &nbsp;·&nbsp; drag or tilt on mobile</p>
+      </div>
+      <div id="over" class="overlay hidden">
+        <p class="sub" style="margin-bottom: -6px">You fell!</p>
+        <div class="score-big" id="finalScore">0</div>
+        <div class="best" id="bestScore">Best: 0</div>
+        <button id="againBtn">Again</button>
+        <p class="keys">space to restart</p>
+      </div>
+    </div>
+
+    <script>
+      ;(() => {
+        const W = 400,
+          H = 640
+        const canvas = document.getElementById("c")
+        const ctx = canvas.getContext("2d")
+        const startEl = document.getElementById("start")
+        const overEl = document.getElementById("over")
+
+        function resize() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 2)
+          canvas.width = W * dpr
+          canvas.height = H * dpr
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+          ctx.imageSmoothingEnabled = true
+        }
+        resize()
+        addEventListener("resize", resize)
+
+        // --- tuning ---
+        const GRAVITY = 0.36,
+          JUMP = -12.2,
+          SPRING = -20,
+          MOVE = 1.15,
+          MAX_VX = 7.8,
+          FRICTION = 0.88
+        const PLAT_W = 62,
+          PLAT_H = 14,
+          PLAYER_W = 42,
+          PLAYER_H = 40
+
+        const BEST_KEY = "doodlejump-best"
+        let best = +(localStorage.getItem(BEST_KEY) || 0)
+
+        let state = "start" // start | play | over
+        let player,
+          platforms,
+          particles,
+          camY,
+          score,
+          tilt,
+          squash,
+          spawnY,
+          difficulty
+
+        const rand = (a, b) => a + Math.random() * (b - a)
+
+        function makePlatform(y) {
+          const r = Math.random()
+          const hard = Math.min(difficulty, 1)
+          let type = "normal"
+          if (r < 0.13 + hard * 0.12) type = "moving"
+          else if (r < 0.24 + hard * 0.2) type = "breakable"
+          return {
+            x: rand(6, W - PLAT_W - 6),
+            y,
+            type,
+            dir: Math.random() < 0.5 ? -1 : 1,
+            speed: rand(0.8, 1.6) + hard,
+            broken: false,
+            fall: 0,
+            wobble: rand(0, 6.28),
+            spring: type === "normal" && Math.random() < 0.08,
+          }
+        }
+
+        function reset() {
+          difficulty = 0
+          platforms = []
+          particles = []
+          score = 0
+          camY = 0
+          squash = 0
+          tilt = 0
+          // guaranteed starting platform under the player
+          platforms.push({
+            x: W / 2 - PLAT_W / 2,
+            y: H - 60,
+            type: "normal",
+            broken: false,
+            fall: 0,
+            wobble: 0,
+            spring: false,
+          })
+          spawnY = H - 60
+          while (spawnY > -H) {
+            spawnY -= rand(58, 86)
+            platforms.push(makePlatform(spawnY))
+          }
+          player = {
+            x: W / 2 - PLAYER_W / 2,
+            y: H - 140,
+            vx: 0,
+            vy: JUMP,
+            face: 1,
+          }
+        }
+
+        // --- input ---
+        const keys = {}
+        addEventListener("keydown", (e) => {
+          keys[e.key.toLowerCase()] = true
+          if (e.key === " ") {
+            e.preventDefault()
+            if (state !== "play") begin()
+          }
+          if (["arrowleft", "arrowright"].includes(e.key.toLowerCase()))
+            e.preventDefault()
+        })
+        addEventListener("keyup", (e) => (keys[e.key.toLowerCase()] = false))
+
+        let dragX = null
+        const toGameX = (clientX) => {
+          const r = canvas.getBoundingClientRect()
+          return ((clientX - r.left) / r.width) * W
+        }
+        canvas.addEventListener("pointerdown", (e) => {
+          dragX = toGameX(e.clientX)
+          canvas.setPointerCapture(e.pointerId)
+        })
+        canvas.addEventListener("pointermove", (e) => {
+          if (dragX === null || state !== "play") return
+          const gx = toGameX(e.clientX)
+          player.vx = Math.max(-MAX_VX, Math.min(MAX_VX, (gx - dragX) * 0.8))
+          dragX = gx
+        })
+        const endDrag = () => {
+          dragX = null
+        }
+        canvas.addEventListener("pointerup", endDrag)
+        canvas.addEventListener("pointercancel", endDrag)
+
+        addEventListener("deviceorientation", (e) => {
+          if (e.gamma != null) tilt = Math.max(-1, Math.min(1, e.gamma / 25))
+        })
+
+        function begin() {
+          reset()
+          state = "play"
+          startEl.classList.add("hidden")
+          overEl.classList.add("hidden")
+        }
+        document.getElementById("startBtn").onclick = begin
+        document.getElementById("againBtn").onclick = begin
+
+        function gameOver() {
+          state = "over"
+          best = Math.max(best, score)
+          localStorage.setItem(BEST_KEY, best)
+          document.getElementById("finalScore").textContent = score
+          document.getElementById("bestScore").textContent = "Best: " + best
+          overEl.classList.remove("hidden")
+        }
+
+        function puff(x, y, color) {
+          for (let i = 0; i < 8; i++)
+            particles.push({
+              x,
+              y,
+              vx: rand(-2.4, 2.4),
+              vy: rand(-2.6, 0.6),
+              life: 1,
+              color,
+            })
+        }
+
+        function update() {
+          if (state !== "play") return
+          difficulty = Math.min(1, score / 6000)
+
+          // horizontal
+          let dir = 0
+          if (keys["arrowleft"] || keys["a"]) dir -= 1
+          if (keys["arrowright"] || keys["d"]) dir += 1
+          if (dir) player.vx += dir * MOVE
+          else if (Math.abs(tilt) > 0.08) player.vx += tilt * MOVE * 1.15
+          else if (dragX === null) player.vx *= FRICTION
+          player.vx = Math.max(-MAX_VX, Math.min(MAX_VX, player.vx))
+          player.x += player.vx
+          if (player.vx > 0.4) player.face = 1
+          else if (player.vx < -0.4) player.face = -1
+
+          // wrap
+          if (player.x > W) player.x = -PLAYER_W
+          else if (player.x < -PLAYER_W) player.x = W
+
+          // vertical
+          player.vy += GRAVITY
+          player.y += player.vy
+
+          // camera + score
+          const limit = H * 0.38
+          if (player.y < limit) {
+            const d = limit - player.y
+            player.y = limit
+            camY += d
+            score = Math.max(score, Math.floor(camY / 4))
+            platforms.forEach((p) => (p.y += d))
+            particles.forEach((p) => (p.y += d))
+            spawnY += d
+            while (spawnY > -40) {
+              spawnY -= rand(58, 78 + difficulty * 22)
+              platforms.push(makePlatform(spawnY))
+            }
+          }
+
+          // platforms
+          for (const p of platforms) {
+            if (p.type === "moving" && !p.broken) {
+              p.x += p.dir * p.speed
+              if (p.x < 4 || p.x > W - PLAT_W - 4) p.dir *= -1
+            }
+            if (p.broken) {
+              p.fall += 0.7
+              p.y += p.fall
+            }
+
+            // collide: falling, feet crossing the platform top
+            if (!p.broken && player.vy > 0) {
+              const feet = player.y + PLAYER_H
+              if (
+                feet > p.y &&
+                feet < p.y + PLAT_H + player.vy &&
+                player.x + PLAYER_W - 8 > p.x &&
+                player.x + 8 < p.x + PLAT_W
+              ) {
+                player.y = p.y - PLAYER_H
+                player.vy = p.spring ? SPRING : JUMP
+                squash = p.spring ? 1.4 : 1
+                if (p.spring) {
+                  p.spring = false
+                  puff(p.x + PLAT_W / 2, p.y, "#e8b23a")
+                }
+                // breakables give you the bounce, then crumble away
+                if (p.type === "breakable") {
+                  p.broken = true
+                  puff(p.x + PLAT_W / 2, p.y, "#c98b5e")
+                }
+              }
+            }
+          }
+          platforms = platforms.filter((p) => p.y < H + 120)
+
+          // particles
+          for (const q of particles) {
+            q.x += q.vx
+            q.y += q.vy
+            q.vy += 0.18
+            q.life -= 0.03
+          }
+          particles = particles.filter((q) => q.life > 0)
+
+          squash *= 0.88
+          if (player.y > H + 40) gameOver()
+        }
+
+        // --- drawing ---
+        function drawPaper() {
+          ctx.fillStyle = "#fdf9ec"
+          ctx.fillRect(0, 0, W, H)
+          ctx.strokeStyle = "rgba(120,150,190,.22)"
+          ctx.lineWidth = 1
+          const off = (camY * 0.5) % 32
+          for (let y = off - 32; y < H; y += 32) {
+            ctx.beginPath()
+            ctx.moveTo(0, Math.round(y) + 0.5)
+            ctx.lineTo(W, Math.round(y) + 0.5)
+            ctx.stroke()
+          }
+          ctx.strokeStyle = "rgba(220,120,120,.35)"
+          ctx.beginPath()
+          ctx.moveTo(34.5, 0)
+          ctx.lineTo(34.5, H)
+          ctx.stroke()
+        }
+
+        function roundRect(x, y, w, h, r) {
+          ctx.beginPath()
+          ctx.moveTo(x + r, y)
+          ctx.arcTo(x + w, y, x + w, y + h, r)
+          ctx.arcTo(x + w, y + h, x, y + h, r)
+          ctx.arcTo(x, y + h, x, y, r)
+          ctx.arcTo(x, y, x + w, y, r)
+          ctx.closePath()
+        }
+
+        const PLAT_COLORS = {
+          normal: "#7fc24a",
+          moving: "#5aa9e6",
+          breakable: "#c98b5e",
+        }
+
+        function drawPlatform(p) {
+          ctx.save()
+          if (p.broken) {
+            ctx.globalAlpha = Math.max(0, 1 - p.fall / 14)
+            ctx.translate(0, 0)
+          }
+          // spring
+          if (p.spring) {
+            ctx.fillStyle = "#e8b23a"
+            ctx.strokeStyle = "#2f2a22"
+            ctx.lineWidth = 2.5
+            roundRect(p.x + PLAT_W / 2 - 8, p.y - 11, 16, 11, 3)
+            ctx.fill()
+            ctx.stroke()
+          }
+          ctx.fillStyle = PLAT_COLORS[p.type]
+          ctx.strokeStyle = "#2f2a22"
+          ctx.lineWidth = 2.5
+          roundRect(p.x, p.y, PLAT_W, PLAT_H, 6)
+          ctx.fill()
+          ctx.stroke()
+          // highlight
+          ctx.fillStyle = "rgba(255,255,255,.35)"
+          roundRect(p.x + 6, p.y + 3, PLAT_W - 12, 3.5, 2)
+          ctx.fill()
+          if (p.type === "breakable") {
+            ctx.strokeStyle = "rgba(47,42,34,.5)"
+            ctx.lineWidth = 1.5
+            ctx.beginPath()
+            ctx.moveTo(p.x + PLAT_W * 0.42, p.y + 1)
+            ctx.lineTo(p.x + PLAT_W * 0.52, p.y + PLAT_H - 1)
+            ctx.stroke()
+          }
+          ctx.restore()
+        }
+
+        function drawPlayer() {
+          const sq = squash
+          const w = PLAYER_W * (1 + sq * 0.18),
+            h = PLAYER_H * (1 - sq * 0.22)
+          const x = player.x + (PLAYER_W - w) / 2,
+            y = player.y + (PLAYER_H - h)
+
+          ctx.save()
+          ctx.translate(x + w / 2, y + h / 2)
+          ctx.scale(player.face, 1)
+          ctx.translate(-w / 2, -h / 2)
+
+          ctx.strokeStyle = "#2f2a22"
+          ctx.lineWidth = 2.5
+          // legs
+          ctx.fillStyle = "#5d9b3a"
+          roundRect(w * 0.18, h * 0.72, 9, 12, 4)
+          ctx.fill()
+          ctx.stroke()
+          roundRect(w * 0.58, h * 0.72, 9, 12, 4)
+          ctx.fill()
+          ctx.stroke()
+          // body
+          ctx.fillStyle = "#8bc34a"
+          roundRect(2, 4, w - 4, h - 10, 13)
+          ctx.fill()
+          ctx.stroke()
+          // snout
+          ctx.fillStyle = "#a5d66a"
+          roundRect(w * 0.52, h * 0.34, w * 0.46, h * 0.3, 9)
+          ctx.fill()
+          ctx.stroke()
+          // nostril
+          ctx.fillStyle = "#2f2a22"
+          ctx.beginPath()
+          ctx.arc(w * 0.88, h * 0.45, 1.9, 0, 6.284)
+          ctx.fill()
+          // eyes
+          ctx.fillStyle = "#fff"
+          ctx.beginPath()
+          ctx.ellipse(w * 0.42, h * 0.3, 6, 7, 0, 0, 6.284)
+          ctx.fill()
+          ctx.stroke()
+          ctx.fillStyle = "#2f2a22"
+          ctx.beginPath()
+          ctx.arc(w * 0.44, h * 0.31, 2.6, 0, 6.284)
+          ctx.fill()
+          ctx.restore()
+        }
+
+        function drawHUD() {
+          ctx.fillStyle = "#2f2a22"
+          ctx.font = "bold 28px 'Comic Sans MS', cursive, sans-serif"
+          ctx.textAlign = "left"
+          ctx.fillText(score, 16, 40)
+          if (best > 0) {
+            ctx.font = "14px 'Comic Sans MS', cursive, sans-serif"
+            ctx.globalAlpha = 0.5
+            ctx.fillText("best " + best, 16, 60)
+            ctx.globalAlpha = 1
+          }
+        }
+
+        function render() {
+          drawPaper()
+          for (const p of platforms) drawPlatform(p)
+          for (const q of particles) {
+            ctx.globalAlpha = Math.max(0, q.life)
+            ctx.fillStyle = q.color
+            ctx.fillRect(q.x - 2.5, q.y - 2.5, 5, 5)
+          }
+          ctx.globalAlpha = 1
+          if (state !== "start") drawPlayer()
+          if (state === "play") drawHUD()
+        }
+
+        reset()
+        // fixed 60Hz simulation so the feel is identical on 60/90/120Hz screens
+        const STEP = 1000 / 60
+        let last = performance.now(),
+          acc = 0
+        ;(function loop(now) {
+          acc += Math.min(now - last, 100) // clamp so a stall never fast-forwards
+          last = now
+          while (acc >= STEP) {
+            update()
+            acc -= STEP
+          }
+          render()
+          requestAnimationFrame(loop)
+        })(last)
+      })()
+    </script>
+  </body>
+</html>

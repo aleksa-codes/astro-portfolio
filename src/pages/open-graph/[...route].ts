@@ -15,6 +15,11 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       description:
         "Browse my portfolio of web development projects, including side projects and open source contributions built with modern tools and best practices.",
     },
+    arcade: {
+      title: "Arcade",
+      description:
+        "A collection of small browser games written entirely by AI models. Each one is a single HTML file, playable right here, with the model and prompt behind it.",
+    },
     blog: {
       title: "Blog",
       description:

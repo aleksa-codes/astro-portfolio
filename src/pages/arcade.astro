@@ -1,0 +1,166 @@
+---
+import GamePlayer from "@/components/game-player.astro"
+import PromptModal from "@/components/prompt-modal.astro"
+import Button from "@/components/ui/button.astro"
+import Card from "@/components/ui/card.astro"
+import { games } from "@/lib/games"
+import BaseLayout from "@/layouts/base-layout.astro"
+import { Icon } from "astro-icon/components"
+import { Image } from "astro:assets"
+
+const title = "Arcade"
+const description =
+  "A collection of small browser games written entirely by AI models. Each one is a single HTML file, playable right here, with the model and prompt behind it."
+const ogImage = new URL("/open-graph/arcade.png", Astro.site).toString()
+
+const sortedGames = [...games].sort((a, b) =>
+  (b.date ?? "").localeCompare(a.date ?? "")
+)
+---
+
+<BaseLayout {title} {description} {ogImage}>
+  <div class="flex flex-col gap-8">
+    <!-- Header -->
+    <div class="flex flex-col items-start">
+      <h1
+        class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl"
+      >
+        The <span
+          class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
+          >Arcade.</span
+        >
+      </h1>
+      <p
+        class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
+      >
+        An idea I sat on for a while, so I finally built it. Tiny games written
+        entirely by AI: one prompt, one HTML file, zero edits from me, playable
+        right here. Each card shows the model and the exact prompt behind it, so
+        you can watch them get better over time.
+      </p>
+    </div>
+
+    <!-- Games grid -->
+    <div class="grid gap-6 sm:grid-cols-2">
+      {
+        sortedGames.map((game, index) => (
+          <Card class="group p-0" contentClass="h-full">
+            {/* Thumbnail */}
+            <button
+              type="button"
+              class="relative block aspect-video w-full cursor-pointer overflow-hidden border-b border-border/50"
+              data-game-play
+              data-game-slug={game.slug}
+              data-game-file={game.file}
+              data-game-title={game.title}
+              data-game-model={game.model}
+              aria-label={`Play ${game.title}`}
+            >
+              {game.image ? (
+                <Image
+                  src={game.image}
+                  alt={game.title}
+                  sizes="(min-width: 768px) 384px, calc(100vw - 3rem)"
+                  priority={index < 2}
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+              ) : (
+                <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-secondary/40 to-secondary/10 transition-colors group-hover:from-secondary/60">
+                  <Icon
+                    name="lucide:gamepad-2"
+                    class="h-12 w-12 text-muted-foreground/30 transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+              )}
+              {/* Play overlay */}
+              <span class="absolute inset-0 flex items-center justify-center bg-background/60 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
+                <span class="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg">
+                  <Icon name="lucide:play" class="h-4 w-4" />
+                  Play
+                </span>
+              </span>
+            </button>
+
+            {/* Body */}
+            <div class="flex flex-1 flex-col gap-3 p-4">
+              <div class="flex items-start justify-between gap-3">
+                <h2 class="text-lg leading-tight font-semibold text-foreground md:text-xl">
+                  {game.title}
+                </h2>
+                <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                  <Icon name="lucide:sparkles" class="h-3.5 w-3.5" />
+                  {game.model}
+                </span>
+              </div>
+
+              <p class="text-sm leading-relaxed text-muted-foreground">
+                {game.description}
+              </p>
+
+              {game.tags && game.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2">
+                  {game.tags.map((tag) => (
+                    <span class="rounded-md border border-border bg-secondary/50 px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div class="mt-auto flex items-center gap-2 pt-1">
+                <Button
+                  size="sm"
+                  class="h-9 cursor-pointer"
+                  data-game-play
+                  data-game-slug={game.slug}
+                  data-game-file={game.file}
+                  data-game-title={game.title}
+                  data-game-model={game.model}
+                >
+                  <Icon name="lucide:play" class="h-4 w-4" />
+                  Play
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  href={game.file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="h-9"
+                  title="Open the raw HTML file in a new tab"
+                >
+                  <Icon name="lucide:external-link" class="h-4 w-4" />
+                  New tab
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  class="ml-auto h-9 cursor-pointer"
+                  data-prompt-open
+                  data-prompt={game.prompt}
+                  data-prompt-title={game.title}
+                  data-prompt-model={game.model}
+                >
+                  <Icon name="lucide:sparkles" class="h-4 w-4" />
+                  Prompt
+                </Button>
+              </div>
+            </div>
+          </Card>
+        ))
+      }
+    </div>
+
+    <p class="text-center text-sm text-muted-foreground">
+      More games get added whenever a model does something fun. Got an idea for
+      one? <a
+        href="/contact"
+        class="font-medium text-foreground underline underline-offset-4"
+        >Tell me</a
+      >.
+    </p>
+  </div>
+
+  <GamePlayer />
+  <PromptModal />
+</BaseLayout>

@@ -144,6 +144,7 @@ A fast, modern NBA dashboard presenting live standings, in-depth team statistics
 
 - **/** — Home page: hero, about section, tech stack, featured projects
 - **/projects** — Full projects portfolio
+- **/arcade** — Small browser games written entirely by AI, playable in the page, each card showing the model and prompt behind it
 - **/blog** — Blog listing (paginated, 4 posts per page)
 - **/blog/[slug]** — Individual blog post with reading progress bar and comments
 - **/contact** — Contact page with form and direct links (email, Discord, GitHub)

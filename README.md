@@ -14,6 +14,7 @@ Personal portfolio and blog built with Astro 7, Tailwind CSS 4, and TypeScript.
 - **Astro 7** 🌌 Static-first with hybrid SSR for the AI chat endpoint
 - **Tailwind CSS 4** 🎨 Vite plugin, CSS-only config, shadcn-style oklch design tokens
 - **Markdown Blog** 📝 Content collections, pagination, reading time, Giscus comments
+- **Arcade** 🕹️ AI-written single-file browser games, playable in-page with the model and prompt behind each one
 - **AI Chat** 🤖 Groq-powered streaming assistant with follow-up questions and daily rate limits
 - **OG Images** 🖼️ Auto-generated at build time via `astro-og-canvas`
 - **Decap CMS** ⚙️ Git-based headless CMS at `/admin`

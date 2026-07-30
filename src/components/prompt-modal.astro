@@ -1,0 +1,117 @@
+---
+import { Icon } from "astro-icon/components"
+---
+
+<div
+  id="prompt-modal"
+  class="fixed inset-0 z-100 hidden items-center justify-center bg-background/70 p-4 backdrop-blur-md"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="prompt-modal-title"
+>
+  <div
+    id="prompt-modal-panel"
+    class="flex max-h-[85dvh] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+  >
+    <!-- Header -->
+    <div class="flex items-start gap-3 border-b border-border px-4 py-3">
+      <div class="min-w-0 flex-1">
+        <h2
+          id="prompt-modal-title"
+          class="truncate text-base font-semibold text-foreground"
+        >
+        </h2>
+        <span
+          id="prompt-modal-model"
+          class="mt-1 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
+        >
+        </span>
+      </div>
+      <button
+        id="prompt-modal-close"
+        type="button"
+        title="Close (Esc)"
+        aria-label="Close"
+        class="-mr-1 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+      >
+        <Icon name="lucide:x" class="h-5 w-5" />
+      </button>
+    </div>
+
+    <!-- Prompt body -->
+    <div class="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+      <p
+        id="prompt-modal-text"
+        class="font-mono text-xs leading-relaxed whitespace-pre-wrap text-muted-foreground sm:text-[13px]"
+      >
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex justify-end border-t border-border px-4 py-3">
+      <button
+        id="prompt-modal-copy"
+        type="button"
+        class="inline-flex cursor-pointer items-center gap-2 rounded-md border border-input px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+      >
+        <Icon name="lucide:copy" class="h-4 w-4" />
+        <span id="prompt-modal-copy-label">Copy prompt</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById("prompt-modal")!
+  const panel = document.getElementById("prompt-modal-panel")!
+  const titleEl = document.getElementById("prompt-modal-title")!
+  const modelEl = document.getElementById("prompt-modal-model")!
+  const textEl = document.getElementById("prompt-modal-text")!
+  const copyBtn = document.getElementById("prompt-modal-copy")!
+  const copyLabel = document.getElementById("prompt-modal-copy-label")!
+
+  let open = false
+  let current = ""
+
+  function show(btn: HTMLElement) {
+    current = btn.dataset.prompt ?? ""
+    titleEl.textContent = btn.dataset.promptTitle ?? ""
+    modelEl.textContent = btn.dataset.promptModel ?? ""
+    textEl.textContent = current
+    copyLabel.textContent = "Copy prompt"
+    modal.classList.remove("hidden")
+    modal.classList.add("flex")
+    document.body.style.overflow = "hidden"
+    open = true
+    copyBtn.focus()
+  }
+
+  function hide() {
+    if (!open) return
+    modal.classList.add("hidden")
+    modal.classList.remove("flex")
+    document.body.style.overflow = ""
+    open = false
+  }
+
+  document
+    .querySelectorAll<HTMLElement>("[data-prompt-open]")
+    .forEach((btn) => btn.addEventListener("click", () => show(btn)))
+
+  document.getElementById("prompt-modal-close")!.addEventListener("click", hide)
+
+  // click outside the panel closes
+  modal.addEventListener("click", (e) => {
+    if (!panel.contains(e.target as Node)) hide()
+  })
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && open) hide()
+  })
+
+  copyBtn.addEventListener("click", async () => {
+    await navigator.clipboard.writeText(current)
+    copyLabel.textContent = "Copied!"
+    setTimeout(() => (copyLabel.textContent = "Copy prompt"), 1500)
+  })
+</script>
