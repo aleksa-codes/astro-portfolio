@@ -1,0 +1,1226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>DX-Ball</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #05060f;
+        color: #dfe7f5;
+        font-family: "Press Start 2P", "Courier New", monospace;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: none;
+      }
+      #wrap {
+        position: relative;
+        width: 100vw;
+        height: 100dvh;
+        overflow: hidden;
+        background: #05060f;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      /* CRT finish: fine scanlines + vignette, kept low so the field stays readable */
+      #crt {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.17) 0 1px,
+          rgba(0, 0, 0, 0) 1px 3px
+        );
+        box-shadow:
+          inset 0 0 90px rgba(0, 0, 0, 0.7),
+          inset 0 0 180px rgba(0, 0, 0, 0.45);
+      }
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        text-align: center;
+        padding: 22px;
+        background: rgba(4, 6, 16, 0.88);
+        backdrop-filter: blur(3px);
+      }
+      .overlay.hidden {
+        display: none;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(22px, 7vh, 44px);
+        line-height: 1.3;
+        letter-spacing: 2px;
+      }
+      h1 .dx {
+        color: #ffd21e;
+        text-shadow:
+          0 0 10px rgba(255, 210, 30, 0.65),
+          3px 3px 0 #7a4a00;
+      }
+      h1 .ball {
+        color: #57c8ff;
+        text-shadow:
+          0 0 12px rgba(87, 200, 255, 0.7),
+          3px 3px 0 #093a5c;
+      }
+      h1 .dash {
+        color: #6a7691;
+      }
+      .tag {
+        margin: 0;
+        font-size: clamp(16px, 4.4vh, 26px);
+        color: #ff5a45;
+        letter-spacing: 2px;
+        text-shadow:
+          0 0 12px rgba(255, 90, 69, 0.6),
+          3px 3px 0 #591008;
+      }
+      .sub {
+        margin: 0;
+        font-size: clamp(8px, 1.9vh, 11px);
+        line-height: 2;
+        color: #9fb0cc;
+        max-width: 34ch;
+      }
+      .score-big {
+        font-size: clamp(26px, 7vh, 44px);
+        color: #fff;
+        text-shadow: 0 0 14px rgba(120, 190, 255, 0.5);
+        line-height: 1;
+      }
+      .best,
+      .reached {
+        font-size: clamp(8px, 1.9vh, 11px);
+        color: #7f8fab;
+        letter-spacing: 1px;
+      }
+      button {
+        font-family: inherit;
+        font-size: clamp(10px, 2.3vh, 14px);
+        letter-spacing: 1px;
+        padding: 15px 26px;
+        color: #06121e;
+        background: linear-gradient(#7fd0ff, #2f8ed6 55%, #1f6aa8);
+        border: 3px solid;
+        border-color: #bfe8ff #0d3f68 #0d3f68 #bfe8ff;
+        border-radius: 4px;
+        cursor: pointer;
+        box-shadow: 0 5px 0 #072438;
+        transition:
+          transform 0.07s,
+          box-shadow 0.07s;
+      }
+      button:active {
+        transform: translateY(5px);
+        box-shadow: 0 0 0 #072438;
+      }
+      .keys {
+        margin: 0;
+        font-size: clamp(7px, 1.5vh, 9px);
+        line-height: 2.1;
+        color: #62718c;
+        letter-spacing: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrap">
+      <canvas id="c"></canvas>
+      <div id="crt"></div>
+
+      <div id="start" class="overlay">
+        <h1>
+          <span class="dx">DX</span><span class="dash">-</span
+          ><span class="ball">BALL</span>
+        </h1>
+        <p class="sub">Clear every brick. Don't drop the ball.</p>
+        <button id="startBtn">PLAY</button>
+        <p class="keys">
+          MOUSE OR ARROW KEYS TO MOVE &middot; SPACE TO LAUNCH<br />
+          DRAG TO MOVE, TAP TO LAUNCH ON MOBILE
+        </p>
+      </div>
+
+      <div id="over" class="overlay hidden">
+        <p class="tag">GAME OVER</p>
+        <div class="score-big" id="finalScore">0</div>
+        <div class="reached" id="reached">LEVEL 1</div>
+        <div class="best" id="bestScore">BEST 0</div>
+        <button id="againBtn">PLAY AGAIN</button>
+        <p class="keys">SPACE TO RESTART</p>
+      </div>
+
+      <div id="pause" class="overlay hidden">
+        <p class="tag">PAUSED</p>
+        <button id="resumeBtn">RESUME</button>
+        <p class="keys">P TO RESUME</p>
+      </div>
+    </div>
+
+    <script>
+      ;(() => {
+        const wrap = document.getElementById("wrap")
+        const canvas = document.getElementById("c")
+        const ctx = canvas.getContext("2d")
+        const startEl = document.getElementById("start")
+        const overEl = document.getElementById("over")
+        const pauseEl = document.getElementById("pause")
+
+        const clamp = (v, a, b) => (v < a ? a : v > b ? b : v)
+        const rand = (a, b) => a + Math.random() * (b - a)
+
+        // ---------------------------------------------------------------
+        // bricks
+        // ---------------------------------------------------------------
+        const COLS = 12
+        const BRICKS = {
+          1: { color: "#e8402a", pts: 70 },
+          2: { color: "#ff8c1a", pts: 60 },
+          3: { color: "#ffd21e", pts: 50 },
+          4: { color: "#3ddc55", pts: 40 },
+          5: { color: "#2ea8ff", pts: 30 },
+          6: { color: "#c563ff", pts: 20 },
+          S: { color: "#b9c4d0", pts: 130, hits: 2 },
+          G: { color: "#e0a625", pts: 0, solid: true },
+        }
+
+        // ten hand-built layouts; after the last one they repeat, faster
+        const LEVELS = [
+          ["111111111111", "222222222222", "333333333333", "444444444444"],
+          [
+            ".....11.....",
+            "....2222....",
+            "...333333...",
+            "..44444444..",
+            ".5555555555.",
+            "666666666666",
+          ],
+          [
+            "1.1.1.1.1.1.",
+            ".2.2.2.2.2.2",
+            "3.3.3.3.3.3.",
+            ".4.4.4.4.4.4",
+            "5.5.5.5.5.5.",
+            ".6.6.6.6.6.6",
+          ],
+          [
+            "11111..11111",
+            "22222..22222",
+            "33333..33333",
+            "44444..44444",
+            "55555SS55555",
+          ],
+          [
+            ".....11.....",
+            "....1221....",
+            "...123321...",
+            "..12344321..",
+            "...123321...",
+            "....1221....",
+            ".....11.....",
+          ],
+          [
+            "...555555...",
+            "..55....55..",
+            ".55......55.",
+            "55........55",
+            "4..........4",
+            "4..........4",
+          ],
+          [
+            "1122........",
+            "..2233......",
+            "....3344....",
+            "......4455..",
+            "........5566",
+            "......4455..",
+            "....3344....",
+            "..2233......",
+          ],
+          [
+            "GGGGGGGGGGGG",
+            "G1........1G",
+            "G1.SSSSSS.1G",
+            "G2.S2222S.2G",
+            "G2.SSSSSS.2G",
+            "G3........3G",
+            "G3333333333G",
+          ],
+          [
+            "..66666666..",
+            ".6........6.",
+            "6..11..11..6",
+            "6..11..11..6",
+            "6..........6",
+            "6.5......5.6",
+            ".6.555555.6.",
+            "..66666666..",
+          ],
+          [
+            "S..........S",
+            ".S...11...S.",
+            "..S.1221.S..",
+            "...S2332S...",
+            "..S.3443.S..",
+            ".S...44...S.",
+            "S..........S",
+          ],
+        ]
+
+        // ---------------------------------------------------------------
+        // layout — every dimension is derived from the frame we are in,
+        // so the field is wide on a desktop and tall on a phone with no
+        // letterboxing either way
+        // ---------------------------------------------------------------
+        let W = 480,
+          H = 660
+        let WALL,
+          HUD_H,
+          CELL_W,
+          ROW_H,
+          BRICK_W,
+          BRICK_H,
+          GRID_TOP,
+          BEVEL,
+          PAD_H,
+          PAD_W,
+          PAD_WIDE,
+          PAD_Y,
+          PAD_KEY_SPEED,
+          BALL_R,
+          HUD_FONT,
+          UNIT,
+          nebula
+
+        function computeSize() {
+          const r = wrap.getBoundingClientRect()
+          const ar = Math.max(0.2, r.width || 1) / Math.max(1, r.height || 1)
+          const AREA = 480 * 660
+          // keep a roughly constant playfield area, matching the frame's
+          // aspect exactly so nothing is ever stretched
+          let w = Math.round(Math.sqrt(AREA * ar))
+          let h = Math.round(Math.sqrt(AREA / ar))
+          if (w < 420) ((w = 420), (h = Math.round(w / ar)))
+          if (w > 940) ((w = 940), (h = Math.round(w / ar)))
+          if (h < 420) ((h = 420), (w = Math.round(h * ar)))
+          if (h > 1100) ((h = 1100), (w = Math.round(h * ar)))
+          return { w, h }
+        }
+
+        function layout() {
+          const oldW = W,
+            oldH = H
+          const s = computeSize()
+          W = s.w
+          H = s.h
+
+          const dpr = Math.min(window.devicePixelRatio || 1, 2)
+          canvas.width = Math.round(W * dpr)
+          canvas.height = Math.round(H * dpr)
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+          WALL = Math.round(clamp(W * 0.017, 6, 12))
+          HUD_H = Math.round(clamp(H * 0.068, 32, 52))
+          HUD_FONT = clamp(W * 0.021, 8, 13)
+          CELL_W = (W - WALL * 2) / COLS
+          // chunkier rows on a tall field, so the brick wall never shrinks
+          // to a thin band the ball has to travel miles to reach
+          ROW_H = clamp(Math.max(CELL_W * 0.44, H * 0.028), 15, 34)
+          BRICK_W = CELL_W - Math.max(2, CELL_W * 0.07)
+          BRICK_H = ROW_H - Math.max(2, ROW_H * 0.16)
+          BEVEL = clamp(BRICK_H * 0.22, 3, 6)
+          GRID_TOP = HUD_H + ROW_H * 0.7
+
+          PAD_H = clamp(H * 0.022, 11, 18)
+          PAD_W = clamp(W * 0.17, 62, 150)
+          PAD_WIDE = PAD_W * 1.55
+          PAD_Y = H - PAD_H - clamp(H * 0.055, 26, 62)
+          BALL_R = clamp(W * 0.0135, 5, 10)
+          // speed is expressed against a 620-tall reference field, so the
+          // ball takes the same time to cross a short wide desktop field
+          // as a tall narrow phone one
+          UNIT = H / 620
+          PAD_KEY_SPEED = 11 * UNIT
+
+          nebula = ctx.createRadialGradient(
+            W * 0.5,
+            H * 0.34,
+            0,
+            W * 0.5,
+            H * 0.34,
+            Math.max(W, H) * 0.75
+          )
+          nebula.addColorStop(0, "rgba(40, 72, 150, .34)")
+          nebula.addColorStop(0.45, "rgba(26, 30, 92, .18)")
+          nebula.addColorStop(1, "rgba(5, 6, 15, 0)")
+
+          if (oldW !== W || oldH !== H) rescale(oldW, oldH)
+        }
+
+        // keep a game in progress consistent when the frame changes size
+        function rescale(oldW, oldH) {
+          const sx = W / oldW,
+            sy = H / oldH
+          for (const b of balls) {
+            b.x *= sx
+            b.y = clamp(b.y * sy, HUD_H + BALL_R, H + 40)
+            b.vx *= sx
+            b.vy *= sy
+            normalize(b, targetSpeed())
+          }
+          for (const p of caps) {
+            p.x *= sx
+            p.y *= sy
+          }
+          paddle.x *= sx
+          paddle.w = paddle.wide > 0 ? PAD_WIDE : PAD_W
+          clampPaddle()
+        }
+
+        // ---------------------------------------------------------------
+        // state
+        // ---------------------------------------------------------------
+        const BEST_KEY = "dxball-best"
+        let best = +(localStorage.getItem(BEST_KEY) || 0)
+
+        let state = "start" // start | serve | play | clear | paused | over
+        let prevState = "play"
+        let bricks = [],
+          balls = [],
+          caps = [],
+          bits = []
+        let paddle = { x: 0, w: 80, wide: 0 }
+        let paddleVX = 0,
+          lastPaddleX = 0
+        let score,
+          lives,
+          levelIndex,
+          cycle,
+          combo,
+          nextExtra,
+          clearT,
+          banner,
+          shake
+
+        const paddleCx = () => paddle.x + paddle.w / 2
+        function clampPaddle() {
+          paddle.x = clamp(paddle.x, WALL, W - WALL - paddle.w)
+        }
+        function setPaddleCx(cx) {
+          paddle.x = cx - paddle.w / 2
+          clampPaddle()
+        }
+
+        const levelNumber = () => cycle * LEVELS.length + levelIndex + 1
+
+        function targetSpeed() {
+          const total = bricks.filter((b) => !BRICKS[b.t].solid).length || 1
+          const gone = bricks.filter((b) => b.dead && !BRICKS[b.t].solid).length
+          const base = 7.2 * Math.pow(1.08, cycle) + levelIndex * 0.2
+          return clamp(base + (gone / total) * 2, 5, 16) * UNIT
+        }
+
+        function normalize(b, sp) {
+          const m = Math.hypot(b.vx, b.vy) || 1
+          b.vx = (b.vx / m) * sp
+          b.vy = (b.vy / m) * sp
+        }
+
+        function loadLevel() {
+          bricks = []
+          const pat = LEVELS[levelIndex]
+          for (let r = 0; r < pat.length; r++) {
+            for (let c = 0; c < COLS; c++) {
+              const t = pat[r][c]
+              const def = BRICKS[t]
+              if (!def) continue
+              const hp = def.hits ? Math.min(def.hits + cycle, 4) : 1
+              bricks.push({ c, r, t, hp, max: hp, dead: false, flash: 0 })
+            }
+          }
+        }
+
+        const brickX = (b) => WALL + b.c * CELL_W + (CELL_W - BRICK_W) / 2
+        const brickY = (b) => GRID_TOP + b.r * ROW_H
+
+        function serveBall() {
+          balls = [
+            {
+              x: paddleCx(),
+              y: PAD_Y - BALL_R - 1,
+              vx: 0,
+              vy: 0,
+              stuck: true,
+              trail: [],
+            },
+          ]
+          state = "serve"
+        }
+
+        function launch() {
+          const b = balls[0]
+          if (!b || !b.stuck) return
+          b.stuck = false
+          b.vx = rand(-0.45, 0.45)
+          b.vy = -1
+          normalize(b, targetSpeed())
+          state = "play"
+        }
+
+        function reset() {
+          score = 0
+          lives = 3
+          levelIndex = 0
+          cycle = 0
+          combo = 0
+          nextExtra = 20000
+          clearT = 0
+          shake = 0
+          caps = []
+          bits = []
+          paddle = { x: 0, w: PAD_W, wide: 0 }
+          setPaddleCx(W / 2)
+          loadLevel()
+          banner = { text: "LEVEL " + levelNumber(), t: 70 }
+          serveBall()
+        }
+
+        function begin() {
+          reset()
+          startEl.classList.add("hidden")
+          overEl.classList.add("hidden")
+          pauseEl.classList.add("hidden")
+        }
+
+        function gameOver() {
+          state = "over"
+          best = Math.max(best, score)
+          try {
+            localStorage.setItem(BEST_KEY, best)
+          } catch (e) {}
+          document.getElementById("finalScore").textContent = score
+          document.getElementById("reached").textContent =
+            "REACHED LEVEL " + levelNumber()
+          document.getElementById("bestScore").textContent = "BEST " + best
+          overEl.classList.remove("hidden")
+        }
+
+        function nextLevel() {
+          levelIndex++
+          if (levelIndex >= LEVELS.length) {
+            levelIndex = 0
+            cycle++
+          }
+          caps = []
+          paddle.wide = 0
+          paddle.w = PAD_W
+          clampPaddle()
+          loadLevel()
+          banner = { text: "LEVEL " + levelNumber(), t: 70 }
+          serveBall()
+        }
+
+        function loseLife() {
+          lives--
+          combo = 0
+          caps = []
+          paddle.wide = 0
+          paddle.w = PAD_W
+          clampPaddle()
+          shake = 12
+          if (lives < 0) gameOver()
+          else serveBall()
+        }
+
+        function addScore(n) {
+          score += n
+          while (score >= nextExtra) {
+            lives++
+            nextExtra += 20000
+            banner = { text: "EXTRA LIFE", t: 60 }
+          }
+        }
+
+        // ---------------------------------------------------------------
+        // effects
+        // ---------------------------------------------------------------
+        function burst(x, y, color, n) {
+          for (let i = 0; i < n; i++)
+            bits.push({
+              x,
+              y,
+              vx: rand(-2.6, 2.6),
+              vy: rand(-3, 1.2),
+              life: 1,
+              color,
+              s: rand(1.6, 3.6),
+            })
+        }
+
+        // ---------------------------------------------------------------
+        // collisions
+        // ---------------------------------------------------------------
+        function hitBricks(b) {
+          for (const br of bricks) {
+            if (br.dead) continue
+            const bx = brickX(br),
+              by = brickY(br)
+            if (
+              b.x + BALL_R < bx ||
+              b.x - BALL_R > bx + BRICK_W ||
+              b.y + BALL_R < by ||
+              b.y - BALL_R > by + BRICK_H
+            )
+              continue
+
+            const leftSide = b.x < bx + BRICK_W / 2
+            const topSide = b.y < by + BRICK_H / 2
+            const ox = leftSide
+              ? b.x + BALL_R - bx
+              : bx + BRICK_W - (b.x - BALL_R)
+            const oy = topSide
+              ? b.y + BALL_R - by
+              : by + BRICK_H - (b.y - BALL_R)
+
+            if (ox < oy) {
+              b.vx = -b.vx
+              b.x += leftSide ? -ox : ox
+            } else {
+              b.vy = -b.vy
+              b.y += topSide ? -oy : oy
+            }
+
+            damage(br, bx, by)
+            return
+          }
+        }
+
+        function damage(br, bx, by) {
+          const def = BRICKS[br.t]
+          br.flash = 1
+          if (def.solid) {
+            burst(bx + BRICK_W / 2, by + BRICK_H / 2, "#ffe9a8", 4)
+            shake = Math.max(shake, 3)
+            return
+          }
+          br.hp--
+          if (br.hp > 0) {
+            burst(bx + BRICK_W / 2, by + BRICK_H / 2, def.color, 4)
+            addScore(20)
+            return
+          }
+          br.dead = true
+          combo++
+          const mult = Math.min(1 + (combo - 1) * 0.15, 3)
+          addScore(Math.round(def.pts * (1 + cycle * 0.25) * mult))
+          burst(bx + BRICK_W / 2, by + BRICK_H / 2, def.color, 12)
+          maybeDrop(bx + BRICK_W / 2, by + BRICK_H / 2)
+
+          if (!bricks.some((x) => !x.dead && !BRICKS[x.t].solid)) {
+            state = "clear"
+            clearT = 100
+            banner = { text: "LEVEL CLEAR", t: 100 }
+          }
+        }
+
+        function maybeDrop(x, y) {
+          if (caps.length >= 2) return
+          if (Math.random() > 0.12) return
+          caps.push({
+            x,
+            y,
+            kind: Math.random() < 0.5 ? "M" : "W",
+            vy: 1.9 * UNIT,
+            spin: 0,
+          })
+        }
+
+        function hitPaddle(b) {
+          if (b.vy <= 0) return
+          if (b.y + BALL_R < PAD_Y || b.y - BALL_R > PAD_Y + PAD_H) return
+          if (b.x < paddle.x - BALL_R || b.x > paddle.x + paddle.w + BALL_R)
+            return
+
+          b.y = PAD_Y - BALL_R
+          combo = 0
+          // deflection comes from where you hit the paddle, ±60°,
+          // plus a little english from how fast the paddle is moving
+          const off = clamp((b.x - paddleCx()) / (paddle.w / 2), -1, 1)
+          const english = clamp(paddleVX / (11 * UNIT), -1, 1) * 0.2
+          const a = clamp(off * (Math.PI / 3) + english, -1.2, 1.2)
+          const sp = targetSpeed()
+          b.vx = Math.sin(a) * sp
+          b.vy = -Math.cos(a) * sp
+          // never perfectly vertical, or a ball that has punched a tunnel
+          // would bounce up and down through it forever
+          const minVx = sp * 0.09
+          if (Math.abs(b.vx) < minVx) {
+            const dir =
+              b.vx !== 0 ? Math.sign(b.vx) : Math.random() < 0.5 ? -1 : 1
+            b.vx = dir * minVx
+            b.vy = -Math.sqrt(Math.max(1e-6, sp * sp - b.vx * b.vx))
+          }
+        }
+
+        function stepBall(b) {
+          if (b.stuck) {
+            b.x = paddleCx()
+            b.y = PAD_Y - BALL_R - 1
+            return
+          }
+          const sp = Math.hypot(b.vx, b.vy)
+          const n = Math.max(1, Math.ceil(sp / Math.max(3, BALL_R * 0.8)))
+          for (let i = 0; i < n; i++) {
+            b.x += b.vx / n
+            b.y += b.vy / n
+
+            if (b.x - BALL_R < WALL) {
+              b.x = WALL + BALL_R
+              b.vx = Math.abs(b.vx)
+            } else if (b.x + BALL_R > W - WALL) {
+              b.x = W - WALL - BALL_R
+              b.vx = -Math.abs(b.vx)
+            }
+            if (b.y - BALL_R < HUD_H) {
+              b.y = HUD_H + BALL_R
+              b.vy = Math.abs(b.vy)
+            }
+
+            hitBricks(b)
+            hitPaddle(b)
+
+            if (b.y - BALL_R > H) {
+              b.dead = true
+              return
+            }
+          }
+          b.trail.push({ x: b.x, y: b.y })
+          if (b.trail.length > 7) b.trail.shift()
+        }
+
+        function multiBall() {
+          // a capsule caught while still waiting to serve launches first,
+          // otherwise the copies would inherit a zero velocity
+          if (state === "serve") launch()
+          const src = balls.filter((b) => !b.dead && !b.stuck)
+          for (const b of src) {
+            if (balls.length >= 6) break
+            for (const a of [-0.42, 0.42]) {
+              if (balls.length >= 6) break
+              const c = Math.cos(a),
+                s = Math.sin(a)
+              balls.push({
+                x: b.x,
+                y: b.y,
+                vx: b.vx * c - b.vy * s,
+                vy: b.vx * s + b.vy * c,
+                stuck: false,
+                trail: [],
+              })
+            }
+          }
+        }
+
+        function catchCap(p) {
+          if (p.kind === "M") multiBall()
+          else {
+            paddle.wide = 20 * 60
+            banner = { text: "WIDE PADDLE", t: 50 }
+          }
+          burst(p.x, p.y, p.kind === "M" ? "#57c8ff" : "#3ddc55", 10)
+          addScore(150)
+        }
+
+        // ---------------------------------------------------------------
+        // update
+        // ---------------------------------------------------------------
+        function update() {
+          if (banner && banner.t > 0) banner.t--
+          if (shake > 0) shake *= 0.86
+          for (const q of bits) {
+            q.x += q.vx
+            q.y += q.vy
+            q.vy += 0.16
+            q.life -= 0.028
+          }
+          bits = bits.filter((q) => q.life > 0)
+          for (const br of bricks) if (br.flash > 0) br.flash -= 0.14
+
+          if (state === "clear") {
+            if (--clearT <= 0) nextLevel()
+            return
+          }
+          if (state !== "play" && state !== "serve") return
+
+          // paddle
+          if (keys.arrowleft || keys.a) paddle.x -= PAD_KEY_SPEED
+          if (keys.arrowright || keys.d) paddle.x += PAD_KEY_SPEED
+          clampPaddle()
+
+          const want = paddle.wide > 0 ? PAD_WIDE : PAD_W
+          if (Math.abs(paddle.w - want) > 0.5) {
+            const cx = paddleCx()
+            paddle.w += (want - paddle.w) * 0.2
+            setPaddleCx(cx)
+          }
+          if (paddle.wide > 0) paddle.wide--
+
+          // includes movement from pointer events since the last tick
+          paddleVX = paddle.x - lastPaddleX
+          lastPaddleX = paddle.x
+
+          for (const b of balls) stepBall(b)
+          balls = balls.filter((b) => !b.dead)
+
+          // capsules
+          for (const p of caps) {
+            p.y += p.vy
+            p.spin += 0.09
+            if (
+              p.y + 9 > PAD_Y &&
+              p.y - 9 < PAD_Y + PAD_H &&
+              p.x > paddle.x - 10 &&
+              p.x < paddle.x + paddle.w + 10
+            ) {
+              p.gone = true
+              catchCap(p)
+            } else if (p.y - 12 > H) p.gone = true
+          }
+          caps = caps.filter((p) => !p.gone)
+
+          if (state === "play" && balls.length === 0) loseLife()
+        }
+
+        // ---------------------------------------------------------------
+        // input
+        // ---------------------------------------------------------------
+        const keys = {}
+        function action() {
+          if (state === "start" || state === "over") begin()
+          else if (state === "serve") launch()
+        }
+
+        addEventListener("keydown", (e) => {
+          const k = e.key.toLowerCase()
+          keys[k] = true
+          if (k === " ") {
+            e.preventDefault()
+            action()
+          }
+          if (k === "p") setPaused(state !== "paused")
+          if (k === "arrowleft" || k === "arrowright") e.preventDefault()
+        })
+        addEventListener("keyup", (e) => (keys[e.key.toLowerCase()] = false))
+
+        const toGameX = (clientX) => {
+          const r = canvas.getBoundingClientRect()
+          return ((clientX - r.left) / r.width) * W
+        }
+
+        let dragging = false,
+          grabOff = 0,
+          moved = false
+        canvas.addEventListener("pointerdown", (e) => {
+          canvas.setPointerCapture(e.pointerId)
+          dragging = true
+          moved = false
+          // keep the paddle where it is relative to the finger so it
+          // never jumps out from under you
+          grabOff = paddleCx() - toGameX(e.clientX)
+          if (Math.abs(grabOff) > paddle.w / 2) grabOff = 0
+        })
+        canvas.addEventListener("pointermove", (e) => {
+          const gx = toGameX(e.clientX)
+          if (dragging) {
+            moved = true
+            setPaddleCx(gx + grabOff)
+          } else if (e.pointerType === "mouse") {
+            setPaddleCx(gx)
+          }
+        })
+        const endDrag = () => {
+          if (!dragging) return
+          dragging = false
+          if (!moved) action()
+        }
+        canvas.addEventListener("pointerup", endDrag)
+        canvas.addEventListener("pointercancel", () => (dragging = false))
+
+        function setPaused(on) {
+          if (on) {
+            if (state !== "play" && state !== "serve") return
+            prevState = state
+            state = "paused"
+            pauseEl.classList.remove("hidden")
+          } else {
+            if (state !== "paused") return
+            state = prevState
+            pauseEl.classList.add("hidden")
+          }
+        }
+        document.getElementById("startBtn").onclick = begin
+        document.getElementById("againBtn").onclick = begin
+        document.getElementById("resumeBtn").onclick = () => setPaused(false)
+        addEventListener("blur", () => setPaused(true))
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) setPaused(true)
+        })
+
+        // ---------------------------------------------------------------
+        // drawing
+        // ---------------------------------------------------------------
+        const stars = Array.from({ length: 110 }, () => ({
+          nx: Math.random(),
+          ny: Math.random(),
+          r: rand(0.5, 1.5),
+          a: rand(0.25, 0.9),
+          tw: rand(0.6, 2.2),
+          ph: rand(0, 6.28),
+        }))
+
+        function roundRect(x, y, w, h, r) {
+          ctx.beginPath()
+          ctx.moveTo(x + r, y)
+          ctx.arcTo(x + w, y, x + w, y + h, r)
+          ctx.arcTo(x + w, y + h, x, y + h, r)
+          ctx.arcTo(x, y + h, x, y, r)
+          ctx.arcTo(x, y, x + w, y, r)
+          ctx.closePath()
+        }
+
+        function drawSpace(t) {
+          ctx.fillStyle = "#05060f"
+          ctx.fillRect(0, 0, W, H)
+          ctx.fillStyle = nebula
+          ctx.fillRect(0, 0, W, H)
+          for (const s of stars) {
+            const a = s.a * (0.55 + 0.45 * Math.sin(t * s.tw + s.ph))
+            ctx.globalAlpha = Math.max(0, a)
+            ctx.fillStyle = "#dceaff"
+            ctx.fillRect(s.nx * W, HUD_H + s.ny * (H - HUD_H), s.r, s.r)
+          }
+          ctx.globalAlpha = 1
+        }
+
+        function drawWalls() {
+          const g = ctx.createLinearGradient(0, 0, WALL, 0)
+          g.addColorStop(0, "#4b5a78")
+          g.addColorStop(0.5, "#8ea3c6")
+          g.addColorStop(1, "#26314a")
+          ctx.fillStyle = g
+          ctx.fillRect(0, HUD_H, WALL, H - HUD_H)
+          const g2 = ctx.createLinearGradient(W - WALL, 0, W, 0)
+          g2.addColorStop(0, "#26314a")
+          g2.addColorStop(0.5, "#8ea3c6")
+          g2.addColorStop(1, "#4b5a78")
+          ctx.fillStyle = g2
+          ctx.fillRect(W - WALL, HUD_H, WALL, H - HUD_H)
+        }
+
+        function shade(hex, amt) {
+          const n = parseInt(hex.slice(1), 16)
+          const r = clamp(((n >> 16) & 255) + amt, 0, 255)
+          const g = clamp(((n >> 8) & 255) + amt, 0, 255)
+          const b = clamp((n & 255) + amt, 0, 255)
+          return `rgb(${r | 0},${g | 0},${b | 0})`
+        }
+
+        function drawBrick(br) {
+          const def = BRICKS[br.t]
+          const x = brickX(br),
+            y = brickY(br),
+            w = BRICK_W,
+            h = BRICK_H
+          // damaged silver darkens as it takes hits
+          const wear = br.max > 1 ? (br.hp - 1) / (br.max - 1) : 1
+          const base =
+            br.max > 1 ? shade(def.color, -48 + 48 * wear) : def.color
+
+          ctx.fillStyle = base
+          ctx.fillRect(x, y, w, h)
+
+          const b = BEVEL
+          ctx.fillStyle = "rgba(255,255,255,.42)"
+          ctx.beginPath()
+          ctx.moveTo(x, y)
+          ctx.lineTo(x + w, y)
+          ctx.lineTo(x + w - b, y + b)
+          ctx.lineTo(x + b, y + b)
+          ctx.lineTo(x + b, y + h - b)
+          ctx.lineTo(x, y + h)
+          ctx.closePath()
+          ctx.fill()
+
+          ctx.fillStyle = "rgba(0,0,0,.42)"
+          ctx.beginPath()
+          ctx.moveTo(x + w, y)
+          ctx.lineTo(x + w, y + h)
+          ctx.lineTo(x, y + h)
+          ctx.lineTo(x + b, y + h - b)
+          ctx.lineTo(x + w - b, y + h - b)
+          ctx.lineTo(x + w - b, y + b)
+          ctx.closePath()
+          ctx.fill()
+
+          if (def.solid) {
+            ctx.fillStyle = "rgba(255,255,255,.5)"
+            ctx.fillRect(x + b + 1, y + h * 0.42, w - b * 2 - 2, 1.5)
+          }
+          if (br.max > 1 && br.hp < br.max) {
+            ctx.strokeStyle = "rgba(0,0,0,.55)"
+            ctx.lineWidth = 1
+            ctx.beginPath()
+            ctx.moveTo(x + w * 0.34, y + 2)
+            ctx.lineTo(x + w * 0.46, y + h * 0.55)
+            ctx.lineTo(x + w * 0.38, y + h - 2)
+            ctx.stroke()
+          }
+
+          ctx.strokeStyle = "rgba(0,0,0,.5)"
+          ctx.lineWidth = 1
+          ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1)
+
+          if (br.flash > 0) {
+            ctx.globalAlpha = br.flash * 0.75
+            ctx.fillStyle = "#fff"
+            ctx.fillRect(x, y, w, h)
+            ctx.globalAlpha = 1
+          }
+        }
+
+        function drawPaddle() {
+          const x = paddle.x,
+            y = PAD_Y,
+            w = paddle.w,
+            h = PAD_H,
+            r = h / 2
+          if (paddle.wide > 0) {
+            ctx.save()
+            ctx.shadowColor = "rgba(61,220,85,.8)"
+            ctx.shadowBlur = 14
+          }
+          const g = ctx.createLinearGradient(0, y, 0, y + h)
+          g.addColorStop(0, "#bfe8ff")
+          g.addColorStop(0.32, "#4fa2e0")
+          g.addColorStop(0.55, "#2a6fb2")
+          g.addColorStop(1, "#0e3358")
+          ctx.fillStyle = g
+          roundRect(x, y, w, h, r)
+          ctx.fill()
+          if (paddle.wide > 0) ctx.restore()
+
+          ctx.strokeStyle = "rgba(3,10,20,.9)"
+          ctx.lineWidth = 2
+          roundRect(x, y, w, h, r)
+          ctx.stroke()
+
+          ctx.fillStyle = "rgba(255,255,255,.55)"
+          roundRect(x + r, y + h * 0.2, w - r * 2, Math.max(1.5, h * 0.16), 1.5)
+          ctx.fill()
+
+          ctx.fillStyle = "rgba(255,255,255,.28)"
+          ctx.beginPath()
+          ctx.arc(x + r, y + r, r * 0.45, 0, 6.284)
+          ctx.arc(x + w - r, y + r, r * 0.45, 0, 6.284)
+          ctx.fill()
+        }
+
+        function drawBall(b) {
+          for (let i = 0; i < b.trail.length; i++) {
+            const p = b.trail[i]
+            ctx.globalAlpha = ((i + 1) / b.trail.length) * 0.28
+            ctx.fillStyle = "#7fd8ff"
+            ctx.beginPath()
+            ctx.arc(
+              p.x,
+              p.y,
+              BALL_R * (0.35 + 0.5 * (i / b.trail.length)),
+              0,
+              6.284
+            )
+            ctx.fill()
+          }
+          ctx.globalAlpha = 1
+          ctx.save()
+          ctx.shadowColor = "rgba(120,215,255,.9)"
+          ctx.shadowBlur = 12
+          const g = ctx.createRadialGradient(
+            b.x - BALL_R * 0.35,
+            b.y - BALL_R * 0.35,
+            BALL_R * 0.1,
+            b.x,
+            b.y,
+            BALL_R
+          )
+          g.addColorStop(0, "#ffffff")
+          g.addColorStop(0.55, "#cdeeff")
+          g.addColorStop(1, "#4fb8e8")
+          ctx.fillStyle = g
+          ctx.beginPath()
+          ctx.arc(b.x, b.y, BALL_R, 0, 6.284)
+          ctx.fill()
+          ctx.restore()
+        }
+
+        function drawCap(p) {
+          const col = p.kind === "W" ? "#3ddc55" : "#57c8ff"
+          const w = clamp(W * 0.055, 22, 40),
+            h = w * 0.5
+          ctx.save()
+          ctx.translate(p.x, p.y)
+          ctx.scale(1, Math.max(0.25, Math.cos(p.spin)))
+          ctx.shadowColor = col
+          ctx.shadowBlur = 10
+          const g = ctx.createLinearGradient(0, -h / 2, 0, h / 2)
+          g.addColorStop(0, shade(col, 60))
+          g.addColorStop(1, shade(col, -60))
+          ctx.fillStyle = g
+          roundRect(-w / 2, -h / 2, w, h, h / 2)
+          ctx.fill()
+          ctx.shadowBlur = 0
+          ctx.strokeStyle = "rgba(0,0,0,.6)"
+          ctx.lineWidth = 1.5
+          ctx.stroke()
+          ctx.fillStyle = "#06121e"
+          ctx.font = `${clamp(w * 0.3, 6, 11)}px 'Press Start 2P', monospace`
+          ctx.textAlign = "center"
+          ctx.textBaseline = "middle"
+          ctx.fillText(p.kind, 0, 0.5)
+          ctx.restore()
+        }
+
+        function drawHUD() {
+          ctx.fillStyle = "rgba(8,12,26,.92)"
+          ctx.fillRect(0, 0, W, HUD_H)
+          ctx.fillStyle = "rgba(120,170,255,.35)"
+          ctx.fillRect(0, HUD_H - 2, W, 2)
+
+          ctx.font = `${HUD_FONT}px 'Press Start 2P', monospace`
+          ctx.textBaseline = "middle"
+          const y = HUD_H / 2
+
+          ctx.textAlign = "left"
+          ctx.fillStyle = "#ffd21e"
+          ctx.fillText(String(score).padStart(6, "0"), WALL + 6, y)
+
+          ctx.textAlign = "center"
+          ctx.fillStyle = "#8fa6c8"
+          ctx.fillText("LEVEL " + levelNumber(), W / 2, y)
+
+          // lives, as spare balls
+          const r = HUD_FONT * 0.34
+          for (let i = 0; i < Math.min(lives, 5); i++) {
+            const cx = W - WALL - 8 - i * (r * 3.2)
+            ctx.fillStyle = "#cdeeff"
+            ctx.beginPath()
+            ctx.arc(cx, y, r, 0, 6.284)
+            ctx.fill()
+          }
+          if (lives > 5) {
+            ctx.textAlign = "right"
+            ctx.fillStyle = "#cdeeff"
+            ctx.fillText("x" + lives, W - WALL - 8, y)
+          }
+        }
+
+        function drawBanner() {
+          if (!banner || banner.t <= 0) return
+          const a = Math.min(1, banner.t / 25)
+          ctx.globalAlpha = a
+          ctx.textAlign = "center"
+          ctx.textBaseline = "middle"
+          ctx.font = `${clamp(W * 0.036, 12, 22)}px 'Press Start 2P', monospace`
+          ctx.fillStyle = "#ffffff"
+          ctx.shadowColor = "rgba(87,200,255,.9)"
+          ctx.shadowBlur = 16
+          ctx.fillText(banner.text, W / 2, H * 0.42)
+          ctx.shadowBlur = 0
+          ctx.globalAlpha = 1
+        }
+
+        function drawServeHint() {
+          if (state !== "serve") return
+          ctx.globalAlpha = 0.55 + 0.25 * Math.sin(performance.now() / 260)
+          ctx.textAlign = "center"
+          ctx.textBaseline = "middle"
+          ctx.font = `${clamp(W * 0.019, 7, 11)}px 'Press Start 2P', monospace`
+          ctx.fillStyle = "#9fb0cc"
+          ctx.fillText("TAP OR PRESS SPACE", W / 2, PAD_Y - BALL_R * 4.5)
+          ctx.globalAlpha = 1
+        }
+
+        function render(t) {
+          ctx.save()
+          if (shake > 0.4)
+            ctx.translate(rand(-shake, shake) * 0.4, rand(-shake, shake) * 0.4)
+
+          drawSpace(t)
+          drawWalls()
+          for (const br of bricks) if (!br.dead) drawBrick(br)
+          for (const q of bits) {
+            ctx.globalAlpha = Math.max(0, q.life)
+            ctx.fillStyle = q.color
+            ctx.fillRect(q.x - q.s / 2, q.y - q.s / 2, q.s, q.s)
+          }
+          ctx.globalAlpha = 1
+          for (const p of caps) drawCap(p)
+          if (state !== "start") {
+            drawPaddle()
+            for (const b of balls) drawBall(b)
+          }
+          drawServeHint()
+          drawHUD()
+          drawBanner()
+          ctx.restore()
+        }
+
+        // ---------------------------------------------------------------
+        // boot
+        // ---------------------------------------------------------------
+        layout()
+        reset()
+        if (typeof ResizeObserver !== "undefined")
+          new ResizeObserver(() => layout()).observe(wrap)
+        addEventListener("resize", layout)
+        addEventListener("orientationchange", () => setTimeout(layout, 120))
+
+        // fixed 60Hz simulation so the feel is identical on 60/120Hz screens
+        const STEP = 1000 / 60
+        let last = performance.now(),
+          acc = 0
+        ;(function loop(now) {
+          acc += Math.min(now - last, 100) // clamp so a stall never fast-forwards
+          last = now
+          while (acc >= STEP) {
+            update()
+            acc -= STEP
+          }
+          render(now / 1000)
+          requestAnimationFrame(loop)
+        })(last)
+      })()
+    </script>
+  </body>
+</html>

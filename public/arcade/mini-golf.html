@@ -1,0 +1,2291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Sky Links</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.185.1/build/three.module.js"
+        }
+      }
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap");
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #cfe4f5;
+        color: #35424f;
+        font-family: "Fredoka", ui-rounded, "Nunito", system-ui, sans-serif;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: none;
+      }
+      #app {
+        position: relative;
+        width: 100vw;
+        height: 100dvh;
+        overflow: hidden;
+      }
+      #app > canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .panel {
+        position: absolute;
+        background: rgba(255, 253, 248, 0.82);
+        backdrop-filter: blur(6px);
+        border-radius: 14px;
+        box-shadow: 0 4px 14px rgba(40, 60, 80, 0.14);
+        padding: 8px 13px;
+        pointer-events: none;
+      }
+      #info {
+        top: 12px;
+        left: 12px;
+        line-height: 1.35;
+      }
+      #info .hole {
+        font-size: 15px;
+        font-weight: 600;
+        color: #2b3a47;
+      }
+      #info .meta {
+        font-size: 12px;
+        color: #7a8a99;
+        letter-spacing: 0.4px;
+      }
+      #total {
+        top: 12px;
+        right: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        text-align: center;
+        min-width: 62px;
+      }
+      #total .lbl {
+        display: block;
+        font-size: 10px;
+        font-weight: 400;
+        color: #7a8a99;
+        letter-spacing: 1px;
+      }
+
+      #tools {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .tool {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        border: none;
+        background: rgba(255, 253, 248, 0.86);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 4px 14px rgba(40, 60, 80, 0.16);
+        color: #4a5c6b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition:
+          transform 0.1s,
+          background 0.15s;
+      }
+      .tool:active {
+        transform: scale(0.93);
+      }
+      .tool.on {
+        background: #9dd6a6;
+        color: #24402c;
+      }
+      .tool svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      #power {
+        position: absolute;
+        left: 50%;
+        bottom: 22px;
+        transform: translateX(-50%);
+        width: min(260px, 56vw);
+        height: 13px;
+        border-radius: 999px;
+        background: rgba(255, 253, 248, 0.8);
+        box-shadow: 0 3px 12px rgba(40, 60, 80, 0.16);
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 0.14s;
+        pointer-events: none;
+      }
+      #power.show {
+        opacity: 1;
+      }
+      #power i {
+        display: block;
+        height: 100%;
+        width: 0%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #8fd39a, #f2d06b 62%, #ee8b6a);
+      }
+
+      #toast {
+        position: absolute;
+        left: 50%;
+        top: 34%;
+        transform: translate(-50%, -50%) scale(0.9);
+        font-size: clamp(22px, 5.4vw, 38px);
+        font-weight: 600;
+        color: #fffdf8;
+        text-shadow: 0 3px 10px rgba(40, 60, 80, 0.45);
+        opacity: 0;
+        transition:
+          opacity 0.22s,
+          transform 0.22s;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        text-align: center;
+        padding: 24px;
+        background: rgba(207, 228, 245, 0.72);
+        backdrop-filter: blur(7px);
+      }
+      .overlay.hidden {
+        display: none;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(34px, 9vw, 62px);
+        font-weight: 600;
+        letter-spacing: -1px;
+        color: #2b3a47;
+        line-height: 1;
+      }
+      h1 span {
+        color: #4fa568;
+      }
+      .sub {
+        margin: 0;
+        font-size: clamp(13px, 2.4vh, 15px);
+        color: #62717f;
+        max-width: 32ch;
+        line-height: 1.65;
+      }
+      button.big {
+        font-family: inherit;
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        padding: 14px 40px;
+        border: none;
+        border-radius: 999px;
+        background: #4fa568;
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 5px 0 #2f7a46;
+        transition:
+          transform 0.08s,
+          box-shadow 0.08s;
+      }
+      button.big:active {
+        transform: translateY(5px);
+        box-shadow: 0 0 0 #2f7a46;
+      }
+      .keys {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.9;
+        color: #7a8a99;
+      }
+
+      table {
+        border-collapse: collapse;
+        font-size: 13px;
+        background: rgba(255, 253, 248, 0.9);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(40, 60, 80, 0.16);
+      }
+      th,
+      td {
+        padding: 7px 11px;
+        text-align: center;
+      }
+      th {
+        background: rgba(79, 165, 104, 0.16);
+        color: #3c5546;
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.6px;
+      }
+      td.name {
+        text-align: left;
+        color: #4a5c6b;
+      }
+      tr + tr td {
+        border-top: 1px solid rgba(120, 140, 155, 0.16);
+      }
+      tfoot td {
+        font-weight: 600;
+        background: rgba(79, 165, 104, 0.1);
+      }
+      .under {
+        color: #3f9c5c;
+      }
+      .over {
+        color: #d1795c;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="panel" id="info">
+        <div class="hole" id="holeName">First Light</div>
+        <div class="meta" id="holeMeta">
+          HOLE 1 OF 6 &middot; PAR 2 &middot; SHOTS 0
+        </div>
+      </div>
+      <div class="panel" id="total">
+        <span class="lbl">TOTAL</span><span id="totalVal">E</span>
+      </div>
+
+      <div id="tools">
+        <button
+          class="tool"
+          id="lookBtn"
+          title="Look at the hole"
+          aria-label="Look at the hole"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+        </button>
+        <button class="tool" id="muteBtn" title="Sound" aria-label="Sound">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M11 5 6 9H2v6h4l5 4V5Z" />
+            <path id="wave1" d="M15.5 8.5a5 5 0 0 1 0 7" />
+            <path id="wave2" d="M19 5a10 10 0 0 1 0 14" />
+            <path id="slash" d="M2 2l20 20" style="display: none" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="power"><i id="powerFill"></i></div>
+      <div id="toast"></div>
+
+      <div id="title" class="overlay">
+        <h1>Sky <span>Links</span></h1>
+        <p class="sub">
+          Six little holes on islands that float. Take your time, the course is
+          not going anywhere.
+        </p>
+        <button class="big" id="playBtn">Play</button>
+        <p class="keys">
+          DRAG to aim and pull back &middot; RELEASE to putt<br />
+          Arrows or A / D to aim &middot; hold SPACE for power
+        </p>
+      </div>
+
+      <div id="cardScreen" class="overlay hidden">
+        <h1 id="cardTitle">Round <span>done</span></h1>
+        <div id="cardBody"></div>
+        <button class="big" id="againBtn">Play again</button>
+      </div>
+    </div>
+
+    <script type="module">
+      import * as THREE from "three"
+
+      // =================================================================
+      // course data. mask and height grids are the same size, one char
+      // per cell, exactly like the DX-Ball level patterns.
+      //   .  void        g green (fast)   f fairway      r rough
+      //   s  sand        w water
+      // uppercase means "no rail here", so the ball can leave the island.
+      // heights are per cell, 0-9; corner heights are averaged from the
+      // neighbouring cells, which turns the grid into a smooth heightfield.
+      // =================================================================
+      const HOLES = [
+        {
+          name: "First Light",
+          par: 2,
+          tee: [5, 9],
+          cup: [5, 2],
+          mask: [
+            "...........",
+            "...ggggg...",
+            "...ggggg...",
+            "...ggggg...",
+            "...fffff...",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "...........",
+          ],
+          h: [
+            "00000000000",
+            "00022222000",
+            "00022222000",
+            "00022222000",
+            "00011111000",
+            "00111111100",
+            "00111111100",
+            "00000000000",
+            "00000000000",
+            "00000000000",
+            "00000000000",
+          ],
+        },
+        {
+          name: "The Bend",
+          par: 3,
+          tee: [4, 12],
+          cup: [8, 2],
+          mask: [
+            ".............",
+            "......ggggg..",
+            "......ggggg..",
+            "......ggggg..",
+            "..fffffffff..",
+            "..fffffffff..",
+            "..fffff......",
+            "..fffff......",
+            "..fffff......",
+            "..fffff......",
+            "..fffff......",
+            "..fffff......",
+            "..fffff......",
+            ".............",
+          ],
+          h: [
+            "0000000000000",
+            "0000002222200",
+            "0000002222200",
+            "0000002222200",
+            "0011111111100",
+            "0011111111100",
+            "0011111000000",
+            "0011111000000",
+            "0011111000000",
+            "0011111000000",
+            "0011111000000",
+            "0011111000000",
+            "0011111000000",
+            "0000000000000",
+          ],
+        },
+        {
+          name: "Sandbar",
+          par: 3,
+          tee: [5, 12],
+          cup: [5, 2],
+          mask: [
+            "...........",
+            "...ggggg...",
+            "...ggggg...",
+            "...ggggg...",
+            "..fffffff..",
+            "..fsssssf..",
+            "..fsssssf..",
+            "..fsssssf..",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "...........",
+          ],
+          h: [
+            "00000000000",
+            "00011111000",
+            "00011111000",
+            "00011111000",
+            "00111111100",
+            "00100000100",
+            "00100000100",
+            "00100000100",
+            "00111111100",
+            "00111111100",
+            "00111111100",
+            "00111111100",
+            "00111111100",
+            "00000000000",
+          ],
+        },
+        {
+          name: "The Split",
+          par: 3,
+          tee: [6, 12],
+          cup: [6, 2],
+          mask: [
+            ".............",
+            "....ggggg....",
+            "....ggggg....",
+            "....ggggg....",
+            "..fff.F.fff..",
+            "..fff.F.fff..",
+            "..fff.F.fff..",
+            "..fff.F.fff..",
+            "..fffffffff..",
+            "..fffffffff..",
+            "..fffffffff..",
+            "..fffffffff..",
+            "..fffffffff..",
+            ".............",
+          ],
+          h: [
+            "0000000000000",
+            "0000222220000",
+            "0000222220000",
+            "0000222220000",
+            "0011102011100",
+            "0011102011100",
+            "0011102011100",
+            "0011102011100",
+            "0011111111100",
+            "0011111111100",
+            "0011111111100",
+            "0011111111100",
+            "0011111111100",
+            "0000000000000",
+          ],
+        },
+        {
+          name: "Windmill Isle",
+          par: 3,
+          tee: [5, 12],
+          cup: [5, 2],
+          windmill: [5, 5],
+          mask: [
+            "...........",
+            "...ggggg...",
+            "...ggggg...",
+            "...ggggg...",
+            "....fff....",
+            "....fff....",
+            "....fff....",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "..fffffff..",
+            "...........",
+          ],
+          h: [
+            "00000000000",
+            "00011111000",
+            "00011111000",
+            "00011111000",
+            "00001110000",
+            "00001110000",
+            "00001110000",
+            "00111111100",
+            "00111111100",
+            "00111111100",
+            "00111111100",
+            "00111111100",
+            "00111111100",
+            "00000000000",
+          ],
+        },
+        {
+          name: "The Cascade",
+          par: 4,
+          tee: [5, 13],
+          cup: [5, 2],
+          mask: [
+            ".............",
+            "...GGGGG.....",
+            "...ggggg.....",
+            "...ggggg.....",
+            "...fffff.....",
+            "..wwfffwww...",
+            "..wwfffwww...",
+            "..ffffffff...",
+            "..ffffffff...",
+            "..rrffffrr...",
+            "..rrffffrr...",
+            "..ffffffff...",
+            "..ffffffff...",
+            "..ffffffff...",
+            "..ffffffff...",
+            ".............",
+          ],
+          h: [
+            "0000000000000",
+            "0003333300000",
+            "0003333300000",
+            "0003333300000",
+            "0003333300000",
+            "0000333000000",
+            "0000333000000",
+            "0011222111000",
+            "0011222111000",
+            "0011111111000",
+            "0011111111000",
+            "0011111111000",
+            "0011111111000",
+            "0011111111000",
+            "0011111111000",
+            "0000000000000",
+          ],
+        },
+      ]
+
+      // =================================================================
+      // tuning
+      // =================================================================
+      const CELL = 2
+      const HSTEP = 0.55
+      const BALL_R = 0.26
+      const CUP_R = 0.44
+      const RAIL_H = 0.5
+      const GRAV = 18
+      const MIN_PUTT = 1.8
+      const MAX_PUTT = 15
+      const CUP_MAX_SPEED = 5.2
+      const REST_SPEED = 0.22
+      const RESTITUTION = 0.55
+      const STROKE_CAP_OVER = 6
+
+      // deceleration in units per second squared, by surface
+      const FRICTION = { g: 2.6, f: 3.4, r: 7, s: 14, w: 6 }
+      const SURF_COLOR = {
+        g: 0x93d182,
+        f: 0x83c473,
+        r: 0x6ba75f,
+        s: 0xecd9a4,
+        w: 0x3f7f8c,
+      }
+      const RIM_COLOR = 0x74ad63
+      const ROCK_TOP = 0xa9977f
+      const ROCK_LOW = 0x776755
+
+      const clamp = (v, a, b) => (v < a ? a : v > b ? b : v)
+      const lerp = (a, b, t) => a + (b - a) * t
+
+      // deterministic little PRNG so the scenery is identical every load
+      function mulberry(seed) {
+        let t = seed >>> 0
+        return () => {
+          t += 0x6d2b79f5
+          let r = Math.imul(t ^ (t >>> 15), 1 | t)
+          r ^= r + Math.imul(r ^ (r >>> 7), 61 | r)
+          return ((r ^ (r >>> 14)) >>> 0) / 4294967296
+        }
+      }
+
+      // =================================================================
+      // renderer, scene, lights
+      // =================================================================
+      const app = document.getElementById("app")
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        powerPreference: "high-performance",
+      })
+      let pixelCap = 2
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, pixelCap))
+      renderer.toneMapping = THREE.ACESFilmicToneMapping
+      renderer.toneMappingExposure = 1.06
+      renderer.shadowMap.enabled = true
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap
+      app.appendChild(renderer.domElement)
+
+      const scene = new THREE.Scene()
+      scene.fog = new THREE.FogExp2(0xd9e9f6, 0.0125)
+
+      const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 600)
+
+      const hemi = new THREE.HemisphereLight(0xdfefff, 0x6d8a6a, 1.5)
+      scene.add(hemi)
+      const sun = new THREE.DirectionalLight(0xfff0d8, 2.5)
+      sun.position.set(-24, 34, 18)
+      sun.castShadow = true
+      sun.shadow.mapSize.set(1024, 1024)
+      sun.shadow.bias = -0.0016
+      sun.shadow.normalBias = 0.03
+      const sc = sun.shadow.camera
+      sc.near = 1
+      sc.far = 110
+      sc.left = -34
+      sc.right = 34
+      sc.top = 34
+      sc.bottom = -34
+      sc.updateProjectionMatrix()
+      scene.add(sun)
+      scene.add(sun.target)
+
+      // gradient sky dome
+      const sky = new THREE.Mesh(
+        new THREE.SphereGeometry(300, 24, 16),
+        new THREE.ShaderMaterial({
+          side: THREE.BackSide,
+          depthWrite: false,
+          uniforms: {
+            top: { value: new THREE.Color(0x8fbdf0) },
+            mid: { value: new THREE.Color(0xd6e8f7) },
+            bot: { value: new THREE.Color(0xfbe0cf) },
+          },
+          vertexShader: `varying float vy;
+            void main(){ vy = normalize(position).y;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+          fragmentShader: `varying float vy; uniform vec3 top; uniform vec3 mid; uniform vec3 bot;
+            void main(){
+              float t = clamp(vy*0.5+0.5, 0.0, 1.0);
+              vec3 c = t < 0.5 ? mix(bot, mid, t*2.0) : mix(mid, top, (t-0.5)*2.0);
+              gl_FragColor = vec4(c, 1.0);
+            }`,
+        })
+      )
+      sky.frustumCulled = false
+      scene.add(sky)
+
+      // scrolling stripe texture used for waterfalls
+      function fallTexture() {
+        const c = document.createElement("canvas")
+        c.width = 32
+        c.height = 128
+        const x = c.getContext("2d")
+        x.fillStyle = "#bfe7ee"
+        x.fillRect(0, 0, 32, 128)
+        const rnd = mulberry(7)
+        for (let i = 0; i < 26; i++) {
+          x.fillStyle = `rgba(255,255,255,${0.25 + rnd() * 0.5})`
+          const w = 2 + rnd() * 4
+          x.fillRect(rnd() * 32, rnd() * 128, w, 12 + rnd() * 40)
+        }
+        const t = new THREE.CanvasTexture(c)
+        t.wrapS = t.wrapT = THREE.RepeatWrapping
+        t.colorSpace = THREE.SRGBColorSpace
+        return t
+      }
+      const fallTex = fallTexture()
+
+      // dashed aim line texture
+      function dashTexture() {
+        const c = document.createElement("canvas")
+        c.width = 16
+        c.height = 16
+        const x = c.getContext("2d")
+        x.clearRect(0, 0, 16, 16)
+        x.fillStyle = "#ffffff"
+        x.fillRect(0, 3, 16, 10)
+        const t = new THREE.CanvasTexture(c)
+        t.wrapS = THREE.RepeatWrapping
+        t.colorSpace = THREE.SRGBColorSpace
+        return t
+      }
+
+      // =================================================================
+      // hole geometry
+      // =================================================================
+      let hole = null // everything about the island currently in play
+      const holeRoot = new THREE.Group()
+      scene.add(holeRoot)
+
+      const isSolid = (ch) => ch && ch !== "."
+      const isOpen = (ch) => isSolid(ch) && ch === ch.toUpperCase()
+      const kindOf = (ch) => (ch ? ch.toLowerCase() : ".")
+
+      function buildHole(index) {
+        holeRoot.clear()
+        const def = HOLES[index]
+        const rows = def.mask.length
+        const cols = def.mask[0].length
+        const mask = def.mask.map((r) => r.split(""))
+        const hh = def.h.map((r) => r.split("").map(Number))
+        const rnd = mulberry(1000 + index * 77)
+
+        const ox = -(cols * CELL) / 2
+        const oz = -(rows * CELL) / 2
+        const wx = (c) => ox + c * CELL
+        const wz = (r) => oz + r * CELL
+
+        const solid = (c, r) =>
+          c >= 0 && r >= 0 && c < cols && r < rows && isSolid(mask[r][c])
+
+        // corner height: average of the touching solid cells
+        function corner(cc, cr) {
+          let s = 0
+          let n = 0
+          for (const [dc, dr] of [
+            [-1, -1],
+            [0, -1],
+            [-1, 0],
+            [0, 0],
+          ]) {
+            const c = cc + dc
+            const r = cr + dr
+            if (solid(c, r)) {
+              s += hh[r][c]
+              n++
+            }
+          }
+          return n ? (s / n) * HSTEP : 0
+        }
+
+        // ---- playing surface, one flat-shaded mesh with vertex colours ----
+        const pos = []
+        const col = []
+        const tmpC = new THREE.Color()
+        function quad(x0, z0, x1, z1, y00, y10, y01, y11, hex, jitter) {
+          tmpC.setHex(hex)
+          tmpC.offsetHSL(0, 0, jitter)
+          const push = (x, y, z) => {
+            pos.push(x, y, z)
+            col.push(tmpC.r, tmpC.g, tmpC.b)
+          }
+          // wound counter clockwise seen from above, so the normals face up
+          push(x0, y00, z0)
+          push(x1, y11, z1)
+          push(x1, y10, z0)
+          push(x0, y00, z0)
+          push(x0, y01, z1)
+          push(x1, y11, z1)
+        }
+
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            if (!solid(c, r)) continue
+            const k = kindOf(mask[r][c])
+            quad(
+              wx(c),
+              wz(r),
+              wx(c + 1),
+              wz(r + 1),
+              corner(c, r),
+              corner(c + 1, r),
+              corner(c, r + 1),
+              corner(c + 1, r + 1),
+              SURF_COLOR[k] ?? SURF_COLOR.f,
+              (rnd() - 0.5) * 0.045
+            )
+          }
+        }
+
+        // ---- decorative rim just outside the railed edges ----
+        const rimCells = []
+        for (let r = -1; r <= rows; r++) {
+          for (let c = -1; c <= cols; c++) {
+            if (solid(c, r)) continue
+            let touch = 0
+            let openTouch = 0
+            let sum = 0
+            for (const [dc, dr] of [
+              [1, 0],
+              [-1, 0],
+              [0, 1],
+              [0, -1],
+            ]) {
+              if (!solid(c + dc, r + dr)) continue
+              touch++
+              sum += hh[r + dr][c + dc]
+              if (isOpen(mask[r + dr][c + dc])) openTouch++
+            }
+            // no apron beside an edge you are meant to fall off
+            if (!touch || openTouch) continue
+            const y = (sum / touch) * HSTEP - 0.26
+            rimCells.push([c, r, y])
+            quad(
+              wx(c),
+              wz(r),
+              wx(c + 1),
+              wz(r + 1),
+              y,
+              y,
+              y,
+              y,
+              RIM_COLOR,
+              (rnd() - 0.5) * 0.06
+            )
+          }
+        }
+
+        const surfGeo = new THREE.BufferGeometry()
+        surfGeo.setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(pos, 3)
+        )
+        surfGeo.setAttribute("color", new THREE.Float32BufferAttribute(col, 3))
+        surfGeo.computeVertexNormals()
+        const surf = new THREE.Mesh(
+          surfGeo,
+          new THREE.MeshStandardMaterial({
+            vertexColors: true,
+            flatShading: true,
+            roughness: 1,
+            metalness: 0,
+          })
+        )
+        surf.receiveShadow = true
+        surf.castShadow = true
+        holeRoot.add(surf)
+
+        // ---- rails on every solid/void boundary that is not "open" ----
+        const railPos = []
+        const railCol = []
+        const railC = new THREE.Color(0xf6f1e4)
+        function railSeg(ax, az, bx, bz, ya, yb) {
+          const push = (x, y, z) => {
+            railPos.push(x, y, z)
+            railCol.push(railC.r, railC.g, railC.b)
+          }
+          // a thin upright quad, doubled so it is visible from both sides
+          push(ax, ya, az)
+          push(bx, yb, bz)
+          push(bx, yb + RAIL_H, bz)
+          push(ax, ya, az)
+          push(bx, yb + RAIL_H, bz)
+          push(ax, ya + RAIL_H, az)
+          push(bx, yb, bz)
+          push(ax, ya, az)
+          push(ax, ya + RAIL_H, az)
+          push(bx, yb, bz)
+          push(ax, ya + RAIL_H, az)
+          push(bx, yb + RAIL_H, bz)
+        }
+        const railEdges = []
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            if (!solid(c, r) || isOpen(mask[r][c])) continue
+            const sides = [
+              [1, 0, c + 1, r, c + 1, r + 1],
+              [-1, 0, c, r, c, r + 1],
+              [0, 1, c, r + 1, c + 1, r + 1],
+              [0, -1, c, r, c + 1, r],
+            ]
+            for (const [dc, dr, a, b, d, e] of sides) {
+              if (solid(c + dc, r + dr)) continue
+              railSeg(wx(a), wz(b), wx(d), wz(e), corner(a, b), corner(d, e))
+              railEdges.push([c, r, dc, dr])
+            }
+          }
+        }
+        if (railPos.length) {
+          const rg = new THREE.BufferGeometry()
+          rg.setAttribute(
+            "position",
+            new THREE.Float32BufferAttribute(railPos, 3)
+          )
+          rg.setAttribute("color", new THREE.Float32BufferAttribute(railCol, 3))
+          rg.computeVertexNormals()
+          const rail = new THREE.Mesh(
+            rg,
+            new THREE.MeshStandardMaterial({
+              vertexColors: true,
+              flatShading: true,
+              roughness: 0.95,
+              side: THREE.DoubleSide,
+            })
+          )
+          rail.castShadow = true
+          rail.receiveShadow = true
+          holeRoot.add(rail)
+        }
+
+        // ---- island underside: a faceted, tapering rock ----
+        const outline = []
+        const allCells = []
+        for (let r = 0; r < rows; r++)
+          for (let c = 0; c < cols; c++) if (solid(c, r)) allCells.push([c, r])
+        for (const [c, r, y] of rimCells) allCells.push([c, r, y])
+        const inSet = new Set(allCells.map(([c, r]) => c + "," + r))
+        const heightOf = (c, r) => {
+          const rim = rimCells.find((x) => x[0] === c && x[1] === r)
+          if (rim) return rim[2]
+          return solid(c, r) ? hh[r][c] * HSTEP : 0
+        }
+        for (const [c, r] of allCells) {
+          const sides = [
+            [1, 0, c + 1, r, c + 1, r + 1],
+            [-1, 0, c, r, c, r + 1],
+            [0, 1, c, r + 1, c + 1, r + 1],
+            [0, -1, c, r, c + 1, r],
+          ]
+          for (const [dc, dr, a, b, d, e] of sides) {
+            if (inSet.has(c + dc + "," + (r + dr))) continue
+            outline.push([wx(a), wz(b), wx(d), wz(e), heightOf(c, r)])
+          }
+        }
+        let cx = 0
+        let cz = 0
+        for (const o of outline) {
+          cx += (o[0] + o[2]) / 2
+          cz += (o[1] + o[3]) / 2
+        }
+        cx /= outline.length || 1
+        cz /= outline.length || 1
+
+        const rockPos = []
+        const rockCol = []
+        const cTop = new THREE.Color(ROCK_TOP)
+        const cLow = new THREE.Color(ROCK_LOW)
+        const apex = new THREE.Vector3(cx, -9.5, cz)
+        const ring = (x, z, y) => {
+          const jx = (rnd() - 0.5) * 0.7
+          const jz = (rnd() - 0.5) * 0.7
+          return new THREE.Vector3(
+            cx + (x - cx) * 0.78 + jx,
+            y - 3.1 - rnd() * 0.8,
+            cz + (z - cz) * 0.78 + jz
+          )
+        }
+        for (const [ax, az, bx, bz, y] of outline) {
+          const a = new THREE.Vector3(ax, y, az)
+          const b = new THREE.Vector3(bx, y, bz)
+          const ar = ring(ax, az, y)
+          const br = ring(bx, bz, y)
+          const tri = (p, q, s, top) => {
+            for (const v of [p, q, s]) {
+              rockPos.push(v.x, v.y, v.z)
+              const cc = top ? cTop : cLow
+              rockCol.push(cc.r, cc.g, cc.b)
+            }
+          }
+          tri(a, b, br, true)
+          tri(a, br, ar, true)
+          tri(ar, br, apex, false)
+        }
+        const rockGeo = new THREE.BufferGeometry()
+        rockGeo.setAttribute(
+          "position",
+          new THREE.Float32BufferAttribute(rockPos, 3)
+        )
+        rockGeo.setAttribute(
+          "color",
+          new THREE.Float32BufferAttribute(rockCol, 3)
+        )
+        rockGeo.computeVertexNormals()
+        const rock = new THREE.Mesh(
+          rockGeo,
+          new THREE.MeshStandardMaterial({
+            vertexColors: true,
+            flatShading: true,
+            roughness: 1,
+            side: THREE.DoubleSide,
+          })
+        )
+        rock.castShadow = true
+        holeRoot.add(rock)
+
+        // ---- water surface + waterfalls ----
+        const waterCells = []
+        for (let r = 0; r < rows; r++)
+          for (let c = 0; c < cols; c++)
+            if (kindOf(mask[r][c]) === "w") waterCells.push([c, r])
+        let waterY = 0
+        if (waterCells.length) {
+          waterY =
+            Math.max(...waterCells.map(([c, r]) => hh[r][c])) * HSTEP + 0.42
+          const wp = []
+          for (const [c, r] of waterCells) {
+            wp.push(
+              wx(c),
+              waterY,
+              wz(r),
+              wx(c + 1),
+              waterY,
+              wz(r + 1),
+              wx(c + 1),
+              waterY,
+              wz(r),
+              wx(c),
+              waterY,
+              wz(r),
+              wx(c),
+              waterY,
+              wz(r + 1),
+              wx(c + 1),
+              waterY,
+              wz(r + 1)
+            )
+          }
+          const wg = new THREE.BufferGeometry()
+          wg.setAttribute("position", new THREE.Float32BufferAttribute(wp, 3))
+          wg.computeVertexNormals()
+          const water = new THREE.Mesh(
+            wg,
+            new THREE.MeshStandardMaterial({
+              color: 0x6fc6d6,
+              transparent: true,
+              opacity: 0.78,
+              roughness: 0.25,
+              metalness: 0.1,
+              flatShading: true,
+            })
+          )
+          holeRoot.add(water)
+
+          // spill off any water cell that sits on the island edge
+          for (const [c, r] of waterCells) {
+            for (const [dc, dr, a, b, d, e] of [
+              [1, 0, c + 1, r, c + 1, r + 1],
+              [-1, 0, c, r, c, r + 1],
+              [0, 1, c, r + 1, c + 1, r + 1],
+              [0, -1, c, r, c + 1, r],
+            ]) {
+              if (inSet.has(c + dc + "," + (r + dr))) continue
+              const g = new THREE.PlaneGeometry(CELL, 7)
+              const m = new THREE.Mesh(
+                g,
+                new THREE.MeshBasicMaterial({
+                  map: fallTex.clone(),
+                  transparent: true,
+                  opacity: 0.55,
+                  side: THREE.DoubleSide,
+                  depthWrite: false,
+                })
+              )
+              m.material.map.needsUpdate = true
+              m.position.set(
+                (wx(a) + wx(d)) / 2,
+                waterY - 3.4,
+                (wz(b) + wz(e)) / 2
+              )
+              if (dc !== 0) m.rotation.y = Math.PI / 2
+              holeRoot.add(m)
+              falls.push(m.material.map)
+            }
+          }
+        }
+
+        // ---- cup, flag, tee marker ----
+        // height at the middle of a cell, not at one of its corners
+        const cellY = (c, r) =>
+          (corner(c, r) +
+            corner(c + 1, r) +
+            corner(c, r + 1) +
+            corner(c + 1, r + 1)) /
+          4
+
+        const [cupC, cupR] = def.cup
+        const cupPos = new THREE.Vector3(
+          wx(cupC) + CELL / 2,
+          cellY(cupC, cupR) + 0.02,
+          wz(cupR) + CELL / 2
+        )
+        const cupMesh = new THREE.Mesh(
+          new THREE.CylinderGeometry(CUP_R, CUP_R * 0.9, 0.5, 16, 1, true),
+          new THREE.MeshStandardMaterial({
+            color: 0x2b2f2c,
+            side: THREE.DoubleSide,
+            roughness: 1,
+          })
+        )
+        cupMesh.position.copy(cupPos).add(new THREE.Vector3(0, -0.24, 0))
+        holeRoot.add(cupMesh)
+        const cupLip = new THREE.Mesh(
+          new THREE.RingGeometry(CUP_R * 0.92, CUP_R * 1.16, 20),
+          new THREE.MeshStandardMaterial({ color: 0xf3efe0, roughness: 1 })
+        )
+        cupLip.rotation.x = -Math.PI / 2
+        cupLip.position.copy(cupPos).add(new THREE.Vector3(0, 0.012, 0))
+        holeRoot.add(cupLip)
+
+        const pole = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.045, 0.045, 3, 6),
+          new THREE.MeshStandardMaterial({ color: 0xfdfaf0, roughness: 0.9 })
+        )
+        pole.position.copy(cupPos).add(new THREE.Vector3(0, 1.5, 0))
+        pole.castShadow = true
+        holeRoot.add(pole)
+        const flagGeo = new THREE.PlaneGeometry(1.15, 0.62, 8, 1)
+        const flag = new THREE.Mesh(
+          flagGeo,
+          new THREE.MeshStandardMaterial({
+            color: 0xf07a63,
+            side: THREE.DoubleSide,
+            roughness: 1,
+          })
+        )
+        flag.position.copy(cupPos).add(new THREE.Vector3(0.6, 2.62, 0))
+        flag.castShadow = true
+        holeRoot.add(flag)
+
+        const [teeC, teeR] = def.tee
+        const teePos = new THREE.Vector3(
+          wx(teeC) + CELL / 2,
+          cellY(teeC, teeR),
+          wz(teeR) + CELL / 2
+        )
+        const teeMark = new THREE.Mesh(
+          new THREE.RingGeometry(0.34, 0.46, 18),
+          new THREE.MeshStandardMaterial({
+            color: 0xfdfaf0,
+            roughness: 1,
+            transparent: true,
+            opacity: 0.7,
+          })
+        )
+        teeMark.rotation.x = -Math.PI / 2
+        teeMark.position.copy(teePos).add(new THREE.Vector3(0, 0.015, 0))
+        holeRoot.add(teeMark)
+
+        // ---- scenery on the rim ----
+        const treeMat = new THREE.MeshStandardMaterial({
+          color: 0x59a45f,
+          flatShading: true,
+          roughness: 1,
+        })
+        const trunkMat = new THREE.MeshStandardMaterial({
+          color: 0x8a6a4b,
+          flatShading: true,
+          roughness: 1,
+        })
+        rimCells.forEach(([c, r, y], i) => {
+          if (i % 3 !== 0 || rnd() > 0.62) return
+          const g = new THREE.Group()
+          const s = 0.75 + rnd() * 0.55
+          const trunk = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.09, 0.13, 0.7, 5),
+            trunkMat
+          )
+          trunk.position.y = 0.35
+          g.add(trunk)
+          const top = new THREE.Mesh(
+            new THREE.ConeGeometry(0.5, 1.3, 6),
+            treeMat
+          )
+          top.position.y = 1.25
+          g.add(top)
+          g.scale.setScalar(s)
+          g.position.set(
+            wx(c) + CELL / 2 + (rnd() - 0.5) * 0.6,
+            y,
+            wz(r) + CELL / 2 + (rnd() - 0.5) * 0.6
+          )
+          g.traverse((o) => (o.castShadow = true))
+          holeRoot.add(g)
+        })
+
+        // ---- windmill gate ----
+        let windmill = null
+        if (def.windmill) {
+          const [mc, mr] = def.windmill
+          const base = new THREE.Vector3(
+            wx(mc) + CELL / 2,
+            corner(mc, mr),
+            wz(mr) + CELL / 2
+          )
+          const g = new THREE.Group()
+          g.position.copy(base)
+          const tower = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.5, 0.72, 3.4, 7),
+            new THREE.MeshStandardMaterial({
+              color: 0xf3ece0,
+              flatShading: true,
+              roughness: 1,
+            })
+          )
+          tower.position.set(0, 1.7, -1.35)
+          tower.castShadow = true
+          g.add(tower)
+          const roof = new THREE.Mesh(
+            new THREE.ConeGeometry(0.85, 0.8, 7),
+            new THREE.MeshStandardMaterial({
+              color: 0xd8836b,
+              flatShading: true,
+              roughness: 1,
+            })
+          )
+          roof.position.set(0, 3.75, -1.35)
+          roof.castShadow = true
+          g.add(roof)
+          const blades = new THREE.Group()
+          blades.position.set(0, 2.05, -0.9)
+          for (let i = 0; i < 4; i++) {
+            const b = new THREE.Mesh(
+              new THREE.BoxGeometry(0.4, 2.5, 0.14),
+              new THREE.MeshStandardMaterial({
+                color: 0xfdfaf0,
+                flatShading: true,
+                roughness: 1,
+              })
+            )
+            b.position.y = 1.25
+            b.castShadow = true
+            const arm = new THREE.Group()
+            arm.rotation.z = (i * Math.PI) / 2
+            arm.add(b)
+            blades.add(arm)
+          }
+          g.add(blades)
+          holeRoot.add(g)
+          windmill = {
+            blades,
+            z: base.z - 0.9,
+            spin: 0,
+            gate: base.x,
+            width: 2.8,
+          }
+        }
+
+        // ---- floating islets and clouds ----
+        for (let i = 0; i < 6; i++) {
+          const s = 1.4 + rnd() * 3
+          const m = new THREE.Mesh(
+            new THREE.ConeGeometry(s, s * 2.1, 5),
+            new THREE.MeshStandardMaterial({
+              color: i % 2 ? ROCK_TOP : 0x9c8a72,
+              flatShading: true,
+              roughness: 1,
+            })
+          )
+          m.rotation.x = Math.PI
+          // keep them well out in the haze so they never crowd the hole
+          const ang = rnd() * Math.PI * 2
+          const rad = 58 + rnd() * 55
+          m.position.set(
+            Math.cos(ang) * rad,
+            -16 - rnd() * 26,
+            Math.sin(ang) * rad
+          )
+          scene.add(m)
+          scenery.push(m)
+          const cap = new THREE.Mesh(
+            new THREE.CylinderGeometry(s * 0.98, s * 0.98, 0.35, 5),
+            new THREE.MeshStandardMaterial({
+              color: 0x7fbd6e,
+              flatShading: true,
+              roughness: 1,
+            })
+          )
+          cap.position.copy(m.position).add(new THREE.Vector3(0, s * 1.05, 0))
+          scene.add(cap)
+          scenery.push(cap)
+        }
+        for (let i = 0; i < 7; i++) {
+          const g = new THREE.Group()
+          const mat = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            flatShading: true,
+            roughness: 1,
+            transparent: true,
+            opacity: 0.85,
+          })
+          for (let j = 0; j < 3; j++) {
+            const b = new THREE.Mesh(
+              new THREE.IcosahedronGeometry(1.6 + rnd(), 0),
+              mat
+            )
+            b.position.set(j * 1.7 - 1.7, rnd() * 0.5, rnd() * 0.8)
+            b.scale.y = 0.55
+            g.add(b)
+          }
+          g.position.set(
+            (rnd() - 0.5) * 150,
+            14 + rnd() * 18,
+            (rnd() - 0.5) * 150
+          )
+          g.scale.setScalar(1 + rnd() * 1.6)
+          scene.add(g)
+          clouds.push(g)
+        }
+
+        // bounds used to frame the top-down camera
+        let minX = 1e9
+        let maxX = -1e9
+        let minZ = 1e9
+        let maxZ = -1e9
+        for (let r = 0; r < rows; r++)
+          for (let c = 0; c < cols; c++) {
+            if (!solid(c, r)) continue
+            minX = Math.min(minX, wx(c))
+            maxX = Math.max(maxX, wx(c + 1))
+            minZ = Math.min(minZ, wz(r))
+            maxZ = Math.max(maxZ, wz(r + 1))
+          }
+
+        sun.target.position.set((minX + maxX) / 2, 0, (minZ + maxZ) / 2)
+        sun.position.set((minX + maxX) / 2 - 24, 34, (minZ + maxZ) / 2 + 18)
+
+        return {
+          def,
+          index,
+          rows,
+          cols,
+          mask,
+          hh,
+          ox,
+          oz,
+          wx,
+          wz,
+          solid,
+          corner,
+          cupPos,
+          teePos,
+          waterY,
+          windmill,
+          flag,
+          flagGeo,
+          bounds: { minX, maxX, minZ, maxZ },
+          center: new THREE.Vector3((minX + maxX) / 2, 0, (minZ + maxZ) / 2),
+        }
+      }
+
+      const scenery = []
+      const clouds = []
+      const falls = []
+      function clearScenery() {
+        for (const m of scenery) scene.remove(m)
+        for (const m of clouds) scene.remove(m)
+        scenery.length = 0
+        clouds.length = 0
+        falls.length = 0
+      }
+
+      // =================================================================
+      // ball
+      // =================================================================
+      const ball = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(BALL_R, 2),
+        new THREE.MeshStandardMaterial({
+          color: 0xfffdf6,
+          roughness: 0.42,
+          metalness: 0,
+        })
+      )
+      ball.castShadow = true
+      scene.add(ball)
+
+      const aimMat = new THREE.MeshBasicMaterial({
+        map: dashTexture(),
+        transparent: true,
+        opacity: 0.85,
+        depthTest: false,
+        side: THREE.DoubleSide,
+      })
+      const aim = new THREE.Mesh(new THREE.PlaneGeometry(1, 0.26), aimMat)
+      aim.rotation.x = -Math.PI / 2
+      aim.renderOrder = 5
+      aim.visible = false
+      scene.add(aim)
+
+      const pos = new THREE.Vector3()
+      const vel = new THREE.Vector3()
+      let airborne = false
+      let overCup = false
+      let restFrames = 0
+      let safeSpot = new THREE.Vector3()
+
+      // =================================================================
+      // heightfield sampling
+      // =================================================================
+      function cellAt(x, z) {
+        if (!hole) return null
+        const c = Math.floor((x - hole.ox) / CELL)
+        const r = Math.floor((z - hole.oz) / CELL)
+        if (c < 0 || r < 0 || c >= hole.cols || r >= hole.rows) return null
+        return [c, r]
+      }
+      function maskAt(x, z) {
+        const cr = cellAt(x, z)
+        if (!cr) return "."
+        return hole.mask[cr[1]][cr[0]]
+      }
+      // bilinear surface height plus its gradient
+      function sample(x, z) {
+        const cr = cellAt(x, z)
+        if (!cr) return null
+        const [c, r] = cr
+        if (!hole.solid(c, r)) return null
+        const u = (x - hole.wx(c)) / CELL
+        const v = (z - hole.wz(r)) / CELL
+        const h00 = hole.corner(c, r)
+        const h10 = hole.corner(c + 1, r)
+        const h01 = hole.corner(c, r + 1)
+        const h11 = hole.corner(c + 1, r + 1)
+        const y =
+          h00 * (1 - u) * (1 - v) +
+          h10 * u * (1 - v) +
+          h01 * (1 - u) * v +
+          h11 * u * v
+        const gx = ((h10 - h00) * (1 - v) + (h11 - h01) * v) / CELL
+        const gz = ((h01 - h00) * (1 - u) + (h11 - h10) * u) / CELL
+        return { y, gx, gz, kind: kindOf(hole.mask[r][c]) }
+      }
+
+      // =================================================================
+      // game state
+      // =================================================================
+      let state = "title" // title | aim | rolling | holed | card
+      let holeIndex = 0
+      let strokes = 0
+      const scores = []
+      let best = null
+      try {
+        best = JSON.parse(localStorage.getItem("minigolf-best") || "null")
+      } catch (e) {}
+
+      let camYaw = 0
+      let camPitch = 0.56
+      let camDist = 10
+      const camTarget = new THREE.Vector3()
+      let topFactor = 0
+      let topWanted = false
+
+      const el = (id) => document.getElementById(id)
+      const holeNameEl = el("holeName")
+      const holeMetaEl = el("holeMeta")
+      const totalEl = el("totalVal")
+      const powerEl = el("power")
+      const powerFill = el("powerFill")
+      const toastEl = el("toast")
+      let toastT = 0
+
+      function toast(text, ms = 1400) {
+        toastEl.textContent = text
+        toastEl.classList.add("show")
+        toastT = ms / 1000
+      }
+
+      function relToPar(n) {
+        if (n === 0) return "E"
+        return n > 0 ? "+" + n : String(n)
+      }
+
+      function updateHud() {
+        if (!hole) return
+        holeNameEl.textContent = hole.def.name
+        holeMetaEl.innerHTML =
+          `HOLE ${holeIndex + 1} OF ${HOLES.length} &middot; ` +
+          `PAR ${hole.def.par} &middot; SHOTS ${strokes}`
+        let rel = 0
+        for (let i = 0; i < scores.length; i++) rel += scores[i] - HOLES[i].par
+        totalEl.textContent = relToPar(rel)
+      }
+
+      function startHole(i) {
+        holeIndex = i
+        strokes = 0
+        clearScenery()
+        hole = buildHole(i)
+        pos.copy(hole.teePos)
+        pos.y += BALL_R
+        safeSpot.copy(pos)
+        vel.set(0, 0, 0)
+        airborne = false
+        overCup = false
+        restFrames = 0
+        // face the cup
+        const d = new THREE.Vector3().subVectors(hole.cupPos, pos)
+        camYaw = Math.atan2(d.x, -d.z)
+        camTarget.copy(pos)
+        placeCamera(1)
+        state = "aim"
+        updateHud()
+        toast(hole.def.name, 1600)
+      }
+
+      function beginRound() {
+        scores.length = 0
+        el("title").classList.add("hidden")
+        el("cardScreen").classList.add("hidden")
+        startHole(0)
+      }
+
+      function finishHole() {
+        scores[holeIndex] = strokes
+        const d = strokes - hole.def.par
+        const names = {
+          "-3": "Albatross!",
+          "-2": "Eagle!",
+          "-1": "Birdie",
+          0: "Par",
+          1: "Bogey",
+          2: "Double bogey",
+        }
+        toast(strokes === 1 ? "Hole in one!" : (names[d] ?? "+" + d), 1700)
+        state = "holed"
+        setTimeout(() => {
+          if (holeIndex + 1 < HOLES.length) startHole(holeIndex + 1)
+          else showCard()
+        }, 1750)
+      }
+
+      function showCard() {
+        state = "card"
+        const total = scores.reduce((a, b) => a + b, 0)
+        const par = HOLES.reduce((a, h) => a + h.par, 0)
+        const rel = total - par
+        if (!best || total < best.total) {
+          best = { total, rel }
+          try {
+            localStorage.setItem("minigolf-best", JSON.stringify(best))
+          } catch (e) {}
+        }
+        let rowsHtml = ""
+        HOLES.forEach((h, i) => {
+          const s = scores[i]
+          const d = s - h.par
+          const cls = d < 0 ? "under" : d > 0 ? "over" : ""
+          rowsHtml += `<tr><td class="name">${h.name}</td><td>${h.par}</td>
+            <td class="${cls}">${s}</td></tr>`
+        })
+        el("cardTitle").innerHTML =
+          rel <= 0 ? "Nicely <span>played</span>" : "Round <span>done</span>"
+        el("cardBody").innerHTML =
+          `<table><thead><tr><th>HOLE</th><th>PAR</th><th>YOU</th></tr></thead>` +
+          `<tbody>${rowsHtml}</tbody>` +
+          `<tfoot><tr><td class="name">Total</td><td>${par}</td>` +
+          `<td class="${rel < 0 ? "under" : rel > 0 ? "over" : ""}">${total} (${relToPar(rel)})</td>` +
+          `</tr></tfoot></table>` +
+          (best
+            ? `<p class="keys">Best round ${best.total} (${relToPar(best.rel)})</p>`
+            : "")
+        el("cardScreen").classList.remove("hidden")
+      }
+
+      // =================================================================
+      // physics
+      // =================================================================
+      function putt(power) {
+        const p = clamp(power, 0, 1)
+        const speed = MIN_PUTT + p * (MAX_PUTT - MIN_PUTT)
+        vel.set(Math.sin(camYaw) * speed, 0, -Math.cos(camYaw) * speed)
+        strokes++
+        airborne = false
+        overCup = false
+        restFrames = 0
+        state = "rolling"
+        updateHud()
+        Sound.putt(p)
+      }
+
+      function resetBall(why) {
+        pos.copy(safeSpot)
+        vel.set(0, 0, 0)
+        airborne = false
+        overCup = false
+        restFrames = 0
+        strokes++
+        toast(why, 1200)
+        updateHud()
+        if (strokes > hole.def.par + STROKE_CAP_OVER) return finishHole()
+        state = "aim"
+      }
+
+      function comeToRest() {
+        vel.set(0, 0, 0)
+        const s = sample(pos.x, pos.z)
+        if (s && s.kind !== "w") safeSpot.copy(pos)
+        if (strokes > hole.def.par + STROKE_CAP_OVER) {
+          toast("Picked up", 1400)
+          return finishHole()
+        }
+        state = "aim"
+      }
+
+      function stepPhysics(dt) {
+        if (state !== "rolling") return
+
+        const speed = vel.length()
+        const n = clamp(Math.ceil((speed * dt) / (BALL_R * 0.6)), 1, 12)
+        const h = dt / n
+
+        for (let i = 0; i < n; i++) {
+          const s = sample(pos.x, pos.z)
+
+          if (!airborne && s) {
+            // roll along the surface
+            const g2 = s.gx * s.gx + s.gz * s.gz
+            vel.x += ((-GRAV * s.gx) / (1 + g2)) * h
+            vel.z += ((-GRAV * s.gz) / (1 + g2)) * h
+            const mu = FRICTION[s.kind] ?? FRICTION.f
+            const sp = Math.hypot(vel.x, vel.z)
+            if (sp > 1e-5) {
+              const drop = Math.min(sp, mu * h)
+              vel.x -= (vel.x / sp) * drop
+              vel.z -= (vel.z / sp) * drop
+            }
+            vel.y = 0
+          } else {
+            vel.y -= GRAV * h
+          }
+
+          // ---- move on X, then Z, blocking against rails ----
+          const nx = pos.x + vel.x * h
+          const railTop = (s ? s.y : pos.y) + RAIL_H
+          const canPass = (x, z) => {
+            const m = maskAt(x, z)
+            if (isSolid(m)) return true
+            // off the surface: allowed only above the rail, or where the
+            // edge is deliberately open
+            const cur = maskAt(pos.x, pos.z)
+            if (isOpen(cur)) return true
+            return pos.y > railTop
+          }
+          if (canPass(nx + Math.sign(vel.x) * BALL_R, pos.z)) pos.x = nx
+          else {
+            vel.x = -vel.x * RESTITUTION
+            Sound.rail(Math.abs(vel.x))
+          }
+          const nz = pos.z + vel.z * h
+          if (canPass(pos.x, nz + Math.sign(vel.z) * BALL_R)) pos.z = nz
+          else {
+            vel.z = -vel.z * RESTITUTION
+            Sound.rail(Math.abs(vel.z))
+          }
+
+          // ---- windmill gate ----
+          const wm = hole.windmill
+          if (wm) {
+            // four blades 90 degrees apart, so the gate closes with period
+            // pi/2, peaking exactly when a blade points straight down
+            const blocked = Math.cos(4 * wm.spin) > 0.28
+            const crossing =
+              Math.abs(pos.z - wm.z) < 0.55 &&
+              Math.abs(pos.x - wm.gate) < wm.width
+            if (blocked && crossing) {
+              pos.z += vel.z > 0 ? -0.6 : 0.6
+              vel.z = -vel.z * 0.55
+              Sound.rail(Math.abs(vel.z))
+            }
+          }
+
+          // ---- vertical ----
+          const s2 = sample(pos.x, pos.z)
+          if (s2) {
+            const floor = s2.y + BALL_R
+            if (airborne) {
+              pos.y += vel.y * h
+              if (pos.y <= floor) {
+                pos.y = floor
+                if (vel.y < -1.5) {
+                  vel.y = -vel.y * 0.3
+                  Sound.rail(1.5)
+                } else {
+                  vel.y = 0
+                  airborne = false
+                }
+              }
+            } else {
+              pos.y = floor
+            }
+            // stepping off a ledge
+            if (!airborne && pos.y > floor + 0.06) airborne = true
+          } else {
+            // over the void
+            airborne = true
+            pos.y += vel.y * h
+          }
+
+          // ---- hazards ----
+          const km = kindOf(maskAt(pos.x, pos.z))
+          if (km === "w" && pos.y < hole.waterY + BALL_R * 0.5) {
+            Sound.splash()
+            return resetBall("Splash")
+          }
+          if (pos.y < -6) {
+            Sound.splash()
+            return resetBall("Out of bounds")
+          }
+
+          // ---- the cup ----
+          const dc = Math.hypot(pos.x - hole.cupPos.x, pos.z - hole.cupPos.z)
+          if (
+            !airborne &&
+            dc < CUP_R &&
+            Math.abs(pos.y - BALL_R - hole.cupPos.y) < 0.35
+          ) {
+            if (vel.length() < CUP_MAX_SPEED) {
+              Sound.cup()
+              pos.y = hole.cupPos.y - BALL_R * 0.4
+              vel.set(0, 0, 0)
+              return finishHole()
+            }
+            if (!overCup) {
+              overCup = true
+              // arriving too hot, so it rims out and runs on. The nudge is
+              // sideways only: pushing back along the approach would brake
+              // the ball into the cup, which is the opposite of a lip out.
+              const sp = vel.length()
+              const sx = -vel.z / sp
+              const sz = vel.x / sp
+              const off = clamp(
+                ((pos.x - hole.cupPos.x) * sx + (pos.z - hole.cupPos.z) * sz) /
+                  CUP_R,
+                -1,
+                1
+              )
+              vel.x += sx * off * sp * 0.22
+              vel.z += sz * off * sp * 0.22
+              vel.multiplyScalar(0.92)
+              Sound.rail(2)
+            }
+          } else if (dc > CUP_R * 1.5) overCup = false
+        }
+
+        // ---- come to rest ----
+        const flat = sample(pos.x, pos.z)
+        const grad = flat ? Math.hypot(flat.gx, flat.gz) : 1
+        if (!airborne && vel.length() < REST_SPEED && grad < 0.06) restFrames++
+        else if (!airborne && vel.length() < 0.05) restFrames++
+        else restFrames = 0
+        if (restFrames > 12) comeToRest()
+
+        Sound.roll(vel.length())
+      }
+
+      // =================================================================
+      // camera
+      // =================================================================
+      function placeCamera(snap) {
+        camTarget.lerp(pos, snap ? 1 : 0.13)
+        const b = hole.bounds
+        const spanX = b.maxX - b.minX
+        const spanZ = b.maxZ - b.minZ
+        const aspect = camera.aspect || 1
+
+        const cx = Math.cos(camPitch)
+        const near = new THREE.Vector3(
+          camTarget.x - Math.sin(camYaw) * camDist * cx,
+          camTarget.y + Math.sin(camPitch) * camDist + 1.1,
+          camTarget.z + Math.cos(camYaw) * camDist * cx
+        )
+        const topH = Math.max(spanX / aspect, spanZ) * 0.72 + 12
+        const far = new THREE.Vector3(
+          hole.center.x,
+          topH,
+          hole.center.z + spanZ * 0.42
+        )
+        camera.position.lerpVectors(near, far, topFactor)
+        // look a little up the hole rather than straight at the ball, so the
+        // shot you are about to play is in frame
+        const toCup = Math.hypot(
+          hole.cupPos.x - camTarget.x,
+          hole.cupPos.z - camTarget.z
+        )
+        const ahead = Math.min(5.5, toCup * 0.42)
+        const look = new THREE.Vector3().lerpVectors(
+          camTarget
+            .clone()
+            .add(
+              new THREE.Vector3(
+                Math.sin(camYaw) * ahead,
+                0.9,
+                -Math.cos(camYaw) * ahead
+              )
+            ),
+          hole.center,
+          topFactor
+        )
+        camera.lookAt(look)
+      }
+
+      // =================================================================
+      // input
+      // =================================================================
+      const keys = {}
+      let dragging = false
+      let dragStart = null
+      let startYaw = 0
+      let power = 0
+      let charging = false
+      let chargeT = 0
+
+      const canvas = renderer.domElement
+      canvas.style.touchAction = "none"
+
+      canvas.addEventListener("pointerdown", (e) => {
+        if (state !== "aim") return
+        canvas.setPointerCapture(e.pointerId)
+        dragging = true
+        dragStart = { x: e.clientX, y: e.clientY }
+        startYaw = camYaw
+        power = 0
+        Sound.unlock()
+      })
+      canvas.addEventListener("pointermove", (e) => {
+        if (!dragging || state !== "aim") return
+        const dx = e.clientX - dragStart.x
+        const dy = e.clientY - dragStart.y
+        const unit = Math.min(window.innerWidth, window.innerHeight)
+        camYaw = startYaw - (dx / unit) * 3.4
+        power = clamp(dy / (unit * 0.34), 0, 1)
+        showPower(power)
+      })
+      function endDrag() {
+        if (!dragging) return
+        dragging = false
+        showPower(-1)
+        if (state === "aim" && power > 0.08) putt(power)
+        power = 0
+      }
+      canvas.addEventListener("pointerup", endDrag)
+      canvas.addEventListener("pointercancel", () => {
+        dragging = false
+        power = 0
+        showPower(-1)
+      })
+
+      addEventListener("keydown", (e) => {
+        const k = e.key.toLowerCase()
+        keys[k] = true
+        if (k === " ") {
+          e.preventDefault()
+          if (state === "title") return beginRound()
+          if (state === "card") return beginRound()
+          if (state === "aim" && !charging) {
+            charging = true
+            chargeT = 0
+            Sound.unlock()
+          }
+        }
+        if (["arrowleft", "arrowright", "arrowup", "arrowdown"].includes(k))
+          e.preventDefault()
+      })
+      addEventListener("keyup", (e) => {
+        const k = e.key.toLowerCase()
+        keys[k] = false
+        if (k === " " && charging) {
+          charging = false
+          showPower(-1)
+          if (state === "aim" && power > 0.08) putt(power)
+          power = 0
+        }
+      })
+
+      function showPower(p) {
+        if (p < 0) {
+          powerEl.classList.remove("show")
+          return
+        }
+        powerEl.classList.add("show")
+        powerFill.style.width = (p * 100).toFixed(1) + "%"
+      }
+
+      el("playBtn").onclick = () => {
+        Sound.unlock()
+        beginRound()
+      }
+      el("againBtn").onclick = () => {
+        Sound.unlock()
+        beginRound()
+      }
+      const lookBtn = el("lookBtn")
+      lookBtn.onclick = () => {
+        topWanted = !topWanted
+        lookBtn.classList.toggle("on", topWanted)
+      }
+
+      // =================================================================
+      // sound, all synthesised so the file stays self contained
+      // =================================================================
+      const Sound = {
+        ctx: null,
+        master: null,
+        muted: localStorage.getItem("minigolf-muted") === "1",
+        rollGain: null,
+        rollFilter: null,
+        noise: null,
+        nextBird: 3,
+        unlock() {
+          if (this.ctx) {
+            if (this.ctx.state === "suspended") this.ctx.resume()
+            return
+          }
+          const AC = window.AudioContext || window.webkitAudioContext
+          if (!AC) return
+          const ctx = (this.ctx = new AC())
+          const master = (this.master = ctx.createGain())
+          master.gain.value = this.muted ? 0 : 0.9
+          master.connect(ctx.destination)
+
+          // shared noise buffer
+          const len = ctx.sampleRate * 2
+          const buf = ctx.createBuffer(1, len, ctx.sampleRate)
+          const d = buf.getChannelData(0)
+          let lastN = 0
+          for (let i = 0; i < len; i++) {
+            const w = Math.random() * 2 - 1
+            lastN = (lastN + 0.02 * w) / 1.02
+            d[i] = lastN * 3.5
+          }
+          this.noiseBuf = buf
+
+          // wind bed
+          const wind = ctx.createBufferSource()
+          wind.buffer = buf
+          wind.loop = true
+          const wf = ctx.createBiquadFilter()
+          wf.type = "lowpass"
+          wf.frequency.value = 420
+          const wg = ctx.createGain()
+          wg.gain.value = 0.16
+          wind.connect(wf).connect(wg).connect(master)
+          wind.start()
+          const lfo = ctx.createOscillator()
+          lfo.frequency.value = 0.07
+          const lg = ctx.createGain()
+          lg.gain.value = 0.09
+          lfo.connect(lg).connect(wg.gain)
+          lfo.start()
+
+          // rolling loop, gated by ball speed
+          const roll = ctx.createBufferSource()
+          roll.buffer = buf
+          roll.loop = true
+          const rf = ctx.createBiquadFilter()
+          rf.type = "lowpass"
+          rf.frequency.value = 300
+          const rg = ctx.createGain()
+          rg.gain.value = 0
+          roll.connect(rf).connect(rg).connect(master)
+          roll.start()
+          this.rollGain = rg
+          this.rollFilter = rf
+        },
+        setMuted(m) {
+          this.muted = m
+          localStorage.setItem("minigolf-muted", m ? "1" : "0")
+          if (this.master)
+            this.master.gain.setTargetAtTime(
+              m ? 0 : 0.9,
+              this.ctx.currentTime,
+              0.05
+            )
+        },
+        blip(freq, dur, type, gain, sweep) {
+          if (!this.ctx || this.muted) return
+          const t = this.ctx.currentTime
+          const o = this.ctx.createOscillator()
+          const g = this.ctx.createGain()
+          o.type = type || "sine"
+          o.frequency.setValueAtTime(freq, t)
+          if (sweep) o.frequency.exponentialRampToValueAtTime(sweep, t + dur)
+          g.gain.setValueAtTime(0.0001, t)
+          g.gain.exponentialRampToValueAtTime(gain, t + 0.008)
+          g.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+          o.connect(g).connect(this.master)
+          o.start(t)
+          o.stop(t + dur + 0.02)
+        },
+        burst(dur, freq, gain, q) {
+          if (!this.ctx || this.muted || !this.noiseBuf) return
+          const t = this.ctx.currentTime
+          const s = this.ctx.createBufferSource()
+          s.buffer = this.noiseBuf
+          const f = this.ctx.createBiquadFilter()
+          f.type = "bandpass"
+          f.frequency.setValueAtTime(freq, t)
+          f.Q.value = q || 1
+          const g = this.ctx.createGain()
+          g.gain.setValueAtTime(gain, t)
+          g.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+          s.connect(f).connect(g).connect(this.master)
+          s.start(t)
+          s.stop(t + dur + 0.02)
+        },
+        putt(p) {
+          this.blip(150 + p * 130, 0.09, "triangle", 0.28)
+          this.burst(0.05, 900 + p * 700, 0.16, 1.4)
+        },
+        rail(v) {
+          if (v < 0.8) return
+          this.blip(300, 0.05, "square", Math.min(0.12, v * 0.014))
+        },
+        roll(speed) {
+          if (!this.rollGain) return
+          const t = this.ctx.currentTime
+          const s = clamp(speed / 9, 0, 1)
+          this.rollGain.gain.setTargetAtTime(s * 0.11, t, 0.06)
+          this.rollFilter.frequency.setTargetAtTime(240 + s * 900, t, 0.06)
+        },
+        splash() {
+          this.burst(0.42, 700, 0.3, 0.7)
+          this.blip(420, 0.3, "sine", 0.09, 130)
+        },
+        cup() {
+          this.burst(0.08, 1600, 0.12, 2)
+          this.blip(660, 0.12, "sine", 0.16)
+          setTimeout(() => this.blip(990, 0.28, "sine", 0.15), 90)
+        },
+        bird() {
+          const f = 1900 + Math.random() * 900
+          this.blip(f, 0.07, "sine", 0.05, f * 1.5)
+          setTimeout(() => this.blip(f * 1.2, 0.06, "sine", 0.04, f), 90)
+        },
+        tick(dt) {
+          if (!this.ctx || this.muted) return
+          this.nextBird -= dt
+          if (this.nextBird <= 0) {
+            this.nextBird = 5 + Math.random() * 11
+            this.bird()
+          }
+        },
+      }
+
+      const muteBtn = el("muteBtn")
+      function paintMute() {
+        const off = Sound.muted
+        el("wave1").style.display = off ? "none" : ""
+        el("wave2").style.display = off ? "none" : ""
+        el("slash").style.display = off ? "" : "none"
+        muteBtn.classList.toggle("on", !off)
+      }
+      muteBtn.onclick = () => {
+        Sound.unlock()
+        Sound.setMuted(!Sound.muted)
+        paintMute()
+      }
+      paintMute()
+
+      document.addEventListener("visibilitychange", () => {
+        if (!Sound.ctx) return
+        if (document.hidden) Sound.ctx.suspend()
+        else if (!Sound.muted) Sound.ctx.resume()
+      })
+
+      // =================================================================
+      // resize
+      // =================================================================
+      function resize() {
+        const w = app.clientWidth || window.innerWidth
+        const h = app.clientHeight || window.innerHeight
+        renderer.setSize(w, h, false)
+        camera.aspect = w / h
+        // portrait needs a wider lens and more distance to read the hole
+        const portrait = camera.aspect < 1
+        camera.fov = portrait ? 62 : 52
+        camDist = portrait ? 13.5 : 10.5
+        camera.updateProjectionMatrix()
+      }
+      resize()
+      addEventListener("resize", resize)
+      if (typeof ResizeObserver !== "undefined")
+        new ResizeObserver(resize).observe(app)
+
+      // =================================================================
+      // main loop, fixed 60Hz physics
+      // =================================================================
+      const STEP = 1 / 60
+      let last = performance.now()
+      let acc = 0
+      let clock = 0
+      let frames = 0
+      let slowFrames = 0
+
+      function update(dt) {
+        clock += dt
+
+        if (state === "aim") {
+          // keyboard aiming and charging
+          const kd =
+            (keys.arrowleft || keys.a ? 1 : 0) -
+            (keys.arrowright || keys.d ? 1 : 0)
+          if (kd) camYaw += kd * 1.6 * dt
+          if (charging) {
+            chargeT += dt
+            power = Math.min(1, chargeT / 0.9)
+            showPower(power)
+          }
+        }
+
+        stepPhysics(dt)
+
+        // top-down easing
+        topFactor += ((topWanted ? 1 : 0) - topFactor) * Math.min(1, dt * 5)
+
+        if (hole) {
+          placeCamera(0)
+          // flag wave
+          const p = hole.flagGeo.attributes.position
+          for (let i = 0; i < p.count; i++) {
+            const x = p.getX(i)
+            p.setZ(i, Math.sin(clock * 4 + x * 3.2) * 0.11 * (x + 0.58))
+          }
+          p.needsUpdate = true
+          if (hole.windmill) {
+            hole.windmill.spin += dt * 1.15
+            hole.windmill.blades.rotation.z = hole.windmill.spin
+          }
+          // gentle float
+          holeRoot.position.y = Math.sin(clock * 0.42) * 0.09
+        }
+
+        for (const t of falls) t.offset.y = (t.offset.y - dt * 0.85) % 1
+        for (const c of clouds) {
+          c.position.x += dt * 0.35
+          if (c.position.x > 90) c.position.x = -90
+        }
+
+        // aim guide
+        const showAim = state === "aim" && hole
+        aim.visible = showAim
+        if (showAim) {
+          const len = 1.6 + power * 6.5
+          aim.scale.set(len, 1, 1)
+          aim.position.set(
+            pos.x + Math.sin(camYaw) * (len / 2 + BALL_R),
+            (sample(pos.x, pos.z)?.y ?? pos.y) + 0.03,
+            pos.z - Math.cos(camYaw) * (len / 2 + BALL_R)
+          )
+          aim.rotation.set(-Math.PI / 2, 0, -camYaw)
+          aimMat.map.repeat.set(len * 1.6, 1)
+          aimMat.color.setHex(power > 0.75 ? 0xf08a6a : 0xffffff)
+        }
+
+        ball.position.copy(pos)
+        if (vel.lengthSq() > 0.0001) {
+          ball.rotation.x -= vel.z * dt * 2.4
+          ball.rotation.z += vel.x * dt * 2.4
+        }
+
+        if (toastT > 0) {
+          toastT -= dt
+          if (toastT <= 0) toastEl.classList.remove("show")
+        }
+        Sound.tick(dt)
+      }
+
+      function frame(now) {
+        const raw = now - last
+        last = now
+        acc += Math.min(raw, 100)
+        while (acc >= STEP * 1000) {
+          update(STEP)
+          acc -= STEP * 1000
+        }
+        renderer.render(scene, camera)
+
+        // drop resolution once if the machine is struggling
+        frames++
+        if (raw > 34) slowFrames++
+        if (frames === 180) {
+          if (slowFrames > 60 && pixelCap > 1) {
+            pixelCap = 1
+            renderer.setPixelRatio(1)
+          }
+        }
+        requestAnimationFrame(frame)
+      }
+
+      // boot on the title screen with hole 1 already built behind it
+      hole = buildHole(0)
+      pos.copy(hole.teePos)
+      pos.y += BALL_R
+      safeSpot.copy(pos)
+      camTarget.copy(pos)
+      const d0 = new THREE.Vector3().subVectors(hole.cupPos, pos)
+      camYaw = Math.atan2(d0.x, -d0.z)
+      updateHud()
+      placeCamera(1)
+      requestAnimationFrame(frame)
+
+      // test hook, only when explicitly asked for
+      if (new URLSearchParams(location.search).has("hook")) {
+        window.__mg = {
+          THREE,
+          HOLES,
+          K: {
+            CELL,
+            MIN_PUTT,
+            MAX_PUTT,
+            GRAV,
+            FRICTION,
+            BALL_R,
+            CUP_R,
+            STROKE_CAP_OVER,
+          },
+          get state() {
+            return state
+          },
+          get holeIndex() {
+            return holeIndex
+          },
+          get strokes() {
+            return strokes
+          },
+          get scores() {
+            return scores.slice()
+          },
+          get pos() {
+            return pos.clone()
+          },
+          get vel() {
+            return vel.clone()
+          },
+          get hole() {
+            return hole
+          },
+          get yaw() {
+            return camYaw
+          },
+          set yaw(v) {
+            camYaw = v
+          },
+          beginRound,
+          startHole,
+          putt,
+          sample,
+          maskAt,
+          update,
+          setTop: (v) => {
+            topWanted = v
+          },
+          get topFactor() {
+            return topFactor
+          },
+          get camPos() {
+            return camera.position.clone()
+          },
+          renderNow: () => renderer.render(scene, camera),
+          showCard,
+          camera,
+          scene,
+          renderer,
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,6 +1,8 @@
 import CsFySnow from "@/assets/games/cs-fy-snow.png"
 import DoodleJump from "@/assets/games/doodle-jump.png"
+import DxBall from "@/assets/games/dx-ball.png"
 import FlappyBird from "@/assets/games/flappy-bird.png"
+import MiniGolf from "@/assets/games/mini-golf.png"
 import WhackAMole from "@/assets/games/whack-a-mole.png"
 
 export interface Game {
@@ -46,6 +48,32 @@ export function getModelBadge(model: string): ModelBadge {
 }
 
 export const games: Game[] = [
+  {
+    slug: "mini-golf",
+    title: "Sky Links Mini Golf",
+    description:
+      "Six little holes on islands that float. Low-poly, unhurried, and the only game here you can play with one thumb without getting your heart rate up.",
+    model: "Claude Opus 5",
+    prompt:
+      "Build a low-poly 3D mini golf game as one self-contained HTML file, using Three.js from a CDN. Cosy rather than twitchy, and it has to work properly on a phone, so no pointer lock and no keyboard requirement.\n\nSix hand-built holes on islands floating in a pastel sky, each one its own drifting rock with a grassy top, waterfalls spilling off the edges into nothing, low-poly trees, and slow clouds. Everything procedural, no model or texture files anywhere.\n\nOne drag does the whole shot: sideways swings the aim around the ball, pulling back charges the power, letting go putts, and releasing at almost no power just cancels so you can look around freely. Arrow keys aim and space charges on a desktop. A button eases the camera up to a top-down view so you can scout the hole before you commit.\n\nAuthor the holes as character grids, one letter per cell for green, fairway, rough, sand, water and empty, plus a second grid of digits for the height, so slopes and ramps fall out of the data. Corner heights get averaged from the neighbouring cells, which turns the grid into a smooth heightfield the ball can roll across. Rails go around the edges automatically, except where a capital letter marks an edge you are meant to be able to fall off.\n\nBall physics on a fixed 60Hz timestep: it rolls along the surface, accelerates down slopes, has different friction on each surface, goes airborne off ramps and ledges, and bounces off the rails. Substep the movement so a hard putt can never tunnel through a rail. A ball arriving at the cup too fast rims out and runs on rather than dropping, and the sideways nudge must not point back along the approach or it just brakes the ball into the hole. Water and falling off cost a stroke and put you back on dry land, and a hopeless hole gets picked up rather than looping forever.\n\nRamp the six holes: a straight uphill to learn power, a dogleg to learn banking, a bunker across the direct line, a raised bridge you can fall off next to a longer safe route, a windmill whose blades gate a narrow corridor, and a multi-tier finish with a water channel and the cup near an open edge. Par for each, a scorecard at the end naming birdies and bogeys, and the best round kept in localStorage.\n\nSynthesise all the sound with WebAudio so it stays one file: the tock of the putt pitched by power, rolling noise that tracks the ball's speed, a rattle and chime when it drops, a splash, and a bed of soft wind with the odd bird. Mute button, and pause when the tab loses focus.",
+    file: "/arcade/mini-golf.html",
+    image: MiniGolf,
+    tags: ["Three.js", "Mini golf", "Cozy"],
+    date: "2026-07",
+  },
+  {
+    slug: "dx-ball",
+    title: "DX-Ball Clone",
+    description:
+      "The brick breaker I lost hours to in the early 2000s. Beveled bricks over a starfield, a paddle that puts spin on the ball, and ten layouts that keep coming back faster.",
+    model: "Claude Opus 5",
+    prompt:
+      "Write a simpler DX-Ball clone as one self-contained HTML file, no dependencies and no sound. It was my favourite brick breaker as a kid.\n\nCanvas, and the playfield has to adapt to whatever it is embedded in: keep a roughly constant play area but match the frame's aspect exactly, so it is wide like the original on a desktop and tall on a phone in portrait, never letterboxed and never stretched. Stay sharp on high-DPI displays.\n\nMouse or arrow keys move the paddle on desktop, drag anywhere to move and tap to launch on mobile. The ball rests on the paddle at the start of every life until you serve it. Where the ball lands on the paddle sets the deflection angle across about 60 degrees either way, the paddle's own movement adds a little english, and the ball is never allowed to travel perfectly vertically, otherwise a ball that has punched a tunnel bounces up and down through it forever.\n\nTen hand-built brick layouts: solid rows, a pyramid, a checkerboard, a tunnel, a diamond, an arch, a zigzag, a gold-framed fortress, a smiley and a wave. Coloured bricks die in one hit, silver ones take a few, gold ones never break and do not count toward clearing the level. After the tenth layout they repeat with a faster ball and tougher silver. Two power-ups fall from broken bricks, multi-ball and a wide paddle. Three lives, an extra one every 20,000 points, a combo multiplier for consecutive bricks without touching the paddle, and the best score kept in localStorage.\n\nGive it a 90s look: deep space background with a drifting starfield and a faint nebula, chunky beveled bricks with a light top edge and a dark bottom edge, a metallic blue paddle with a specular highlight, a glowing ball with a short trail, coloured shards when a brick breaks, a chunky pixel HUD, and a subtle CRT scanline and vignette pass over the whole thing. Run the physics on a fixed 60Hz timestep so it feels identical on 60Hz and 120Hz screens, and pause automatically when the tab loses focus.",
+    file: "/arcade/dx-ball.html",
+    image: DxBall,
+    tags: ["Canvas", "Brick breaker", "Retro"],
+    date: "2026-07",
+  },
   {
     slug: "doodle-jump",
     title: "Doodle Jump Clone",
