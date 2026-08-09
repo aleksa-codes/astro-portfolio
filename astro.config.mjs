@@ -26,6 +26,7 @@ export default defineConfig({
   // build: {
   //   inlineStylesheets: 'always',
   // },
+  session: false,
   adapter: netlify({
     imageCDN: false,
   }),
