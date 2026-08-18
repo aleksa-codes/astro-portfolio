@@ -29,7 +29,12 @@ const boxClasses =
           href === "/" ? pathname === "/" : pathname.startsWith(href)
         return (
           <div class="group flex shrink-0 flex-col items-center gap-1.5">
-            <Button variant="outline" href={href} class={boxClasses}>
+            <Button
+              variant="outline"
+              href={href}
+              aria-label={label}
+              class={boxClasses}
+            >
               <Icon name={icon} class="size-5 xs:size-6" />
             </Button>
             <span
@@ -51,6 +56,7 @@ const boxClasses =
       <Button
         variant="default"
         id="dock-chat-btn"
+        aria-label="Ask AI"
         class={cn(boxClasses, "group-hover:shadow-xl")}
       >
         <Icon name="lucide:bot-message-square" class="size-5 xs:size-6" />
