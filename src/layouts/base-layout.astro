@@ -86,6 +86,77 @@ const fullTitle =
         document.documentElement.classList.toggle("dark", theme === "dark")
       })()
     </script>
+    <style is:inline>
+      /* Critical theme variables for dark mode. Must stay in sync with the
+         .dark block in src/styles/global.css. Inlined here because Beasties
+         (critical CSS) can't see the runtime .dark class and would otherwise
+         drop these from the inline critical CSS, flashing light theme first. */
+      .dark {
+        --background: oklch(0 0 0);
+        --foreground: oklch(1 0 0);
+        --card: oklch(0.14 0 0);
+        --card-foreground: oklch(1 0 0);
+        --popover: oklch(0.18 0 0);
+        --popover-foreground: oklch(1 0 0);
+        --primary: oklch(1 0 0);
+        --primary-foreground: oklch(0 0 0);
+        --secondary: oklch(0.25 0 0);
+        --secondary-foreground: oklch(1 0 0);
+        --muted: oklch(0.23 0 0);
+        --muted-foreground: oklch(0.72 0 0);
+        --accent: oklch(0.32 0 0);
+        --accent-foreground: oklch(1 0 0);
+        --destructive: oklch(0.69 0.2 23.91);
+        --destructive-foreground: oklch(0 0 0);
+        --border: oklch(0.26 0 0);
+        --input: oklch(0.32 0 0);
+        --ring: oklch(0.72 0 0);
+        --chart-1: oklch(0.81 0.17 75.35);
+        --chart-2: oklch(0.58 0.21 260.84);
+        --chart-3: oklch(0.56 0 0);
+        --chart-4: oklch(0.44 0 0);
+        --chart-5: oklch(0.92 0 0);
+        --sidebar: oklch(0.18 0 0);
+        --sidebar-foreground: oklch(1 0 0);
+        --sidebar-primary: oklch(1 0 0);
+        --sidebar-primary-foreground: oklch(0 0 0);
+        --sidebar-accent: oklch(0.32 0 0);
+        --sidebar-accent-foreground: oklch(1 0 0);
+        --sidebar-border: oklch(0.32 0 0);
+        --sidebar-ring: oklch(0.72 0 0);
+        --radius: 0.5rem;
+        --breakpoint-xs: 475px;
+        --shadow-x: 0px;
+        --shadow-y: 1px;
+        --shadow-blur: 2px;
+        --shadow-spread: 0px;
+        --shadow-opacity: 0.18;
+        --shadow-color: hsl(0 0% 0%);
+        --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.09);
+        --shadow-xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.09);
+        --shadow-sm:
+          0px 1px 2px 0px hsl(0 0% 0% / 0.18),
+          0px 1px 2px -1px hsl(0 0% 0% / 0.18);
+        --shadow:
+          0px 1px 2px 0px hsl(0 0% 0% / 0.18),
+          0px 1px 2px -1px hsl(0 0% 0% / 0.18);
+        --shadow-md:
+          0px 1px 2px 0px hsl(0 0% 0% / 0.18),
+          0px 2px 4px -1px hsl(0 0% 0% / 0.18);
+        --shadow-lg:
+          0px 1px 2px 0px hsl(0 0% 0% / 0.18),
+          0px 4px 6px -1px hsl(0 0% 0% / 0.18);
+        --shadow-xl:
+          0px 1px 2px 0px hsl(0 0% 0% / 0.18),
+          0px 8px 10px -1px hsl(0 0% 0% / 0.18);
+        --shadow-2xl: 0px 1px 2px 0px hsl(0 0% 0% / 0.45);
+        --gh-0: oklch(0.25 0 0);
+        --gh-1: oklch(0.3 0.1 162);
+        --gh-2: oklch(0.4 0.15 162);
+        --gh-3: oklch(0.5 0.2 162);
+        --gh-4: oklch(0.6 0.25 162);
+      }
+    </style>
   </head>
   <body class="flex min-h-screen flex-col">
     <div

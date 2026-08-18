@@ -38,7 +38,8 @@ const { project, alternate = false, priority = false }: Props = Astro.props
       src={project.image}
       alt={project.title}
       format={"webp"}
-      quality={"high"}
+      quality={70}
+      widths={[384, 576, 768, 1024]}
       sizes="(min-width: 768px) 384px, calc(100vw - 4rem)"
       priority={priority}
       class="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"

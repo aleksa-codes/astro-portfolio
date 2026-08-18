@@ -145,11 +145,10 @@ const iconClass = "h-4 w-4 text-muted-foreground/70"
 </div>
 
 <script>
-  ;(async () => {
-    const graphEl = document.getElementById("gh-graph")
-    if (!graphEl) return
+  const graphEl = document.getElementById("gh-graph")
 
-    const username = graphEl.dataset.username
+  async function loadGraph(el: HTMLElement) {
+    const username = el.dataset.username
     const months = [
       "Jan",
       "Feb",
@@ -229,7 +228,7 @@ const iconClass = "h-4 w-4 text-muted-foreground/70"
       }
 
       document.getElementById("gh-labels")!.innerHTML = labelsHtml
-      graphEl.innerHTML = graphHtml
+      el.innerHTML = graphHtml
 
       // Tooltip Delegation Logic
       let tooltip = document.getElementById("gh-tooltip")
@@ -242,7 +241,7 @@ const iconClass = "h-4 w-4 text-muted-foreground/70"
       }
       const content = document.getElementById("gh-tooltip-content")!
 
-      graphEl.addEventListener("mouseover", (e) => {
+      el.addEventListener("mouseover", (e) => {
         const cell = (e.target as HTMLElement).closest(
           ".contribution-cell"
         ) as HTMLElement
@@ -255,12 +254,29 @@ const iconClass = "h-4 w-4 text-muted-foreground/70"
         tooltip!.style.top = `${rect.top - tooltip!.offsetHeight - 8}px`
       })
 
-      graphEl.addEventListener(
-        "mouseleave",
-        () => (tooltip!.style.opacity = "0")
-      )
+      el.addEventListener("mouseleave", () => (tooltip!.style.opacity = "0"))
     } catch {
       document.getElementById("gh-error")?.classList.remove("hidden")
     }
-  })()
+  }
+
+  // Defer the third-party contributions request until the graph is about to
+  // scroll into view, keeping it out of the critical path. Falls back to
+  // immediate load for browsers without IntersectionObserver.
+  if (graphEl) {
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            observer.disconnect()
+            loadGraph(graphEl)
+          }
+        },
+        { rootMargin: "600px 0px" }
+      )
+      observer.observe(graphEl)
+    } else {
+      loadGraph(graphEl)
+    }
+  }
 </script>

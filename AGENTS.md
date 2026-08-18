@@ -139,7 +139,7 @@ Netlify Forms with reCAPTCHA:
 ```
 
 - **Color system:** shadcn-style semantic tokens in oklch color space (`:root` for light, `.dark` for dark).
-- **Fonts:** Geist (sans), Geist Mono (mono), Dancing Script (footer signature) — loaded from `public/fonts/` via `@font-face`.
+- **Fonts:** Geist (sans), Geist Mono (mono) from `public/fonts/` via `@font-face`; Dancing Script (footer signature) is lazy-injected by `footer.astro` when the footer nears the viewport.
 - **Container:** `max-width: 48rem` (768px) — narrow, content-focused layout.
 
 ## Content Collection
@@ -183,8 +183,8 @@ Only `/api/chat` is server-rendered (Netlify Functions). Everything else is prer
 ## AI Chat
 
 - **Backend** (`src/pages/api/chat.ts`): Groq model via Vercel AI SDK. `streamText` + `Output.object()` → NDJSON stream.
-- **Frontend** (`src/components/ai-chat.astro`): Vanilla JS modal. Parses NDJSON, renders markdown via `marked`. 5 messages/day client-side rate limit (`localStorage`). Conversation persisted in `sessionStorage`.
-- **Communication:** Dock's "Ask AI" button calls `window.toggleChat()` (global function set by ai-chat component).
+- **Frontend** (`src/components/ai-chat.astro` markup + `src/scripts/ai-chat.ts`): Vanilla JS modal. Parses NDJSON, renders markdown via `marked`. 5 messages/day client-side rate limit (`localStorage`). Conversation persisted in `sessionStorage`.
+- **Communication:** Dock's "Ask AI" button dynamic-imports `@/scripts/ai-chat` and calls its `toggleChat()` on first click. The chat bundle (including `marked`) is fetched only when the chat is opened, keeping it out of the critical path.
 - **Env var:** `GROQ_API_KEY` (required for chat to work).
 
 ## Environment Variables
@@ -195,9 +195,11 @@ Only `/api/chat` is server-rendered (Netlify Functions). Everything else is prer
 
 ## Key Gotchas
 
-1. **Build has 3 stages:** `astro build` (includes custom minify integration via `@swc/core` + `@swc/html`) → `@tailwindcss/cli` → `postcss`. All three must pass.
-2. **GitHub Activity** is fetched at build time (frontmatter), but contribution graph rendered client-side via external API.
-3. **Expressive Code** themes sync with dark mode: `one-dark-pro` for `.dark`, `one-light` for `:root:not(.dark)`.
-4. **Projects data** is in `src/lib/projects.ts` with image imports — not a content collection.
-5. **`marked`** is a client-side runtime dependency (used in ai-chat for markdown rendering).
-6. **Giscus comments** sync theme via MutationObserver on `<html>` class changes.
+1. **Build has 3 stages:** `astro build` (includes `@playform/inline` critical-CSS inlining, then the custom minify integration via `@swc/core` + `@swc/html`) → `@tailwindcss/cli` → `postcss`. All three must pass.
+2. **`@playform/inline` (Beasties)** inlines critical CSS into each HTML file and defers the full stylesheet (`media=print` + `onload`). Configured with `pruneSource: false` so JS-injected elements (chat, contribution graph, tooltips) never lose styles. Integration order matters: `playformInline` must run before `minifyDist`.
+3. **Dark-mode critical CSS:** Beasties can't see the runtime `.dark` class, so it drops the `.dark` theme variables from the inlined critical CSS. `base-layout.astro` carries an `<style is:inline>` copy of the `.dark` block — **keep it in sync with `src/styles/global.css`** or dark-mode users will flash light theme on first paint.
+4. **GitHub Activity** is fetched at build time (frontmatter), but contribution graph rendered client-side via external API, deferred until it scrolls into view (IntersectionObserver).
+5. **Expressive Code** themes sync with dark mode: `one-dark-pro` for `.dark`, `one-light` for `:root:not(.dark)`.
+6. **Projects data** is in `src/lib/projects.ts` with image imports — not a content collection.
+7. **`marked`** is a client-side runtime dependency (used in ai-chat for markdown rendering).
+8. **Giscus comments** sync theme via MutationObserver on `<html>` class changes.

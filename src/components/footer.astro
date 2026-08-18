@@ -30,4 +30,43 @@
     dayEl.textContent = new Date().toLocaleDateString("en-US", {
       weekday: "long",
     })
+
+  // The signature font (25 KiB) is only used by the footer, below the fold.
+  // Inject its @font-face rule lazily when the footer nears the viewport so
+  // the font request stays out of the critical path. Falls back to loading
+  // immediately for browsers without IntersectionObserver.
+  const signatureEl = document.querySelector<HTMLElement>(".font-signature")
+  if (signatureEl) {
+    const loadSignatureFont = () => {
+      const style = document.createElement("style")
+      style.textContent =
+        '@font-face{font-family:"Dancing Script";src:url("/fonts/DancingScript-700.woff2") format("woff2");font-weight:700;font-display:swap;font-style:normal}'
+      document.head.appendChild(style)
+
+      document.fonts?.load('700 1em "Dancing Script"').then(
+        () => {
+          // Force the already-painted SVG text to re-layout with the font
+          signatureEl.style.fontFamily = "inherit"
+          void signatureEl.getBoundingClientRect()
+          signatureEl.style.fontFamily = ""
+        },
+        () => {}
+      )
+    }
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            observer.disconnect()
+            loadSignatureFont()
+          }
+        },
+        { rootMargin: "600px 0px" }
+      )
+      observer.observe(signatureEl)
+    } else {
+      loadSignatureFont()
+    }
+  }
 </script>

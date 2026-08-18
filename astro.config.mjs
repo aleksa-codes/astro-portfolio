@@ -1,6 +1,7 @@
 import { satteri } from "@astrojs/markdown-satteri"
 import netlify from "@astrojs/netlify"
 import sitemap from "@astrojs/sitemap"
+import playformInline from "@playform/inline"
 import tailwindcss from "@tailwindcss/vite"
 import expressiveCode from "astro-expressive-code"
 import icon from "astro-icon"
@@ -55,6 +56,14 @@ export default defineConfig({
       },
     }),
     icon(),
+    // Inline critical CSS into the HTML and defer the rest. pruneSource: false
+    // keeps the full external stylesheet intact so JS-injected elements (chat,
+    // contribution graph, tooltips) never lose their styles.
+    playformInline({
+      Beasties: {
+        pruneSource: false,
+      },
+    }),
     minifyDist(),
     sitemap({
       filter(page) {

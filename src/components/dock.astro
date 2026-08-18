@@ -69,7 +69,17 @@ const boxClasses =
 </div>
 
 <script>
+  // Lazy-load the chat module (marked + remend + chat logic) on first click so
+  // the request stays out of the critical path. The module chunk is fetched
+  // only when the user opens the chat.
+  let chatPromise: Promise<{ toggleChat: () => void }> | null = null
   document.getElementById("dock-chat-btn")?.addEventListener("click", () => {
-    ;(window as any).toggleChat?.()
+    chatPromise ??= import("@/scripts/ai-chat")
+    chatPromise.then(
+      (mod) => mod.toggleChat(),
+      () => {
+        chatPromise = null
+      }
+    )
   })
 </script>

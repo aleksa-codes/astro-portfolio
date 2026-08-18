@@ -36,6 +36,7 @@
     "@iconify-json/lucide": "^1.2.123",
     "@iconify-json/simple-icons": "^1.2.93",
     "@iconify-json/tabler": "^1.2.38",
+    "@playform/inline": "^0.1.4",
     "@swc/core": "^1.16.0",
     "@swc/html": "^1.16.0",
     "@tailwindcss/typography": "^0.5.20",
