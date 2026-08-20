@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components"
+
 interface Props {
   username?: string
 }
@@ -29,115 +31,74 @@ try {
 } catch (e) {
   fetchError = true
 }
-
-const boxClass =
-  "p-3 sm:p-4 bg-secondary/30 rounded-xl border border-border flex flex-col items-center justify-center gap-2 transition-colors hover:bg-secondary/50 min-h-[84px]"
-const iconClass = "h-4 w-4 text-muted-foreground/70"
 ---
 
-<div
-  class="block w-full flex-1 rounded-xl border border-border bg-secondary/30 p-4"
->
-  <div class="mx-auto flex w-fit flex-col gap-2">
-    <div id="gh-labels" class="flex gap-0.75">
-      {
-        Array.from({ length: 22 }).map(() => (
-          <span class="w-2.75 shrink-0 text-xs font-medium md:w-3">&nbsp;</span>
-        ))
-      }
-    </div>
-    <div id="gh-graph" data-username={username} class="flex gap-0.75">
-      {
-        Array.from({ length: 22 }).map(() => (
-          <div class="flex flex-col gap-0.75">
-            {Array.from({ length: 7 }).map(() => (
-              <div class="h-2.75 w-2.75 animate-pulse rounded-[2px] bg-secondary/60 md:h-3 md:w-3" />
-            ))}
-          </div>
-        ))
-      }
-    </div>
-    <p
-      id="gh-error"
-      class="hidden text-center text-xs text-muted-foreground/60"
-    >
-      Could not load contribution data
-    </p>
+<div class="flex min-h-0 w-full flex-1 flex-col justify-center gap-2 p-4">
+  <div id="gh-labels" class="flex w-full gap-0.75">
+    {
+      Array.from({ length: 22 }).map(() => (
+        <span class="min-w-0 flex-1 text-xs font-medium text-muted-foreground">
+          &nbsp;
+        </span>
+      ))
+    }
   </div>
+  <div id="gh-graph" data-username={username} class="flex w-full gap-0.75">
+    {
+      Array.from({ length: 22 }).map(() => (
+        <div class="flex min-w-0 flex-1 flex-col gap-0.75">
+          {Array.from({ length: 7 }).map(() => (
+            <div class="aspect-square w-full animate-pulse rounded-[2px] bg-secondary/60" />
+          ))}
+        </div>
+      ))
+    }
+  </div>
+  <p id="gh-error" class="hidden text-center text-xs text-muted-foreground/60">
+    Could not load contribution data
+  </p>
+  <a
+    href="https://github.com/aleksa-codes"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="self-center text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
+  >
+    github.com/aleksa-codes
+  </a>
 </div>
 
-<div class="mt-auto grid grid-cols-3 gap-3">
+<div
+  class="flex shrink-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 border-t border-border/60 px-4 py-3"
+>
   {
     fetchError ? (
-      <div class="col-span-3 p-3 text-center text-sm text-red-500/80">
-        Failed to load stats.
-      </div>
+      <p class="text-sm text-red-500/80">Failed to load stats.</p>
     ) : (
       <>
-        <div class={boxClass}>
-          <div class="flex items-center gap-1.5">
-            <svg
-              class={iconClass}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            <div class="text-xl leading-none font-bold text-foreground">
-              {totalStars}
-            </div>
-          </div>
-          <div class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+        <div class="flex min-w-0 items-center gap-1.5">
+          <Icon name="lucide:star" class="h-4 w-4 text-muted-foreground/70" />
+          <span class="text-sm font-semibold text-foreground">
+            {totalStars}
+          </span>
+          <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
             Stars
-          </div>
+          </span>
         </div>
-        <div class={boxClass}>
-          <div class="flex items-center gap-1.5">
-            <svg
-              class={iconClass}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <>
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </>
-            </svg>
-            <div class="text-xl leading-none font-bold text-foreground">
-              {followers}
-            </div>
-          </div>
-          <div class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+        <div class="flex min-w-0 items-center gap-1.5">
+          <Icon name="lucide:users" class="h-4 w-4 text-muted-foreground/70" />
+          <span class="text-sm font-semibold text-foreground">{followers}</span>
+          <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
             Followers
-          </div>
+          </span>
         </div>
-        <div class={boxClass}>
-          <div class="flex items-center gap-1.5">
-            <svg
-              class={iconClass}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <>
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-              </>
-            </svg>
-            <div class="text-xl leading-none font-bold text-foreground">
-              {publicRepos}
-            </div>
-          </div>
-          <div class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+        <div class="flex min-w-0 items-center gap-1.5">
+          <Icon name="lucide:book" class="h-4 w-4 text-muted-foreground/70" />
+          <span class="text-sm font-semibold text-foreground">
+            {publicRepos}
+          </span>
+          <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
             Repos
-          </div>
+          </span>
         </div>
       </>
     )
@@ -180,7 +141,6 @@ const iconClass = "h-4 w-4 text-muted-foreground/70"
       )
       if (!res.ok) throw new Error()
       const { contributions } = await res.json()
-
       // O(1) performance lookup
       const contribMap = new Map<string, number>(
         contributions.map((c: any) => [c.date, c.count])
@@ -202,10 +162,10 @@ const iconClass = "h-4 w-4 text-muted-foreground/70"
         colDate.setDate(start.getDate() + i * 7)
         const m = colDate.getMonth()
 
-        labelsHtml += `<span class="w-[11px] md:w-3 shrink-0 text-xs font-medium text-muted-foreground">${m !== lastMonth ? months[m] : "&nbsp;"}</span>`
+        labelsHtml += `<span class="min-w-0 flex-1 text-center text-xs font-medium text-muted-foreground">${m !== lastMonth ? months[m] : "&nbsp;"}</span>`
         lastMonth = m
 
-        graphHtml += `<div class="flex flex-col gap-[3px]">`
+        graphHtml += `<div class="flex min-w-0 flex-1 flex-col gap-0.75">`
         for (let j = 0; j < rows; j++) {
           const d = new Date(colDate)
           d.setDate(d.getDate() + j)
@@ -223,13 +183,76 @@ const iconClass = "h-4 w-4 text-muted-foreground/70"
                     : 4
           const label = `${count} contributions on ${months[d.getMonth()]} ${d.getDate()}`
 
-          graphHtml += `<div class="contribution-cell w-[11px] h-[11px] md:w-3 md:h-3 rounded-[2px] ${colors[int]} transition-colors" data-tooltip="${label}"></div>`
+          graphHtml += `<div class="contribution-cell aspect-square w-full rounded-[2px] ${colors[int]} transition-colors" data-tooltip="${label}"></div>`
         }
         graphHtml += `</div>`
       }
 
       document.getElementById("gh-labels")!.innerHTML = labelsHtml
       graphEl.innerHTML = graphHtml
+
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
+      const cells: HTMLElement[] = []
+
+      // Keep the freshly-rendered graph invisible until the wipe starts, so
+      // the full contribution map never flashes in before it animates.
+      if (!reduced) {
+        graphEl
+          .querySelectorAll<HTMLElement>(":scope > div > div")
+          .forEach((cell) => {
+            cells.push(cell)
+            cell.style.opacity = "0"
+            cell.style.transform = "scale(0.4)"
+          })
+      }
+
+      // Wait for the graph to scroll into view before animating,
+      // so users actually see the columns wipe in
+      const inView = () =>
+        new Promise<boolean>((resolve) => {
+          const io = new IntersectionObserver(
+            (entries) => {
+              if (entries.some((e) => e.isIntersecting)) {
+                io.disconnect()
+                resolve(true)
+              }
+            },
+            { threshold: 0.3 }
+          )
+          io.observe(graphEl)
+        })
+
+      const animate = !reduced && (await inView())
+
+      if (animate) {
+        // Cells cascade in with a subtle scale, Apple-style ease-out
+        graphEl
+          .querySelectorAll<HTMLElement>(":scope > div")
+          .forEach((col, ci) => {
+            col
+              .querySelectorAll<HTMLElement>(":scope > div")
+              .forEach((cell, ri) => {
+                cell.animate(
+                  [
+                    { opacity: "0", transform: "scale(0.4)" },
+                    { opacity: "1", transform: "scale(1)" },
+                  ],
+                  {
+                    duration: 340,
+                    delay: ci * 15 + ri * 7,
+                    easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                    fill: "backwards",
+                  }
+                )
+              })
+          })
+        // The running animation now owns opacity/scale; release the hold so the
+        // graph stays visible once every cell has finished wiping in
+        cells.forEach((c) => {
+          c.style.opacity = ""
+          c.style.transform = ""
+        })
+      }
 
       // Tooltip Delegation Logic
       let tooltip = document.getElementById("gh-tooltip")
