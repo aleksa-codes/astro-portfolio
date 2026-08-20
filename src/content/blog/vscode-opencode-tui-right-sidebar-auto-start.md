@@ -10,7 +10,7 @@ tags:
   - AI
 ---
 
-I've been a GitHub Copilot user for a long time, but the recent pricing changes and the nerfs to the student plan finally made me stop using it. I switched to the free OpenCode models instead. Honestly, it's been great. I'm even considering grabbing OpenCode Go since the value actually makes sense.
+I've been a GitHub Copilot user for a long time, but the recent pricing changes and the nerfs to the student plan finally made me stop using it. I switched to the free OpenCode models instead. Honestly, it's been great. I'm even considering grabbing [OpenCode Go](https://opencode.ai/go?ref=M15S9JQF29). And if you want to try it too, that link gets us both $5 of usage credit.
 
 If you spend any time on X (Twitter), you've probably seen the current meta: IDEs are dead. Between terminal setups like Ghostty running an AI TUI, Cursor, and the Claude desktop app, people keep preaching that we don't even need IDEs anymore and that we don't even have to look at the code ourselves. I get it, but I still want VS Code. I like having my file tree. I like the Source Control UI for checking diffs and hitting the AI commit message button.
 
