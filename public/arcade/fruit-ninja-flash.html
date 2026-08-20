@@ -1,0 +1,1646 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#111116" />
+    <title>Fruit Ninja Flash</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+        background: #111116;
+        overscroll-behavior: none;
+      }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        color: #f5f2ea;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+      }
+      #game {
+        position: absolute;
+        inset: 0;
+        display: block;
+        touch-action: none;
+      }
+
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        text-align: center;
+        padding: 24px;
+        background:
+          radial-gradient(
+            120% 90% at 50% 35%,
+            rgba(255, 206, 84, 0.07),
+            rgba(0, 0, 0, 0) 55%
+          ),
+          rgba(12, 12, 16, 0.55);
+        z-index: 10;
+      }
+      .hidden {
+        display: none !important;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 9vw, 4.6rem);
+        font-weight: 900;
+        letter-spacing: 0.02em;
+        line-height: 1.05;
+        color: #f5f2ea;
+        text-shadow: 0 2px 30px rgba(255, 206, 84, 0.25);
+      }
+      h1 .flash {
+        background: linear-gradient(180deg, #fff3c4, #ffc93c 55%, #ff9d2e);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      h2 {
+        font-size: clamp(2rem, 7vw, 3.4rem);
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        color: #f5f2ea;
+      }
+      .sub {
+        font-size: 1rem;
+        color: #b9b4a8;
+        max-width: 30ch;
+        line-height: 1.5;
+      }
+      .bestline {
+        font-size: 0.85rem;
+        color: #8f8a7e;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .bestline b {
+        color: #f5f2ea;
+        font-weight: 600;
+      }
+
+      .btn {
+        appearance: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 1.1rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #131318;
+        background: linear-gradient(180deg, #ffe9a8, #ffc93c 55%, #f5a62b);
+        padding: 16px 46px;
+        border-radius: 999px;
+        box-shadow: 0 6px 24px rgba(255, 201, 60, 0.35);
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease,
+          filter 0.15s ease;
+      }
+      .btn:hover {
+        filter: brightness(1.06);
+        transform: translateY(-1px);
+      }
+      .btn:active {
+        transform: translateY(1px) scale(0.98);
+        box-shadow: 0 2px 10px rgba(255, 201, 60, 0.3);
+      }
+      .btn:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 3px;
+      }
+
+      .final-score {
+        font-size: clamp(3rem, 14vw, 5.5rem);
+        font-weight: 900;
+        line-height: 1;
+        color: #fff4c9;
+        text-shadow: 0 3px 40px rgba(255, 201, 60, 0.4);
+      }
+      .new-best {
+        font-size: 0.9rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        color: #121212;
+        background: #ffc93c;
+        padding: 6px 18px;
+        border-radius: 999px;
+      }
+
+      /* In-game HUD */
+      #hud {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        pointer-events: none;
+        z-index: 5;
+      }
+      #score {
+        font-size: 2.1rem;
+        font-weight: 900;
+        line-height: 1;
+        color: #f5f2ea;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+        font-variant-numeric: tabular-nums;
+      }
+      #bestline {
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #a39d8f;
+        margin-top: 4px;
+        font-variant-numeric: tabular-nums;
+      }
+      #mute {
+        pointer-events: auto;
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(0, 0, 0, 0.35);
+        border-radius: 999px;
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        color: #f5f2ea;
+        transition: background 0.15s ease;
+      }
+      #mute:hover {
+        background: rgba(0, 0, 0, 0.55);
+      }
+      #mute:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 2px;
+      }
+      #mute svg {
+        width: 20px;
+        height: 20px;
+        display: block;
+      }
+
+      #pause-banner {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        z-index: 6;
+        background: rgba(10, 10, 14, 0.55);
+        font-size: 1.6rem;
+        font-weight: 900;
+        letter-spacing: 0.3em;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="game" aria-label="Fruit Ninja Flash game"></canvas>
+
+    <div id="hud" class="hidden">
+      <div>
+        <div id="score">0</div>
+        <div id="bestline">BEST <span id="besthud">0</span></div>
+      </div>
+      <button
+        id="mute"
+        type="button"
+        aria-label="Toggle sound"
+        aria-pressed="false"
+      >
+        <svg
+          id="icon-on"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M11 5 6 9H2v6h4l5 4V5z" />
+          <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+          <path d="M19 5a9 9 0 0 1 0 14" />
+        </svg>
+        <svg
+          id="icon-off"
+          class="hidden"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M11 5 6 9H2v6h4l5 4V5z" />
+          <line x1="23" y1="9" x2="17" y2="15" />
+          <line x1="17" y1="9" x2="23" y2="15" />
+        </svg>
+      </button>
+    </div>
+
+    <div id="pause-banner" class="hidden">PAUSED</div>
+
+    <div id="menu" class="overlay">
+      <h1>FRUIT&nbsp;NINJA<br /><span class="flash">FLASH</span></h1>
+      <p class="sub">
+        Slice fruit with a swipe. Dodge the bombs. Chain combos for bonus
+        points.
+      </p>
+      <button class="btn" id="start-btn" type="button">Play</button>
+      <p class="bestline">Best <b id="menu-best">0</b></p>
+    </div>
+
+    <div id="over" class="overlay hidden">
+      <h2>GAME OVER</h2>
+      <div class="final-score" id="over-score">0</div>
+      <p class="new-best hidden" id="new-best">NEW BEST</p>
+      <button class="btn" id="again-btn" type="button">Play again</button>
+      <p class="bestline">Best <b id="over-best">0</b></p>
+    </div>
+
+    <script>
+      ;(() => {
+        "use strict"
+
+        // ---------- Canvas ----------
+        const canvas = document.getElementById("game")
+        const ctx = canvas.getContext("2d", { alpha: false })
+        let W = 0,
+          H = 0,
+          DPR = 1
+        let bg = null
+        const clamp = (v, a, b) => Math.min(b, Math.max(a, v))
+        const rand = (a = 1, b) =>
+          b === undefined ? Math.random() * a : a + Math.random() * (b - a)
+        const dist2 = (ax, ay, bx, by) => {
+          const dx = bx - ax,
+            dy = by - ay
+          return dx * dx + dy * dy
+        }
+
+        function resize() {
+          DPR = Math.min(window.devicePixelRatio || 1, 2)
+          W = window.innerWidth
+          H = window.innerHeight
+          canvas.width = Math.round(W * DPR)
+          canvas.height = Math.round(H * DPR)
+          canvas.style.width = W + "px"
+          canvas.style.height = H + "px"
+          ctx.setTransform(DPR, 0, 0, DPR, 0, 0)
+          buildBackdrop()
+        }
+
+        // Static backdrop (gradient, dust dots, vignette) prerendered once per resize
+        function buildBackdrop() {
+          bg = document.createElement("canvas")
+          bg.width = canvas.width
+          bg.height = canvas.height
+          const b = bg.getContext("2d")
+          b.setTransform(DPR, 0, 0, DPR, 0, 0)
+          const g = b.createRadialGradient(
+            W * 0.5,
+            H * 0.32,
+            Math.min(W, H) * 0.1,
+            W * 0.5,
+            H * 0.55,
+            Math.max(W, H) * 0.75
+          )
+          g.addColorStop(0, "#1d1d24")
+          g.addColorStop(0.55, "#14141a")
+          g.addColorStop(1, "#0c0c10")
+          b.fillStyle = g
+          b.fillRect(0, 0, W, H)
+          b.fillStyle = "rgba(255,255,255,0.05)"
+          for (let i = 0; i < 90; i++) {
+            const x = Math.random() * W,
+              y = Math.random() * H,
+              r = Math.random() * 1.5 + 0.3
+            b.beginPath()
+            b.arc(x, y, r, 0, Math.PI * 2)
+            b.fill()
+          }
+          const v = b.createRadialGradient(
+            W / 2,
+            H / 2,
+            Math.min(W, H) * 0.42,
+            W / 2,
+            H / 2,
+            Math.max(W, H) * 0.72
+          )
+          v.addColorStop(0, "rgba(0,0,0,0)")
+          v.addColorStop(1, "rgba(0,0,0,0.55)")
+          b.fillStyle = v
+          b.fillRect(0, 0, W, H)
+        }
+
+        // ---------- Scaling ----------
+        // Physics and size scale with the viewport so arcs traverse the screen the
+        // same way on a tall phone and a wide desktop window.
+        const G_BASE = 1650
+        const sizeScale = () => clamp(Math.min(W, H) / 560, 0.72, 1.15)
+        const GRAVITY = () => (G_BASE * H) / 620
+
+        // ---------- Fruit definitions ----------
+        const FRUITS = {
+          watermelon: {
+            id: "watermelon",
+            r: 34,
+            score: 2,
+            weight: 5,
+            rind: "#3e8e41",
+            rindLight: "#6fbf73",
+            rindDark: "#27612b",
+            rindDark2: "#1e4a22",
+            flesh: "#ff4b4b",
+            fleshDark: "#d92f2f",
+          },
+          orange: {
+            id: "orange",
+            r: 23,
+            score: 1,
+            weight: 10,
+            rind: "#ff9f1a",
+            rindLight: "#ffc24d",
+            rindDark: "#d97d00",
+            flesh: "#ffb74d",
+            fleshDark: "#e6912a",
+          },
+          apple: {
+            id: "apple",
+            r: 24,
+            score: 1,
+            weight: 10,
+            rind: "#e8403c",
+            rindLight: "#f0635a",
+            rindDark: "#a8221f",
+            flesh: "#f7ecd7",
+            fleshDark: "#dcc9a5",
+          },
+          lemon: {
+            id: "lemon",
+            r: 22,
+            score: 1,
+            weight: 8,
+            rind: "#f7d700",
+            rindLight: "#fff176",
+            rindDark: "#c9ad00",
+            flesh: "#fdf4c1",
+            fleshDark: "#e2d68e",
+          },
+          kiwi: {
+            id: "kiwi",
+            r: 21,
+            score: 1,
+            weight: 7,
+            rind: "#8a5a2b",
+            rindLight: "#a97a44",
+            rindDark: "#5f3c17",
+            flesh: "#9ccc3d",
+            fleshDark: "#74a12a",
+          },
+        }
+        const GOLDEN = {
+          id: "golden",
+          r: 21,
+          score: 10,
+          weight: 1,
+          rind: "#ffc93c",
+          rindLight: "#ffe9a8",
+          rindDark: "#c78f00",
+          flesh: "#ffdf80",
+          fleshDark: "#ffc93c",
+        }
+
+        function pickFruitType() {
+          let total = 0
+          for (const k in FRUITS) total += FRUITS[k].weight
+          let n = Math.random() * total
+          for (const k in FRUITS) {
+            n -= FRUITS[k].weight
+            if (n <= 0) return FRUITS[k]
+          }
+          return FRUITS.orange
+        }
+
+        // ---------- Game state ----------
+        let state = "menu" // menu | playing | over
+        let paused = false
+        let score = 0,
+          lives = 3,
+          best = loadBest()
+        let elapsed = 0,
+          spawnTimer = 0.6,
+          spawnedCount = 0
+        let comboCount = 0,
+          comboTimer = 0
+        let hintT = 0
+        let shakeT = 0,
+          shakeMag = 0,
+          boomFlash = 0,
+          missFlash = 0
+
+        const fruits = [] // whole fruit + bombs in flight
+        const halves = [] // sliced fruit halves
+        const particles = [] // droplets, sparks, dust
+        const popups = [] // floating score text
+        const rings = [] // expanding shockwave rings
+        const pointers = new Map() // pointerId -> blade
+
+        const $ = (id) => document.getElementById(id)
+        const scoreEl = $("score"),
+          bestHudEl = $("besthud"),
+          menuBestEl = $("menu-best")
+        const overEl = $("over"),
+          menuEl = $("menu"),
+          hudEl = $("hud")
+        const overScoreEl = $("over-score"),
+          overBestEl = $("over-best"),
+          newBestEl = $("new-best")
+        const pauseBanner = $("pause-banner"),
+          muteBtn = $("mute"),
+          iconOn = $("icon-on"),
+          iconOff = $("icon-off")
+
+        function loadBest() {
+          try {
+            return parseInt(localStorage.getItem("fruitninjaflash-best")) || 0
+          } catch {
+            return 0
+          }
+        }
+        function saveBest() {
+          try {
+            localStorage.setItem("fruitninjaflash-best", String(best))
+          } catch {}
+        }
+
+        function setMuteUI() {
+          const muted = SFX.muted
+          iconOn.classList.toggle("hidden", muted)
+          iconOff.classList.toggle("hidden", !muted)
+          muteBtn.setAttribute("aria-pressed", String(muted))
+        }
+
+        // ---------- Sound (synthesized, no assets) ----------
+        const SFX = {
+          ctx: null,
+          master: null,
+          noiseBuf: null,
+          muted: false,
+          init() {
+            if (this.ctx) return
+            try {
+              const AC = window.AudioContext || window.webkitAudioContext
+              this.ctx = new AC()
+              this.master = this.ctx.createGain()
+              this.master.gain.value = 0.4
+              this.master.connect(this.ctx.destination)
+              const len = this.ctx.sampleRate
+              this.noiseBuf = this.ctx.createBuffer(1, len, this.ctx.sampleRate)
+              const d = this.noiseBuf.getChannelData(0)
+              for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1
+            } catch {}
+          },
+          resume() {
+            if (this.ctx && this.ctx.state === "suspended") this.ctx.resume()
+          },
+          tone(freq, dur, type = "sine", vol = 0.3, slideTo = null, delay = 0) {
+            if (this.muted || !this.ctx) return
+            const t = this.ctx.currentTime + delay
+            const o = this.ctx.createOscillator(),
+              g = this.ctx.createGain()
+            o.type = type
+            o.frequency.setValueAtTime(Math.max(20, freq), t)
+            if (slideTo)
+              o.frequency.exponentialRampToValueAtTime(
+                Math.max(20, slideTo),
+                t + dur
+              )
+            g.gain.setValueAtTime(0.0001, t)
+            g.gain.exponentialRampToValueAtTime(vol, t + 0.01)
+            g.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+            o.connect(g).connect(this.master)
+            o.start(t)
+            o.stop(t + dur + 0.03)
+          },
+          noise(dur, vol, from, to, q = 1.4, delay = 0) {
+            if (this.muted || !this.ctx) return
+            const t = this.ctx.currentTime + delay
+            const src = this.ctx.createBufferSource()
+            src.buffer = this.noiseBuf
+            src.loop = true
+            const f = this.ctx.createBiquadFilter()
+            f.type = "bandpass"
+            f.Q.value = q
+            f.frequency.setValueAtTime(from, t)
+            f.frequency.exponentialRampToValueAtTime(Math.max(30, to), t + dur)
+            const g = this.ctx.createGain()
+            g.gain.setValueAtTime(0.0001, t)
+            g.gain.exponentialRampToValueAtTime(vol, t + 0.01)
+            g.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+            src.connect(f).connect(g).connect(this.master)
+            src.start(t)
+            src.stop(t + dur + 0.03)
+          },
+          swish() {
+            this.noise(0.12, 0.1, 900, 2800)
+          },
+          slice() {
+            this.noise(0.07, 0.16, 2000, 500)
+            this.tone(320 + Math.random() * 180, 0.09, "triangle", 0.18, 160)
+          },
+          golden() {
+            for (let i = 0; i < 5; i++)
+              this.tone(880 + i * 220, 0.12, "sine", 0.16, null, i * 0.06)
+          },
+          combo(n) {
+            for (let i = 0; i < Math.min(5, n); i++)
+              this.tone(520 + i * 160, 0.1, "square", 0.07, null, i * 0.05)
+          },
+          miss() {
+            this.tone(240, 0.28, "sawtooth", 0.12, 110)
+          },
+          boom() {
+            this.tone(150, 0.55, "sine", 0.55, 30)
+            this.noise(0.4, 0.3, 700, 60, 0.8)
+          },
+          over() {
+            for (let i = 0; i < 3; i++)
+              this.tone(440 - i * 120, 0.25, "triangle", 0.14, null, i * 0.22)
+          },
+        }
+
+        try {
+          SFX.muted = localStorage.getItem("fruitninjaflash-muted") === "1"
+        } catch {}
+        setMuteUI()
+
+        // ---------- Spawning ----------
+        // Easier ramp: slower spawns, gentler bomb ramp, later double throws
+        function spawnInterval() {
+          return Math.max(0.3, 0.75 - elapsed * 0.005)
+        }
+        function bombChance() {
+          return Math.min(0.18, 0.05 + elapsed * 0.0016)
+        }
+
+        function spawnEvent() {
+          let n = 1
+          if (elapsed > 40 && Math.random() < 0.16) n++
+          if (elapsed > 65 && Math.random() < 0.05) n++
+          for (let i = 0; i < n; i++) spawnOne()
+        }
+
+        function spawnOne() {
+          const roll = Math.random()
+          const kind = roll < 0.34 ? "left" : roll < 0.68 ? "right" : "center"
+          let x, apexX
+          if (kind === "left") {
+            x = W * rand(0.06, 0.2)
+            apexX = W * rand(0.12, 0.58)
+          } else if (kind === "right") {
+            x = W * rand(0.8, 0.94)
+            apexX = W * rand(0.42, 0.88)
+          } else {
+            x = W * rand(0.35, 0.65)
+            apexX = W * rand(0.2, 0.8)
+          }
+          const y = H + 60
+          const apexY = H * rand(0.08, 0.4)
+
+          const isBomb =
+            elapsed > 3 && spawnedCount > 8 && Math.random() < bombChance()
+          const type = isBomb
+            ? null
+            : Math.random() < 0.05
+              ? GOLDEN
+              : pickFruitType()
+          const r = isBomb ? 26 * sizeScale() : type.r * sizeScale()
+
+          // Launch aimed so the fruit peaks near its apex point; a touch slower
+          // than full speed so first-time players can actually hit things
+          const vy =
+            -Math.sqrt(2 * GRAVITY() * Math.max(80, y - apexY)) *
+            rand(0.82, 1.0)
+          const tPeak = -vy / GRAVITY()
+          const vx = ((apexX - x) / tPeak) * rand(0.8, 1.05)
+
+          fruits.push({
+            bomb: isBomb,
+            type,
+            r,
+            x,
+            y,
+            vx,
+            vy,
+            rot: Math.random() * Math.PI * 2,
+            vrot: (Math.random() < 0.5 ? -1 : 1) * rand(1.5, 4) * sizeScale(),
+            pulse: Math.random() * Math.PI * 2,
+            sparkT: 0,
+          })
+          spawnedCount++
+        }
+
+        // ---------- Slicing ----------
+        function segmentHitsCircle(ax, ay, bx, by, cx, cy, r) {
+          const dx = bx - ax,
+            dy = by - ay
+          const len2 = dx * dx + dy * dy
+          let t =
+            len2 === 0
+              ? 0
+              : clamp(((cx - ax) * dx + (cy - ay) * dy) / len2, 0, 1)
+          const px = ax + dx * t,
+            py = ay + dy * t
+          const ddx = cx - px,
+            ddy = cy - py
+          return ddx * ddx + ddy * ddy <= r * r
+        }
+
+        function sliceCheck(ax, ay, bx, by) {
+          const cut = Math.atan2(by - ay, bx - ax)
+          for (let i = fruits.length - 1; i >= 0; i--) {
+            const f = fruits[i]
+            if (!segmentHitsCircle(ax, ay, bx, by, f.x, f.y, f.r)) continue
+            if (f.bomb) {
+              explodeBomb(f)
+              return
+            }
+            sliceFruit(f, cut, (ax + bx) / 2, (ay + by) / 2)
+            // Remove the sliced fruit so its falling body can't count as a miss
+            fruits.splice(i, 1)
+          }
+        }
+
+        function sliceFruit(f, cut, px, py) {
+          const T = f.type
+          const nX = Math.cos(cut + Math.PI / 2),
+            nY = Math.sin(cut + Math.PI / 2)
+          const push = 90 * sizeScale()
+
+          // Two halves launch apart along the cut normal and spin freely
+          for (const dir of [-1, 1]) {
+            halves.push({
+              x: f.x + nX * dir * 3,
+              y: f.y + nY * dir * 3,
+              vx: f.vx + nX * dir * push,
+              vy: f.vy + nY * dir * push - 40,
+              rot: cut,
+              vrot: (Math.random() < 0.5 ? -1 : 1) * rand(3, 6.5) * sizeScale(),
+              r: f.r,
+              type: T,
+              dir,
+              age: 0,
+            })
+          }
+
+          // Juice spray
+          const count = Math.min(16, Math.round(f.r * 0.55) + 6)
+          for (let i = 0; i < count; i++) {
+            const a = cut + Math.PI / 2 + rand(-1.1, 1.1)
+            const sp = rand(60, 260) * sizeScale()
+            particles.push({
+              kind: "drop",
+              x: f.x,
+              y: f.y,
+              vx: f.vx * 0.35 + Math.cos(a) * sp,
+              vy: f.vy * 0.35 + Math.sin(a) * sp,
+              r: rand(2, 4.5) * sizeScale(),
+              col: Math.random() < 0.7 ? T.flesh : T.fleshDark,
+              life: rand(0.4, 0.85),
+              max: 0.85,
+              g: GRAVITY() * 1.3,
+            })
+          }
+
+          // Scoring + combos
+          comboCount++
+          comboTimer = 0.9
+          const bonus = comboCount >= 2 ? (comboCount - 1) * 2 : 0
+          score += T.score + bonus
+          updateScoreUI()
+          addPopup(
+            f.x,
+            f.y - f.r,
+            comboCount >= 2 ? "+" + (T.score + bonus) : "+" + T.score,
+            T === GOLDEN ? "#ffdf80" : "#f5f2ea",
+            T === GOLDEN ? 26 : 20
+          )
+          if (comboCount >= 3) {
+            addPopup(
+              W / 2,
+              H * 0.32,
+              "COMBO x" + comboCount,
+              "#ffc93c",
+              30 + Math.min(14, comboCount * 2)
+            )
+            rings.push({ x: f.x, y: f.y, life: 0.45, max: 0.45, r: f.r })
+            SFX.combo(comboCount)
+          }
+          SFX.slice()
+        }
+
+        function explodeBomb(b) {
+          // Blast: shake, flash, clear the field, end the run
+          shake(0.7, 26)
+          boomFlash = 1
+          SFX.boom()
+          fruits.length = 0
+          for (let i = 0; i < 40; i++) {
+            const a = Math.random() * Math.PI * 2,
+              sp = rand(60, 420) * sizeScale()
+            particles.push({
+              kind: "drop",
+              x: b.x,
+              y: b.y,
+              vx: Math.cos(a) * sp,
+              vy: Math.sin(a) * sp,
+              r: rand(2, 6) * sizeScale(),
+              col: Math.random() < 0.5 ? "#ff9d2e" : "#ffd54f",
+              life: rand(0.4, 1),
+              max: 1,
+              g: GRAVITY() * 1.1,
+            })
+          }
+          rings.push({ x: b.x, y: b.y, life: 0.6, max: 0.6, r: b.r })
+          addPopup(b.x, b.y - 40, "BOOM", "#ff9d2e", 44)
+          gameOver()
+        }
+
+        // ---------- Effects ----------
+        function addPopup(x, y, text, color, size) {
+          popups.push({ x, y, text, color, size, life: 1.0, max: 1.0 })
+        }
+
+        function shake(dur, mag) {
+          shakeT = dur
+          shakeMag = mag
+        }
+
+        function loseLife() {
+          lives--
+          missFlash = 1
+          shake(0.3, 8)
+          SFX.miss()
+          if (lives <= 0) gameOver()
+        }
+
+        // ---------- Combo window ----------
+        function updateScoreUI() {
+          scoreEl.textContent = score
+          if (score > best) bestHudEl.textContent = score
+        }
+
+        // ---------- Update ----------
+        function update(dt) {
+          elapsed += dt
+          spawnTimer -= dt
+          if (spawnTimer <= 0) {
+            spawnEvent()
+            spawnTimer = spawnInterval() * rand(0.85, 1.15)
+          }
+
+          if (comboTimer > 0) {
+            comboTimer -= dt
+            if (comboTimer <= 0) comboCount = 0
+          }
+          if (hintT > 0) hintT -= dt
+
+          // Whole fruit and bombs
+          for (let i = fruits.length - 1; i >= 0; i--) {
+            const f = fruits[i]
+            f.vy += GRAVITY() * dt
+            f.x += f.vx * dt
+            f.y += f.vy * dt
+            f.rot += f.vrot * dt
+            f.pulse += dt * 6
+            if (f.bomb) {
+              // fuse ember
+              f.sparkT -= dt
+              if (f.sparkT <= 0) {
+                f.sparkT = 0.06
+                const tipX = f.x + Math.sin(f.rot) * f.r * 0.9,
+                  tipY = f.y - Math.cos(f.rot) * f.r * 0.9
+                particles.push({
+                  kind: "spark",
+                  x: tipX,
+                  y: tipY,
+                  vx: rand(-30, 30),
+                  vy: rand(-120, -40),
+                  r: rand(1.5, 3) * sizeScale(),
+                  col: Math.random() < 0.5 ? "#ffd54f" : "#ff9d2e",
+                  life: rand(0.15, 0.35),
+                  max: 0.35,
+                  g: 200,
+                })
+              }
+            } else if (f.type === GOLDEN) {
+              // golden fruit twinkle
+              f.sparkT -= dt
+              if (f.sparkT <= 0) {
+                f.sparkT = 0.08
+                particles.push({
+                  kind: "spark",
+                  x: f.x + rand(-f.r, f.r),
+                  y: f.y + rand(-f.r, f.r),
+                  vx: rand(-20, 20),
+                  vy: rand(-60, -10),
+                  r: rand(1, 2.5) * sizeScale(),
+                  col: "#fff3c4",
+                  life: rand(0.2, 0.4),
+                  max: 0.4,
+                  g: -20,
+                })
+              }
+            }
+            // Missed fruit costs a life
+            if (f.y - f.r > H + 60) {
+              fruits.splice(i, 1)
+              if (!f.bomb) loseLife()
+            }
+          }
+
+          // Halves
+          for (let i = halves.length - 1; i >= 0; i--) {
+            const h = halves[i]
+            h.vy += GRAVITY() * dt
+            h.x += h.vx * dt
+            h.y += h.vy * dt
+            h.rot += h.vrot * dt
+            h.age += dt
+            if (h.y - h.r > H + 90 || h.age > 4) halves.splice(i, 1)
+          }
+
+          // Particles
+          for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i]
+            p.vy += p.g * dt
+            p.x += p.vx * dt
+            p.y += p.vy * dt
+            p.life -= dt
+            if (p.life <= 0 || p.y > H + 40) particles.splice(i, 1)
+          }
+
+          // Popups + rings
+          for (let i = popups.length - 1; i >= 0; i--) {
+            const p = popups[i]
+            p.life -= dt * 0.9
+            p.y -= 55 * dt
+            if (p.life <= 0) popups.splice(i, 1)
+          }
+          for (let i = rings.length - 1; i >= 0; i--) {
+            const r = rings[i]
+            r.life -= dt
+            r.r += 900 * sizeScale() * dt
+            if (r.life <= 0) rings.splice(i, 1)
+          }
+
+          // Screen effects decay
+          if (shakeT > 0) shakeT -= dt
+          if (boomFlash > 0) boomFlash = Math.max(0, boomFlash - dt * 2.2)
+          if (missFlash > 0) missFlash = Math.max(0, missFlash - dt * 2.5)
+
+          // Blade trails age out
+          for (const p of pointers.values()) {
+            while (p.points.length && p.points[0].t < performance.now() - 140)
+              p.points.shift()
+          }
+        }
+
+        // ---------- Rendering ----------
+        function render(now) {
+          ctx.drawImage(bg, 0, 0, W, H)
+
+          ctx.save()
+          if (shakeT > 0) {
+            ctx.translate(
+              rand(-shakeMag, shakeMag) * (shakeT / 0.7),
+              rand(-shakeMag, shakeMag) * (shakeT / 0.7)
+            )
+          }
+
+          // Whole fruit / bombs
+          for (const f of fruits) {
+            if (f.bomb) drawBomb(f)
+            else drawWholeFruit(f)
+          }
+          // Halves
+          for (const h of halves) drawHalf(h)
+          // Particles
+          for (const p of particles) {
+            const a = clamp(p.life / p.max, 0, 1)
+            ctx.globalAlpha = a
+            ctx.fillStyle = p.col
+            ctx.beginPath()
+            ctx.arc(p.x, p.y, p.r * (0.4 + 0.6 * a), 0, Math.PI * 2)
+            ctx.fill()
+          }
+          ctx.globalAlpha = 1
+
+          // Shockwave rings
+          for (const r of rings) {
+            const p = r.life / r.max
+            ctx.strokeStyle = `rgba(255,220,120,${(0.6 * p).toFixed(3)})`
+            ctx.lineWidth = 3 + 6 * (1 - p)
+            ctx.beginPath()
+            ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2)
+            ctx.stroke()
+          }
+
+          // Floating popups
+          for (const p of popups) {
+            const t = 1 - p.life / p.max
+            const scale = t < 0.25 ? easeOutBack(t / 0.25) : 1
+            const alpha = p.life < 0.35 ? p.life / 0.35 : 1
+            ctx.save()
+            ctx.translate(p.x, p.y)
+            ctx.scale(scale, scale)
+            ctx.globalAlpha = alpha
+            ctx.font = `900 ${p.size}px system-ui, sans-serif`
+            ctx.textAlign = "center"
+            ctx.textBaseline = "middle"
+            ctx.lineWidth = Math.max(3, p.size * 0.16)
+            ctx.strokeStyle = "rgba(0,0,0,0.55)"
+            ctx.strokeText(p.text, 0, 0)
+            ctx.fillStyle = p.color
+            ctx.fillText(p.text, 0, 0)
+            ctx.restore()
+          }
+          ctx.globalAlpha = 1
+
+          // Blade trails on top of everything
+          for (const p of pointers.values()) drawBlade(p.points)
+
+          // Early-game hint
+          if (state === "playing" && hintT > 0) {
+            ctx.globalAlpha = clamp(Math.min(hintT, 1), 0, 1)
+            ctx.fillStyle = "rgba(245,242,234,0.85)"
+            ctx.font = `600 ${Math.round(15 * sizeScale())}px system-ui, sans-serif`
+            ctx.textAlign = "center"
+            ctx.fillText(
+              "Swipe to slice fruit. Dodge the bombs.",
+              W / 2,
+              H * 0.66
+            )
+            ctx.globalAlpha = 1
+          }
+
+          ctx.restore()
+
+          // Static HUD elements (never shake)
+          if (state === "playing") drawLives()
+
+          // Screen flashes
+          if (boomFlash > 0) {
+            ctx.fillStyle = `rgba(255,235,200,${(boomFlash * 0.8).toFixed(3)})`
+            ctx.fillRect(0, 0, W, H)
+          }
+          if (missFlash > 0) {
+            const g = ctx.createLinearGradient(0, H - 120, 0, H)
+            g.addColorStop(0, "rgba(232,64,60,0)")
+            g.addColorStop(1, `rgba(232,64,60,${(missFlash * 0.5).toFixed(3)})`)
+            ctx.fillStyle = g
+            ctx.fillRect(0, H - 120, W, 120)
+          }
+        }
+
+        function easeOutBack(t) {
+          const c1 = 1.70158,
+            c3 = c1 + 1
+          return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2)
+        }
+
+        // ----- whole fruit drawing -----
+        function fruitGradient(f, light, mid, dark) {
+          const g = ctx.createRadialGradient(
+            -f.r * 0.35,
+            -f.r * 0.42,
+            f.r * 0.12,
+            0,
+            0,
+            f.r * 1.15
+          )
+          g.addColorStop(0, light)
+          g.addColorStop(0.55, mid)
+          g.addColorStop(1, dark)
+          return g
+        }
+
+        function drawWholeFruit(f) {
+          const T = f.type
+          const r = f.r
+          ctx.save()
+          ctx.translate(f.x, f.y)
+          ctx.rotate(f.rot)
+          const breathe = 1 + Math.sin(f.pulse) * 0.03
+          ctx.scale(breathe, breathe)
+
+          if (T === GOLDEN) {
+            drawStar(r)
+          } else if (T.id === "lemon" || T.id === "kiwi") {
+            // oval fruit drawn flat
+            ctx.scale(1, 0.82)
+            const g = fruitGradient(f, T.rindLight, T.rind, T.rindDark)
+            ctx.fillStyle = g
+            ctx.beginPath()
+            ctx.arc(0, 0, r, 0, Math.PI * 2)
+            ctx.fill()
+            if (T.id === "lemon") {
+              // lemon bulge dimples
+              ctx.fillStyle = "rgba(255,255,255,0.28)"
+              for (let i = 0; i < 6; i++) {
+                const a = (i / 6) * Math.PI * 2 + 0.4
+                ctx.beginPath()
+                ctx.arc(
+                  Math.cos(a) * r * 0.5,
+                  Math.sin(a) * r * 0.5,
+                  r * 0.06,
+                  0,
+                  Math.PI * 2
+                )
+                ctx.fill()
+              }
+            } else {
+              // kiwi fuzz
+              ctx.strokeStyle = "rgba(95,60,23,0.6)"
+              ctx.lineWidth = Math.max(1, r * 0.045)
+              for (let i = 0; i < 26; i++) {
+                const a = (i / 26) * Math.PI * 2
+                const sx = Math.cos(a) * r * 1.02,
+                  sy = Math.sin(a) * r * 1.02
+                ctx.beginPath()
+                ctx.moveTo(sx, sy)
+                ctx.lineTo(Math.cos(a) * r * 1.18, Math.sin(a) * r * 1.18)
+                ctx.stroke()
+              }
+            }
+            stemAndLeaf(r, true)
+            ctx.restore()
+            return
+          }
+
+          // round fruit
+          const g = fruitGradient(f, T.rindLight, T.rind, T.rindDark)
+          ctx.fillStyle = g
+          ctx.beginPath()
+          ctx.arc(0, 0, r, 0, Math.PI * 2)
+          ctx.fill()
+          // rim
+          ctx.strokeStyle = "rgba(0,0,0,0.28)"
+          ctx.lineWidth = Math.max(1, r * 0.05)
+          ctx.stroke()
+
+          if (T.id === "watermelon") {
+            // dark curved stripes
+            ctx.strokeStyle = T.rindDark2
+            ctx.lineWidth = r * 0.16
+            ctx.lineCap = "round"
+            for (const s of [0.35, 0.12, -0.14, -0.38]) {
+              ctx.beginPath()
+              ctx.arc(s * r, r * 0.3, r * 0.75, -0.9, 0.9)
+              ctx.stroke()
+            }
+          } else if (T.id === "apple") {
+            stemAndLeaf(r, false)
+          } else if (T.id === "orange") {
+            stemAndLeaf(r, true)
+            ctx.fillStyle = "rgba(255,255,255,0.12)"
+            for (let i = 0; i < 10; i++) {
+              const a = i * 0.63 + 0.3,
+                d = r * rand(0.25, 0.8)
+              ctx.beginPath()
+              ctx.arc(
+                Math.cos(a) * d,
+                Math.sin(a) * d,
+                r * 0.035,
+                0,
+                Math.PI * 2
+              )
+              ctx.fill()
+            }
+          }
+
+          // sheen highlight
+          const hl = ctx.createRadialGradient(
+            -r * 0.35,
+            -r * 0.45,
+            0,
+            -r * 0.35,
+            -r * 0.45,
+            r * 0.5
+          )
+          hl.addColorStop(0, "rgba(255,255,255,0.4)")
+          hl.addColorStop(1, "rgba(255,255,255,0)")
+          ctx.fillStyle = hl
+          ctx.beginPath()
+          ctx.arc(0, 0, r, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.restore()
+        }
+
+        function stemAndLeaf(r, small) {
+          ctx.strokeStyle = "#6b4423"
+          ctx.lineWidth = Math.max(1.5, r * 0.08)
+          ctx.lineCap = "round"
+          ctx.beginPath()
+          ctx.moveTo(0, -r * 0.85)
+          ctx.quadraticCurveTo(r * 0.05, -r * 1.25, r * 0.18, -r * 1.15)
+          ctx.stroke()
+          // leaf
+          ctx.fillStyle = "#3e8e41"
+          ctx.save()
+          ctx.translate(r * 0.2, -r * 1.05)
+          ctx.rotate(small ? 0.35 : 0.25)
+          ctx.beginPath()
+          ctx.ellipse(0, 0, r * 0.38, r * 0.16, 0, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.restore()
+        }
+
+        function drawStar(r) {
+          // glowing golden star
+          ctx.save()
+          ctx.shadowColor = "rgba(255,201,60,0.85)"
+          ctx.shadowBlur = 18
+          const g = ctx.createRadialGradient(
+            -r * 0.3,
+            -r * 0.3,
+            r * 0.1,
+            0,
+            0,
+            r
+          )
+          g.addColorStop(0, "#fff3c4")
+          g.addColorStop(0.6, "#ffd54f")
+          g.addColorStop(1, "#ff9d2e")
+          ctx.fillStyle = g
+          starPath(r)
+          ctx.fill()
+          ctx.shadowBlur = 0
+          ctx.restore()
+        }
+
+        function starPath(r) {
+          ctx.beginPath()
+          for (let i = 0; i < 10; i++) {
+            const ang = -Math.PI / 2 + (i * Math.PI) / 5
+            const rad = i % 2 === 0 ? r : r * 0.45
+            const x = Math.cos(ang) * rad,
+              y = Math.sin(ang) * rad
+            if (i === 0) ctx.moveTo(x, y)
+            else ctx.lineTo(x, y)
+          }
+          ctx.closePath()
+        }
+
+        // ----- bomb -----
+        function drawBomb(f) {
+          const r = f.r
+          ctx.save()
+          ctx.translate(f.x, f.y)
+          ctx.rotate(f.rot)
+          const g = ctx.createRadialGradient(
+            -r * 0.3,
+            -r * 0.35,
+            r * 0.1,
+            0,
+            0,
+            r
+          )
+          g.addColorStop(0, "#6a6a74")
+          g.addColorStop(0.55, "#33333c")
+          g.addColorStop(1, "#141417")
+          ctx.fillStyle = g
+          ctx.beginPath()
+          ctx.arc(0, 0, r, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.strokeStyle = "rgba(255,255,255,0.22)"
+          ctx.lineWidth = Math.max(1, r * 0.05)
+          ctx.stroke()
+          // skull emblem
+          ctx.fillStyle = "rgba(240,240,240,0.85)"
+          starPath(r * 0.34)
+          ctx.fill()
+          ctx.fillStyle = "#141417"
+          ctx.beginPath()
+          ctx.arc(-r * 0.13, -r * 0.05, r * 0.08, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(r * 0.13, -r * 0.05, r * 0.08, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.beginPath()
+          ctx.moveTo(-r * 0.14, r * 0.18)
+          ctx.lineTo(0, r * 0.32)
+          ctx.lineTo(r * 0.14, r * 0.18)
+          ctx.closePath()
+          ctx.fill()
+          // fuse
+          ctx.strokeStyle = "#8a5a2b"
+          ctx.lineWidth = Math.max(1.5, r * 0.09)
+          ctx.beginPath()
+          ctx.moveTo(0, -r)
+          ctx.quadraticCurveTo(r * 0.2, -r * 1.35, 0, -r * 1.5)
+          ctx.stroke()
+          // ember
+          const tg = ctx.createRadialGradient(
+            0,
+            -r * 1.5,
+            0,
+            0,
+            -r * 1.5,
+            r * 0.28
+          )
+          tg.addColorStop(0, "#fff3c4")
+          tg.addColorStop(0.4, "#ffd54f")
+          tg.addColorStop(1, "rgba(255,80,0,0)")
+          ctx.fillStyle = tg
+          ctx.beginPath()
+          ctx.arc(0, -r * 1.5, r * 0.28, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.restore()
+        }
+
+        // ----- sliced halves -----
+        function drawHalf(h) {
+          const T = h.type
+          const r = h.r,
+            dir = h.dir
+          ctx.save()
+          ctx.translate(h.x, h.y)
+          ctx.rotate(h.rot)
+
+          // rind semicircle, flat edge along the local x axis
+          ctx.fillStyle = T.rind
+          ctx.beginPath()
+          ctx.arc(0, 0, r, Math.PI, 0, dir === 1)
+          ctx.fill()
+          // flesh core, concentric so the flat face shows a rind crescent
+          const fr = r * 0.8
+          ctx.fillStyle = T.flesh
+          ctx.beginPath()
+          ctx.arc(0, 0, fr, Math.PI, 0, dir === 1)
+          ctx.fill()
+          ctx.strokeStyle = "rgba(0,0,0,0.22)"
+          ctx.lineWidth = Math.max(1, r * 0.045)
+          ctx.stroke()
+
+          // flesh details, mirrored for the lower half
+          fleshDetails(ctx, T, fr, dir)
+
+          // dome sheen
+          ctx.strokeStyle = "rgba(255,255,255,0.18)"
+          ctx.lineWidth = Math.max(1, r * 0.06)
+          ctx.beginPath()
+          ctx.arc(0, 0, r * 0.94, Math.PI, 0, dir === 1)
+          ctx.stroke()
+          ctx.restore()
+        }
+
+        function fleshDetails(c, T, fr, dir) {
+          const y = (yy) => yy * dir
+          c.save()
+          if (T === GOLDEN) {
+            // golden star cut, glitters
+            c.fillStyle = "#fff3c4"
+            for (let i = 0; i < 3; i++) {
+              c.beginPath()
+              c.arc(
+                rand(-0.3, 0.3) * fr,
+                y(rand(0.2, 0.6)) * fr,
+                fr * 0.06,
+                0,
+                Math.PI * 2
+              )
+              c.fill()
+            }
+          } else if (T.id === "watermelon") {
+            c.fillStyle = "#1c1c1c"
+            for (const [sx, sy] of [
+              [0.3, 0.4],
+              [-0.32, 0.3],
+              [0, 0.62],
+              [0.38, 0.08],
+              [-0.4, 0.68],
+            ]) {
+              seed(c, sx * fr, y(sy) * fr, fr * 0.11)
+            }
+          } else if (T.id === "apple") {
+            c.fillStyle = "#6b4423"
+            for (const [sx, sy] of [
+              [-0.18, 0.35],
+              [0.18, 0.42],
+            ])
+              seed(c, sx * fr, y(sy) * fr, fr * 0.1)
+          } else if (T.id === "orange" || T.id === "lemon") {
+            c.strokeStyle = T.fleshDark
+            c.lineWidth = Math.max(1, fr * 0.05)
+            c.globalAlpha = 0.55
+            for (let i = 0; i < 6; i++) {
+              const a = (i / 6) * Math.PI + 0.3
+              c.beginPath()
+              c.moveTo(0, 0)
+              c.lineTo(Math.cos(a) * fr * 0.95, y(Math.sin(a)) * fr * 0.95)
+              c.stroke()
+            }
+            c.globalAlpha = 1
+          } else if (T.id === "kiwi") {
+            c.fillStyle = "#1c1c1c"
+            for (let i = 0; i < 11; i++) {
+              const a = (i / 11) * Math.PI * 2 + 0.2
+              c.beginPath()
+              c.arc(
+                Math.cos(a) * fr * 0.52,
+                y(Math.sin(a)) * fr * 0.52,
+                Math.max(1, fr * 0.07),
+                0,
+                Math.PI * 2
+              )
+              c.fill()
+            }
+          }
+          c.restore()
+        }
+
+        function seed(c, x, y, s) {
+          c.save()
+          c.translate(x, y)
+          c.rotate(0.6)
+          c.beginPath()
+          c.ellipse(0, 0, s, s * 0.62, 0, 0, Math.PI * 2)
+          c.fill()
+          c.restore()
+        }
+
+        // ----- blade trail -----
+        function drawBlade(points) {
+          if (points.length < 2) return
+          const now = performance.now()
+          for (let i = 1; i < points.length; i++) {
+            const a = points[i - 1],
+              b = points[i]
+            const ageA = (now - a.t) / 140,
+              ageB = (now - b.t) / 140
+            const wA = Math.max(0, 1 - ageA),
+              wB = Math.max(0, 1 - ageB)
+            if (wA <= 0 && wB <= 0) continue
+            const alpha = ((wA + wB) / 2) * 0.9
+            ctx.strokeStyle = `rgba(255,255,255,${alpha.toFixed(3)})`
+            ctx.lineWidth = Math.max(1, (10 * sizeScale() * (wA + wB)) / 2)
+            ctx.lineCap = "round"
+            ctx.beginPath()
+            ctx.moveTo(a.x, a.y)
+            ctx.lineTo(b.x, b.y)
+            ctx.stroke()
+          }
+          // bright core
+          ctx.strokeStyle = "rgba(255,240,180,0.9)"
+          ctx.lineWidth = Math.max(1, 3.5 * sizeScale())
+          ctx.beginPath()
+          ctx.moveTo(points[0].x, points[0].y)
+          for (let i = 1; i < points.length; i++)
+            ctx.lineTo(points[i].x, points[i].y)
+          ctx.stroke()
+        }
+
+        // ----- lives (canvas HUD, top right) -----
+        function drawLives() {
+          const s = 15 * sizeScale()
+          const cx = W - 34,
+            cy = 58
+          for (let i = 0; i < 3; i++) {
+            const x = cx - i * (s * 2.2),
+              y = cy + (i % 2) * 3
+            const lost = i >= lives
+            ctx.save()
+            ctx.globalAlpha = lost ? 0.25 : 1
+            ctx.translate(x, y)
+            // watermelon slice icon: green rind arc, red flesh
+            ctx.fillStyle = "#3e8e41"
+            ctx.beginPath()
+            ctx.arc(0, 0, s, 0, Math.PI * 2)
+            ctx.fill()
+            ctx.fillStyle = "#ff4b4b"
+            ctx.beginPath()
+            ctx.arc(0, 0, s * 0.68, 0, Math.PI * 2)
+            ctx.fill()
+            ctx.fillStyle = "#1c1c1c"
+            ctx.beginPath()
+            ctx.arc(s * 0.2, -s * 0.15, s * 0.12, 0, Math.PI * 2)
+            ctx.fill()
+            if (lost) {
+              ctx.strokeStyle = "rgba(245,242,234,0.8)"
+              ctx.lineWidth = 2.5
+              ctx.beginPath()
+              ctx.moveTo(-s, -s)
+              ctx.lineTo(s, s)
+              ctx.stroke()
+            }
+            ctx.restore()
+          }
+        }
+
+        // ---------- Input ----------
+        function pointerState(e) {
+          return { x: e.clientX, y: e.clientY, t: performance.now() }
+        }
+
+        canvas.addEventListener(
+          "pointerdown",
+          (e) => {
+            if (e.pointerType === "touch") e.preventDefault()
+            SFX.init()
+            SFX.resume()
+            const p = pointerState(e)
+            pointers.set(e.pointerId, {
+              x: p.x,
+              y: p.y,
+              px: p.x,
+              py: p.y,
+              points: [{ x: p.x, y: p.y, t: p.t }],
+            })
+          },
+          { passive: false }
+        )
+
+        window.addEventListener(
+          "pointermove",
+          (e) => {
+            const p = pointers.get(e.pointerId)
+            if (!p) return
+            const cur = pointerState(e)
+            if (
+              state === "playing" &&
+              !paused &&
+              dist2(p.px, p.py, cur.x, cur.y) >= 9
+            ) {
+              sliceCheck(p.px, p.py, cur.x, cur.y)
+              if (e.pointerType === "touch") SFX.swish()
+            }
+            p.px = p.x
+            p.py = p.y
+            p.x = cur.x
+            p.y = cur.y
+            p.points.push({ x: cur.x, y: cur.y, t: cur.t })
+            while (p.points.length > 40) p.points.shift()
+            while (p.points.length && p.points[0].t < performance.now() - 140)
+              p.points.shift()
+          },
+          { passive: false }
+        )
+
+        const endPointer = (e) => {
+          pointers.delete(e.pointerId)
+        }
+        window.addEventListener("pointerup", endPointer)
+        window.addEventListener("pointercancel", endPointer)
+        window.addEventListener("contextmenu", (e) => e.preventDefault())
+
+        // ---------- Flow control ----------
+        function startGame() {
+          fruits.length = 0
+          halves.length = 0
+          particles.length = 0
+          popups.length = 0
+          rings.length = 0
+          score = 0
+          lives = 3
+          elapsed = 0
+          spawnTimer = 0.5
+          spawnedCount = 0
+          comboCount = 0
+          comboTimer = 0
+          hintT = 4
+          shakeT = 0
+          boomFlash = 0
+          missFlash = 0
+          updateScoreUI()
+          bestHudEl.textContent = best
+          state = "playing"
+          paused = false
+          menuEl.classList.add("hidden")
+          overEl.classList.add("hidden")
+          hudEl.classList.remove("hidden")
+          pauseBanner.classList.add("hidden")
+        }
+
+        function gameOver() {
+          state = "over"
+          pointers.clear()
+          const isNewBest = score > best
+          if (isNewBest) {
+            best = score
+            saveBest()
+          }
+          overScoreEl.textContent = score
+          overBestEl.textContent = best
+          newBestEl.classList.toggle("hidden", !isNewBest)
+          hudEl.classList.add("hidden")
+          overEl.classList.remove("hidden")
+          SFX.over()
+        }
+
+        function togglePause() {
+          if (state !== "playing") return
+          paused = !paused
+          pauseBanner.classList.toggle("hidden", !paused)
+        }
+
+        $("start-btn").addEventListener("click", () => {
+          SFX.init()
+          SFX.resume()
+          startGame()
+        })
+        $("again-btn").addEventListener("click", () => {
+          SFX.init()
+          SFX.resume()
+          startGame()
+        })
+        muteBtn.addEventListener("click", () => {
+          SFX.muted = !SFX.muted
+          try {
+            localStorage.setItem("fruitninjaflash-muted", SFX.muted ? "1" : "0")
+          } catch {}
+          setMuteUI()
+        })
+
+        window.addEventListener("keydown", (e) => {
+          if (e.repeat) return
+          SFX.init()
+          SFX.resume()
+          if (e.key === " " || e.key === "Enter") {
+            if (state === "menu" || state === "over") {
+              e.preventDefault()
+              startGame()
+            } else if (e.key === " ") {
+              e.preventDefault()
+              togglePause()
+            }
+          }
+          if (e.key === "p" || e.key === "P") togglePause()
+          if (e.key === "m" || e.key === "M") muteBtn.click()
+        })
+
+        // Auto-pause when the tab is hidden
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            if (state === "playing" && !paused) togglePause()
+          } else lastTime = performance.now()
+        })
+
+        window.addEventListener("resize", resize)
+
+        // ---------- Main loop (fixed 60 Hz physics) ----------
+        let lastTime = performance.now(),
+          acc = 0
+        const STEP = 1 / 60
+
+        function frame(now) {
+          requestAnimationFrame(frame)
+          if (paused || state === "menu" || state === "over") {
+            lastTime = now
+            render(now)
+            return
+          }
+          acc += Math.min(0.1, (now - lastTime) / 1000)
+          lastTime = now
+          while (acc >= STEP) {
+            update(STEP)
+            acc -= STEP
+          }
+          render(now)
+        }
+
+        // Kick off
+        resize()
+        menuBestEl.textContent = best
+        requestAnimationFrame(frame)
+      })()
+    </script>
+  </body>
+</html>
