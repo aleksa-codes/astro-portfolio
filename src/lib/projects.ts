@@ -17,7 +17,7 @@ export const projects = [
     tags: [
       "Next.js",
       "TypeScript",
-      "TailwindCSS",
+      "Tailwind CSS",
       "shadcn/ui",
       "Neon",
       "DrizzleORM",
@@ -39,7 +39,7 @@ export const projects = [
       "React",
       "TypeScript",
       "TanStack Query",
-      "TailwindCSS",
+      "Tailwind CSS",
       "shadcn/ui",
     ],
     image: NbaZone,
@@ -67,7 +67,7 @@ export const projects = [
     tags: [
       "Next.js",
       "TypeScript",
-      "TailwindCSS",
+      "Tailwind CSS",
       "shadcn/ui",
       "OpenAI API",
       "Ollama",
@@ -86,7 +86,7 @@ export const projects = [
       "Astro",
       "TypeScript",
       "CSS",
-      "TailwindCSS",
+      "Tailwind CSS",
       "Vercel AI SDK",
       "Gemini",
       "OpenAI",
@@ -104,7 +104,7 @@ export const projects = [
     tags: [
       "React",
       "TypeScript",
-      "TailwindCSS",
+      "Tailwind CSS",
       "shadcn/ui",
       "OpenAI API",
       "Chrome API",
@@ -117,7 +117,7 @@ export const projects = [
     title: "Easy Website Blocker",
     description:
       "Powerful productivity extension designed to eliminate digital distractions. Features highly customizable block lists and granular exceptions for deep, uninterrupted work sessions.",
-    tags: ["React", "TypeScript", "TailwindCSS", "shadcn/ui", "Chrome API"],
+    tags: ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Chrome API"],
     image: EasyWebsiteBlocker,
     github: "https://github.com/aleksa-codes/easy-website-blocker",
     category: "Browser Extensions",
@@ -129,7 +129,7 @@ export const projects = [
     tags: [
       "Next.js",
       "TypeScript",
-      "TailwindCSS",
+      "Tailwind CSS",
       "shadcn/ui",
       "ChatGPT",
       "localStorage",
@@ -160,7 +160,7 @@ export const projects = [
     title: "aleksa.codes",
     description:
       "My personal portfolio and blog built with Astro for peak performance and SEO. Features a Decap CMS integration and an interactive AI site assistant.",
-    tags: ["Astro", "TypeScript", "TailwindCSS", "SEO", "Decap CMS", "AI"],
+    tags: ["Astro", "TypeScript", "Tailwind CSS", "SEO", "Decap CMS", "AI"],
     image: AleksaPortfolio,
     demo: "https://aleksa.codes",
     github: "https://github.com/aleksa-codes/astro-portfolio",

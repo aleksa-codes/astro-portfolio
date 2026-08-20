@@ -21,7 +21,7 @@ const filteredTech = techList.filter(
         <Button
           variant="outline"
           size="lg"
-          href={`${tech.url}${tech.url.includes("?") ? "&" : "?"}utm_source=aleksa.codes`}
+          href={`${tech.url}${tech.utm === false ? "" : `${tech.url.includes("?") ? "&" : "?"}utm_source=aleksa.codes`}`}
           target="_blank"
           rel="noopener noreferrer"
           class="group hover:border-foreground/10"

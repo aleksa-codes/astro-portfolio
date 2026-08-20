@@ -4,6 +4,8 @@ export interface TechInfo {
   color: string
   hover: string
   url: string
+  /** Set to false to skip the site's `utm_source` query param (e.g. referral links). */
+  utm?: boolean
 }
 
 // central list used by both the landing page and project cards
@@ -67,7 +69,7 @@ export const techList: TechInfo[] = [
     url: "https://astro.build/",
   },
   {
-    name: "TailwindCSS",
+    name: "Tailwind CSS",
     icon: "simple-icons:tailwindcss",
     color: "text-sky-500 dark:text-sky-400",
     hover: "hover:shadow-sky-400/20",
@@ -260,7 +262,8 @@ export const techList: TechInfo[] = [
     icon: "simple-icons:opencode",
     color: "text-neutral-800 dark:text-neutral-200",
     hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
-    url: "https://opencode.ai",
+    url: "https://opencode.ai/go?ref=M15S9JQF29",
+    utm: false,
   },
 ]
 

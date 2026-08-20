@@ -75,7 +75,7 @@ These days he focuses on web applications where performance, accessibility, and 
 ## Tech Stack
 
 Languages: HTML, CSS, JavaScript, TypeScript
-Frontend: React, Next.js, Astro, TailwindCSS, shadcn/ui, TanStack Query, Motion
+Frontend: React, Next.js, Astro, Tailwind CSS, shadcn/ui, TanStack Query, Motion
 Backend/Runtime: Node.js, Bun, Hono.js, Socket.IO
 Databases/ORM: PostgreSQL, DrizzleORM, Supabase, Neon
 Other: AI/LLM integrations, Chrome Extension APIs, PWA
@@ -87,35 +87,35 @@ Other: AI/LLM integrations, Chrome Extension APIs, PWA
 ### UnYellowGPT
 SaaS platform trusted by over 4,000 users that instantly fixes yellow tints and sepia filters in AI-generated images. Features advanced white balance and true color restoration.
 - **Live:** https://unyellowgpt.com
-- **Stack:** Next.js, TypeScript, TailwindCSS, shadcn/ui, Neon, DrizzleORM, Better Auth, Polar.sh
+- **Stack:** Next.js, TypeScript, Tailwind CSS, shadcn/ui, Neon, DrizzleORM, Better Auth, Polar.sh
 
 ### GPT Image Captioner
 Advanced tool for generating highly detailed image descriptions, optimized for AI LoRA model training with batch processing.
 - **Live:** https://gptcaptioner.aleksa.codes
 - **GitHub:** https://github.com/aleksa-codes/gpt-flux-img-captioner
-- **Stack:** Next.js, TypeScript, TailwindCSS, shadcn/ui, OpenAI API, Ollama
+- **Stack:** Next.js, TypeScript, Tailwind CSS, shadcn/ui, OpenAI API, Ollama
 
 ### Easy WebsiteGPT
 Chrome extension enabling interactive AI conversations directly with any webpage. Features real-time streaming responses and persistent chat history.
 - **GitHub:** https://github.com/aleksa-codes/easy-website-gpt
-- **Stack:** React, TypeScript, TailwindCSS, shadcn/ui, OpenAI API, Chrome API
+- **Stack:** React, TypeScript, Tailwind CSS, shadcn/ui, OpenAI API, Chrome API
 
 ### Next Workout
 Fitness app with AI-tailored workout plans and integrated rest timers. Customizable routines with video demonstrations.
 - **Live:** https://nextworkout.aleksa.codes
 - **GitHub:** https://github.com/aleksa-codes/next-workout
-- **Stack:** Next.js, TypeScript, TailwindCSS, shadcn/ui, ChatGPT
+- **Stack:** Next.js, TypeScript, Tailwind CSS, shadcn/ui, ChatGPT
 
 ### GPT FileSmith
 Creative AI content generator. Instantly crafts unique, imaginative text and documents with real-time preview and download options.
 - **Live:** https://filesmith.aleksa.codes
 - **GitHub:** https://github.com/aleksa-codes/gpt-filesmith
-- **Stack:** Astro, TailwindCSS, OpenAI API
+- **Stack:** Astro, Tailwind CSS, OpenAI API
 
 ### Easy Website Blocker
 Productivity Chrome extension to eliminate digital distractions with customizable block lists and granular exceptions.
 - **GitHub:** https://github.com/aleksa-codes/easy-website-blocker
-- **Stack:** React, TypeScript, TailwindCSS, shadcn/ui, Chrome API
+- **Stack:** React, TypeScript, Tailwind CSS, shadcn/ui, Chrome API
 
 ### One Dark Modern Pro
 Sleek VS Code theme inspired by Atom's One Dark Pro. Delivers refined UI and vibrant syntax highlighting.
@@ -136,7 +136,7 @@ Personal portfolio and blog built with Astro for peak performance and SEO. Featu
 A fast, modern NBA dashboard presenting live standings, in-depth team statistics, latest schedules, and up-to-date NBA news and videos fetched via ESPN API and YouTube RSS.
 - **Live:** https://nbazone.vercel.app
 - **GitHub:** https://github.com/aleksa-codes/nba-zone
-- **Stack:** Next.js 16, React 19, TypeScript, TanStack Query, TailwindCSS, shadcn/ui
+- **Stack:** Next.js 16, React 19, TypeScript, TanStack Query, Tailwind CSS, shadcn/ui
 
 ---
 
