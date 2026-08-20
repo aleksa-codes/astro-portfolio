@@ -1,11 +1,19 @@
 ---
 import { Icon } from "astro-icon/components"
-import Button from "@/components/ui/button.astro"
-import Card from "@/components/ui/card.astro"
 import GitHubActivity from "@/components/github-activity.astro"
+import WindowCard from "@/components/window-card.astro"
 import { cn } from "@/lib/utils"
 
-const funFacts = [
+// figlet -f "Standard" (true lowercase glyphs)
+const ART_BANNER = [
+  "        _      _                             _           ",
+  "   __ _| | ___| | _____  __ _   ___ ___   __| | ___  ___ ",
+  "  / _` | |/ _ \\ |/ / __|/ _` | / __/ _ \\ / _` |/ _ \\/ __|",
+  " | (_| | |  __/   <\\__ \\ (_| || (_| (_) | (_| |  __/\\__ \\",
+  "  \\__,_|_|\\___|_|\\_\\___/\\__,_(_)___\\___/ \\__,_|\\___||___/",
+]
+
+const interests = [
   {
     icon: "lucide:brain-circuit",
     text: "Building things with AI & code",
@@ -17,7 +25,10 @@ const funFacts = [
     color: "text-orange-500",
   },
   {
-    icon: "lucide:gamepad-2",
+    // Not gamepad-2: that one is used by the dock, and astro-icon embeds an
+    // icon's <symbol> only at its first usage on a page. This terminal wipes
+    // its SSR rows on load, which would orphan the dock's shared <use>.
+    icon: "lucide:gamepad",
     text: "Casual gamer in my free time",
     color: "text-blue-500",
   },
@@ -59,50 +70,441 @@ const funFacts = [
   </div>
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-    <Card class="h-full" contentClass="flex flex-col h-full">
-      <h3
-        class="mb-4 flex shrink-0 items-center gap-2.5 text-base font-semibold text-foreground"
+    <WindowCard title="Terminal" icon="lucide:terminal">
+      <div
+        id="whoami-term"
+        class="relative flex h-67 min-h-0 flex-col font-mono text-sm"
       >
-        <Icon name="lucide:terminal" class="h-5 w-5 text-green-500" /> whoami
-      </h3>
-      <div class="grid flex-1 grid-cols-2 gap-3">
-        {
-          funFacts.map((fact) => (
-            <div class="flex flex-col items-center justify-center gap-2.5 rounded-xl border border-border bg-secondary/30 p-4 text-center transition-colors hover:bg-secondary/50">
-              <Icon
-                name={fact.icon}
-                class={cn("h-6 w-6 shrink-0", fact.color)}
-              />
-              <p class="text-sm leading-snug font-medium tracking-tight text-muted-foreground">
-                {fact.text}
-              </p>
-            </div>
-          ))
-        }
-      </div>
-    </Card>
-
-    <Card class="h-full" contentClass="flex flex-col h-full relative group">
-      <h3
-        class="mb-4 flex shrink-0 items-center justify-between gap-2.5 text-base font-semibold text-foreground"
-      >
-        <div class="flex items-center gap-2.5">
-          <Icon name="lucide:github" class="h-5 w-5 text-green-500" /> GitHub Activity
-        </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          href="https://github.com/aleksa-codes"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="View GitHub Profile"
+        <div
+          id="term-output"
+          class="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-3"
         >
-          <Icon name="lucide:external-link" class="h-5 w-5" />
-        </Button>
-      </h3>
-      <div class="flex flex-1 flex-col gap-3">
+          <!-- Static no-JS fallback; cleared and replayed by the script -->
+          <div class="flex items-center gap-3 py-0.5">
+            <span
+              class="w-3.5 shrink-0 text-green-500 select-none"
+              aria-hidden="true"
+            >
+              $
+            </span>
+            <span class="text-foreground">whoami</span>
+          </div>
+          <pre
+            class="mb-0.5 text-[8px] leading-[1.15] whitespace-pre text-foreground"
+            aria-hidden="true">{ART_BANNER.join("\n")}</pre>
+          {
+            interests.map((item) => (
+              <div class="flex items-center gap-3 py-0.5">
+                <Icon
+                  name={item.icon}
+                  class={cn("h-4 w-4 shrink-0", item.color)}
+                  aria-hidden="true"
+                />
+                <span class="text-muted-foreground">{item.text}</span>
+              </div>
+            ))
+          }
+          <div class="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1">
+            <a
+              href="https://github.com/aleksa-codes"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
+              >github.com/aleksa-codes</a
+            >
+            <span aria-hidden="true" class="text-xs text-muted-foreground/60"
+              >·</span
+            >
+            <a
+              href="mailto:hello@aleksa.codes"
+              class="text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
+              >hello@aleksa.codes</a
+            >
+          </div>
+        </div>
+
+        <div
+          class="flex shrink-0 items-center gap-3 border-t border-border/60 px-4 py-3"
+        >
+          <span
+            class="w-3.5 shrink-0 text-green-500 select-none"
+            aria-hidden="true"
+          >
+            $
+          </span>
+          <div class="relative flex min-w-0 flex-1 items-center">
+            <span id="term-before" class="text-foreground"></span>
+            <span
+              id="term-cursor"
+              class="h-4 w-1.75 shrink-0 rounded-[1px] bg-green-500/80"
+              aria-hidden="true"></span>
+            <span id="term-after" class="text-foreground"></span>
+            <span
+              id="term-placeholder"
+              class="pointer-events-none absolute left-0 text-muted-foreground/40 select-none"
+            >
+              type 'help'
+            </span>
+            <input
+              id="term-input"
+              type="text"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              aria-label="Terminal command input"
+              class="absolute inset-0 h-full w-full cursor-text bg-transparent text-transparent caret-transparent outline-none"
+            />
+          </div>
+        </div>
+      </div>
+    </WindowCard>
+
+    <WindowCard title="GitHub" icon="lucide:github">
+      <div class="flex min-h-0 flex-1 flex-col font-mono">
         <GitHubActivity />
       </div>
-    </Card>
+    </WindowCard>
   </div>
 </section>
+
+<style>
+  /* Cursor is invisible until the input is focused, like a real terminal */
+  #term-cursor {
+    opacity: 0;
+  }
+  #term-cursor.blink-cursor {
+    opacity: 1;
+    animation: term-blink 1.2s step-end infinite;
+  }
+  @keyframes term-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #term-cursor.blink-cursor {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  import { runMatrix } from "../lib/terminal/matrix"
+  import { runSnake } from "../lib/terminal/snake"
+  import { runSystem } from "../lib/terminal/system"
+  import { runTank } from "../lib/terminal/tank"
+  import { runHack } from "../lib/terminal/hack"
+  const termEl = document.getElementById("whoami-term")
+  const outputEl = document.getElementById("term-output")
+  const inputEl = document.getElementById(
+    "term-input"
+  ) as HTMLInputElement | null
+  const beforeEl = document.getElementById("term-before")
+  const afterEl = document.getElementById("term-after")
+  const phEl = document.getElementById("term-placeholder")
+  const cursorEl = document.getElementById("term-cursor")
+
+  if (termEl && outputEl && inputEl && beforeEl && afterEl && phEl) {
+    const term: HTMLElement = termEl
+    const output: HTMLElement = outputEl
+    const input: HTMLInputElement = inputEl
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
+    const PROMPT = "w-3.5 shrink-0 text-green-500 select-none"
+    let busy = true // locked until the intro finishes
+
+    // Mirrors of the frontmatter data for replays
+    const ART_BANNER = [
+      "        _      _                             _           ",
+      "   __ _| | ___| | _____  __ _   ___ ___   __| | ___  ___ ",
+      "  / _` | |/ _ \\ |/ / __|/ _` | / __/ _ \\ / _` |/ _ \\/ __|",
+      " | (_| | |  __/   <\\__ \\ (_| || (_| (_) | (_| |  __/\\__ \\",
+      "  \\__,_|_|\\___|_|\\_\\___/\\__,_(_)___\\___/ \\__,_|\\___||___/",
+    ]
+    const INTERESTS = [
+      {
+        icon: "lucide:brain-circuit",
+        text: "Building things with AI & code",
+        color: "text-pink-500",
+      },
+      {
+        icon: "iconoir:basketball",
+        text: "Love hooping & watching NBA",
+        color: "text-orange-500",
+      },
+      {
+        icon: "lucide:gamepad",
+        text: "Casual gamer in my free time",
+        color: "text-blue-500",
+      },
+      {
+        icon: "lucide:coffee",
+        text: "Fueled by coffee & curiosity",
+        color: "text-amber-700 dark:text-amber-500",
+      },
+    ]
+
+    const scroll = () => (output.scrollTop = output.scrollHeight)
+
+    // The input is invisible; these spans mirror it with a block cursor
+    const render = () => {
+      const pos = input.selectionStart ?? input.value.length
+      beforeEl.textContent = input.value.slice(0, pos)
+      afterEl.textContent = input.value.slice(pos)
+      phEl.style.display = input.value ? "none" : ""
+    }
+
+    const promptLine = (cmd: string) => {
+      const div = document.createElement("div")
+      div.className = "flex items-center gap-3 py-0.5"
+      div.innerHTML = `<span class="${PROMPT}" aria-hidden="true">$</span>`
+      const label = document.createElement("span")
+      label.className = "text-foreground"
+      label.textContent = cmd
+      div.appendChild(label)
+      output.appendChild(div)
+      scroll()
+    }
+
+    const print = (text: string, cls = "text-muted-foreground") => {
+      const div = document.createElement("div")
+      div.className = `py-0.5 whitespace-pre-wrap ${cls}`
+      div.textContent = text
+      output.appendChild(div)
+      scroll()
+    }
+
+    // Snapshot SSR interest rows (with real icon SVGs) so replays can reuse them
+    const introRows = Array.from(output.children)
+      .filter((n) => n.querySelector("svg"))
+      .map((n) => n.cloneNode(true) as HTMLElement)
+    // Map "text" -> colored icon SVG so dynamically replayed rows get their icons
+    const snapshotIcons = new Map<string, SVGElement>()
+    for (const row of introRows) {
+      const text = row.children[1]?.textContent?.trim() ?? ""
+      const svg = row.querySelector("svg")
+      if (svg) snapshotIcons.set(text, svg.cloneNode(true) as SVGElement)
+    }
+
+    async function runIntro() {
+      output.innerHTML = ""
+      const rows: HTMLElement[] = []
+
+      // $ whoami
+      const line = document.createElement("div")
+      line.className = "flex items-center gap-3 py-0.5"
+      line.innerHTML = `<span class="${PROMPT}" aria-hidden="true">$</span><span class="text-foreground">whoami</span>`
+      rows.push(line)
+
+      // ASCII banner
+      const pre = document.createElement("pre")
+      pre.setAttribute("aria-hidden", "true")
+      pre.className =
+        "mb-1 whitespace-pre text-[8px] leading-[1.15] text-foreground"
+      pre.textContent = ART_BANNER.join("\n")
+      rows.push(pre)
+
+      // Interest lines: the icon acts as the prompt glyph
+      for (const item of INTERESTS) {
+        const div = document.createElement("div")
+        div.className = "flex items-center gap-3 py-0.5"
+        const icon = document.createElement("span")
+        icon.className = `h-4 w-4 shrink-0 ${item.color}`
+        // Reuse the SSR icon SVG (with its color) so replays aren't icon-less
+        const src = snapshotIcons.get(item.text)
+        if (src) icon.appendChild(src.cloneNode(true))
+        const label = document.createElement("span")
+        label.className = "min-w-0 text-muted-foreground"
+        label.textContent = item.text
+        div.append(icon, label)
+        rows.push(div)
+      }
+
+      // Contact footer — matches the terminal's muted link style
+      const foot = document.createElement("div")
+      foot.className = "mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1"
+      const gh = document.createElement("a")
+      gh.href = "https://github.com/aleksa-codes"
+      gh.target = "_blank"
+      gh.rel = "noopener noreferrer"
+      gh.className =
+        "text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
+      gh.textContent = "github.com/aleksa-codes"
+      const sep = document.createElement("span")
+      sep.setAttribute("aria-hidden", "true")
+      sep.className = "text-xs text-muted-foreground/60"
+      sep.textContent = "·"
+      const mail = document.createElement("a")
+      mail.href = "mailto:hello@aleksa.codes"
+      mail.className =
+        "text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
+      mail.textContent = "hello@aleksa.codes"
+      foot.append(gh, sep, mail)
+      rows.push(foot)
+
+      rows.forEach((row) => output.appendChild(row))
+
+      // Reduced motion: just show everything, no reveal
+      if (reduced) return
+
+      // Smooth Apple-style top-to-bottom reveal: staggered fade + slight rise
+      const DURATION = 420
+      const STAGGER = 75
+      rows.forEach((row, i) => {
+        row.animate(
+          [
+            { opacity: 0, transform: "translateY(6px)", filter: "blur(2px)" },
+            { opacity: 1, transform: "translateY(0)", filter: "blur(0)" },
+          ],
+          {
+            duration: DURATION,
+            delay: i * STAGGER,
+            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+            fill: "backwards",
+          }
+        )
+      })
+      // Wait for the last block so the terminal unlocks after the reveal
+      await sleep(DURATION + (rows.length - 1) * STAGGER)
+      scroll()
+    }
+
+    const HELP_TEXT = [
+      "available commands:",
+      "  help    show this message",
+      "  whoami  replay the intro",
+      "  matrix  enter the matrix",
+      "  snake   play snake",
+      "  system  the solar system",
+      "  tank    watch the fish",
+      "  hack    look like a hacker",
+      "  clear   clear the terminal",
+    ].join("\n")
+
+    async function runCommand(raw: string) {
+      const cmd = raw.trim().toLowerCase()
+      if (!cmd || busy) return
+      busy = true
+      promptLine(raw.trim())
+      if (cmd === "help") {
+        print(HELP_TEXT)
+      } else if (cmd === "whoami") {
+        output.innerHTML = ""
+        await runIntro()
+      } else if (cmd === "clear") {
+        output.innerHTML = ""
+      } else if (cmd === "matrix") {
+        if (reduced) {
+          print("wake up, neo...")
+          print("(matrix disabled with reduced motion)")
+        } else {
+          await runMatrix({ term, input, render })
+          print("knock, knock.")
+        }
+      } else if (cmd === "snake") {
+        if (reduced) {
+          print("no snakes here")
+          print("(snake disabled with reduced motion)")
+        } else {
+          await runSnake({ term, input, render })
+          print("hungry for more? type 'snake'")
+        }
+      } else if (cmd === "system") {
+        if (reduced) {
+          print("the planets hold still")
+          print("(system disabled with reduced motion)")
+        } else {
+          await runSystem({ term, input, render })
+          print("back on earth.")
+        }
+      } else if (cmd === "tank") {
+        if (reduced) {
+          print("the fish are shy")
+          print("(tank disabled with reduced motion)")
+        } else {
+          await runTank({ term, input, render })
+          print("glub.")
+        }
+      } else if (cmd === "hack") {
+        if (reduced) {
+          print("no hacking while you rest")
+          print("(hack disabled with reduced motion)")
+        } else {
+          await runHack({ term, input, render })
+          print("we're in.")
+        }
+      } else {
+        print(`command not found: ${cmd} — try 'help'`, "text-red-500/80")
+      }
+      busy = false
+    }
+
+    // Command history, arrow keys like a real shell
+    const history: string[] = []
+    let histIdx = -1
+
+    input.addEventListener("keydown", (e) => {
+      // While a command or the matrix is running, keys belong to it
+      if (busy) return
+      if (e.key === "Enter") {
+        const v = input.value
+        if (v.trim()) {
+          history.push(v)
+          histIdx = -1
+        }
+        input.value = ""
+        render()
+        void runCommand(v)
+      } else if (e.key === "ArrowUp" && history.length) {
+        e.preventDefault()
+        histIdx = Math.min(histIdx + 1, history.length - 1)
+        input.value = history[history.length - 1 - histIdx] ?? ""
+        render()
+      } else if (e.key === "ArrowDown" && history.length) {
+        e.preventDefault()
+        histIdx = Math.max(histIdx - 1, -1)
+        input.value =
+          histIdx === -1 ? "" : history[history.length - 1 - histIdx]
+        render()
+      }
+    })
+    ;["input", "keyup", "click", "focus"].forEach((ev) =>
+      input.addEventListener(ev, render)
+    )
+    render()
+
+    // Cursor only exists while the terminal is focused, like a real one
+    if (cursorEl) {
+      input.addEventListener("focus", () =>
+        cursorEl.classList.add("blink-cursor")
+      )
+      input.addEventListener("blur", () =>
+        cursorEl.classList.remove("blink-cursor")
+      )
+    }
+
+    // Click anywhere in the terminal focuses the input — but not while a
+    // command runs, so the mobile keyboard never pops mid-game
+    termEl.addEventListener("click", () => {
+      if (busy) return
+      if (!getSelection()?.toString()) input.focus()
+    })
+
+    if (reduced) {
+      busy = false
+    } else {
+      output.innerHTML = ""
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            io.disconnect()
+            void runIntro().then(() => (busy = false))
+          }
+        },
+        { threshold: 0.3 }
+      )
+      io.observe(termEl)
+    }
+  }
+</script>
