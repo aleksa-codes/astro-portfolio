@@ -54,7 +54,9 @@ export default defineConfig({
         },
       },
     }),
-    icon(),
+    icon({
+      iconDir: "./src/assets/icons",
+    }),
     minifyDist(),
     sitemap({
       filter(page) {

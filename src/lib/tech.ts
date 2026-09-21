@@ -4,8 +4,6 @@ export interface TechInfo {
   color: string
   hover: string
   url: string
-  /** Set to false to skip the site's `utm_source` query param (e.g. referral links). */
-  utm?: boolean
 }
 
 // central list used by both the landing page and project cards
@@ -39,6 +37,13 @@ export const techList: TechInfo[] = [
     hover: "hover:shadow-blue-500/20",
     url: "https://www.typescriptlang.org/",
   },
+  {
+    name: "Python",
+    icon: "simple-icons:python",
+    color: "text-[#3776AB] dark:text-[#4B8BBE]",
+    hover: "hover:shadow-[#4B8BBE]/20",
+    url: "https://www.python.org/",
+  },
   // Frontend
   {
     name: "React",
@@ -55,18 +60,18 @@ export const techList: TechInfo[] = [
     url: "https://nextjs.org/",
   },
   {
-    name: "TanStack Query",
-    icon: "simple-icons:tanstack",
-    color: "text-neutral-800 dark:text-neutral-200",
-    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
-    url: "https://tanstack.com/query/",
-  },
-  {
     name: "Astro",
     icon: "simple-icons:astro",
     color: "text-neutral-800 dark:text-neutral-200",
     hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
     url: "https://astro.build/",
+  },
+  {
+    name: "TanStack",
+    icon: "simple-icons:tanstack",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://tanstack.com/",
   },
   {
     name: "Tailwind CSS",
@@ -88,6 +93,41 @@ export const techList: TechInfo[] = [
     color: "text-yellow-500 dark:text-yellow-400",
     hover: "hover:shadow-yellow-400/20",
     url: "https://www.motion.dev/",
+  },
+  {
+    name: "Expo",
+    icon: "simple-icons:expo",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://expo.dev/",
+  },
+  {
+    name: "Base UI",
+    icon: "simple-icons:baseui",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://base-ui.com/",
+  },
+  {
+    name: "Radix UI",
+    icon: "simple-icons:radixui",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://www.radix-ui.com/",
+  },
+  {
+    name: "TanStack",
+    icon: "simple-icons:tanstack",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://tanstack.com/",
+  },
+  {
+    name: "TanStack Query",
+    icon: "simple-icons:tanstack",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://tanstack.com/query/",
   },
   // Backend / Runtime
   {
@@ -120,13 +160,6 @@ export const techList: TechInfo[] = [
   },
   // Databases / ORM
   {
-    name: "Drizzle ORM",
-    icon: "simple-icons:drizzle",
-    color: "text-lime-500 dark:text-lime-400",
-    hover: "hover:shadow-lime-400/20",
-    url: "https://orm.drizzle.team/",
-  },
-  {
     name: "PostgreSQL",
     icon: "simple-icons:postgresql",
     color: "text-blue-600 dark:text-blue-500",
@@ -155,11 +188,32 @@ export const techList: TechInfo[] = [
     url: "https://neon.tech/",
   },
   {
+    name: "Drizzle ORM",
+    icon: "simple-icons:drizzle",
+    color: "text-lime-500 dark:text-lime-400",
+    hover: "hover:shadow-lime-400/20",
+    url: "https://orm.drizzle.team/",
+  },
+  {
     name: "Decap CMS",
     icon: "simple-icons:decapcms",
     color: "text-pink-600 dark:text-pink-400",
     hover: "hover:shadow-pink-400/20",
     url: "https://decapcms.org/",
+  },
+  {
+    name: "Keystatic",
+    icon: "keystatic",
+    color: "text-slate-500 dark:text-slate-400",
+    hover: "hover:shadow-slate-400/20",
+    url: "https://keystatic.com/",
+  },
+  {
+    name: "WordPress",
+    icon: "simple-icons:wordpress",
+    color: "text-[#21759B] dark:text-[#6FA8C9]",
+    hover: "hover:shadow-[#21759B]/20",
+    url: "https://wordpress.org/",
   },
   // DevOps / Cloud
   {
@@ -190,14 +244,14 @@ export const techList: TechInfo[] = [
     hover: "hover:shadow-teal-400/20",
     url: "https://www.netlify.com/",
   },
-  // AI
   {
-    name: "OpenAI API",
-    icon: "simple-icons:openai",
-    color: "text-teal-600 dark:text-teal-500",
-    hover: "hover:shadow-teal-500/20",
-    url: "https://openai.com/api/",
+    name: "Vercel",
+    icon: "simple-icons:vercel",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://vercel.com/",
   },
+  // AI
   {
     name: "Ollama",
     icon: "simple-icons:ollama",
@@ -211,6 +265,20 @@ export const techList: TechInfo[] = [
     color: "text-neutral-800 dark:text-neutral-200",
     hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
     url: "https://ai-sdk.dev/",
+  },
+  {
+    name: "Codex",
+    icon: "simple-icons:openai",
+    color: "text-teal-600 dark:text-teal-500",
+    hover: "hover:shadow-teal-500/20",
+    url: "https://openai.com/codex/",
+  },
+  {
+    name: "OpenAI API",
+    icon: "simple-icons:openai",
+    color: "text-teal-600 dark:text-teal-500",
+    hover: "hover:shadow-teal-500/20",
+    url: "https://openai.com/api/",
   },
   // Auth
   {
@@ -230,11 +298,11 @@ export const techList: TechInfo[] = [
   },
   // Tools
   {
-    name: "Git",
-    icon: "simple-icons:git",
-    color: "text-red-600",
-    hover: "hover:shadow-red-500/20",
-    url: "https://git-scm.com/",
+    name: "GitHub",
+    icon: "simple-icons:github",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://github.com/",
   },
   {
     name: "VS Code",
@@ -242,6 +310,13 @@ export const techList: TechInfo[] = [
     color: "text-blue-500 dark:text-blue-400",
     hover: "hover:shadow-blue-400/20",
     url: "https://code.visualstudio.com/",
+  },
+  {
+    name: "Cursor",
+    icon: "simple-icons:cursor",
+    color: "text-neutral-800 dark:text-neutral-200",
+    hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
+    url: "https://cursor.com/",
   },
   {
     name: "GitHub Copilot",
@@ -263,7 +338,6 @@ export const techList: TechInfo[] = [
     color: "text-neutral-800 dark:text-neutral-200",
     hover: "dark:hover:shadow-white/10 hover:shadow-black/10",
     url: "https://opencode.ai/go?ref=M15S9JQF29",
-    utm: false,
   },
 ]
 

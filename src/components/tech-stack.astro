@@ -1,37 +1,112 @@
 ---
-import Button from "@/components/ui/button.astro"
 import { Icon } from "astro-icon/components"
 import { techList } from "@/lib/tech"
 import { cn } from "@/lib/utils"
 
-const filteredTech = techList.filter(
-  (tech) => !["Supabase", "Neon"].includes(tech.name)
-)
+const byName = new Map(techList.map((tech) => [tech.name, tech]))
+
+const groups: { label: string; names: string[] }[] = [
+  {
+    label: "Language",
+    names: ["HTML", "CSS", "JavaScript", "TypeScript", "Python"],
+  },
+  {
+    label: "Frontend",
+    names: [
+      "React",
+      "Next.js",
+      "Astro",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Motion",
+      "Expo",
+      "Base UI",
+      "Radix UI",
+      "TanStack",
+    ],
+  },
+  {
+    label: "Backend",
+    names: [
+      "Node.js",
+      "Bun",
+      "Hono.js",
+      "Socket.IO",
+      "PostgreSQL",
+      "SQLite",
+      "Drizzle ORM",
+      "Better Auth",
+      "Polar.sh",
+      "Decap CMS",
+      "Keystatic",
+      "WordPress",
+    ],
+  },
+  {
+    label: "Infrastructure",
+    names: [
+      "Cloudflare",
+      "Netlify",
+      "Vercel",
+      "Docker",
+      "Coolify",
+      "Supabase",
+      "Neon",
+    ],
+  },
+  {
+    label: "AI & Tools",
+    names: [
+      "Vercel AI SDK",
+      "GitHub",
+      "VS Code",
+      "GitHub Copilot",
+      "Cursor",
+      "Codex",
+      "Claude Code",
+      "OpenCode",
+    ],
+  },
+]
 ---
 
-<section id="tech-stack" class="flex flex-col gap-5 md:gap-8">
+<section id="tech-stack" class="flex flex-col gap-4 md:gap-6">
   <h2 class="text-sm font-medium tracking-widest text-muted-foreground uppercase">
     Tech I Love Working With
   </h2>
-  <div class="flex flex-wrap gap-2 md:gap-3">
-    {filteredTech.map((tech) => (
-      <Button
-        variant="outline"
-        size="lg"
-        href={`${tech.url}${tech.utm === false ? "" : `${tech.url.includes("?") ? "&" : "?"}utm_source=aleksa.codes`}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group hover:border-foreground/10"
-      >
-        <Icon name={tech.icon} class={cn(tech.color)} />
-        <span class="text-xs font-medium tracking-tight text-foreground md:text-sm">
-          {tech.name}
-        </span>
-        <Icon
-          name="lucide:arrow-up-right"
-          class="shrink-0 text-muted-foreground/30 transition-colors duration-300 group-hover:text-foreground/80"
-        />
-      </Button>
+  <dl class="flex flex-col gap-3 md:gap-4">
+    {groups.map(({ label, names }) => (
+      <div class="grid gap-1 sm:grid-cols-[128px_1fr] sm:gap-4">
+        <dt class="pt-0 text-xs font-medium tracking-widest text-muted-foreground/70 uppercase sm:pt-2">
+          {label}
+        </dt>
+        <dd class="-ml-1.5 min-w-0 flex-1 text-pretty leading-8">
+          {names.map((name) => {
+            const tech = byName.get(name)
+            if (!tech) return null
+            return (
+              <>
+                <a
+                  href={tech.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex min-w-0 items-center gap-2 rounded-md px-1.5 py-0.5 text-[15px] text-foreground/80 outline-none transition-[background-color,color] duration-150 ease-out hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 motion-reduce:transition-none"
+                >
+                  <span class="flex size-6 shrink-0 items-center justify-center">
+                    <Icon
+                      name={tech.icon}
+                      class={cn("size-5 shrink-0", tech.color)}
+                    />
+                  </span>
+                  <span class="min-w-0 flex-1 leading-snug tracking-tight">
+                    {tech.name}
+                  </span>
+                </a>{" "}
+              </>
+            )
+          })}
+        </dd>
+      </div>
     ))}
-  </div>
+  </dl>
 </section>
