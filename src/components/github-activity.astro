@@ -33,14 +33,8 @@ try {
 }
 ---
 
-<div class="flex min-h-0 w-full flex-1 flex-col justify-center gap-2 p-4">
-  <div id="gh-labels" class="flex w-full gap-0.75">
-    {Array.from({ length: 22 }).map(() => (
-      <span class="min-w-0 flex-1 text-xs font-medium text-muted-foreground">
-        &nbsp;
-      </span>
-    ))}
-  </div>
+<div class="flex w-full flex-col gap-2 p-4">
+  <div id="gh-labels" class="relative h-4 w-full"></div>
   <div id="gh-graph" data-username={username} class="flex w-full gap-0.75">
     {Array.from({ length: 22 }).map(() => (
       <div class="flex min-w-0 flex-1 flex-col gap-0.75">
@@ -53,17 +47,12 @@ try {
   <p id="gh-error" class="hidden text-center text-xs text-muted-foreground/60">
     Could not load contribution data
   </p>
-  <a
-    href="https://github.com/aleksa-codes"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="self-center text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
-  >
-    github.com/aleksa-codes
-  </a>
 </div>
 
-<div class="flex shrink-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 border-t border-border/60 px-4 py-3">
+<div
+  id="gh-stats"
+  class="flex shrink-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 px-4 py-3"
+>
   {fetchError ? (
     <p class="text-sm text-red-500/80">Failed to load stats.</p>
   ) : (
@@ -136,22 +125,30 @@ try {
 
       const cols = 22,
         rows = 7
-      const today = new Date()
-      const start = new Date(
-        today.setDate(today.getDate() - today.getDay() - (cols - 1) * 7)
-      )
+      const start = new Date()
+      start.setDate(start.getDate() - start.getDay() - (cols - 1) * 7)
 
-      let labelsHtml = "",
-        graphHtml = "",
-        lastMonth = -1
+      let graphHtml = "",
+        labelsHtml = "",
+        lastMonth = -1,
+        lastLabeled = -99
 
       for (let i = 0; i < cols; i++) {
         const colDate = new Date(start)
         colDate.setDate(start.getDate() + i * 7)
-        const m = colDate.getMonth()
 
-        labelsHtml += `<span class="min-w-0 flex-1 text-center text-xs font-medium text-muted-foreground">${m !== lastMonth ? months[m] : "&nbsp;"}</span>`
-        lastMonth = m
+        // GitHub-style: pin each month over its first column, overlapping
+        // freely instead of squeezing into the cell width.
+        // Months starting too close together are skipped, like GitHub does.
+        if (colDate.getMonth() !== lastMonth && i - lastLabeled >= 2) {
+          lastMonth = colDate.getMonth()
+          lastLabeled = i
+          const atEnd =
+            i > cols - 3
+              ? "transform:translateX(-100%);left:100%;"
+              : `left:${(i / cols) * 100}%;`
+          labelsHtml += `<span class="absolute top-0 text-xs font-medium whitespace-nowrap text-muted-foreground" style="${atEnd}">${months[lastMonth]}</span>`
+        }
 
         graphHtml += `<div class="flex min-w-0 flex-1 flex-col gap-0.75">`
         for (let j = 0; j < rows; j++) {
@@ -181,6 +178,8 @@ try {
 
       const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
       const cells: HTMLElement[] = []
+      const labelsEl = document.getElementById("gh-labels")
+      const statsEl = document.getElementById("gh-stats")
 
       // Keep the freshly-rendered graph invisible until the wipe starts, so
       // the full contribution map never flashes in before it animates.
@@ -192,6 +191,12 @@ try {
             cell.style.opacity = "0"
             cell.style.transform = "scale(0.4)"
           })
+        // Months and stats join the same reveal instead of popping in
+        if (labelsEl) labelsEl.style.opacity = "0"
+        if (statsEl) {
+          statsEl.style.opacity = "0"
+          statsEl.style.transform = "translateY(6px)"
+        }
       }
 
       // Wait for the graph to scroll into view before animating,
@@ -212,7 +217,7 @@ try {
 
       const animate = !reduced && (await inView())
 
-      if (animate) {
+      const wipe = () => {
         // Cells cascade in with a subtle scale, Apple-style ease-out
         graphEl
           .querySelectorAll<HTMLElement>(":scope > div")
@@ -234,12 +239,38 @@ try {
                 )
               })
           })
-        // The running animation now owns opacity/scale; release the hold so the
-        // graph stays visible once every cell has finished wiping in
+      }
+
+      if (animate) {
+        wipe()
+        labelsEl?.animate([{ opacity: "0" }, { opacity: "1" }], {
+          duration: 340,
+          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+          fill: "backwards",
+        })
+        statsEl?.animate(
+          [
+            { opacity: "0", transform: "translateY(6px)" },
+            { opacity: "1", transform: "translateY(0)" },
+          ],
+          {
+            duration: 420,
+            delay: 150,
+            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+            fill: "backwards",
+          }
+        )
+        // The running animations own opacity/transform; release the hold so
+        // everything stays visible once finished
         cells.forEach((c) => {
           c.style.opacity = ""
           c.style.transform = ""
         })
+        if (labelsEl) labelsEl.style.opacity = ""
+        if (statsEl) {
+          statsEl.style.opacity = ""
+          statsEl.style.transform = ""
+        }
       }
 
       // Tooltip Delegation Logic

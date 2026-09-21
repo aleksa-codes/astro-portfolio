@@ -67,8 +67,8 @@ const interests = [
     </p>
   </div>
 
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-    <WindowCard title="Terminal" icon="lucide:terminal">
+  <WindowCard title="Terminal" icon="lucide:terminal">
+    <div class="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-2">
       <div
         id="whoami-term"
         class="relative flex h-67 min-h-0 flex-col font-mono text-sm"
@@ -106,63 +106,67 @@ const interests = [
               href="https://github.com/aleksa-codes"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
+              class="text-sm whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
             >
               github.com/aleksa-codes
             </a>
-            <span aria-hidden="true" class="text-xs text-muted-foreground/60">
+            <span aria-hidden="true" class="text-sm text-muted-foreground/60">
               ·
             </span>
             <a
               href="mailto:hello@aleksa.codes"
-              class="text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
+              class="text-sm whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
             >
               hello@aleksa.codes
             </a>
           </div>
         </div>
-
-        <div class="flex shrink-0 items-center gap-3 border-t border-border/60 px-4 py-3">
-          <span
-            class="w-3.5 shrink-0 text-green-500 select-none"
-            aria-hidden="true"
-          >
-            $
-          </span>
-          <div class="relative flex min-w-0 flex-1 items-center">
-            <span id="term-before" class="text-foreground"></span>
-            <span
-              id="term-cursor"
-              class="h-4 w-1.75 shrink-0 rounded-[1px] bg-green-500/80"
-              aria-hidden="true"
-            ></span>
-            <span id="term-after" class="text-foreground"></span>
-            <span
-              id="term-placeholder"
-              class="pointer-events-none absolute left-0 text-muted-foreground/40 select-none"
-            >
-              type 'help'
-            </span>
-            <input
-              id="term-input"
-              type="text"
-              autocomplete="off"
-              autocapitalize="off"
-              spellcheck="false"
-              aria-label="Terminal command input"
-              class="absolute inset-0 h-full w-full cursor-text bg-transparent text-transparent caret-transparent outline-none"
-            />
-          </div>
-        </div>
       </div>
-    </WindowCard>
 
-    <WindowCard title="GitHub" icon="lucide:github">
-      <div class="flex min-h-0 flex-1 flex-col font-mono">
+      <aside
+        id="gh-panel"
+        class="order-first flex min-w-0 flex-col justify-center font-mono md:order-0"
+      >
         <GitHubActivity />
+      </aside>
+    </div>
+
+    <div
+      id="term-input-row"
+      class="flex shrink-0 items-center gap-3 border-t border-border/60 px-4 py-3 font-mono text-sm"
+    >
+      <span
+        class="w-3.5 shrink-0 text-green-500 select-none"
+        aria-hidden="true"
+      >
+        $
+      </span>
+      <div class="relative flex min-w-0 flex-1 items-center">
+        <span id="term-before" class="text-foreground"></span>
+        <span
+          id="term-cursor"
+          class="h-4 w-1.75 shrink-0 rounded-[1px] bg-green-500/80"
+          aria-hidden="true"
+        ></span>
+        <span id="term-after" class="text-foreground"></span>
+        <span
+          id="term-placeholder"
+          class="pointer-events-none absolute left-0 text-muted-foreground/40 select-none"
+        >
+          type 'help'
+        </span>
+        <input
+          id="term-input"
+          type="text"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="Terminal command input"
+          class="absolute inset-0 h-full w-full cursor-text bg-transparent text-transparent caret-transparent outline-none"
+        />
       </div>
-    </WindowCard>
-  </div>
+    </div>
+  </WindowCard>
 </section>
 
 <style>
@@ -327,16 +331,16 @@ const interests = [
       gh.target = "_blank"
       gh.rel = "noopener noreferrer"
       gh.className =
-        "text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
+        "text-sm whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
       gh.textContent = "github.com/aleksa-codes"
       const sep = document.createElement("span")
       sep.setAttribute("aria-hidden", "true")
-      sep.className = "text-xs text-muted-foreground/60"
+      sep.className = "text-sm text-muted-foreground/60"
       sep.textContent = "·"
       const mail = document.createElement("a")
       mail.href = "mailto:hello@aleksa.codes"
       mail.className =
-        "text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
+        "text-sm whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
       mail.textContent = "hello@aleksa.codes"
       foot.append(gh, sep, mail)
       rows.push(foot)
@@ -363,7 +367,8 @@ const interests = [
           }
         )
       })
-      // Wait for the last block so the terminal unlocks after the reveal
+      // Wait for the last row so the terminal unlocks after the reveal.
+      // The activity panel stays put: it's always visible, never replayed.
       await sleep(DURATION + (rows.length - 1) * STAGGER)
       scroll()
     }
@@ -485,6 +490,12 @@ const interests = [
     // Click anywhere in the terminal focuses the input — but not while a
     // command runs, so the mobile keyboard never pops mid-game
     termEl.addEventListener("click", () => {
+      if (busy) return
+      if (!getSelection()?.toString()) input.focus()
+    })
+    // The input row lives outside the terminal pane (full width),
+    // so it needs its own focus handler
+    document.getElementById("term-input-row")?.addEventListener("click", () => {
       if (busy) return
       if (!getSelection()?.toString()) input.focus()
     })
