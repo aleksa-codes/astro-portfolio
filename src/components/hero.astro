@@ -2,22 +2,26 @@
 import Avatar from "@/components/avatar.astro"
 ---
 
-<section id="home" class="flex flex-col items-start">
-  <div class="mb-14">
-    <Avatar statusText="Open to work" class="h-24 w-24 md:h-32 md:w-32" />
+<section id="home" class="flex flex-col gap-8 sm:flex-row sm:items-center">
+  <div class="min-w-0 order-2 sm:order-1">
+    <h1 class="mb-4 text-4xl leading-[1.1] font-bold tracking-tighter text-foreground sm:text-5xl">
+      I design and build{" "}
+      <span class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+        things for the web.
+      </span>
+    </h1>
+
+    <p class="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+      Hey there{" "}
+      <span class="mr-1.5 inline-block origin-bottom-right animate-wave">
+        👋
+      </span>{" "}
+      I'm Aleksa. I build fast, good-looking websites and apps that actually
+      hold up when real people use them.
+    </p>
   </div>
 
-  <h1 class="mb-6 text-4xl leading-[1.1] font-bold tracking-tighter text-foreground sm:text-5xl md:text-6xl">
-    I design and build <br />
-    <span class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
-      things for the web.
-    </span>
-  </h1>
-
-  <p class="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-    Hey there{" "}
-    <span class="mr-1.5 inline-block origin-bottom-right animate-wave">👋</span>{" "}
-    I'm Aleksa. I build fast, good-looking websites and apps that actually hold
-    up when real people use them.
-  </p>
+  <div class="order-1 shrink-0 sm:order-2 sm:mr-28">
+    <Avatar statusText="Open to work" class="h-24 w-24 md:h-32 md:w-32" />
+  </div>
 </section>
