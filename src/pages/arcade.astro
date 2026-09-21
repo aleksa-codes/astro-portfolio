@@ -22,17 +22,13 @@ const sortedGames = [...games].sort((a, b) =>
 <BaseLayout {title} {description} {ogImage}>
   <div class="flex flex-col gap-8">
     <div class="flex flex-col items-start">
-      <h1
-        class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl"
-      >
-        The <span
-          class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
-          >Arcade.</span
-        >
+      <h1 class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl">
+        The{" "}
+        <span class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+          Arcade.
+        </span>
       </h1>
-      <p
-        class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
-      >
+      <p class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
         An idea I sat on for a while, so I finally built it. Tiny games written
         entirely by AI: one prompt, one HTML file, zero edits from me, playable
         right here. Each card shows the model and the exact prompt behind it, so
@@ -41,127 +37,128 @@ const sortedGames = [...games].sort((a, b) =>
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2">
-      {
-        sortedGames.map((game, index) => (
-          <Card
-            class="group overflow-hidden p-0"
-            contentClass="flex h-full flex-col p-0"
+      {sortedGames.map((game, index) => (
+        <Card
+          class="group overflow-hidden p-0"
+          contentClass="flex h-full flex-col p-0"
+        >
+          <button
+            type="button"
+            class="relative block aspect-video w-full cursor-pointer overflow-hidden border-b border-border/50 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            data-game-play
+            data-game-slug={game.slug}
+            data-game-file={game.file}
+            data-game-title={game.title}
+            data-game-model={game.model}
+            aria-label={`Play ${game.title}`}
           >
-            <button
-              type="button"
-              class="relative block aspect-video w-full cursor-pointer overflow-hidden border-b border-border/50 outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              data-game-play
-              data-game-slug={game.slug}
-              data-game-file={game.file}
-              data-game-title={game.title}
-              data-game-model={game.model}
-              aria-label={`Play ${game.title}`}
-            >
-              {game.image ? (
-                <Image
-                  src={game.image}
-                  alt={game.title}
-                  sizes="(min-width: 768px) 384px, calc(100vw - 3rem)"
-                  priority={index < 2}
-                  class="block h-full w-full transform-gpu object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+            {game.image ? (
+              <Image
+                src={game.image}
+                alt={game.title}
+                sizes="(min-width: 768px) 384px, calc(100vw - 3rem)"
+                priority={index < 2}
+                class="block h-full w-full transform-gpu object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+              />
+            ) : (
+              <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-secondary/40 to-secondary/10 transition-colors group-hover:from-secondary/60">
+                <Icon
+                  name="lucide:gamepad-2"
+                  class="h-12 w-12 text-muted-foreground/30 transition-transform duration-500 group-hover:scale-110"
                 />
-              ) : (
-                <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-secondary/40 to-secondary/10 transition-colors group-hover:from-secondary/60">
-                  <Icon
-                    name="lucide:gamepad-2"
-                    class="h-12 w-12 text-muted-foreground/30 transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-              )}
-              <span class="absolute inset-0 flex items-center justify-center bg-background/40 opacity-0 backdrop-blur-xs transition-all duration-300 group-hover:opacity-100">
-                <span class="flex translate-y-2 items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-xl transition-transform duration-300 group-hover:translate-y-0 group-hover:scale-105">
-                  <Icon name="lucide:play" />
-                  Play
-                </span>
+              </div>
+            )}
+            <span class="absolute inset-0 flex items-center justify-center bg-background/40 opacity-0 backdrop-blur-xs transition-all duration-300 group-hover:opacity-100">
+              <span class="flex translate-y-2 items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-xl transition-transform duration-300 group-hover:translate-y-0 group-hover:scale-105">
+                <Icon name="lucide:play" />
+                Play
               </span>
-            </button>
+            </span>
+          </button>
 
-            <div class="flex flex-1 flex-col justify-center p-4">
-              <div class="flex items-start justify-between gap-3">
-                <h2 class="text-lg leading-tight font-semibold text-foreground md:text-xl">
-                  {game.title}
-                </h2>
-                <Badge variant="secondary" size="lg">
-                  <Icon
-                    name={getModelBadge(game.model).icon}
-                    style={`color: ${getModelBadge(game.model).color};`}
-                  />
-                  {game.model}
-                </Badge>
-              </div>
-
-              {game.tags && game.tags.length > 0 && (
-                <div class="mt-2 flex flex-wrap gap-2">
-                  {game.tags.map((tag) => (
-                    <Badge
-                      variant="outline"
-                      size="lg"
-                      class="text-muted-foreground"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              )}
-
-              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
-                {game.description}
-              </p>
-
-              <div class="mt-4 flex items-center gap-2">
-                <Button
-                  size="lg"
-                  data-game-play
-                  data-game-slug={game.slug}
-                  data-game-file={game.file}
-                  data-game-title={game.title}
-                  data-game-model={game.model}
-                >
-                  <Icon name="lucide:play" />
-                  Play
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  href={game.file}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Open the raw HTML file in a new tab"
-                >
-                  <Icon name="lucide:external-link" />
-                  New tab
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  class="ml-auto"
-                  data-prompt-open
-                  data-prompt={game.prompt}
-                  data-prompt-title={game.title}
-                  data-prompt-model={game.model}
-                >
-                  <Icon name="lucide:text-quote" />
-                  Prompt
-                </Button>
-              </div>
+          <div class="flex flex-1 flex-col justify-center p-4">
+            <div class="flex items-start justify-between gap-3">
+              <h2 class="text-lg leading-tight font-semibold text-foreground md:text-xl">
+                {game.title}
+              </h2>
+              <Badge variant="secondary" size="lg">
+                <Icon
+                  name={getModelBadge(game.model).icon}
+                  style={`color: ${getModelBadge(game.model).color};`}
+                />
+                {game.model}
+              </Badge>
             </div>
-          </Card>
-        ))
-      }
+
+            {game.tags && game.tags.length > 0 && (
+              <div class="mt-2 flex flex-wrap gap-2">
+                {game.tags.map((tag) => (
+                  <Badge
+                    variant="outline"
+                    size="lg"
+                    class="text-muted-foreground"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+
+            <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+              {game.description}
+            </p>
+
+            <div class="mt-4 flex items-center gap-2">
+              <Button
+                size="lg"
+                data-game-play
+                data-game-slug={game.slug}
+                data-game-file={game.file}
+                data-game-title={game.title}
+                data-game-model={game.model}
+              >
+                <Icon name="lucide:play" />
+                Play
+              </Button>
+              <Button
+                variant="secondary"
+                size="lg"
+                href={game.file}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open the raw HTML file in a new tab"
+              >
+                <Icon name="lucide:external-link" />
+                New tab
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                class="ml-auto"
+                data-prompt-open
+                data-prompt={game.prompt}
+                data-prompt-title={game.title}
+                data-prompt-model={game.model}
+              >
+                <Icon name="lucide:text-quote" />
+                Prompt
+              </Button>
+            </div>
+          </div>
+        </Card>
+      ))}
     </div>
 
     <p class="text-center text-sm text-muted-foreground">
       More games get added whenever a model does something fun. Got an idea for
-      one? <a
+      one?{" "}
+      <a
         href="/contact"
         class="font-medium text-foreground underline underline-offset-4"
-        >Tell me</a
-      >.
+      >
+        Tell me
+      </a>
+      .
     </p>
   </div>
 

@@ -25,11 +25,13 @@ const { project, alternate = false, priority = false }: Props = Astro.props
   )}
 >
   <a
-    href={project.demo ||
+    href={
+      project.demo ||
       project.github ||
       project.huggingface ||
       project.replicate ||
-      "#"}
+      "#"
+    }
     target="_blank"
     rel="noopener noreferrer"
     class="group relative w-full min-w-0 flex-1 overflow-hidden rounded-xl border border-border/50"
@@ -47,9 +49,7 @@ const { project, alternate = false, priority = false }: Props = Astro.props
 
   <div class="flex w-full min-w-0 flex-1 flex-col justify-center">
     <div class="flex flex-col">
-      <span
-        class="text-xs font-bold tracking-widest text-muted-foreground/80 uppercase"
-      >
+      <span class="text-xs font-bold tracking-widest text-muted-foreground/80 uppercase">
         {project.category}
       </span>
       <h3 class="text-2xl font-bold tracking-tight text-foreground">
@@ -58,25 +58,23 @@ const { project, alternate = false, priority = false }: Props = Astro.props
     </div>
 
     <div class="mt-2 flex flex-wrap items-center gap-2">
-      {
-        project.tags.map((tag) => {
-          const key = tag.toLowerCase()
-          const info = techMap[key]
-          return (
-            <Badge
-              variant="secondary"
-              size="lg"
-              class="group-hover:border-foreground/10"
-            >
-              <Icon
-                name={info ? info.icon : "lucide:tag"}
-                class={cn(info ? info.color : "text-muted-foreground")}
-              />
-              <span>{tag}</span>
-            </Badge>
-          )
-        })
-      }
+      {project.tags.map((tag) => {
+        const key = tag.toLowerCase()
+        const info = techMap[key]
+        return (
+          <Badge
+            variant="secondary"
+            size="lg"
+            class="group-hover:border-foreground/10"
+          >
+            <Icon
+              name={info ? info.icon : "lucide:tag"}
+              class={cn(info ? info.color : "text-muted-foreground")}
+            />
+            <span>{tag}</span>
+          </Badge>
+        )
+      })}
     </div>
 
     <p
@@ -85,66 +83,58 @@ const { project, alternate = false, priority = false }: Props = Astro.props
     />
 
     <div class="mt-4 flex flex-wrap items-center gap-2">
-      {
-        project.github && (
-          <Button
-            variant="outline"
-            size="lg"
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`View ${project.title} source code`}
-          >
-            <Icon name="lucide:github" />
-            <span>Code</span>
-          </Button>
-        )
-      }
-      {
-        project.demo && (
-          <Button
-            variant="outline"
-            size="lg"
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Visit ${project.title}`}
-          >
-            <Icon name="lucide:external-link" />
-            <span>Demo</span>
-          </Button>
-        )
-      }
-      {
-        project.huggingface && (
-          <Button
-            variant="outline"
-            size="lg"
-            href={project.huggingface}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View on HuggingFace"
-          >
-            <Icon name="simple-icons:huggingface" />
-            <span>HuggingFace</span>
-          </Button>
-        )
-      }
-      {
-        project.replicate && (
-          <Button
-            variant="outline"
-            size="lg"
-            href={project.replicate}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="View on Replicate"
-          >
-            <Icon name="simple-icons:replicate" />
-            <span>Replicate</span>
-          </Button>
-        )
-      }
+      {project.github && (
+        <Button
+          variant="outline"
+          size="lg"
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`View ${project.title} source code`}
+        >
+          <Icon name="lucide:github" />
+          <span>Code</span>
+        </Button>
+      )}
+      {project.demo && (
+        <Button
+          variant="outline"
+          size="lg"
+          href={project.demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Visit ${project.title}`}
+        >
+          <Icon name="lucide:external-link" />
+          <span>Demo</span>
+        </Button>
+      )}
+      {project.huggingface && (
+        <Button
+          variant="outline"
+          size="lg"
+          href={project.huggingface}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View on HuggingFace"
+        >
+          <Icon name="simple-icons:huggingface" />
+          <span>HuggingFace</span>
+        </Button>
+      )}
+      {project.replicate && (
+        <Button
+          variant="outline"
+          size="lg"
+          href={project.replicate}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View on Replicate"
+        >
+          <Icon name="simple-icons:replicate" />
+          <span>Replicate</span>
+        </Button>
+      )}
     </div>
   </div>
 </Card>

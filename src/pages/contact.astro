@@ -17,17 +17,13 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
   <div class="flex flex-col gap-8">
     <!-- Header -->
     <div class="flex flex-col items-start">
-      <h1
-        class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl"
-      >
-        Get in <span
-          class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
-          >Touch.</span
-        >
+      <h1 class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl">
+        Get in{" "}
+        <span class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+          Touch.
+        </span>
       </h1>
-      <p
-        class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
-      >
+      <p class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
         Have a project in mind, a question, or just want to say hello? I'm
         always open to new opportunities and interesting conversations.
       </p>
@@ -41,28 +37,20 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
           class="glow-card relative border-b border-border/50 bg-secondary/10 p-4 md:p-8"
           data-glow-card
         >
-          <div
-            class="relative z-10 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between md:text-left"
-          >
+          <div class="relative z-10 flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between md:text-left">
             <!-- Profile Info -->
-            <div
-              class="flex flex-col items-center gap-4 sm:flex-row sm:items-center md:gap-6"
-            >
+            <div class="flex flex-col items-center gap-4 sm:flex-row sm:items-center md:gap-6">
               <Avatar class="h-20 w-20 md:h-28 md:w-28" />
 
               <!-- Context Details -->
               <div class="flex flex-col items-center gap-1 sm:items-start">
-                <h2
-                  class="text-xl font-bold tracking-tight text-foreground md:text-2xl"
-                >
+                <h2 class="text-xl font-bold tracking-tight text-foreground md:text-2xl">
                   Aleksa
                 </h2>
                 <p class="text-sm font-medium text-muted-foreground">
                   Full-Stack Web Developer
                 </p>
-                <div
-                  class="mt-1 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground/80 sm:justify-start"
-                >
+                <div class="mt-1 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground/80 sm:justify-start">
                   <span class="flex items-center gap-1.5">
                     <Icon name="lucide:map-pin" class="h-3.5 w-3.5" />
                     Europe (CET)
@@ -113,9 +101,7 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
             id="success-message"
             class="hidden flex-col items-center py-10 text-center"
           >
-            <div
-              class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border bg-foreground text-background shadow-lg"
-            >
+            <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border bg-foreground text-background shadow-lg">
               <Icon name="lucide:check" class="h-8 w-8" />
             </div>
             <h3 class="mb-2 text-2xl font-bold tracking-tight text-foreground">
@@ -146,11 +132,9 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
             class="flex flex-col gap-6"
           >
             <p class="hidden">
-              <label
-                >Don't fill this out if you're human: <input
-                  name="bot-field"
-                /></label
-              >
+              <label>
+                Don't fill this out if you're human: <input name="bot-field" />
+              </label>
             </p>
             <input type="hidden" name="form-name" value="contact" />
 
@@ -159,8 +143,9 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
                 <label
                   for="name"
                   class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
-                  >Full Name</label
                 >
+                  Full Name
+                </label>
                 <Input
                   type="text"
                   id="name"
@@ -173,8 +158,9 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
                 <label
                   for="email"
                   class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
-                  >Email Address</label
                 >
+                  Email Address
+                </label>
                 <Input
                   type="email"
                   id="email"
@@ -189,8 +175,9 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
               <label
                 for="subject"
                 class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
-                >Subject</label
               >
+                Subject
+              </label>
               <Input
                 type="text"
                 id="subject"
@@ -204,8 +191,9 @@ const ogImage = new URL("/open-graph/contact.png", Astro.site).toString()
               <label
                 for="message"
                 class="pl-1 text-xs font-bold tracking-widest text-muted-foreground uppercase"
-                >Message</label
               >
+                Message
+              </label>
               <Textarea
                 id="message"
                 name="message"

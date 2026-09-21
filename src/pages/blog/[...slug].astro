@@ -39,27 +39,21 @@ const ogImage = new URL(
     </a>
 
     <header class="mb-10 flex flex-col items-start">
-      {
-        post.data.tags && post.data.tags.length > 0 && (
-          <div class="mb-5 flex flex-wrap gap-2">
-            {post.data.tags.map((tag: string) => (
-              <span class="rounded-md bg-secondary px-2.5 py-1 text-xs font-semibold tracking-wide text-secondary-foreground uppercase">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )
-      }
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="mb-5 flex flex-wrap gap-2">
+          {post.data.tags.map((tag: string) => (
+            <span class="rounded-md bg-secondary px-2.5 py-1 text-xs font-semibold tracking-wide text-secondary-foreground uppercase">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
 
-      <h1
-        class="mb-5 text-3xl leading-[1.2] font-bold tracking-tight text-foreground md:text-5xl"
-      >
+      <h1 class="mb-5 text-3xl leading-[1.2] font-bold tracking-tight text-foreground md:text-5xl">
         {post.data.title}
       </h1>
 
-      <div
-        class="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground"
-      >
+      <div class="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
         <div class="flex items-center gap-2">
           <Icon name="lucide:clock" class="h-4 w-4" />
           <span>{readingTime} min read</span>
@@ -68,13 +62,11 @@ const ogImage = new URL(
         <div class="flex items-center gap-2">
           <Icon name="lucide:calendar" class="h-4 w-4" />
           <time datetime={post.data.date.toISOString()}>
-            {
-              post.data.date.toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })
-            }
+            {post.data.date.toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
           </time>
         </div>
         <div class="h-1 w-1 rounded-full bg-muted-foreground/50"></div>
@@ -85,22 +77,18 @@ const ogImage = new URL(
       </div>
     </header>
 
-    {
-      post.data.thumbnail && (
-        <div class="mb-10 overflow-hidden rounded-xl border border-border/50 bg-muted shadow-sm">
-          <Image
-            src={post.data.thumbnail}
-            alt={post.data.title}
-            priority
-            class="max-h-104 w-full object-cover"
-          />
-        </div>
-      )
-    }
+    {post.data.thumbnail && (
+      <div class="mb-10 overflow-hidden rounded-xl border border-border/50 bg-muted shadow-sm">
+        <Image
+          src={post.data.thumbnail}
+          alt={post.data.title}
+          priority
+          class="max-h-104 w-full object-cover"
+        />
+      </div>
+    )}
 
-    <div
-      class="prose max-w-none lg:prose-lg dark:prose-invert prose-headings:font-sans prose-headings:tracking-tight prose-a:text-primary hover:prose-a:text-primary/80 prose-code:rounded prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-img:rounded-xl"
-    >
+    <div class="prose max-w-none lg:prose-lg dark:prose-invert prose-headings:font-sans prose-headings:tracking-tight prose-a:text-primary hover:prose-a:text-primary/80 prose-code:rounded prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-img:rounded-xl">
       <Content />
     </div>
 

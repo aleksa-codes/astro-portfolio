@@ -60,22 +60,20 @@ const summerAvatar = await getImage({
     />
   </div>
 
-  {
-    showStatus &&
-      (statusText ? (
-        <div class="absolute bottom-1 left-16.5 flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 whitespace-nowrap shadow-sm md:bottom-2 md:left-23.5 md:gap-2 md:px-4 md:py-2.5">
-          <div class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 md:h-2 md:w-2" />
-          <span class="text-xs leading-none font-medium text-foreground md:text-sm">
-            {statusText}
-          </span>
-        </div>
-      ) : (
-        <div
-          class="absolute right-1 bottom-1 h-4 w-4 rounded-full border-[3px] border-card bg-green-500 md:right-1.5 md:bottom-1.5 md:h-5 md:w-5"
-          title="Online"
-        />
-      ))
-  }
+  {showStatus &&
+    (statusText ? (
+      <div class="absolute bottom-1 left-16.5 flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 whitespace-nowrap shadow-sm md:bottom-2 md:left-23.5 md:gap-2 md:px-4 md:py-2.5">
+        <div class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 md:h-2 md:w-2" />
+        <span class="text-xs leading-none font-medium text-foreground md:text-sm">
+          {statusText}
+        </span>
+      </div>
+    ) : (
+      <div
+        class="absolute right-1 bottom-1 h-4 w-4 rounded-full border-[3px] border-card bg-green-500 md:right-1.5 md:bottom-1.5 md:h-5 md:w-5"
+        title="Online"
+      />
+    ))}
 </div>
 
 <script is:inline>

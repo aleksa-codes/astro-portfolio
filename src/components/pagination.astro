@@ -23,64 +23,58 @@ for (let i = 1; i <= lastPage; i++) {
   class="flex items-center justify-center gap-2 pb-0"
   aria-label="Pagination"
 >
-  {
-    urlPrev ? (
-      <Button
-        variant="outline"
-        size="icon-xl"
-        href={urlPrev === "/blog/1" ? "/blog" : urlPrev}
-        aria-label="Previous Page"
-      >
-        <Icon name="lucide:chevron-left" />
-      </Button>
-    ) : (
-      <Button
-        variant="outline"
-        size="icon-xl"
-        disabled
-        aria-label="Previous Page"
-      >
-        <Icon name="lucide:chevron-left" />
-      </Button>
-    )
-  }
+  {urlPrev ? (
+    <Button
+      variant="outline"
+      size="icon-xl"
+      href={urlPrev === "/blog/1" ? "/blog" : urlPrev}
+      aria-label="Previous Page"
+    >
+      <Icon name="lucide:chevron-left" />
+    </Button>
+  ) : (
+    <Button
+      variant="outline"
+      size="icon-xl"
+      disabled
+      aria-label="Previous Page"
+    >
+      <Icon name="lucide:chevron-left" />
+    </Button>
+  )}
 
   <div class="flex items-center gap-1.5">
-    {
-      pages.map((page) => {
-        const isCurrent = page === currentPage
-        const href = page === 1 ? basePath : `${basePath}/${page}`
+    {pages.map((page) => {
+      const isCurrent = page === currentPage
+      const href = page === 1 ? basePath : `${basePath}/${page}`
 
-        return (
-          <Button
-            variant={isCurrent ? "default" : "outline"}
-            size="xl"
-            href={href}
-            class="min-w-10"
-            aria-label={`Page ${page}`}
-            aria-current={isCurrent ? "page" : undefined}
-          >
-            {page}
-          </Button>
-        )
-      })
-    }
+      return (
+        <Button
+          variant={isCurrent ? "default" : "outline"}
+          size="xl"
+          href={href}
+          class="min-w-10"
+          aria-label={`Page ${page}`}
+          aria-current={isCurrent ? "page" : undefined}
+        >
+          {page}
+        </Button>
+      )
+    })}
   </div>
 
-  {
-    urlNext ? (
-      <Button
-        variant="outline"
-        size="icon-xl"
-        href={urlNext}
-        aria-label="Next Page"
-      >
-        <Icon name="lucide:chevron-right" />
-      </Button>
-    ) : (
-      <Button variant="outline" size="icon-xl" disabled aria-label="Next Page">
-        <Icon name="lucide:chevron-right" />
-      </Button>
-    )
-  }
+  {urlNext ? (
+    <Button
+      variant="outline"
+      size="icon-xl"
+      href={urlNext}
+      aria-label="Next Page"
+    >
+      <Icon name="lucide:chevron-right" />
+    </Button>
+  ) : (
+    <Button variant="outline" size="icon-xl" disabled aria-label="Next Page">
+      <Icon name="lucide:chevron-right" />
+    </Button>
+  )}
 </nav>

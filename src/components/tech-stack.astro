@@ -10,32 +10,28 @@ const filteredTech = techList.filter(
 ---
 
 <section id="tech-stack" class="flex flex-col gap-5 md:gap-8">
-  <h2
-    class="text-sm font-medium tracking-widest text-muted-foreground uppercase"
-  >
+  <h2 class="text-sm font-medium tracking-widest text-muted-foreground uppercase">
     Tech I Love Working With
   </h2>
   <div class="flex flex-wrap gap-2 md:gap-3">
-    {
-      filteredTech.map((tech) => (
-        <Button
-          variant="outline"
-          size="lg"
-          href={`${tech.url}${tech.utm === false ? "" : `${tech.url.includes("?") ? "&" : "?"}utm_source=aleksa.codes`}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group hover:border-foreground/10"
-        >
-          <Icon name={tech.icon} class={cn(tech.color)} />
-          <span class="text-xs font-medium tracking-tight text-foreground md:text-sm">
-            {tech.name}
-          </span>
-          <Icon
-            name="lucide:arrow-up-right"
-            class="shrink-0 text-muted-foreground/30 transition-colors duration-300 group-hover:text-foreground/80"
-          />
-        </Button>
-      ))
-    }
+    {filteredTech.map((tech) => (
+      <Button
+        variant="outline"
+        size="lg"
+        href={`${tech.url}${tech.utm === false ? "" : `${tech.url.includes("?") ? "&" : "?"}utm_source=aleksa.codes`}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group hover:border-foreground/10"
+      >
+        <Icon name={tech.icon} class={cn(tech.color)} />
+        <span class="text-xs font-medium tracking-tight text-foreground md:text-sm">
+          {tech.name}
+        </span>
+        <Icon
+          name="lucide:arrow-up-right"
+          class="shrink-0 text-muted-foreground/30 transition-colors duration-300 group-hover:text-foreground/80"
+        />
+      </Button>
+    ))}
   </div>
 </section>

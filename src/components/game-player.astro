@@ -18,9 +18,7 @@ const models = [...new Set(games.map((game) => game.model))]
 >
   <div class="flex h-dvh w-full flex-col p-0 sm:p-3">
     <!-- Top bar -->
-    <div
-      class="flex shrink-0 items-center gap-3 border-b-0 border-border bg-card px-3 py-2 sm:rounded-t-2xl sm:border"
-    >
+    <div class="flex shrink-0 items-center gap-3 border-b-0 border-border bg-card px-3 py-2 sm:rounded-t-2xl sm:border">
       <div class="flex min-w-0 flex-1 items-center gap-3">
         <Icon
           name="lucide:gamepad-2"
@@ -29,8 +27,7 @@ const models = [...new Set(games.map((game) => game.model))]
         <h2
           id="game-player-title"
           class="truncate text-sm font-semibold text-foreground sm:text-base"
-        >
-        </h2>
+        ></h2>
         <span id="game-player-model" class="hidden sm:contents"></span>
       </div>
       <div class="flex shrink-0 items-center gap-1">
@@ -84,19 +81,17 @@ const models = [...new Set(games.map((game) => game.model))]
     </div>
   </div>
 
-  {
-    models.map((model) => (
-      <template data-model-badge={model}>
-        <Badge variant="secondary" size="lg" class="shrink-0">
-          <Icon
-            name={getModelBadge(model).icon}
-            style={`color: ${getModelBadge(model).color};`}
-          />
-          {model}
-        </Badge>
-      </template>
-    ))
-  }
+  {models.map((model) => (
+    <template data-model-badge={model}>
+      <Badge variant="secondary" size="lg" class="shrink-0">
+        <Icon
+          name={getModelBadge(model).icon}
+          style={`color: ${getModelBadge(model).color};`}
+        />
+        {model}
+      </Badge>
+    </template>
+  ))}
 </div>
 
 <script>

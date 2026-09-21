@@ -22,37 +22,32 @@ const links = [
 ]
 ---
 
-<header
-  class="fixed top-0 left-0 z-40 w-full border-b border-border bg-background/70 backdrop-blur-xl"
->
+<header class="fixed top-0 left-0 z-40 w-full border-b border-border bg-background/70 backdrop-blur-xl">
   <div class="container flex h-16 items-center justify-between">
     <a
       href="/"
       class="flex items-center font-mono text-lg font-medium text-foreground transition-opacity hover:opacity-80"
       aria-label="Home"
     >
-      <span id="typewriter">aleksa.codes</span><span
-        class="ml-1.5 h-[1.1em] w-0.5 animate-blink bg-current align-text-bottom"
-      ></span>
+      <span id="typewriter">aleksa.codes</span>
+      <span class="ml-1.5 h-[1.1em] w-0.5 animate-blink bg-current align-text-bottom"></span>
     </a>
 
     <div class="flex items-center gap-1 md:gap-3">
-      {
-        links.map(({ href, icon, label, target }) => (
-          <Tooltip content={label} side="bottom">
-            <Button
-              variant="ghost"
-              size="icon-xl"
-              {href}
-              {target}
-              aria-label={label}
-              class="text-muted-foreground"
-            >
-              <Icon name={icon} />
-            </Button>
-          </Tooltip>
-        ))
-      }
+      {links.map(({ href, icon, label, target }) => (
+        <Tooltip content={label} side="bottom">
+          <Button
+            variant="ghost"
+            size="icon-xl"
+            {href}
+            {target}
+            aria-label={label}
+            class="text-muted-foreground"
+          >
+            <Icon name={icon} />
+          </Button>
+        </Tooltip>
+      ))}
 
       <div class="mx-1 h-6 w-px bg-border md:mx-2"></div>
       <SnowToggle />

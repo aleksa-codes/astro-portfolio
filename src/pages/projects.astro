@@ -14,17 +14,13 @@ const ogImage = new URL("/open-graph/projects.png", Astro.site).toString()
   <div class="flex flex-col gap-8">
     <!-- Header -->
     <div class="flex flex-col items-start">
-      <h1
-        class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl"
-      >
-        Selected <span
-          class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
-          >Projects.</span
-        >
+      <h1 class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl">
+        Selected{" "}
+        <span class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+          Projects.
+        </span>
       </h1>
-      <p
-        class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
-      >
+      <p class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
         A showcase of my open-source tools, websites, web apps, and experiments.
         I love building things that solve real problems or make the web a bit
         more fun.
@@ -33,15 +29,13 @@ const ogImage = new URL("/open-graph/projects.png", Astro.site).toString()
 
     <!-- Projects List (horizontal cards with alternating sides) -->
     <div class="flex flex-col gap-8">
-      {
-        projects.map((project, index) => (
-          <ProjectCard
-            project={project}
-            alternate={index % 2 === 1}
-            priority={index < 2}
-          />
-        ))
-      }
+      {projects.map((project, index) => (
+        <ProjectCard
+          project={project}
+          alternate={index % 2 === 1}
+          priority={index < 2}
+        />
+      ))}
     </div>
 
     <div class="flex justify-center">

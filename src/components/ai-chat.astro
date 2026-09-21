@@ -40,13 +40,9 @@ const suggestions = [
       class="flex h-dvh w-full scale-95 transform flex-col overflow-hidden rounded-none border-0 border-border bg-card opacity-0 shadow-2xl transition-all duration-300 md:h-[75vh] md:max-h-175 md:max-w-2xl md:rounded-3xl md:border"
     >
       <!-- Header -->
-      <div
-        class="flex items-center justify-between border-b border-border bg-muted/30 p-4"
-      >
+      <div class="flex items-center justify-between border-b border-border bg-muted/30 p-4">
         <div class="flex items-center gap-2">
-          <div
-            class="flex size-9 items-center justify-center rounded-xl bg-foreground text-background shadow-sm"
-          >
+          <div class="flex size-9 items-center justify-center rounded-xl bg-foreground text-background shadow-sm">
             <Icon name="lucide:bot-message-square" class="h-5 w-5" />
           </div>
           <div class="flex h-8 flex-col justify-center gap-0.5">
@@ -93,14 +89,11 @@ const suggestions = [
               name="lucide:bot-message-square"
               class="h-4 w-4 text-muted-foreground"
             />
-            <span
-              class="text-sm font-semibold tracking-wider text-muted-foreground uppercase"
-              >Assistant</span
-            >
+            <span class="text-sm font-semibold tracking-wider text-muted-foreground uppercase">
+              Assistant
+            </span>
           </div>
-          <div
-            class="rounded-3xl rounded-tl-sm border border-border/40 bg-muted px-5 py-4 text-base leading-relaxed wrap-break-word text-foreground shadow-sm [&_a]:break-all"
-          >
+          <div class="rounded-3xl rounded-tl-sm border border-border/40 bg-muted px-5 py-4 text-base leading-relaxed wrap-break-word text-foreground shadow-sm [&_a]:break-all">
             Hello! I'm Aleksa's portfolio AI. I know all about his engineering
             experience, tech stack, and projects. What would you like to know?
           </div>
@@ -108,18 +101,16 @@ const suggestions = [
 
         <!-- Initial Suggestions -->
         <div id="chat-suggestions" class="mt-5 flex flex-col gap-3">
-          {
-            suggestions.map(({ prompt, icon, iconClass }) => (
-              <Button
-                variant="outline"
-                data-prompt={prompt}
-                class={suggestionClass}
-              >
-                <Icon name={icon} class={iconClass} />
-                {prompt}
-              </Button>
-            ))
-          }
+          {suggestions.map(({ prompt, icon, iconClass }) => (
+            <Button
+              variant="outline"
+              data-prompt={prompt}
+              class={suggestionClass}
+            >
+              <Icon name={icon} class={iconClass} />
+              {prompt}
+            </Button>
+          ))}
         </div>
 
         <!-- Markup source for the follow-up chips rendered by the script -->
@@ -156,9 +147,7 @@ const suggestions = [
             />
           </Button>
         </form>
-        <div
-          class="mt-3 flex items-center justify-between text-sm text-muted-foreground"
-        >
+        <div class="mt-3 flex items-center justify-between text-sm text-muted-foreground">
           <span id="message-counter">0/5 today</span>
           <span>AI can make mistakes.</span>
         </div>

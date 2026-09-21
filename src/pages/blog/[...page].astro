@@ -32,19 +32,13 @@ const ogImage = new URL("/open-graph/blog.png", Astro.site).toString()
 <BaseLayout {title} {description} {ogImage}>
   <div class="flex flex-col gap-8">
     <div class="flex flex-col items-start">
-      <h1
-        class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl"
-      >
+      <h1 class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl">
         Writing &{" "}
-        <span
-          class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
-        >
+        <span class="bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
           Thoughts.
         </span>
       </h1>
-      <p
-        class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base"
-      >
+      <p class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
         A collection of thoughts, tutorials, and insights about web development,
         architecture, and technology.
       </p>
@@ -53,17 +47,15 @@ const ogImage = new URL("/open-graph/blog.png", Astro.site).toString()
     <div class="flex flex-col gap-12 pb-24">
       <BlogListing posts={page.data} />
 
-      {
-        page.lastPage > 1 && (
-          <Pagination
-            currentPage={page.currentPage}
-            lastPage={page.lastPage}
-            urlPrev={page.url.prev}
-            urlNext={page.url.next}
-            basePath="/blog"
-          />
-        )
-      }
+      {page.lastPage > 1 && (
+        <Pagination
+          currentPage={page.currentPage}
+          lastPage={page.lastPage}
+          urlPrev={page.url.prev}
+          urlNext={page.url.next}
+          basePath="/blog"
+        />
+      )}
     </div>
   </div>
 </BaseLayout>

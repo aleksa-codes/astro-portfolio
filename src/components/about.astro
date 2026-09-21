@@ -41,9 +41,7 @@ const interests = [
 ---
 
 <section id="about" class="flex flex-col space-y-8">
-  <h2
-    class="text-sm font-medium tracking-widest text-muted-foreground uppercase"
-  >
+  <h2 class="text-sm font-medium tracking-widest text-muted-foreground uppercase">
     About Me
   </h2>
 
@@ -91,41 +89,40 @@ const interests = [
           </div>
           <pre
             class="mb-0.5 text-[8px] leading-[1.15] whitespace-pre text-foreground"
-            aria-hidden="true">{ART_BANNER.join("\n")}</pre>
-          {
-            interests.map((item) => (
-              <div class="flex items-center gap-3 py-0.5">
-                <Icon
-                  name={item.icon}
-                  class={cn("h-4 w-4 shrink-0", item.color)}
-                  aria-hidden="true"
-                />
-                <span class="text-muted-foreground">{item.text}</span>
-              </div>
-            ))
-          }
+            aria-hidden="true"
+          >{ART_BANNER.join("\n")}</pre>
+          {interests.map((item) => (
+            <div class="flex items-center gap-3 py-0.5">
+              <Icon
+                name={item.icon}
+                class={cn("h-4 w-4 shrink-0", item.color)}
+                aria-hidden="true"
+              />
+              <span class="text-muted-foreground">{item.text}</span>
+            </div>
+          ))}
           <div class="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1">
             <a
               href="https://github.com/aleksa-codes"
               target="_blank"
               rel="noopener noreferrer"
               class="text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
-              >github.com/aleksa-codes</a
             >
-            <span aria-hidden="true" class="text-xs text-muted-foreground/60"
-              >·</span
-            >
+              github.com/aleksa-codes
+            </a>
+            <span aria-hidden="true" class="text-xs text-muted-foreground/60">
+              ·
+            </span>
             <a
               href="mailto:hello@aleksa.codes"
               class="text-xs whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
-              >hello@aleksa.codes</a
             >
+              hello@aleksa.codes
+            </a>
           </div>
         </div>
 
-        <div
-          class="flex shrink-0 items-center gap-3 border-t border-border/60 px-4 py-3"
-        >
+        <div class="flex shrink-0 items-center gap-3 border-t border-border/60 px-4 py-3">
           <span
             class="w-3.5 shrink-0 text-green-500 select-none"
             aria-hidden="true"
@@ -137,7 +134,8 @@ const interests = [
             <span
               id="term-cursor"
               class="h-4 w-1.75 shrink-0 rounded-[1px] bg-green-500/80"
-              aria-hidden="true"></span>
+              aria-hidden="true"
+            ></span>
             <span id="term-after" class="text-foreground"></span>
             <span
               id="term-placeholder"

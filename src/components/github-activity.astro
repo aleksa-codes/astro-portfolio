@@ -35,24 +35,20 @@ try {
 
 <div class="flex min-h-0 w-full flex-1 flex-col justify-center gap-2 p-4">
   <div id="gh-labels" class="flex w-full gap-0.75">
-    {
-      Array.from({ length: 22 }).map(() => (
-        <span class="min-w-0 flex-1 text-xs font-medium text-muted-foreground">
-          &nbsp;
-        </span>
-      ))
-    }
+    {Array.from({ length: 22 }).map(() => (
+      <span class="min-w-0 flex-1 text-xs font-medium text-muted-foreground">
+        &nbsp;
+      </span>
+    ))}
   </div>
   <div id="gh-graph" data-username={username} class="flex w-full gap-0.75">
-    {
-      Array.from({ length: 22 }).map(() => (
-        <div class="flex min-w-0 flex-1 flex-col gap-0.75">
-          {Array.from({ length: 7 }).map(() => (
-            <div class="aspect-square w-full animate-pulse rounded-[2px] bg-secondary/60" />
-          ))}
-        </div>
-      ))
-    }
+    {Array.from({ length: 22 }).map(() => (
+      <div class="flex min-w-0 flex-1 flex-col gap-0.75">
+        {Array.from({ length: 7 }).map(() => (
+          <div class="aspect-square w-full animate-pulse rounded-[2px] bg-secondary/60" />
+        ))}
+      </div>
+    ))}
   </div>
   <p id="gh-error" class="hidden text-center text-xs text-muted-foreground/60">
     Could not load contribution data
@@ -67,42 +63,34 @@ try {
   </a>
 </div>
 
-<div
-  class="flex shrink-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 border-t border-border/60 px-4 py-3"
->
-  {
-    fetchError ? (
-      <p class="text-sm text-red-500/80">Failed to load stats.</p>
-    ) : (
-      <>
-        <div class="flex min-w-0 items-center gap-1.5">
-          <Icon name="lucide:star" class="h-4 w-4 text-muted-foreground/70" />
-          <span class="text-sm font-semibold text-foreground">
-            {totalStars}
-          </span>
-          <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
-            Stars
-          </span>
-        </div>
-        <div class="flex min-w-0 items-center gap-1.5">
-          <Icon name="lucide:users" class="h-4 w-4 text-muted-foreground/70" />
-          <span class="text-sm font-semibold text-foreground">{followers}</span>
-          <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
-            Followers
-          </span>
-        </div>
-        <div class="flex min-w-0 items-center gap-1.5">
-          <Icon name="lucide:book" class="h-4 w-4 text-muted-foreground/70" />
-          <span class="text-sm font-semibold text-foreground">
-            {publicRepos}
-          </span>
-          <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
-            Repos
-          </span>
-        </div>
-      </>
-    )
-  }
+<div class="flex shrink-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 border-t border-border/60 px-4 py-3">
+  {fetchError ? (
+    <p class="text-sm text-red-500/80">Failed to load stats.</p>
+  ) : (
+    <>
+      <div class="flex min-w-0 items-center gap-1.5">
+        <Icon name="lucide:star" class="h-4 w-4 text-muted-foreground/70" />
+        <span class="text-sm font-semibold text-foreground">{totalStars}</span>
+        <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+          Stars
+        </span>
+      </div>
+      <div class="flex min-w-0 items-center gap-1.5">
+        <Icon name="lucide:users" class="h-4 w-4 text-muted-foreground/70" />
+        <span class="text-sm font-semibold text-foreground">{followers}</span>
+        <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+          Followers
+        </span>
+      </div>
+      <div class="flex min-w-0 items-center gap-1.5">
+        <Icon name="lucide:book" class="h-4 w-4 text-muted-foreground/70" />
+        <span class="text-sm font-semibold text-foreground">{publicRepos}</span>
+        <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+          Repos
+        </span>
+      </div>
+    </>
+  )}
 </div>
 
 <script>
