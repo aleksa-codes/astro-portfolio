@@ -2,26 +2,12 @@
 title: "How to Make Your First GitHub Pull Request"
 description: "A beginner-friendly walkthrough for making your first GitHub pull request. No jargon, just the steps you need."
 date: "2023-09-02T15:41:00.000Z"
-thumbnail: ../../assets/blog/github-first-pr-guide.png
+thumbnail: ../../assets/blog/github-first-pr-guide-dark-minimal-ui.png
 tags:
   - Development
   - Git
   - Tutorial
 ---
-
-## Table of Contents
-
-- [What's this about?](#whats-this-about)
-- [Why pull requests matter](#why-pull-requests-matter)
-- [What you'll need](#what-youll-need)
-- [Let's do it step by step](#lets-do-it-step-by-step)
-  - [Step 1: Fork the repo](#step-1-fork-the-repo)
-  - [Step 2: Clone it to your machine](#step-2-clone-it-to-your-machine)
-  - [Step 3: Make a new branch](#step-3-make-a-new-branch)
-  - [Step 4: Make your changes](#step-4-make-your-changes)
-  - [Step 5: Commit and push](#step-5-commit-and-push)
-  - [Step 6: Open the pull request](#step-6-open-the-pull-request)
-- [You did it](#you-did-it)
 
 ## What's this about?
 
@@ -95,6 +81,8 @@ git push origin feature-or-fix-branch
 Go back to the original repo on GitHub. You should see a banner saying you recently pushed a branch. Click "Compare & pull request."
 
 Fill out the PR form. Explain what you changed and why. If there's a related issue, mention it. Then hit "Create pull request."
+
+![Two GitHub browser screens showing the branch notification and the pull request creation form](../../assets/blog/github-create-pull-request.png)
 
 That's literally it.
 
