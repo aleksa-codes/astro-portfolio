@@ -1,5 +1,5 @@
 ---
-title: "How to Add a Snowfall Effect to Your Website with CSS and JavaScript"
+title: "How to Add Snowfall to Your Website with CSS and JavaScript"
 description: "A quick tutorial on creating a snowfall effect using CSS and JavaScript. Perfect for adding some holiday vibes to your site."
 date: 2022-12-10T12:34:56.000Z
 thumbnail: ../../assets/blog/pexels-kristin-vogt-54200.jpg

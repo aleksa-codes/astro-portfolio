@@ -1,5 +1,5 @@
 ---
-title: "One Dark Modern Pro: The VS Code Theme You Didn't Know You Needed"
+title: "One Dark Modern Pro: A Better Dark Theme for VS Code"
 description: One Dark Modern Pro combines One Dark Pro's syntax colors with VS Code's clean Dark Modern UI into one theme.
 date: 2025-02-06
 thumbnail: ../../assets/blog/theme-banner.png
