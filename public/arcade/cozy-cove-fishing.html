@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Cozy Cove Fishing</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --card: rgba(255, 246, 232, 0.93);
+        --ink: #5a3e36;
+        --acc: #f2a65a;
+        --good: #7bc47f;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: #ffcfa6;
+        font-family: Nunito, ui-rounded, system-ui, sans-serif;
+        color: var(--ink);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: none;
+      }
+      canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      #ui {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+          env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+      }
+      .card {
+        background: var(--card);
+        border-radius: 18px;
+        box-shadow: 0 6px 20px rgba(90, 50, 30, 0.25);
+        padding: 9px 16px;
+        font-weight: 800;
+      }
+      #top {
+        position: absolute;
+        top: calc(12px + env(safe-area-inset-top, 0px));
+        left: 12px;
+        right: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      button {
+        font: inherit;
+        font-weight: 800;
+        color: var(--ink);
+        border: 0;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+      #hint {
+        position: absolute;
+        bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        font-size: 15px;
+        max-width: 92vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      #pw {
+        position: absolute;
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+        left: 50%;
+        transform: translateX(-50%);
+        width: 220px;
+        height: 16px;
+        border-radius: 9px;
+        background: rgba(90, 62, 54, 0.35);
+        overflow: hidden;
+        opacity: 0;
+        transition: 0.2s;
+      }
+      #pw.on {
+        opacity: 1;
+      }
+      #pwf {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, #ffd27a, #f2765a);
+        border-radius: 9px;
+      }
+      #reel {
+        position: absolute;
+        right: calc(18px + env(safe-area-inset-right, 0px));
+        top: 50%;
+        transform: translateY(-50%);
+        display: none;
+        gap: 8px;
+        height: min(46vh, 290px);
+      }
+      #reel.on {
+        display: flex;
+      }
+      .trk {
+        position: relative;
+        width: 46px;
+        height: 100%;
+        border-radius: 23px;
+        background: rgba(90, 62, 54, 0.4);
+        overflow: hidden;
+        box-shadow: inset 0 0 0 3px var(--card);
+      }
+      #zone {
+        position: absolute;
+        left: 3px;
+        right: 3px;
+        height: 26%;
+        bottom: 0;
+        background: var(--good);
+        border-radius: 20px;
+      }
+      #fs {
+        position: absolute;
+        left: 50%;
+        font-size: 26px;
+        transform: translate(-50%, 50%);
+        bottom: 50%;
+      }
+      .trk.p {
+        width: 14px;
+        border-radius: 7px;
+      }
+      #prg {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--acc);
+      }
+      #bang {
+        position: absolute;
+        left: 50%;
+        top: 32%;
+        transform: translate(-50%, -50%) scale(0);
+        font-size: 56px;
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: var(--card);
+        display: grid;
+        place-items: center;
+        color: #e0503c;
+        font-weight: 800;
+        box-shadow: 0 8px 24px rgba(90, 50, 30, 0.3);
+        transition: 0.15s;
+      }
+      #bang.on {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      #msg {
+        position: absolute;
+        top: calc(70px + env(safe-area-inset-top, 0px));
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: 0.3s;
+      }
+      #msg.on {
+        opacity: 1;
+      }
+      #catch {
+        position: absolute;
+        left: 50%;
+        top: 44%;
+        transform: translate(-50%, -50%) scale(0.7);
+        opacity: 0;
+        transition: 0.25s cubic-bezier(0.3, 1.5, 0.5, 1);
+        text-align: center;
+        padding: 22px 34px;
+        min-width: 200px;
+      }
+      #catch.on {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      #cE {
+        font-size: 64px;
+      }
+      #cN {
+        font-size: 24px;
+      }
+      #cS {
+        opacity: 0.8;
+        margin-top: 4px;
+      }
+      #cNew {
+        display: none;
+        background: var(--acc);
+        color: #fff;
+        border-radius: 10px;
+        padding: 2px 10px;
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+      #jr {
+        position: absolute;
+        inset: 0;
+        display: none;
+        place-items: center;
+        background: rgba(60, 35, 30, 0.35);
+        pointer-events: auto;
+      }
+      #jr.on {
+        display: grid;
+      }
+      #jr .card {
+        width: min(420px, 88vw);
+        padding: 18px;
+      }
+      #grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin: 12px 0;
+      }
+      .cell {
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 14px;
+        padding: 8px 4px;
+        text-align: center;
+        font-size: 13px;
+      }
+      .cell .em {
+        font-size: 30px;
+      }
+      .cell small {
+        display: block;
+        font-size: 11px;
+        opacity: 0.7;
+      }
+      .cell.lock {
+        opacity: 0.55;
+      }
+      #jb {
+        background: var(--acc);
+        color: #fff;
+        border-radius: 14px;
+        padding: 8px 18px;
+        width: 100%;
+      }
+      .pill {
+        pointer-events: auto;
+        background: var(--card);
+        border-radius: 18px;
+        padding: 9px 16px;
+        box-shadow: 0 6px 20px rgba(90, 50, 30, 0.25);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ui">
+      <div id="top">
+        <div class="card" id="coins">🪙 0</div>
+        <button class="pill ui" id="jo">📖 0/9</button>
+      </div>
+      <div id="msg" class="card"></div>
+      <div id="bang">!</div>
+      <div id="reel">
+        <div class="trk">
+          <div id="zone"></div>
+          <div id="fs">🐟</div>
+        </div>
+        <div class="trk p"><div id="prg"></div></div>
+      </div>
+      <div id="catch" class="card">
+        <div id="cNew">NEW!</div>
+        <div id="cE"></div>
+        <div id="cN"></div>
+        <div id="cS"></div>
+      </div>
+      <div id="pw"><div id="pwf"></div></div>
+      <div id="hint" class="card"></div>
+      <div id="jr" class="ui">
+        <div class="card">
+          <b style="font-size: 20px">Fish Journal</b>
+          <div id="grid"></div>
+          <button id="jb">Close</button>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      const $ = (i) => document.getElementById(i),
+        R = Math.random,
+        cl = (v, a, b) => Math.max(a, Math.min(b, v)),
+        lp = (a, b, t) => a + (b - a) * t,
+        V = (x, y, z) => new THREE.Vector3(x, y, z)
+      // name, emoji, weight, min distance, value, difficulty, color
+      const FISH = [
+        ["Minnow", "🐟", 30, 0, 3, 0.5, 0xc9d6df],
+        ["Perch", "🐟", 26, 0, 5, 0.6, 0xe0a458],
+        ["Old Boot", "🥾", 8, 0, 1, 0.3, 0x6b4a3a],
+        ["Bluegill", "🐠", 20, 4, 8, 0.7, 0x5b8fd6],
+        ["Carp", "🐟", 14, 8, 14, 0.9, 0xd98a4a],
+        ["Squid", "🦑", 8, 10, 20, 1, 0xe58a9b],
+        ["Pufferfish", "🐡", 6, 12, 28, 1.1, 0xf2d16b],
+        ["Golden Koi", "🐠", 3, 15, 60, 1.3, 0xffc933],
+        ["Moon Whale Pup", "🐋", 1.5, 18, 120, 1.5, 0x9bb7ff],
+      ]
+      let save = { coins: 0, log: {} }
+      try {
+        save = JSON.parse(localStorage.getItem("cozycove")) || save
+      } catch (e) {}
+      const persist = () => {
+        try {
+          localStorage.setItem("cozycove", JSON.stringify(save))
+        } catch (e) {}
+      }
+      let ac
+      const snd = (f, d = 0.15, ty = "sine", v = 0.08, f2) => {
+        try {
+          ac = ac || new AudioContext()
+          const t = ac.currentTime,
+            o = ac.createOscillator(),
+            g = ac.createGain()
+          o.type = ty
+          o.frequency.setValueAtTime(f, t)
+          if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + d)
+          g.gain.setValueAtTime(v, t)
+          g.gain.exponentialRampToValueAtTime(0.001, t + d)
+          o.connect(g).connect(ac.destination)
+          o.start()
+          o.stop(t + d)
+        } catch (e) {}
+      }
+
+      // ---------- scene ----------
+      const scene = new THREE.Scene()
+      scene.fog = new THREE.Fog(0xffd4a8, 45, 140)
+      const cam = new THREE.PerspectiveCamera(50, 1, 0.1, 400)
+      const ren = new THREE.WebGLRenderer({ antialias: true })
+      ren.setPixelRatio(Math.min(devicePixelRatio, 2))
+      ren.shadowMap.enabled = true
+      ren.shadowMap.type = THREE.PCFSoftShadowMap
+      document.body.prepend(ren.domElement)
+      const M = (c, o = {}) =>
+        new THREE.MeshStandardMaterial({
+          color: c,
+          flatShading: true,
+          roughness: 1,
+          ...o,
+        })
+      const mesh = (g, m, x = 0, y = 0, z = 0, p = scene) => {
+        const o = new THREE.Mesh(g, m)
+        o.position.set(x, y, z)
+        o.castShadow = o.receiveShadow = true
+        p.add(o)
+        return o
+      }
+      scene.add(
+        new THREE.Mesh(
+          new THREE.SphereGeometry(300, 16, 12),
+          new THREE.ShaderMaterial({
+            side: THREE.BackSide,
+            depthWrite: false,
+            fog: false,
+            vertexShader:
+              "varying float h;void main(){h=normalize(position).y;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}",
+            fragmentShader:
+              "varying float h;void main(){vec3 a=vec3(1.,.83,.66),b=vec3(.96,.62,.62),c=vec3(.38,.45,.78);float t=clamp(h,0.,1.);gl_FragColor=vec4(mix(mix(a,b,smoothstep(0.,.25,t)),c,smoothstep(.2,.8,t)),1.);}",
+          })
+        )
+      )
+      scene.add(new THREE.HemisphereLight(0xffe2c4, 0x4a6a7a, 0.85))
+      const sun = new THREE.DirectionalLight(0xffc48a, 1)
+      sun.position.set(-8, 14, 6)
+      sun.target.position.set(0, 0, 2)
+      sun.castShadow = true
+      sun.shadow.mapSize.set(1024, 1024)
+      Object.assign(sun.shadow.camera, {
+        left: -12,
+        right: 12,
+        top: 12,
+        bottom: -12,
+      })
+      scene.add(sun, sun.target)
+      const orb = (r, c, o, x, y, z) => {
+        const m = new THREE.Mesh(
+          new THREE.SphereGeometry(r, 16, 12),
+          new THREE.MeshBasicMaterial({
+            color: c,
+            transparent: true,
+            opacity: o,
+            fog: false,
+          })
+        )
+        m.position.set(x, y, z)
+        scene.add(m)
+      }
+      orb(6, 0xfff1c9, 1, -40, 16, -120)
+      orb(12, 0xffd9a0, 0.25, -40, 16, -120)
+      ;[-60, -20, 25, 65].forEach((x, i) =>
+        mesh(
+          new THREE.ConeGeometry(28 + i * 4, 22 + i * 5, 5),
+          M(0x8fa6c4),
+          x,
+          8,
+          -100 - i * 6
+        )
+      )
+
+      // water
+      const wg = new THREE.PlaneGeometry(240, 240, 70, 70)
+      wg.rotateX(-Math.PI / 2)
+      const wp = wg.attributes.position
+      const water = new THREE.Mesh(
+        wg,
+        M(0x4db6c6, { transparent: true, opacity: 0.86, roughness: 0.4 })
+      )
+      water.receiveShadow = true
+      scene.add(water)
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(240, 240).rotateX(-Math.PI / 2),
+        M(0x2f7f8f)
+      )
+      floor.position.y = -4
+      scene.add(floor)
+      const wave = (x, z, t) =>
+        Math.sin(x * 0.25 + t) * 0.12 + Math.cos(z * 0.3 + t * 0.8) * 0.12
+
+      // pier
+      const wood = [0xb98552, 0xa9774a, 0xc59560]
+      for (let i = 0; i < 17; i++)
+        mesh(
+          new THREE.BoxGeometry(2.6, 0.2, 0.5),
+          M(wood[i % 3]),
+          0,
+          0.9,
+          -1.5 + i * 0.6
+        )
+      ;[
+        [-1.2, -1.4],
+        [1.2, -1.4],
+        [-1.2, 4],
+        [1.2, 4],
+        [-1.2, 8],
+        [1.2, 8],
+      ].forEach((p) =>
+        mesh(
+          new THREE.CylinderGeometry(0.14, 0.14, 4, 6),
+          M(0x7a5238),
+          p[0],
+          -0.9,
+          p[1]
+        )
+      )
+      mesh(
+        new THREE.SphereGeometry(0.22, 8, 6),
+        M(0xffd28a, { emissive: 0xffb060, emissiveIntensity: 1.3 }),
+        1.2,
+        1.35,
+        -1.4
+      )
+      mesh(new THREE.ConeGeometry(0.3, 0.25, 6), M(0x5a3e36), 1.2, 1.65, -1.4)
+      const lamp = new THREE.PointLight(0xffb060, 0.9, 12)
+      lamp.position.set(1.2, 1.6, -1.2)
+      scene.add(lamp)
+      ;[
+        [4, -5, 1.2],
+        [-7, -3, 0.9],
+        [9, -14, 1.5],
+      ].forEach((r) =>
+        mesh(
+          new THREE.DodecahedronGeometry(r[2], 0),
+          M(0x9a9aa6),
+          r[0],
+          r[2] * 0.3 - 0.3,
+          r[1]
+        )
+      )
+
+      // islands
+      function tree(x, y, z, s, p) {
+        const g = new THREE.Group()
+        g.position.set(x, y, z)
+        g.scale.setScalar(s)
+        p.add(g)
+        const c = [0x5fae63, 0x4f9c5a, 0x7ac06d][(R() * 3) | 0]
+        mesh(
+          new THREE.CylinderGeometry(0.12, 0.18, 1, 5),
+          M(0x7a5238),
+          0,
+          0.5,
+          0,
+          g
+        )
+        ;[
+          [1.6, 1.2],
+          [2.3, 0.9],
+          [2.9, 0.6],
+        ].forEach((a) =>
+          mesh(new THREE.ConeGeometry(a[1], 1.2, 6), M(c), 0, a[0], 0, g)
+        )
+      }
+      function island(x, z, r, n, cabin) {
+        const g = new THREE.Group()
+        g.position.set(x, 0, z)
+        scene.add(g)
+        mesh(
+          new THREE.CylinderGeometry(r, r * 1.2, 2.4, 9),
+          M(0xe8cf9b),
+          0,
+          0,
+          0,
+          g
+        )
+        mesh(
+          new THREE.CylinderGeometry(r * 0.86, r * 0.95, 0.5, 9),
+          M(0x86c36a),
+          0,
+          1.1,
+          0,
+          g
+        )
+        for (let i = 0; i < n; i++) {
+          const a = i * 2.4 + R(),
+            d = r * (0.3 + R() * 0.4)
+          tree(Math.cos(a) * d, 1.3, Math.sin(a) * d, 0.8 + R() * 0.7, g)
+        }
+        if (cabin) {
+          mesh(new THREE.BoxGeometry(2.4, 1.4, 2), M(0xf1e0c5), 2, 2, 3, g)
+          const rf = mesh(
+            new THREE.ConeGeometry(2.1, 1.1, 4),
+            M(0xc9614a),
+            2,
+            3.25,
+            3,
+            g
+          )
+          rf.rotation.y = Math.PI / 4
+          mesh(
+            new THREE.BoxGeometry(0.6, 0.6, 0.1),
+            M(0xffd28a, { emissive: 0xffb060, emissiveIntensity: 1.2 }),
+            2,
+            2.1,
+            4.05,
+            g
+          )
+          mesh(
+            new THREE.BoxGeometry(0.4, 1, 0.4),
+            M(0x9a6a55),
+            2.8,
+            3.6,
+            2.6,
+            g
+          )
+        }
+      }
+      island(-17, -12, 7, 9, true)
+      island(21, -25, 4.5, 4)
+      island(-3, -36, 3, 2)
+      island(8, -48, 5, 5)
+
+      // clouds, fireflies, fish shadows
+      const clouds = []
+      for (let i = 0; i < 7; i++) {
+        const g = new THREE.Group(),
+          m = M(0xfff0e6, { emissive: 0xffd9c4, emissiveIntensity: 0.35 })
+        for (let j = 0; j < 4; j++) {
+          const s = new THREE.Mesh(
+            new THREE.IcosahedronGeometry(2 + R() * 2, 0),
+            m
+          )
+          s.position.set(j * 2.6 - 4, R() * 1.2, R() * 2)
+          g.add(s)
+        }
+        g.scale.set(1, 0.55, 1)
+        g.position.set(-90 + i * 30, 24 + R() * 10, -70 - R() * 30)
+        scene.add(g)
+        clouds.push(g)
+      }
+      const FN = 50,
+        fp = new Float32Array(FN * 3),
+        fb = Array.from({ length: FN }, () => [
+          (R() - 0.5) * 26,
+          1.5 + R() * 3,
+          4 - R() * 22,
+          R() * 6,
+        ])
+      const fg = new THREE.BufferGeometry()
+      fg.setAttribute("position", new THREE.BufferAttribute(fp, 3))
+      const ff = new THREE.Points(
+        fg,
+        new THREE.PointsMaterial({
+          color: 0xffe08a,
+          size: 0.28,
+          transparent: true,
+          opacity: 0.9,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+        })
+      )
+      ff.frustumCulled = false
+      scene.add(ff)
+      const sh = Array.from({ length: 12 }, () => {
+        const m = new THREE.Mesh(
+          new THREE.SphereGeometry(1, 6, 4),
+          new THREE.MeshBasicMaterial({
+            color: 0x1d5f70,
+            transparent: true,
+            opacity: 0.45,
+          })
+        )
+        m.scale.set(0.22 + R() * 0.15, 0.08, 0.6 + R() * 0.4)
+        scene.add(m)
+        return {
+          m,
+          cx: (R() - 0.5) * 40,
+          cz: -6 - R() * 24,
+          r: 2 + R() * 5,
+          a: R() * 6.28,
+          s: (0.15 + R() * 0.25) * (R() < 0.5 ? 1 : -1),
+        }
+      })
+
+      // player + rod
+      const player = new THREE.Group()
+      player.position.set(0, 1, 0)
+      scene.add(player)
+      mesh(
+        new THREE.CylinderGeometry(0.32, 0.4, 0.9, 7),
+        M(0xe07a5f),
+        0,
+        0.55,
+        0,
+        player
+      )
+      ;[-0.15, 0.15].forEach((x) =>
+        mesh(
+          new THREE.BoxGeometry(0.2, 0.4, 0.25),
+          M(0x4a5a7a),
+          x,
+          0.05,
+          0,
+          player
+        )
+      )
+      mesh(
+        new THREE.IcosahedronGeometry(0.3, 0),
+        M(0xf2c9a0),
+        0,
+        1.3,
+        0,
+        player
+      )
+      mesh(
+        new THREE.CylinderGeometry(0.55, 0.55, 0.06, 10),
+        M(0xf2d16b),
+        0,
+        1.52,
+        0,
+        player
+      )
+      mesh(
+        new THREE.CylinderGeometry(0.3, 0.32, 0.25, 8),
+        M(0xf2d16b),
+        0,
+        1.66,
+        0,
+        player
+      )
+      const rodP = new THREE.Group()
+      rodP.position.set(0.35, 1, -0.1)
+      player.add(rodP)
+      mesh(
+        new THREE.CylinderGeometry(0.03, 0.06, 3.2, 5).translate(0, 1.6, 0),
+        M(0x6b4a3a),
+        0,
+        0,
+        0,
+        rodP
+      )
+      const tipO = new THREE.Object3D()
+      tipO.position.y = 3.2
+      rodP.add(tipO)
+      const bobber = new THREE.Group()
+      scene.add(bobber)
+      mesh(new THREE.SphereGeometry(0.2, 8, 6), M(0xff5a4f), 0, 0.05, 0, bobber)
+      mesh(
+        new THREE.CylinderGeometry(0.21, 0.21, 0.08, 8),
+        M(0xffffff),
+        0,
+        -0.02,
+        0,
+        bobber
+      )
+      const lineG = new THREE.BufferGeometry().setFromPoints(
+        Array.from({ length: 14 }, () => V(0, 0, 0))
+      )
+      const line = new THREE.Line(
+        lineG,
+        new THREE.LineBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0.85,
+        })
+      )
+      line.frustumCulled = false
+      scene.add(line)
+
+      // ripples
+      const rips = []
+      function ripple(x, z, s = 1) {
+        const m = new THREE.Mesh(
+          new THREE.RingGeometry(0.3, 0.4, 24).rotateX(-Math.PI / 2),
+          new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.7,
+            side: THREE.DoubleSide,
+          })
+        )
+        m.position.set(x, 0.25, z)
+        scene.add(m)
+        rips.push({ m, t: 0, s })
+      }
+      function fishMesh(c) {
+        const g = new THREE.Group()
+        mesh(new THREE.OctahedronGeometry(0.5, 0), M(c), 0, 0, 0, g).scale.set(
+          0.5,
+          0.6,
+          1.3
+        )
+        const t = mesh(new THREE.ConeGeometry(0.3, 0.6, 4), M(c), 0, 0, 0.95, g)
+        t.rotation.x = -Math.PI / 2
+        return g
+      }
+
+      // ---------- game ----------
+      let state = "idle",
+        st = 0,
+        T = 0,
+        power = 0,
+        pd = 1,
+        hold = false,
+        cur = null,
+        biteT = 3,
+        reel = {},
+        fm,
+        res,
+        journal = false,
+        mx = 0,
+        my = 0,
+        sag = 0,
+        ct
+      const land = V(0, 0, -10),
+        start = V(),
+        tipV = V(),
+        fl0 = V()
+      const HINTS = {
+        idle: "Hold to cast · release to throw",
+        charge: "Release to cast!",
+        cast: "",
+        wait: "Waiting for a bite…",
+        bite: "Now! Click / Space!",
+        reel: "Hold to lift the green zone — keep the fish inside",
+        fly: "",
+        result: "Tap to continue",
+      }
+      function setState(s) {
+        state = s
+        st = 0
+        $("hint").textContent = HINTS[s]
+        $("hint").style.display = HINTS[s] ? "" : "none"
+        $("bang").classList.toggle("on", s === "bite")
+        $("reel").classList.toggle("on", s === "reel")
+        $("pw").classList.toggle("on", s === "charge")
+      }
+      function msg(t) {
+        $("msg").textContent = t
+        $("msg").classList.add("on")
+        clearTimeout(ct)
+        ct = setTimeout(() => $("msg").classList.remove("on"), 1700)
+      }
+      function hud() {
+        $("coins").textContent = "🪙 " + save.coins
+        $("jo").textContent =
+          "📖 " + Object.keys(save.log).length + "/" + FISH.length
+      }
+      function renderJ() {
+        $("grid").innerHTML = FISH.map((f) => {
+          const e = save.log[f[0]]
+          return `<div class="cell${e ? "" : " lock"}"><div class="em">${e ? f[1] : "❔"}</div><b>${e ? f[0] : "???"}</b><small>${e ? "×" + e.n + " · best " + e.best + " cm" : "not yet caught"}</small></div>`
+        }).join("")
+      }
+      function pickFish(d) {
+        const p = FISH.filter((f) => f[3] <= d)
+        let s = p.reduce((a, f) => a + f[2], 0) * R()
+        for (const f of p) if ((s -= f[2]) <= 0) return f
+        return p[0]
+      }
+      function cast() {
+        const d = 6 + power * 17
+        land.set((R() - 0.5) * 4, 0, -d)
+        start.copy(tipV)
+        snd(500, 0.25, "sine", 0.06, 150)
+        setState("cast")
+      }
+      function startReel() {
+        cur = cur
+        reel = { f: 0.5, ft: 0.5, h: 0.2, v: 0, p: 0.3, tk: 0, fish: cur }
+        hold = true
+        snd(660, 0.12, "triangle", 0.08)
+        setState("reel")
+      }
+      function reelStep(dt) {
+        const r = reel,
+          f = r.fish
+        r.tk -= dt
+        if (r.tk <= 0) {
+          r.ft = 0.05 + R() * 0.9
+          r.tk = 0.5 + (R() * 1.2) / f[5]
+        }
+        r.f += cl(
+          r.ft - r.f,
+          -(0.22 + f[5] * 0.3) * dt,
+          (0.22 + f[5] * 0.3) * dt
+        )
+        r.v = cl(r.v + (hold ? 2.8 : -2.4) * dt, -1.3, 1.3)
+        r.h += r.v * dt
+        if (r.h < 0) {
+          r.h = 0
+          r.v = 0
+        }
+        if (r.h > 0.74) {
+          r.h = 0.74
+          r.v = 0
+        }
+        const inn = r.f >= r.h && r.f <= r.h + 0.26
+        r.p += (inn ? 0.22 : -0.09 - 0.05 * f[5]) * dt
+        $("zone").style.bottom = r.h * 100 + "%"
+        $("zone").style.opacity = inn ? 1 : 0.6
+        $("fs").style.bottom = r.f * 100 + "%"
+        $("fs").textContent = f[1]
+        $("prg").style.height = cl(r.p, 0, 1) * 100 + "%"
+        if (r.p >= 1) catchFish()
+        else if (r.p <= 0) {
+          msg("It slipped off the hook…")
+          setState("idle")
+        }
+      }
+      function catchFish() {
+        const f = cur,
+          size = Math.round((8 + R() * 30) * (1 + FISH.indexOf(f) * 0.15)),
+          e = save.log[f[0]] || (save.log[f[0]] = { n: 0, best: 0 })
+        res = { f, size, isNew: !e.n }
+        e.n++
+        e.best = Math.max(e.best, size)
+        save.coins += f[4]
+        persist()
+        hud()
+        renderJ()
+        fm = fishMesh(f[6])
+        fm.scale.setScalar(0.8 + size / 45)
+        scene.add(fm)
+        fl0.copy(bobber.position)
+        ;[523, 659, 784, 1047].forEach((n, i) =>
+          setTimeout(() => snd(n, 0.25, "triangle"), i * 110)
+        )
+        setState("fly")
+      }
+      function showCard() {
+        const { f, size, isNew } = res
+        $("cE").textContent = f[1]
+        $("cN").textContent = f[0]
+        $("cS").textContent = size + " cm · +" + f[4] + " 🪙"
+        $("cNew").style.display = isNew ? "inline-block" : "none"
+        $("catch").classList.add("on")
+        setState("result")
+      }
+      function closeCard() {
+        $("catch").classList.remove("on")
+        setState("idle")
+      }
+      function down() {
+        if (journal) return
+        if (state === "idle") {
+          power = 0
+          pd = 1
+          setState("charge")
+        } else if (state === "wait") {
+          msg("Reeled in early")
+          setState("idle")
+        } else if (state === "bite") startReel()
+        else if (state === "reel") hold = true
+        else if (state === "result") closeCard()
+      }
+      function up() {
+        if (state === "charge") cast()
+        hold = false
+      }
+      addEventListener("pointerdown", (e) => {
+        if (!e.target.closest(".ui")) down()
+      })
+      addEventListener("pointerup", up)
+      addEventListener("pointermove", (e) => {
+        mx = (e.clientX / innerWidth) * 2 - 1
+        my = (e.clientY / innerHeight) * 2 - 1
+      })
+      addEventListener("keydown", (e) => {
+        if (e.code === "Space" && !e.repeat) {
+          e.preventDefault()
+          down()
+        }
+      })
+      addEventListener("keyup", (e) => {
+        if (e.code === "Space") up()
+      })
+      const tj = (v) => {
+        journal = v
+        $("jr").classList.toggle("on", v)
+        if (v) {
+          hold = false
+          renderJ()
+        }
+      }
+      $("jo").onclick = () => tj(true)
+      $("jb").onclick = () => tj(false)
+      function resize() {
+        const w = innerWidth,
+          h = innerHeight
+        ren.setSize(w, h)
+        cam.aspect = w / h
+        cam.fov = w / h < 1 ? 70 : 50
+        cam.updateProjectionMatrix()
+      }
+      addEventListener("resize", resize)
+      resize()
+      cam.position.set(3.2, 3.6, 6.2)
+
+      const clock = new THREE.Clock()
+      function tick() {
+        requestAnimationFrame(tick)
+        const dt = Math.min(clock.getDelta(), 0.05)
+        T += dt
+        st += dt
+        for (let i = 0; i < wp.count; i++)
+          wp.setY(i, wave(wp.getX(i), wp.getZ(i), T))
+        wp.needsUpdate = true
+        rodP.updateMatrixWorld(true)
+        tipO.getWorldPosition(tipV)
+        const b = bobber.position
+        if (state === "idle" || state === "charge" || state === "result") {
+          b.set(tipV.x + Math.sin(T * 2) * 0.05, tipV.y - 1.4, tipV.z)
+          sag = 0
+          if (state === "charge") {
+            power += pd * dt * 1.1
+            if (power > 1 || power < 0) {
+              pd = -pd
+              power = cl(power, 0, 1)
+            }
+            $("pwf").style.width = power * 100 + "%"
+          }
+          if (state === "result" && st > 4) closeCard()
+        } else if (state === "cast") {
+          const t = Math.min(st / 0.85, 1)
+          b.lerpVectors(start, land, t)
+          b.y += Math.sin(Math.PI * t) * (3 + -land.z * 0.12)
+          sag = 0.3
+          if (t >= 1) {
+            b.copy(land)
+            ripple(b.x, b.z)
+            snd(300, 0.3, "sine", 0.1, 60)
+            biteT = 2 + R() * 5
+            setState("wait")
+          }
+        } else if (state === "wait") {
+          b.set(
+            land.x,
+            wave(land.x, land.z, T) + 0.1 + Math.sin(T * 2.2) * 0.03,
+            land.z
+          )
+          sag = 0.7
+          if (st > biteT) {
+            cur = pickFish(-land.z)
+            snd(880, 0.15, "triangle", 0.1)
+            setState("bite")
+          }
+        } else if (state === "bite") {
+          b.set(
+            land.x + Math.sin(T * 40) * 0.05,
+            wave(land.x, land.z, T) - 0.12 + Math.sin(T * 18) * 0.08,
+            land.z
+          )
+          sag = 0.5
+          if (((st * 3) | 0) !== (((st - dt) * 3) | 0)) ripple(b.x, b.z, 0.6)
+          if (st > 1.3) {
+            msg("It got away…")
+            setState("idle")
+          }
+        } else if (state === "reel") {
+          reelStep(dt)
+          const k = reel.p * 0.6
+          b.x = lp(b.x, lp(land.x, 0.3, k), 0.1)
+          b.z = lp(b.z, lp(land.z, -3, k), 0.1)
+          b.y = wave(b.x, b.z, T) + 0.05 + Math.sin(T * 30) * 0.05
+          sag = 0.05
+        } else if (state === "fly") {
+          const t = Math.min(st / 0.9, 1)
+          fm.position.lerpVectors(fl0, V(0.2, 2.2, 0), t)
+          fm.position.y += Math.sin(Math.PI * t) * 3
+          fm.rotation.y += dt * 8
+          fm.rotation.x = t * 0.6
+          b.set(tipV.x, tipV.y - 1.4, tipV.z)
+          sag = 0
+          if (t >= 1) {
+            scene.remove(fm)
+            showCard()
+          }
+        }
+        const P = lineG.attributes.position
+        for (let i = 0; i < 14; i++) {
+          const t = i / 13
+          P.setXYZ(
+            i,
+            lp(tipV.x, b.x, t),
+            lp(tipV.y, b.y, t) - sag * 4 * t * (1 - t),
+            lp(tipV.z, b.z, t)
+          )
+        }
+        P.needsUpdate = true
+        rodP.rotation.x = lp(
+          rodP.rotation.x,
+          state === "charge"
+            ? -0.4 - power * 0.35
+            : state === "reel"
+              ? -1.15 + Math.sin(T * 22) * 0.03
+              : -1,
+          0.15
+        )
+        player.position.y = 1 + Math.sin(T * 1.5) * 0.012
+        for (let i = rips.length - 1; i >= 0; i--) {
+          const r = rips[i]
+          r.t += dt
+          r.m.scale.setScalar(1 + r.t * 3 * r.s)
+          r.m.material.opacity = 0.7 * (1 - r.t / 1.2)
+          if (r.t > 1.2) {
+            scene.remove(r.m)
+            rips.splice(i, 1)
+          }
+        }
+        sh.forEach((s) => {
+          s.a += s.s * dt
+          s.m.position.set(
+            s.cx + Math.cos(s.a) * s.r,
+            -1.3,
+            s.cz + Math.sin(s.a) * s.r
+          )
+          s.m.rotation.y = Math.atan2(-Math.sin(s.a) * s.s, Math.cos(s.a) * s.s)
+        })
+        clouds.forEach((c) => {
+          c.position.x += dt * 0.8
+          if (c.position.x > 100) c.position.x = -100
+        })
+        fb.forEach((q, i) => {
+          fp[i * 3] = q[0] + Math.sin(T * 0.5 + q[3]) * 1.2
+          fp[i * 3 + 1] = q[1] + Math.sin(T * 0.8 + q[3] * 2) * 0.5
+          fp[i * 3 + 2] = q[2] + Math.cos(T * 0.4 + q[3]) * 1.2
+        })
+        fg.attributes.position.needsUpdate = true
+        cam.position.x = lp(cam.position.x, 3.2 + mx * 1.2, 0.04)
+        cam.position.y = lp(cam.position.y, 3.6 - my * 0.5, 0.04)
+        cam.lookAt(-0.3, 1.6, -6)
+        ren.render(scene, cam)
+      }
+      hud()
+      renderJ()
+      setState("idle")
+      tick()
+    </script>
+  </body>
+</html>

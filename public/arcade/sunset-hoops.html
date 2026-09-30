@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Sunset Hoops</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #fff;
+        --pill: rgba(30, 10, 60, 0.45);
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #2a1458;
+        font-family: "Fredoka", "Trebuchet MS", sans-serif;
+        color: var(--ink);
+        user-select: none;
+        -webkit-user-select: none;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+      }
+      #hud {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        padding: env(safe-area-inset-top, 0) 0 0;
+      }
+      .pill {
+        position: absolute;
+        top: calc(env(safe-area-inset-top, 0px) + 14px);
+        background: var(--pill);
+        backdrop-filter: blur(6px);
+        border-radius: 18px;
+        padding: 6px 16px;
+        text-align: center;
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18);
+      }
+      .pill small {
+        display: block;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        opacity: 0.75;
+      }
+      .pill b {
+        font-size: 30px;
+        line-height: 1;
+        font-weight: 700;
+      }
+      #pS {
+        left: 14px;
+      }
+      #pT {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      #pB {
+        right: 14px;
+      }
+      #pT.low b {
+        color: #ff6b6b;
+        animation: pulse 0.5s infinite alternate;
+      }
+      @keyframes pulse {
+        to {
+          transform: scale(1.2);
+        }
+      }
+      #combo {
+        position: absolute;
+        top: calc(env(safe-area-inset-top, 0px) + 92px);
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 26px;
+        font-weight: 700;
+        color: #ffd93d;
+        text-shadow: 0 3px 0 #b3400f;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      #pops {
+        position: absolute;
+        inset: 0;
+      }
+      .pop {
+        position: absolute;
+        left: 50%;
+        top: 38%;
+        transform: translateX(-50%);
+        font-size: 44px;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+        white-space: nowrap;
+        animation: rise 1s ease-out forwards;
+      }
+      .pop.g {
+        color: #7dffb0;
+      }
+      .pop.y {
+        color: #ffd93d;
+      }
+      .pop.r {
+        color: #ff9aa8;
+        font-size: 30px;
+      }
+      @keyframes rise {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, 20px) scale(0.5);
+        }
+        20% {
+          opacity: 1;
+          transform: translate(-50%, 0) scale(1.15);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -70px) scale(1);
+        }
+      }
+      .ov {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(30, 10, 60, 0.55);
+        backdrop-filter: blur(4px);
+        z-index: 5;
+      }
+      .card {
+        text-align: center;
+        padding: 28px 36px;
+        border-radius: 28px;
+        background: linear-gradient(160deg, #ff8a3d, #e0407a);
+        box-shadow: 0 10px 0 rgba(0, 0, 0, 0.25);
+        max-width: 88vw;
+      }
+      .card h1 {
+        margin: 0 0 6px;
+        font-size: 44px;
+        line-height: 1;
+      }
+      .card p {
+        margin: 6px 0 18px;
+        opacity: 0.92;
+        font-size: 17px;
+      }
+      .card .big {
+        font-size: 64px;
+        font-weight: 700;
+        margin: 0;
+      }
+      button {
+        font: inherit;
+        font-weight: 700;
+        font-size: 22px;
+        color: #5a1a3a;
+        background: #ffe066;
+        border: 0;
+        border-radius: 16px;
+        padding: 12px 34px;
+        cursor: pointer;
+        box-shadow: 0 5px 0 #c99a1a;
+      }
+      button:active {
+        transform: translateY(4px);
+        box-shadow: 0 1px 0 #c99a1a;
+      }
+      .hide {
+        display: none !important;
+      }
+      #hint {
+        position: absolute;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        opacity: 0.85;
+        text-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+        transition: opacity 0.4s;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hud">
+      <div class="pill" id="pS"><small>SCORE</small><b id="score">0</b></div>
+      <div class="pill" id="pT"><small>TIME</small><b id="time">60</b></div>
+      <div class="pill" id="pB"><small>BEST</small><b id="best">0</b></div>
+      <div id="combo"></div>
+      <div id="pops"></div>
+      <div id="hint">Drag back &amp; release to shoot</div>
+    </div>
+    <div class="ov" id="menu">
+      <div class="card">
+        <h1>🏀 Sunset Hoops</h1>
+        <p>
+          Drag down to power up, drag sideways to aim.<br />Swish for bonus
+          points &amp; build combos!
+        </p>
+        <button id="go">PLAY</button>
+      </div>
+    </div>
+    <div class="ov hide" id="over">
+      <div class="card">
+        <h1>Time's up!</h1>
+        <p id="msg">Final score</p>
+        <div class="big" id="fin">0</div>
+        <p id="nb"></p>
+        <button id="again">PLAY AGAIN</button>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+      const $ = (id) => document.getElementById(id),
+        V = (x, y, z) => new THREE.Vector3(x, y, z)
+      const RB = 0.3,
+        G = 18,
+        RIM_Y = 3.05,
+        RIM_R = 0.56,
+        PITCH = 0.96,
+        START = V(0, 1.7, 6),
+        DOTS = 24
+      // ---------- audio ----------
+      let AC
+      const ac = () => {
+        if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)()
+        if (AC.state === "suspended") AC.resume()
+        return AC
+      }
+      function tone(f, d, type = "sine", v = 0.18, slide = 0, delay = 0) {
+        try {
+          const a = ac(),
+            o = a.createOscillator(),
+            g = a.createGain(),
+            t = a.currentTime + delay
+          o.type = type
+          o.frequency.setValueAtTime(f, t)
+          if (slide)
+            o.frequency.exponentialRampToValueAtTime(
+              Math.max(30, f + slide),
+              t + d
+            )
+          g.gain.setValueAtTime(v, t)
+          g.gain.exponentialRampToValueAtTime(0.001, t + d)
+          o.connect(g).connect(a.destination)
+          o.start(t)
+          o.stop(t + d + 0.05)
+        } catch (e) {}
+      }
+      function noise(d, v, f0, f1) {
+        try {
+          const a = ac(),
+            n = (a.sampleRate * d) | 0,
+            b = a.createBuffer(1, n, a.sampleRate),
+            c = b.getChannelData(0)
+          for (let i = 0; i < n; i++)
+            c[i] = (Math.random() * 2 - 1) * (1 - i / n)
+          const s = a.createBufferSource(),
+            fl = a.createBiquadFilter(),
+            g = a.createGain(),
+            t = a.currentTime
+          s.buffer = b
+          fl.type = "bandpass"
+          fl.frequency.setValueAtTime(f0, t)
+          fl.frequency.exponentialRampToValueAtTime(f1, t + d)
+          g.gain.value = v
+          s.connect(fl).connect(g).connect(a.destination)
+          s.start()
+        } catch (e) {}
+      }
+      const sfx = {
+        shoot: (p) => {
+          noise(0.25, 0.25, 600, 2500)
+          tone(200 + p * 200, 0.18, "sine", 0.1, 300)
+        },
+        rim: (v) => {
+          const k = Math.min(1, v / 9)
+          tone(520, 0.25, "triangle", 0.12 + 0.15 * k, -300)
+          tone(880, 0.12, "square", 0.05 * k, -400)
+        },
+        board: (v) => tone(150, 0.14, "sine", 0.2 + Math.min(0.2, v / 40), -70),
+        bounce: (v) => tone(110, 0.12, "sine", Math.min(0.3, v / 25), -50),
+        score: (c, sw) => {
+          if (sw) noise(0.35, 0.3, 4000, 1500)
+          const b = [523, 659, 784, 1047, 1319, 1568]
+          for (let i = 0; i < Math.min(3 + c, 6); i++)
+            tone(b[i], 0.22, "triangle", 0.14, 0, i * 0.06)
+        },
+        miss: () => tone(300, 0.3, "sawtooth", 0.06, -150),
+        tick: () => tone(1000, 0.06, "square", 0.08),
+        end: () => {
+          ;[784, 659, 523, 392].forEach((f, i) =>
+            tone(f, 0.3, "triangle", 0.16, 0, i * 0.14)
+          )
+        },
+      }
+      // ---------- scene ----------
+      const renderer = new THREE.WebGLRenderer({ antialias: true })
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
+      renderer.shadowMap.enabled = true
+      document.body.prepend(renderer.domElement)
+      const cv = renderer.domElement
+      const scene = new THREE.Scene()
+      scene.fog = new THREE.Fog(0xe0708a, 35, 150)
+      const cam = new THREE.PerspectiveCamera(58, 1, 0.1, 600)
+      const mat = (c, o = {}) =>
+        new THREE.MeshStandardMaterial(
+          Object.assign({ color: c, flatShading: true, roughness: 0.85 }, o)
+        )
+      const add = (g, m, x, y, z, p = scene) => {
+        const o = new THREE.Mesh(g, m)
+        o.position.set(x, y, z)
+        o.castShadow = o.receiveShadow = true
+        p.add(o)
+        return o
+      }
+      // sky dome + sun
+      scene.add(
+        new THREE.Mesh(
+          new THREE.SphereGeometry(300, 24, 16),
+          new THREE.ShaderMaterial({
+            side: THREE.BackSide,
+            depthWrite: false,
+            vertexShader:
+              "varying float h;void main(){h=normalize(position).y;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}",
+            fragmentShader:
+              "varying float h;void main(){vec3 a=vec3(1.,.7,.42),b=vec3(1.,.42,.57),c=vec3(.54,.25,.66),d=vec3(.16,.08,.35);float t=max(h,0.);vec3 col=mix(a,b,smoothstep(0.,.12,t));col=mix(col,c,smoothstep(.1,.4,t));col=mix(col,d,smoothstep(.35,.9,t));gl_FragColor=vec4(col,1.);}",
+          })
+        )
+      )
+      const sun = new THREE.Mesh(
+        new THREE.SphereGeometry(16, 20, 14),
+        new THREE.MeshBasicMaterial({ color: 0xfff0a0, fog: false })
+      )
+      sun.position.set(-10, 12, -170)
+      scene.add(sun)
+      scene.add(new THREE.HemisphereLight(0xffc48a, 0x5a3a8a, 0.75))
+      const dl = new THREE.DirectionalLight(0xffb070, 1.25)
+      dl.position.set(-8, 12, -14)
+      dl.castShadow = true
+      Object.assign(dl.shadow.camera, {
+        left: -14,
+        right: 14,
+        top: 14,
+        bottom: -14,
+        near: 1,
+        far: 50,
+      })
+      dl.shadow.mapSize.set(1024, 1024)
+      scene.add(dl)
+      // ground & court
+      const gr = add(new THREE.CircleGeometry(200, 28), mat(0x4b3a7a), 0, 0, 0)
+      gr.rotation.x = -Math.PI / 2
+      gr.castShadow = false
+      const flat = (w, d, c, x, z, y) => {
+        const m = add(
+          new THREE.PlaneGeometry(w, d),
+          new THREE.MeshStandardMaterial({ color: c, roughness: 0.7 }),
+          x,
+          y,
+          z
+        )
+        m.rotation.x = -Math.PI / 2
+        m.castShadow = false
+        return m
+      }
+      flat(18, 26, 0x22b8b0, 0, -1, 0.01)
+      flat(15, 22, 0xff7a3d, 0, -1, 0.02)
+      flat(4.8, 6.5, 0x5b5bd6, 0, -5.75, 0.03)
+      const ring = (r0, r1, c, z, y, a0 = 0, a1 = Math.PI * 2) => {
+        const m = add(
+          new THREE.RingGeometry(r0, r1, 40, 1, a0, a1),
+          new THREE.MeshBasicMaterial({ color: c }),
+          0,
+          y,
+          z
+        )
+        m.rotation.x = -Math.PI / 2
+        m.castShadow = false
+      }
+      ring(2.35, 2.47, 0xffffff, -2.5, 0.04)
+      ring(1.6, 1.7, 0xffe066, 8, 0.04)
+      flat(0.12, 22, 0xffffff, -7.4, -1, 0.04)
+      flat(0.12, 22, 0xffffff, 7.4, -1, 0.04)
+      flat(14.8, 0.12, 0xffffff, 0, -8.9, 0.04)
+      flat(4.8, 0.1, 0xffffff, 0, -2.5, 0.04)
+      // scenery
+      const treeCols = [0x2fa08a, 0x3fbf7a, 0xd9558a, 0x7a5ad6]
+      for (let i = 0; i < 22; i++) {
+        const s = i % 2 ? -1 : 1,
+          x = s * (11 + Math.random() * 10),
+          z = -14 + Math.random() * 24,
+          sc = 0.8 + Math.random() * 0.9
+        add(
+          new THREE.CylinderGeometry(0.15 * sc, 0.2 * sc, 1 * sc, 5),
+          mat(0x6b4030),
+          x,
+          0.5 * sc,
+          z
+        )
+        add(
+          new THREE.ConeGeometry(1 * sc, 2.8 * sc, 6),
+          mat(treeCols[i % 4]),
+          x,
+          2.2 * sc,
+          z
+        )
+      }
+      for (let i = 0; i < 14; i++) {
+        const a = -Math.PI * 0.9 + i * 0.28,
+          r = 110 + Math.random() * 25,
+          h = 15 + Math.random() * 25
+        const m = add(
+          new THREE.ConeGeometry(28, h, 5),
+          mat(i % 2 ? 0x6b3a86 : 0x8a4a92),
+          Math.sin(a) * r * 1.1,
+          h / 2 - 1,
+          -Math.cos(a) * r
+        )
+        m.castShadow = false
+        m.receiveShadow = false
+      }
+      // hoop
+      const hoop = new THREE.Group()
+      scene.add(hoop)
+      add(
+        new THREE.BoxGeometry(1.9, 1.3, 0.1),
+        mat(0xffffff, { roughness: 0.3 }),
+        0,
+        3.5,
+        -0.8,
+        hoop
+      )
+      add(
+        new THREE.BoxGeometry(0.7, 0.5, 0.02),
+        mat(0xff4d6d),
+        0,
+        3.3,
+        -0.73,
+        hoop
+      )
+      add(
+        new THREE.BoxGeometry(0.12, 0.12, 0.3),
+        mat(0xff7a3d),
+        0,
+        RIM_Y,
+        -0.66,
+        hoop
+      )
+      add(
+        new THREE.CylinderGeometry(0.09, 0.12, 4.6, 6),
+        mat(0x35306b),
+        0,
+        2.3,
+        -1.5,
+        hoop
+      )
+      add(
+        new THREE.BoxGeometry(0.12, 0.12, 0.8),
+        mat(0x35306b),
+        0,
+        4.5,
+        -1.1,
+        hoop
+      )
+      const rim = add(
+        new THREE.TorusGeometry(RIM_R, 0.05, 6, 20),
+        mat(0xff5a1f, { roughness: 0.4 }),
+        0,
+        RIM_Y,
+        0,
+        hoop
+      )
+      rim.rotation.x = Math.PI / 2
+      const net = add(
+        new THREE.CylinderGeometry(RIM_R - 0.03, 0.3, 0.7, 10, 1, true),
+        new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          wireframe: true,
+          flatShading: true,
+        }),
+        0,
+        RIM_Y - 0.35,
+        0,
+        hoop
+      )
+      net.castShadow = false
+      // ball
+      const ball = new THREE.Group()
+      scene.add(ball)
+      add(
+        new THREE.IcosahedronGeometry(RB, 1),
+        mat(0xff8a1f, { roughness: 0.6 }),
+        0,
+        0,
+        0,
+        ball
+      )
+      for (let i = 0; i < 2; i++) {
+        const t = add(
+          new THREE.TorusGeometry(RB * 1.005, 0.012, 4, 18),
+          new THREE.MeshBasicMaterial({ color: 0x2a1030 }),
+          0,
+          0,
+          0,
+          ball
+        )
+        t.rotation.y = (i * Math.PI) / 2
+        t.castShadow = false
+      }
+      ball.position.copy(START)
+      // preview dots
+      const dotMat = new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0.9,
+        }),
+        dots = []
+      for (let i = 0; i < DOTS; i++) {
+        const d = new THREE.Mesh(new THREE.IcosahedronGeometry(0.07, 0), dotMat)
+        d.visible = false
+        scene.add(d)
+        dots.push(d)
+      }
+      // confetti
+      const cCols = [
+        0xff4d6d, 0xffd93d, 0x6bff9e, 0x4dd2ff, 0xc77dff, 0xffffff,
+      ].map((c) => new THREE.MeshBasicMaterial({ color: c, side: 2 }))
+      const conf = []
+      for (let i = 0; i < 160; i++) {
+        const m = new THREE.Mesh(
+          new THREE.PlaneGeometry(0.14, 0.09),
+          cCols[i % 6]
+        )
+        m.visible = false
+        m.userData = { v: V(0, 0, 0), r: V(0, 0, 0), l: 0 }
+        scene.add(m)
+        conf.push(m)
+      }
+      let cI = 0
+      function confetti(n) {
+        for (let i = 0; i < n; i++) {
+          const m = conf[cI++ % conf.length],
+            u = m.userData
+          m.visible = true
+          m.scale.setScalar(1)
+          m.position.set(
+            hoop.position.x + (Math.random() - 0.5) * 0.6,
+            RIM_Y + 0.2,
+            hoop.position.z
+          )
+          u.v.set(
+            (Math.random() - 0.5) * 7,
+            4 + Math.random() * 6,
+            (Math.random() - 0.2) * 6
+          )
+          u.r.set(Math.random() * 12, Math.random() * 12, Math.random() * 12)
+          u.l = 1.4 + Math.random() * 0.8
+        }
+      }
+      // ---------- game state ----------
+      let state = "menu",
+        ballState = "ready",
+        score = 0,
+        combo = 0,
+        timeLeft = 60,
+        level = 0,
+        elapsed = 0,
+        best = 0,
+        shake = 0,
+        netWig = 0,
+        netT = 0,
+        tickSec = 99
+      try {
+        best = +localStorage.getItem("hoopsBest") || 0
+      } catch (e) {}
+      $("best").textContent = best
+      let hx = 0,
+        hz = -2,
+        vel = V(0, 0, 0),
+        touched = false,
+        scoredF = false,
+        missF = false,
+        flyT = 0,
+        bounces = 0,
+        scoreT = 0,
+        spawnT = 1,
+        aiming = false,
+        sx = 0,
+        sy = 0,
+        cx = 0,
+        cy = 0
+      function pop(t, c = "") {
+        const d = document.createElement("div")
+        d.className = "pop " + c
+        d.textContent = t
+        $("pops").appendChild(d)
+        setTimeout(() => d.remove(), 1000)
+      }
+      function setCombo() {
+        const e = $("combo")
+        if (combo >= 2) {
+          e.textContent = "🔥 COMBO x" + combo
+          e.style.opacity = 1
+        } else e.style.opacity = 0
+      }
+      function start() {
+        ac()
+        state = "play"
+        score = 0
+        combo = 0
+        timeLeft = 60
+        level = 0
+        elapsed = 0
+        tickSec = 99
+        $("score").textContent = 0
+        $("time").textContent = 60
+        setCombo()
+        $("menu").classList.add("hide")
+        $("over").classList.add("hide")
+        $("hint").style.opacity = 0.85
+        resetBall()
+      }
+      function endGame() {
+        state = "over"
+        sfx.end()
+        const nb = score > best && score > 0
+        if (nb) {
+          best = score
+          try {
+            localStorage.setItem("hoopsBest", best)
+          } catch (e) {}
+        }
+        $("best").textContent = best
+        $("fin").textContent = score
+        $("nb").textContent = nb ? "🎉 New high score!" : "Best: " + best
+        $("over").classList.remove("hide")
+        $("combo").style.opacity = 0
+      }
+      $("go").onclick = start
+      $("again").onclick = start
+      function resetBall() {
+        if (state === "play" && timeLeft <= 0) {
+          endGame()
+          return
+        }
+        ballState = "ready"
+        ball.position.copy(START)
+        ball.rotation.set(0, 0, 0)
+        ball.scale.setScalar(0.01)
+        spawnT = 0
+        vel.set(0, 0, 0)
+      }
+      function launch(power, yaw) {
+        const v = 7 + power * 12,
+          c = Math.cos(PITCH)
+        return V(
+          v * c * Math.sin(yaw),
+          v * Math.sin(PITCH),
+          -v * c * Math.cos(yaw)
+        )
+      }
+      function aim() {
+        const dx = cx - sx,
+          dy = cy - sy
+        return {
+          p: Math.max(0, Math.min(1, dy / 220)),
+          yaw: Math.max(-0.5, Math.min(0.5, -dx * 0.0022)),
+        }
+      }
+      cv.addEventListener("pointerdown", (e) => {
+        if (
+          state !== "play" ||
+          ballState !== "ready" ||
+          timeLeft <= 0 ||
+          spawnT < 0.6
+        )
+          return
+        ac()
+        aiming = true
+        sx = cx = e.clientX
+        sy = cy = e.clientY
+        cv.setPointerCapture(e.pointerId)
+        $("hint").style.opacity = 0
+      })
+      cv.addEventListener("pointermove", (e) => {
+        if (aiming) {
+          cx = e.clientX
+          cy = e.clientY
+        }
+      })
+      const rel = () => {
+        if (!aiming) return
+        aiming = false
+        dots.forEach((d) => (d.visible = false))
+        const a = aim()
+        if (a.p < 0.1) {
+          ball.position.copy(START)
+          return
+        }
+        vel.copy(launch(a.p, a.yaw))
+        ball.position.copy(START)
+        ballState = "fly"
+        touched = scoredF = missF = false
+        flyT = 0
+        bounces = 0
+        sfx.shoot(a.p)
+      }
+      cv.addEventListener("pointerup", rel)
+      cv.addEventListener("pointercancel", rel)
+      // ---------- physics ----------
+      function step(dt) {
+        const p = ball.position,
+          py = p.y
+        vel.y -= G * dt
+        p.addScaledVector(vel, dt)
+        if (p.y < RB && vel.y < 0) {
+          p.y = RB
+          if (vel.y < -1.5) sfx.bounce(-vel.y)
+          vel.y *= -0.68
+          vel.x *= 0.88
+          vel.z *= 0.88
+          bounces++
+        }
+        const fz = hz - 0.75
+        if (
+          vel.z < 0 &&
+          Math.abs(p.x - hx) < 0.95 + RB * 0.5 &&
+          p.y > 2.85 &&
+          p.y < 4.15 + RB * 0.5 &&
+          p.z - RB < fz &&
+          p.z + RB > fz - 0.15
+        ) {
+          p.z = fz + RB
+          sfx.board(-vel.z)
+          shake = Math.max(shake, 0.05 + Math.min(0.1, -vel.z * 0.01))
+          vel.z *= -0.55
+          vel.x *= 0.92
+          touched = true
+        }
+        for (let i = 0; i < 20; i++) {
+          const a = (i / 20) * Math.PI * 2,
+            dx = p.x - (hx + Math.cos(a) * RIM_R),
+            dy = p.y - RIM_Y,
+            dz = p.z - (hz + Math.sin(a) * RIM_R),
+            L = Math.hypot(dx, dy, dz),
+            m = RB + 0.05
+          if (L < m && L > 1e-4) {
+            const n = V(dx / L, dy / L, dz / L)
+            p.addScaledVector(n, m - L)
+            const vn = vel.dot(n)
+            if (vn < 0) {
+              vel.addScaledVector(n, -1.6 * vn)
+              vel.multiplyScalar(0.97)
+              touched = true
+              sfx.rim(-vn)
+              shake = Math.max(shake, 0.04 + Math.min(0.12, -vn * 0.012))
+            }
+          }
+        }
+        if (
+          !scoredF &&
+          py > RIM_Y &&
+          p.y <= RIM_Y &&
+          vel.y < 0 &&
+          Math.hypot(p.x - hx, p.z - hz) < RIM_R - 0.12
+        )
+          scored(!touched)
+        if (scoredF && p.y < RIM_Y && p.y > RIM_Y - 0.8) {
+          vel.x *= 1 - 6 * dt
+          vel.z *= 1 - 6 * dt
+          vel.y *= 1 - 2.2 * dt
+        }
+        ball.rotation.x -= vel.z * dt * 1.2
+        ball.rotation.z += vel.x * dt * 1.2
+      }
+      function scored(sw) {
+        scoredF = true
+        scoreT = 0
+        combo++
+        const pts = (sw ? 3 : 2) + Math.min(combo - 1, 6)
+        score += pts
+        $("score").textContent = score
+        netWig = sw ? 1.5 : 0.8
+        netT = 0
+        confetti(sw ? 80 : 35)
+        shake = Math.max(shake, sw ? 0.28 : 0.14)
+        sfx.score(combo, sw)
+        pop((sw ? "SWISH! +" : "+") + pts, sw ? "g" : "y")
+        setCombo()
+        const nl = Math.floor(score / 10)
+        if (nl > level) {
+          level = nl
+          setTimeout(() => pop("HOOP MOVES!", "r"), 450)
+        }
+      }
+      // ---------- loop ----------
+      const clock = new THREE.Clock(),
+        tgt = V(0, 2.6, -2)
+      function resize() {
+        renderer.setSize(innerWidth, innerHeight)
+        cam.aspect = innerWidth / innerHeight
+        cam.fov = cam.aspect < 0.8 ? 72 : 58
+        cam.updateProjectionMatrix()
+      }
+      addEventListener("resize", resize)
+      resize()
+      function loop() {
+        requestAnimationFrame(loop)
+        const dt = Math.min(clock.getDelta(), 0.033)
+        if (state === "play") {
+          elapsed += dt
+          if (timeLeft > 0) {
+            timeLeft = Math.max(0, timeLeft - dt)
+            const s = Math.ceil(timeLeft)
+            $("time").textContent = s
+            $("pT").classList.toggle("low", s <= 10)
+            if (s <= 5 && s !== tickSec && s > 0) {
+              sfx.tick()
+            }
+            tickSec = s
+          }
+          if (timeLeft <= 0 && ballState === "ready" && !aiming) endGame()
+        }
+        // hoop movement
+        const hzT = -2 - Math.min(level, 5) * 0.85,
+          amp = level >= 2 ? Math.min(0.7 * (level - 1), 3.2) : 0
+        hz += (hzT - hz) * Math.min(1, dt * 2)
+        hx = amp * Math.sin(elapsed * (0.7 + level * 0.08))
+        hoop.position.set(hx, 0, hz)
+        // net wiggle
+        netT += dt
+        netWig *= Math.exp(-dt * 2.6)
+        const w = Math.sin(netT * 28) * netWig
+        net.scale.set(
+          1 - 0.18 * w,
+          1 + 0.25 * Math.abs(w) + 0.1 * w,
+          1 - 0.18 * w
+        )
+        net.rotation.z = Math.sin(netT * 19) * netWig * 0.12
+        // ball
+        if (ballState === "fly") {
+          flyT += dt
+          for (let i = 0; i < 4; i++) step(dt / 4)
+          if (
+            !scoredF &&
+            !missF &&
+            ball.position.y < RIM_Y - 0.6 &&
+            vel.y < 0 &&
+            flyT > 0.3
+          ) {
+            missF = true
+            if (combo > 0) {
+              combo = 0
+              setCombo()
+              pop("miss", "r")
+              sfx.miss()
+            }
+          }
+          if (scoredF) scoreT += dt
+          if (
+            (bounces >= 1 && flyT > 0.7) ||
+            flyT > 3.6 ||
+            (scoredF && scoreT > 0.9) ||
+            ball.position.z > 14
+          )
+            resetBall()
+        } else {
+          spawnT += dt
+          ball.scale.setScalar(
+            Math.min(1, spawnT / 0.25) *
+              (1 + 0.15 * Math.max(0, 1 - spawnT * 4) * 0)
+          )
+          if (aiming && state === "play") {
+            const a = aim(),
+              v = launch(a.p, a.yaw)
+            ball.position.set(
+              START.x,
+              START.y - a.p * 0.25,
+              START.z + a.p * 0.35
+            )
+            ball.scale.set(1 + a.p * 0.1, 1 - a.p * 0.15, 1 + a.p * 0.1)
+            dotMat.color.setHSL(0.33 - a.p * 0.33, 0.9, 0.6)
+            const q = START.clone(),
+              u = v.clone(),
+              h = 0.065
+            for (let i = 0; i < DOTS; i++) {
+              q.addScaledVector(u, h)
+              u.y -= G * h
+              dots[i].position.copy(q)
+              dots[i].visible = a.p > 0.1 && q.y > 0.3
+              dots[i].scale.setScalar(1 - (i / DOTS) * 0.5)
+            }
+          }
+        }
+        // confetti
+        for (const m of conf)
+          if (m.visible) {
+            const u = m.userData
+            u.l -= dt
+            if (u.l <= 0) {
+              m.visible = false
+              continue
+            }
+            u.v.y -= 9 * dt
+            u.v.multiplyScalar(1 - 1.2 * dt)
+            m.position.addScaledVector(u.v, dt)
+            m.rotation.x += u.r.x * dt
+            m.rotation.y += u.r.y * dt
+            m.rotation.z += u.r.z * dt
+            m.scale.setScalar(Math.min(1, u.l * 2))
+          }
+        // camera
+        shake *= Math.exp(-dt * 7)
+        tgt.x += (hx * 0.6 - tgt.x) * dt * 3
+        tgt.z += (hz - tgt.z) * dt * 3
+        cam.position.set(
+          tgt.x * 0.35 + (Math.random() - 0.5) * shake,
+          3.4 + (Math.random() - 0.5) * shake,
+          9.8 + (Math.random() - 0.5) * shake
+        )
+        cam.lookAt(tgt.x, 2.5 + (hz + 2) * 0.08, tgt.z)
+        renderer.render(scene, cam)
+      }
+      loop()
+    </script>
+  </body>
+</html>

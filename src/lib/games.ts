@@ -1,10 +1,12 @@
 import AngryBirdsPro from "@/assets/games/angry-birds-pro.png"
+import CozyCoveFishing from "@/assets/games/cozy-cove-fishing.png"
 import CsFySnow from "@/assets/games/cs-fy-snow.png"
 import DoodleJump from "@/assets/games/doodle-jump.png"
 import DxBall from "@/assets/games/dx-ball.png"
 import FlappyBird from "@/assets/games/flappy-bird.png"
 import FruitNinjaFlash from "@/assets/games/fruit-ninja-flash.png"
 import MiniGolf from "@/assets/games/mini-golf.png"
+import SunsetHoops from "@/assets/games/sunset-hoops.png"
 import WhackAMole from "@/assets/games/whack-a-mole.png"
 
 export interface Game {
@@ -51,6 +53,32 @@ export function getModelBadge(model: string): ModelBadge {
 }
 
 export const games: Game[] = [
+  {
+    slug: "cozy-cove-fishing",
+    title: "Cozy Cove Fishing",
+    description:
+      "Golden hour on a quiet cove. Charge a cast, wait for the tug, set the hook, and reel in one of nine species on a small low-poly ocean. No fail state, no timer, just the water.",
+    model: "Claude Sonnet 5.5",
+    prompt:
+      'Build a cozy, relaxing 3D low-poly fishing game as one self-contained HTML file, using Three.js from a CDN. It should be nice to just sit and play, and it has to work properly on a phone, so touch and mouse both work with no keyboard requirement. Call it "Cozy Cove Fishing" and show that title on the start screen.\n\nOne small cove at golden hour: warm orange water with a low-poly surface, a wooden jetty with a lantern, a rowboat that bobs gently and drifts with the pointer, and low-poly rocks and pines around the shore. Everything procedural, no model or texture files anywhere.\n\nThe loop is cast, wait, hook, reel. Hold to charge a power meter and release to cast, the bobber lands and sits there, a telltale wobble and a bite sound mark the strike, tap to set the hook, and then land it on a small timing minigame on a reel that fills a green zone. Land it in the zone for a clean catch, otherwise it still comes in but worth less. Nothing here can be failed.\n\nNine species from a common minnow out to a rare moon whale pup, each with its own colour, weight, how far out you have to cast, and value, so the rare ones are genuinely harder to reach. A journal you open to see what you have caught, coins that persist in localStorage, and shoals of low-poly fish swimming past the boat in the open ocean behind it.\n\nSound it with the Web Audio API, oscillators and noise for the cast, the bite and the reel, no audio files. HUD in soft rounded cards that stay readable over the water, with a hint line for the first cast that fades once you have caught something. Make it really nice and clean.',
+    file: "/arcade/cozy-cove-fishing.html",
+    image: CozyCoveFishing,
+    tags: ["Three.js", "Fishing", "Cozy"],
+    date: "2026-09",
+  },
+  {
+    slug: "sunset-hoops",
+    title: "Sunset Hoops",
+    description:
+      "Drag back, release, swish. Real rim and backboard physics, a hoop that slides away as you score, 60 seconds, and confetti the moment it drops clean.",
+    model: "Claude Sonnet 5.5",
+    prompt:
+      'Build a fun, addictive, satisfying 3D low-poly basketball shooting game as one self-contained HTML file, using Three.js from a CDN. Call it "Sunset Hoops" and show that title on the start screen.\n\nYou stand on a colourful outdoor court at sunset, warm low light raking across the boards. Everything procedural, no model or texture files anywhere.\n\nDrag back and release to shoot: pulling back further charges the power and dragging sideways sets the angle, with a live dotted arc preview showing where the ball is going so the shot is fair to read. Physics have to feel real, the ball bounces off the rim and the backboard with believable spin, and a swish makes the net wiggle. Mouse and touch both work.\n\n60 second timer, a combo multiplier for consecutive baskets that resets when you miss, a hoop that slides side to side and creeps further away as your score climbs, and a high score kept in localStorage. A normal basket is worth a point, a swish is worth more, and a shot taken from right under the rim is worth the most.\n\nAdd the juice: confetti on every swish, screen shake on rim and backboard hits, score text that pops and floats away, and sound effects synthesised with the Web Audio API so there are no audio files. Make it really nice and clean.',
+    file: "/arcade/sunset-hoops.html",
+    image: SunsetHoops,
+    tags: ["Three.js", "Sports", "Score attack"],
+    date: "2026-09",
+  },
   {
     slug: "angry-birds-pro",
     title: "Angry Birds Pro",
