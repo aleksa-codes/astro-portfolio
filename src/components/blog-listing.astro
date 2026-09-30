@@ -11,57 +11,49 @@ interface Props {
 const { posts } = Astro.props
 ---
 
-<div class="flex flex-col gap-6 md:gap-8">
+<div class="flex flex-col gap-5 md:gap-6">
   {posts.map((post, index) => {
     const readingTime = calculateReadingTime(post.body ?? "")
     return (
       <Card
         href={`/blog/${post.id}`}
-        class="group p-4 transition-[border-color] duration-200 ease-out"
-        contentClass="flex flex-col md:flex-row md:items-stretch gap-4"
+        class="group p-3 transition-[border-color] duration-200 ease-out hover:border-foreground/20"
+        contentClass="flex flex-col gap-3 md:flex-row md:items-start"
       >
-        {post.data.thumbnail ? (
-          <div class="relative aspect-video w-full min-w-0 flex-1 overflow-hidden rounded-xl border border-border/50 md:h-auto">
+        <div class="w-full shrink-0 overflow-hidden rounded-md bg-secondary/20 md:w-[56%]">
+          {post.data.thumbnail ? (
             <Image
               src={post.data.thumbnail}
-              alt={post.data.title}
-              sizes="(min-width: 768px) 384px, calc(100vw - 4rem)"
+              alt=""
+              sizes="(min-width: 768px) 380px, calc(100vw - 4rem)"
               priority={index < 2}
-              class="h-full w-full object-cover"
+              class="w-full transition-transform duration-300 ease-out-strong group-hover:scale-[1.02] motion-reduce:transition-none"
             />
-          </div>
-        ) : (
-          <div class="flex aspect-video w-full min-w-0 flex-1 items-center justify-center rounded-xl border border-border/50 bg-secondary/20 transition-colors duration-200 ease-out group-hover:bg-secondary/40 md:h-auto">
-            <Icon
-              name="lucide:file-text"
-              class="h-10 w-10 text-muted-foreground/30"
-            />
-          </div>
-        )}
-        <div class="flex w-full min-w-0 flex-1 flex-col justify-center">
-          <div class="mb-2 flex items-start justify-between gap-4">
-            <h3 class="line-clamp-3 text-xl leading-tight font-semibold text-foreground transition-opacity duration-200 ease-out group-hover:opacity-80 md:text-2xl">
-              {post.data.title}
-            </h3>
-            <Icon
-              name="lucide:arrow-up-right"
-              class="mt-1 h-5 w-5 shrink-0 -translate-x-2 text-muted-foreground opacity-0 transition-[translate,opacity,color] duration-300 ease-out group-hover:translate-x-0 group-hover:text-foreground group-hover:opacity-100 motion-reduce:transition-none"
-            />
-          </div>
+          ) : (
+            <div class="flex aspect-video w-full items-center justify-center">
+              <Icon
+                name="lucide:file-text"
+                class="size-8 text-muted-foreground/30"
+              />
+            </div>
+          )}
+        </div>
 
-          <p class="mb-4 line-clamp-3 flex-1 text-base leading-relaxed text-muted-foreground md:line-clamp-4">
+        <div class="flex min-w-0 flex-1 flex-col gap-2.5">
+          <h2 class="line-clamp-4 text-pretty text-xl leading-snug font-semibold tracking-tight text-foreground md:text-[1.75rem] md:leading-tight">
+            {post.data.title}
+          </h2>
+
+          <p class="line-clamp-5 text-pretty text-[0.95rem] leading-relaxed text-muted-foreground">
             {post.data.description}
           </p>
 
-          <div class="mt-auto flex flex-wrap items-center gap-4 text-sm font-medium">
-            <div class="flex items-center gap-2">
-              <Icon
-                name="lucide:calendar"
-                class="h-4 w-4 text-muted-foreground"
-              />
+          <div class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+            <span class="flex items-center gap-1.5">
+              <Icon name="lucide:calendar" class="size-4 shrink-0" />
               <time
-                class="text-muted-foreground"
                 datetime={post.data.date.toISOString()}
+                class="tabular-nums"
               >
                 {post.data.date.toLocaleDateString("en-US", {
                   month: "short",
@@ -69,14 +61,19 @@ const { posts } = Astro.props
                   year: "numeric",
                 })}
               </time>
-            </div>
-
-            <div class="h-1 w-1 rounded-full bg-muted-foreground/30" />
-
-            <div class="flex items-center gap-2">
-              <Icon name="lucide:clock" class="h-4 w-4 text-muted-foreground" />
-              <span class="text-muted-foreground">{readingTime} min read</span>
-            </div>
+            </span>
+            <span
+              aria-hidden="true"
+              class="h-1 w-1 rounded-full bg-muted-foreground/50"
+            ></span>
+            <span class="flex items-center gap-1.5">
+              <Icon name="lucide:clock" class="size-4 shrink-0" />
+              <span class="tabular-nums">{readingTime} min read</span>
+            </span>
+            <Icon
+              name="lucide:arrow-up-right"
+              class="ml-auto size-4 shrink-0 opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 motion-reduce:transition-none"
+            />
           </div>
         </div>
       </Card>
