@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/base-layout.astro"
 import { getCollection, render } from "astro:content"
 import { Icon } from "astro-icon/components"
 import ReadingProgressBar from "@/components/reading-progress-bar.astro"
+import CopyMarkdown from "@/components/copy-markdown.astro"
 import Comments from "@/components/comments.astro"
 import { calculateReadingTime } from "@/lib/utils"
 import { Image } from "astro:assets"
@@ -53,27 +54,31 @@ const ogImage = new URL(
         {post.data.title}
       </h1>
 
-      <div class="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
-        <div class="flex items-center gap-2">
-          <Icon name="lucide:clock" class="h-4 w-4" />
-          <span>{readingTime} min read</span>
+      <div class="flex w-full flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
+          <div class="flex items-center gap-2">
+            <Icon name="lucide:clock" class="h-4 w-4" />
+            <span>{readingTime} min read</span>
+          </div>
+          <div class="h-1 w-1 rounded-full bg-muted-foreground/50"></div>
+          <div class="flex items-center gap-2">
+            <Icon name="lucide:calendar" class="h-4 w-4" />
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </time>
+          </div>
+          <div class="h-1 w-1 rounded-full bg-muted-foreground/50"></div>
+          <div class="flex items-center gap-2">
+            <Icon name="lucide:user" class="h-4 w-4" />
+            <span>{post.data.author}</span>
+          </div>
         </div>
-        <div class="h-1 w-1 rounded-full bg-muted-foreground/50"></div>
-        <div class="flex items-center gap-2">
-          <Icon name="lucide:calendar" class="h-4 w-4" />
-          <time datetime={post.data.date.toISOString()}>
-            {post.data.date.toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </time>
-        </div>
-        <div class="h-1 w-1 rounded-full bg-muted-foreground/50"></div>
-        <div class="flex items-center gap-2">
-          <Icon name="lucide:user" class="h-4 w-4" />
-          <span>{post.data.author}</span>
-        </div>
+
+        <CopyMarkdown markdown={post.body ?? ""} />
       </div>
     </header>
 

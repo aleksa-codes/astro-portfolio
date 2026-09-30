@@ -1,0 +1,72 @@
+---
+import Button from "@/components/ui/button.astro"
+import { Icon } from "astro-icon/components"
+
+interface Props {
+  markdown: string
+}
+
+const { markdown } = Astro.props
+---
+
+<script
+  is:inline
+  type="application/json"
+  data-copy-markdown-source
+  set:html={JSON.stringify(markdown).replace(/</g, "\\u003c")}
+/>
+<Button
+  variant="outline"
+  size="lg"
+  data-copy-markdown
+  title="Copy the post as Markdown"
+  class="group gap-1.5 transition-[background-color,border-color,color,transform] duration-200 ease-out-strong hover:border-foreground/30 active:scale-[0.97] data-copied:border-transparent data-copied:bg-primary data-copied:text-primary-foreground data-copied:dark:border-transparent data-copied:dark:bg-primary motion-reduce:transition-none motion-reduce:active:scale-100"
+>
+  <Icon name="lucide:copy" class="group-data-copied:hidden" />
+  <Icon name="lucide:check" class="hidden group-data-copied:block" />
+  Copy Markdown
+</Button>
+
+<span class="sr-only" aria-live="polite" data-copy-markdown-status />
+
+<script>
+  const HOLD_MS = 1100
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>(
+    "[data-copy-markdown]"
+  )) {
+    const status = document.querySelector<HTMLElement>(
+      "[data-copy-markdown-status]"
+    )
+    const raw = document.querySelector<HTMLElement>(
+      "[data-copy-markdown-source]"
+    )?.textContent
+
+    let source = ""
+    try {
+      source = raw ? JSON.parse(raw) : ""
+    } catch {
+      source = raw ?? ""
+    }
+
+    let reset: ReturnType<typeof setTimeout> | undefined
+
+    button.addEventListener("click", async () => {
+      const copied = await navigator.clipboard
+        ?.writeText(source)
+        .then(() => true)
+        .catch(() => false)
+
+      const ok = copied === true
+      if (status) status.textContent = ok ? "Markdown copied" : "Copy failed"
+
+      clearTimeout(reset)
+      if (ok) {
+        button.setAttribute("data-copied", "")
+        reset = setTimeout(() => {
+          button.removeAttribute("data-copied")
+        }, HOLD_MS)
+      }
+    })
+  }
+</script>
