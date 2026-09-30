@@ -1,0 +1,63 @@
+---
+import ArcadeGrid from "@/components/arcade-grid.astro"
+import GamePlayer from "@/components/game-player.astro"
+import PromptModal from "@/components/prompt-modal.astro"
+import { filterTags, gamesWithTag, tagFromSlug, tagSlug } from "@/lib/arcade"
+import BaseLayout from "@/layouts/base-layout.astro"
+import type { GetStaticPaths } from "astro"
+
+export const getStaticPaths = (() =>
+  filterTags.map((tag) => ({
+    params: { tag: tagSlug(tag) },
+    props: { tag },
+  }))) satisfies GetStaticPaths
+
+interface Props {
+  tag: string
+}
+
+const { tag } = Astro.props
+const tagged = gamesWithTag(tag)
+
+const title = `${tag} games - Arcade`
+const description = `${tagged.length} browser games tagged ${tag}, each one written by an AI model from a single prompt and playable right here.`
+const ogImage = new URL("/open-graph/arcade.png", Astro.site).toString()
+
+// A slug that no tag claims would render an empty grid, so fall back to the
+// index rather than shipping a dead page.
+if (!tagFromSlug(Astro.params.tag ?? "")) {
+  return Astro.redirect("/arcade")
+}
+---
+
+<BaseLayout {title} {description} {ogImage}>
+  <div class="flex flex-col gap-8">
+    <div class="flex flex-col items-start">
+      <h1 class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl">
+        {tag}
+        <span class="text-muted-foreground"> games.</span>
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+        All {tag} games in the arcade, written by an AI model from a single
+        prompt. Every card shows which model wrote it and the exact prompt
+        behind it.
+      </p>
+    </div>
+
+    <ArcadeGrid games={tagged} activeTag={tag} />
+
+    <p class="text-center text-sm text-muted-foreground">
+      More{" "}
+      <a
+        href="/arcade"
+        class="font-medium text-foreground underline underline-offset-4"
+      >
+        games
+      </a>{" "}
+      get added whenever a model does something fun.
+    </p>
+  </div>
+
+  <GamePlayer />
+  <PromptModal />
+</BaseLayout>

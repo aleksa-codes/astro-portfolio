@@ -1,0 +1,182 @@
+---
+import Badge from "@/components/ui/badge.astro"
+import Button from "@/components/ui/button.astro"
+import Card from "@/components/ui/card.astro"
+import { getModelBadge, type Game } from "@/lib/games"
+import { filterTags, tagSlug } from "@/lib/arcade"
+import { Icon } from "astro-icon/components"
+import { Image } from "astro:assets"
+
+interface Props {
+  games: Game[]
+  /** Currently active filter tag, or undefined on the unfiltered index. */
+  activeTag?: string
+  /** Only the first row of images should be eager. */
+  priority?: boolean
+}
+
+const { games, activeTag, priority = false } = Astro.props
+
+// Ghost rather than outline on purpose: outline ships a dark:bg-input/30 that
+// ties the active background on specificity and then wins on source order,
+// which left the active chip with dark text on a dark fill. Ghost sets no
+// background of its own, so the active state lands in both themes.
+//
+// The active selector is the arbitrary aria-[current=page]: form on purpose.
+// Tailwind's own aria-current: variant compiles to [aria-current="true"], which
+// never matches aria-current="page", so the built-in variant silently does
+// nothing here.
+//
+// These have to be written out in full rather than assembled from a prefix.
+// Tailwind finds class names by scanning source text, so a name that only exists
+// after string interpolation is never generated.
+//
+// The dark: prefix on the active hover rules is also not redundant. Ghost's
+// dark:hover:bg-muted/50 resolves to the same specificity and is emitted after
+// the unprefixed rule, so without it a hovered active chip fell back to a dark
+// fill while its text stayed primary-foreground, which is black in dark mode.
+const chipClass =
+  "rounded-full border-border px-4 text-muted-foreground hover:text-foreground aria-[current=page]:border-transparent aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:hover:bg-primary aria-[current=page]:dark:hover:bg-primary dark:aria-[current=page]:border-transparent"
+---
+
+<div
+  class="-mx-4 flex gap-2 overflow-x-auto px-4 py-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
+  role="group"
+  aria-label="Filter games by tag"
+>
+  <Button
+    size="lg"
+    variant="ghost"
+    href="/arcade"
+    aria-current={activeTag ? undefined : "page"}
+    class={chipClass}
+  >
+    All
+  </Button>
+  {filterTags.map((tag) => (
+    <Button
+      size="lg"
+      variant="ghost"
+      href={`/arcade/tag/${tagSlug(tag)}`}
+      aria-current={activeTag === tag ? "page" : undefined}
+      class={chipClass}
+    >
+      {tag}
+    </Button>
+  ))}
+</div>
+
+<ul class="grid gap-6 sm:grid-cols-2">
+  {games.map((game, index) => (
+    <li>
+      <Card
+        class="group h-full overflow-hidden p-0"
+        contentClass="flex h-full flex-col p-0"
+      >
+        <button
+          type="button"
+          class="relative block aspect-video w-full cursor-pointer overflow-hidden border-b border-border/50 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          data-game-play
+          data-game-slug={game.slug}
+          data-game-file={game.file}
+          data-game-title={game.title}
+          data-game-model={game.model}
+          aria-label={`Play ${game.title}`}
+        >
+          {game.image ? (
+            <Image
+              src={game.image}
+              alt={game.title}
+              sizes="(min-width: 768px) 384px, calc(100vw - 3rem)"
+              priority={priority && index < 2}
+              class="block h-full w-full transform-gpu object-cover transition-transform duration-200 ease-out-strong group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
+            />
+          ) : (
+            <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-secondary/40 to-secondary/10 transition-colors group-hover:from-secondary/60">
+              <Icon
+                name="lucide:gamepad-2"
+                class="h-12 w-12 text-muted-foreground/30 transition-transform duration-200 ease-out-strong group-hover:scale-105 motion-reduce:group-hover:scale-100"
+              />
+            </div>
+          )}
+          <span class="absolute inset-0 flex items-center justify-center bg-background/40 opacity-0 backdrop-blur-xs transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:duration-100">
+            <span class="flex translate-y-2 items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-xl transition-transform duration-150 ease-out-strong group-hover:translate-y-0 group-hover:duration-200 group-focus-visible:translate-y-0 motion-reduce:translate-y-0">
+              <Icon name="lucide:play" />
+              Play
+            </span>
+          </span>
+        </button>
+
+        <div class="flex flex-1 flex-col justify-center p-4">
+          <div class="flex items-start justify-between gap-3">
+            <h2 class="text-lg leading-tight font-semibold text-foreground md:text-xl">
+              {game.title}
+            </h2>
+            <Badge variant="secondary" size="lg">
+              <Icon
+                name={getModelBadge(game.model).icon}
+                style={`color: ${getModelBadge(game.model).color};`}
+              />
+              {game.model}
+            </Badge>
+          </div>
+
+          {game.tags && game.tags.length > 0 && (
+            <div class="mt-2 flex flex-wrap gap-2">
+              {game.tags.map((tag) => (
+                <Badge
+                  variant="outline"
+                  size="lg"
+                  class="text-muted-foreground"
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          )}
+
+          <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+            {game.description}
+          </p>
+
+          <div class="mt-4 flex items-center gap-2">
+            <Button
+              size="lg"
+              data-game-play
+              data-game-slug={game.slug}
+              data-game-file={game.file}
+              data-game-title={game.title}
+              data-game-model={game.model}
+            >
+              <Icon name="lucide:play" />
+              Play
+            </Button>
+            <Button
+              variant="secondary"
+              size="lg"
+              href={game.file}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Open the raw HTML file in a new tab"
+            >
+              <Icon name="lucide:external-link" />
+              New tab
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              class="ml-auto"
+              data-prompt-open
+              data-prompt={game.prompt}
+              data-prompt-title={game.title}
+              data-prompt-model={game.model}
+            >
+              <Icon name="lucide:text-quote" />
+              Prompt
+            </Button>
+          </div>
+        </div>
+      </Card>
+    </li>
+  ))}
+</ul>
