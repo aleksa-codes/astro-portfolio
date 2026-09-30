@@ -12,8 +12,8 @@ const featuredProjects = projects.filter((p) => p.featured).slice(0, 4)
   </h2>
 
   <div class="flex flex-col gap-8">
-    {featuredProjects.map((project, index) => (
-      <ProjectCard project={project} alternate={index % 2 === 1} />
+    {featuredProjects.map((project) => (
+      <ProjectCard project={project} />
     ))}
   </div>
 

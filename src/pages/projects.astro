@@ -27,14 +27,9 @@ const ogImage = new URL("/open-graph/projects.png", Astro.site).toString()
       </p>
     </div>
 
-    <!-- Projects List (horizontal cards with alternating sides) -->
     <div class="flex flex-col gap-8">
       {projects.map((project, index) => (
-        <ProjectCard
-          project={project}
-          alternate={index % 2 === 1}
-          priority={index < 2}
-        />
+        <ProjectCard project={project} priority={index < 2} />
       ))}
     </div>
 
