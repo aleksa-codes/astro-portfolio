@@ -188,6 +188,9 @@
   --shadow-2xl: var(--shadow-2xl);
 
   --breakpoint-xs: 475px;
+
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+
   --animate-wave: wave 2s ease-in-out infinite;
   --animate-blink: blink 1s step-end infinite;
   --animate-fade-in-up: fade-in-up 0.3s ease-out forwards;
