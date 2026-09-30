@@ -1,0 +1,107 @@
+---
+import Button from "@/components/ui/button.astro"
+import { Icon } from "astro-icon/components"
+import { cn } from "@/lib/utils"
+
+interface Props {
+  /** Idle label. Stays put on confirm so the button keeps its width. */
+  label: string
+  /** Static source to copy. */
+  source?: string
+  /** Id of an element to read at click time, for content that changes. */
+  sourceId?: string
+  id?: string
+  class?: string
+}
+
+const { label, source, sourceId, id, class: className } = Astro.props
+
+const key = `c${Math.random().toString(36).slice(2, 8)}`
+---
+
+{/*
+  A static source ships as JSON rather than as markup, because the build's HTML
+  minifier collapses whitespace in template content and would flatten every
+  paragraph break out of the string. A dynamic source is read from the DOM at
+  click time, so it needs no carrier at all.
+*/}
+{source !== undefined && (
+  <script
+    is:inline
+    type="application/json"
+    data-copy-source={key}
+    set:html={JSON.stringify(source).replace(/</g, "\\u003c")}
+  />
+)}
+
+<Button
+  variant="outline"
+  size="lg"
+  id={id}
+  data-copy
+  data-label={label}
+  data-source-id={sourceId}
+  data-source-key={source === undefined ? undefined : key}
+  title={`${label} to clipboard`}
+  class={cn(
+    "group shrink-0 transition-[background-color,border-color,color,transform] duration-200 ease-out-strong hover:border-foreground/30 active:scale-[0.97] data-copied:border-transparent data-copied:bg-primary data-copied:text-primary-foreground data-copied:dark:border-transparent data-copied:dark:bg-primary motion-reduce:transition-none motion-reduce:active:scale-100",
+    className
+  )}
+>
+  <Icon name="lucide:copy" class="group-data-copied:hidden" />
+  <Icon name="lucide:check" class="hidden group-data-copied:block" />
+  {label}
+</Button>
+
+{/* Outside the button, or the status text joins its accessible name. */}
+<span class="sr-only" aria-live="polite" data-copy-status={key} />
+
+<script>
+  const HOLD_MS = 1100
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>(
+    "[data-copy]"
+  )) {
+    const key = button.dataset.sourceKey
+    const status = key
+      ? document.querySelector<HTMLElement>(`[data-copy-status="${key}"]`)
+      : button.parentElement?.querySelector<HTMLElement>("[data-copy-status]")
+
+    const readSource = () => {
+      if (key) {
+        const raw = document.querySelector<HTMLElement>(
+          `[data-copy-source="${key}"]`
+        )?.textContent
+        try {
+          return raw ? JSON.parse(raw) : ""
+        } catch {
+          return raw ?? ""
+        }
+      }
+      const id = button.dataset.sourceId
+      return id ? (document.getElementById(id)?.textContent ?? "") : ""
+    }
+
+    let reset: ReturnType<typeof setTimeout> | undefined
+
+    button.addEventListener("click", async () => {
+      // clipboard is undefined outside a secure context, and writeText rejects
+      // when the document is not focused, so both paths have to land somewhere.
+      const copied = await navigator.clipboard
+        ?.writeText(readSource())
+        .then(() => true)
+        .catch(() => false)
+
+      const ok = copied === true
+      if (status) status.textContent = ok ? "Copied" : "Copy failed"
+
+      clearTimeout(reset)
+      if (ok) {
+        button.setAttribute("data-copied", "")
+        reset = setTimeout(() => {
+          button.removeAttribute("data-copied")
+        }, HOLD_MS)
+      }
+    })
+  }
+</script>

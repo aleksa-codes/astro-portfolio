@@ -2,6 +2,7 @@
 import { Icon } from "astro-icon/components"
 import Badge from "@/components/ui/badge.astro"
 import Button from "@/components/ui/button.astro"
+import CopyButton from "@/components/copy-button.astro"
 import { games, getModelBadge } from "@/lib/games"
 
 // One badge per model, rendered up front so the script can clone the real
@@ -51,10 +52,11 @@ const models = [...new Set(games.map((game) => game.model))]
 
     <!-- Footer -->
     <div class="flex justify-end border-t border-border px-4 py-3">
-      <Button id="prompt-modal-copy" variant="outline" size="lg">
-        <Icon name="lucide:copy" />
-        <span id="prompt-modal-copy-label">Copy prompt</span>
-      </Button>
+      <CopyButton
+        id="prompt-modal-copy"
+        label="Copy prompt"
+        sourceId="prompt-modal-text"
+      />
     </div>
   </div>
 
@@ -78,7 +80,6 @@ const models = [...new Set(games.map((game) => game.model))]
   const modelEl = document.getElementById("prompt-modal-model")!
   const textEl = document.getElementById("prompt-modal-text")!
   const copyBtn = document.getElementById("prompt-modal-copy")!
-  const copyLabel = document.getElementById("prompt-modal-copy-label")!
 
   let open = false
   let current = ""
@@ -103,7 +104,7 @@ const models = [...new Set(games.map((game) => game.model))]
     titleEl.textContent = btn.dataset.promptTitle ?? ""
     setModel(btn.dataset.promptModel ?? "")
     textEl.textContent = current
-    copyLabel.textContent = "Copy prompt"
+    copyBtn.removeAttribute("data-copied")
     modal.classList.remove("hidden")
     modal.classList.add("flex")
     document.body.style.overflow = "hidden"
@@ -132,11 +133,5 @@ const models = [...new Set(games.map((game) => game.model))]
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && open) hide()
-  })
-
-  copyBtn.addEventListener("click", async () => {
-    await navigator.clipboard.writeText(current)
-    copyLabel.textContent = "Copied!"
-    setTimeout(() => (copyLabel.textContent = "Copy prompt"), 1500)
   })
 </script>
