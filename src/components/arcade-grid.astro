@@ -89,22 +89,23 @@ const chipClass =
           </span>
         </button>
 
-        <div class="flex flex-1 flex-col justify-center p-4">
+        <div class="flex flex-1 flex-col p-4">
           <div class="flex items-start justify-between gap-3">
-            <h2 class="text-lg leading-tight font-semibold text-foreground md:text-xl">
+            <h2 class="line-clamp-2 text-lg leading-tight font-semibold text-foreground">
               {game.title}
             </h2>
-            <Badge variant="secondary" size="lg">
+            <p class="flex shrink-0 items-center gap-1.5 pt-1 text-xs text-muted-foreground">
               <Icon
                 name={getModelBadge(game.model).icon}
+                class="size-3.5 shrink-0"
                 style={`color: ${getModelBadge(game.model).color};`}
               />
-              {game.model}
-            </Badge>
+              <span class="whitespace-nowrap">{game.model}</span>
+            </p>
           </div>
 
           {game.tags && game.tags.length > 0 && (
-            <div class="mt-2 flex flex-wrap gap-2">
+            <div class="mt-3 flex flex-wrap gap-1.5">
               {game.tags.map((tag) => (
                 <Badge
                   variant="outline"
@@ -117,11 +118,11 @@ const chipClass =
             </div>
           )}
 
-          <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+          <p class="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
             {game.description}
           </p>
 
-          <div class="mt-4 flex items-center gap-2">
+          <div class="mt-4 flex items-center gap-2 pt-1">
             <Button
               size="lg"
               data-game-play
@@ -134,20 +135,8 @@ const chipClass =
               Play
             </Button>
             <Button
-              variant="secondary"
-              size="lg"
-              href={game.file}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Open the raw HTML file in a new tab"
-            >
-              <Icon name="lucide:external-link" />
-              New tab
-            </Button>
-            <Button
               variant="outline"
               size="lg"
-              class="ml-auto"
               data-prompt-open
               data-prompt={game.prompt}
               data-prompt-title={game.title}
@@ -155,6 +144,18 @@ const chipClass =
             >
               <Icon name="lucide:text-quote" />
               Prompt
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-lg"
+              class="ml-auto"
+              href={game.file}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open the raw HTML for ${game.title} in a new tab`}
+              title="Open the raw HTML file in a new tab"
+            >
+              <Icon name="lucide:external-link" />
             </Button>
           </div>
         </div>
