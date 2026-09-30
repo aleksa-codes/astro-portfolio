@@ -23,8 +23,6 @@ const title = `${tag} games - Arcade`
 const description = `${tagged.length} browser games tagged ${tag}, each one written by an AI model from a single prompt and playable right here.`
 const ogImage = new URL("/open-graph/arcade.png", Astro.site).toString()
 
-// A slug that no tag claims would render an empty grid, so fall back to the
-// index rather than shipping a dead page.
 if (!tagFromSlug(Astro.params.tag ?? "")) {
   return Astro.redirect("/arcade")
 }

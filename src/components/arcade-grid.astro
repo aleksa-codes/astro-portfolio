@@ -17,24 +17,6 @@ interface Props {
 
 const { games, activeTag, priority = false } = Astro.props
 
-// Ghost rather than outline on purpose: outline ships a dark:bg-input/30 that
-// ties the active background on specificity and then wins on source order,
-// which left the active chip with dark text on a dark fill. Ghost sets no
-// background of its own, so the active state lands in both themes.
-//
-// The active selector is the arbitrary aria-[current=page]: form on purpose.
-// Tailwind's own aria-current: variant compiles to [aria-current="true"], which
-// never matches aria-current="page", so the built-in variant silently does
-// nothing here.
-//
-// These have to be written out in full rather than assembled from a prefix.
-// Tailwind finds class names by scanning source text, so a name that only exists
-// after string interpolation is never generated.
-//
-// The dark: prefix on the active hover rules is also not redundant. Ghost's
-// dark:hover:bg-muted/50 resolves to the same specificity and is emitted after
-// the unprefixed rule, so without it a hovered active chip fell back to a dark
-// fill while its text stayed primary-foreground, which is black in dark mode.
 const chipClass =
   "rounded-full border-border px-4 text-muted-foreground hover:text-foreground aria-[current=page]:border-transparent aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground aria-[current=page]:hover:bg-primary aria-[current=page]:dark:hover:bg-primary dark:aria-[current=page]:border-transparent"
 ---
