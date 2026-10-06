@@ -13,18 +13,18 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@ai-sdk/groq": "^4.0.54",
-    "@astrojs/netlify": "^8.2.6",
+    "@ai-sdk/groq": "^4.0.55",
+    "@astrojs/netlify": "^8.2.7",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
-    "ai": "^7.0.127",
-    "astro": "^7.3.5",
+    "ai": "^7.0.128",
+    "astro": "^7.3.6",
     "astro-expressive-code": "^0.44.2",
     "astro-icon": "^1.2.0",
     "astro-og-canvas": "^0.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "marked": "^18.0.14",
+    "marked": "^18.1.0",
     "remend": "^1.4.0",
     "tailwind-merge": "^3.7.0",
     "zod": "^4.6.5"
