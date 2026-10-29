@@ -30,7 +30,7 @@ const ogImage = new URL("/open-graph/blog.png", Astro.site).toString()
 ---
 
 <BaseLayout {title} {description} {ogImage}>
-  <div class="flex flex-col gap-8">
+  <div class="flex flex-col gap-12">
     <div class="flex flex-col items-start">
       <h1 class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl">
         Writing &{" "}
@@ -38,13 +38,14 @@ const ogImage = new URL("/open-graph/blog.png", Astro.site).toString()
           Thoughts.
         </span>
       </h1>
-      <p class="max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-        A collection of thoughts, tutorials, and insights about web development,
-        architecture, and technology.
+      <p class="max-w-xl text-base leading-relaxed text-pretty text-muted-foreground">
+        Thoughts, tutorials, and insights on web development, architecture, and
+        technology. I share what I'm building, figuring out, and learning along
+        the way.
       </p>
     </div>
 
-    <div class="flex flex-col gap-12 pb-24">
+    <div class="flex flex-col gap-10">
       <BlogListing posts={page.data} />
 
       {page.lastPage > 1 && (

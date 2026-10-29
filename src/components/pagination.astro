@@ -20,40 +20,31 @@ for (let i = 1; i <= lastPage; i++) {
 ---
 
 <nav
-  class="flex items-center justify-center gap-2 pb-0"
+  class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-t border-border pt-6"
   aria-label="Pagination"
 >
-  {urlPrev ? (
-    <Button
-      variant="outline"
-      size="icon-xl"
-      href={urlPrev === "/blog/1" ? "/blog" : urlPrev}
-      aria-label="Previous Page"
-    >
-      <Icon name="lucide:chevron-left" />
-    </Button>
-  ) : (
-    <Button
-      variant="outline"
-      size="icon-xl"
-      disabled
-      aria-label="Previous Page"
-    >
-      <Icon name="lucide:chevron-left" />
-    </Button>
-  )}
+  <Button
+    variant="ghost"
+    size="xl"
+    href={urlPrev === "/blog/1" ? "/blog" : urlPrev}
+    disabled={!urlPrev}
+    aria-label="Previous Page"
+    class="h-11 justify-self-start gap-1.5 rounded-lg px-2 text-sm"
+  >
+    <Icon name="lucide:chevron-left" class="size-4" />
+    Previous
+  </Button>
 
-  <div class="flex items-center gap-1.5">
+  <div class="flex items-center gap-1">
     {pages.map((page) => {
       const isCurrent = page === currentPage
       const href = page === 1 ? basePath : `${basePath}/${page}`
-
       return (
         <Button
-          variant={isCurrent ? "default" : "outline"}
-          size="xl"
+          variant={isCurrent ? "default" : "ghost"}
+          size="icon-xl"
           href={href}
-          class="min-w-10"
+          class="size-11 rounded-lg text-sm tabular-nums"
           aria-label={`Page ${page}`}
           aria-current={isCurrent ? "page" : undefined}
         >
@@ -63,18 +54,15 @@ for (let i = 1; i <= lastPage; i++) {
     })}
   </div>
 
-  {urlNext ? (
-    <Button
-      variant="outline"
-      size="icon-xl"
-      href={urlNext}
-      aria-label="Next Page"
-    >
-      <Icon name="lucide:chevron-right" />
-    </Button>
-  ) : (
-    <Button variant="outline" size="icon-xl" disabled aria-label="Next Page">
-      <Icon name="lucide:chevron-right" />
-    </Button>
-  )}
+  <Button
+    variant="ghost"
+    size="xl"
+    href={urlNext}
+    disabled={!urlNext}
+    aria-label="Next Page"
+    class="h-11 justify-self-end gap-1.5 rounded-lg px-2 text-sm"
+  >
+    Next
+    <Icon name="lucide:chevron-right" class="size-4" />
+  </Button>
 </nav>

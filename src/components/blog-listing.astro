@@ -1,82 +1,73 @@
 ---
-import Card from "@/components/ui/card.astro"
-import { calculateReadingTime } from "@/lib/utils"
+import { calculateReadingTime, cn } from "@/lib/utils"
 import { Icon } from "astro-icon/components"
 import { Image } from "astro:assets"
+import type { CollectionEntry } from "astro:content"
 
 interface Props {
-  posts: any[]
+  posts: CollectionEntry<"blog">[]
 }
 
 const { posts } = Astro.props
 ---
 
-<div class="flex flex-col gap-5 md:gap-6">
+<ul aria-label="Blog posts" class="flex flex-col divide-y divide-border">
   {posts.map((post, index) => {
     const readingTime = calculateReadingTime(post.body ?? "")
     return (
-      <Card
-        href={`/blog/${post.id}`}
-        class="group p-3 transition-[border-color] duration-200 ease-out hover:border-foreground/20"
-        contentClass="flex flex-col gap-3 md:flex-row md:items-start"
-      >
-        <div class="w-full shrink-0 overflow-hidden rounded-md bg-secondary/20 md:w-[56%]">
-          {post.data.thumbnail ? (
-            <Image
-              src={post.data.thumbnail}
-              alt=""
-              sizes="(min-width: 768px) 380px, calc(100vw - 4rem)"
-              priority={index < 2}
-              class="w-full transition-transform duration-300 ease-out-strong group-hover:scale-[1.02] motion-reduce:transition-none"
-            />
-          ) : (
-            <div class="flex aspect-video w-full items-center justify-center">
-              <Icon
-                name="lucide:file-text"
-                class="size-8 text-muted-foreground/30"
-              />
+      <li class="py-8 first:pt-0 last:pb-0 md:py-10">
+        <article>
+          <a
+            href={`/blog/${post.id}`}
+            aria-label={`Read ${post.data.title}`}
+            class={cn(
+              "group grid gap-5 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-ring",
+              post.data.thumbnail &&
+                "md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-center md:gap-8"
+            )}
+          >
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+                <span class="inline-flex items-center gap-2">
+                  <Icon name="lucide:calendar" class="size-4 shrink-0" />
+                  <time
+                    datetime={post.data.date.toISOString()}
+                    class="tabular-nums"
+                  >
+                    {post.data.date.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                      timeZone: "UTC",
+                    })}
+                  </time>
+                </span>
+                <span class="inline-flex items-center gap-2">
+                  <Icon name="lucide:clock" class="size-4 shrink-0" />
+                  <span class="tabular-nums">{readingTime} min read</span>
+                </span>
+              </div>
+              <h2 class="mt-3 text-2xl leading-snug font-semibold tracking-tight text-pretty text-foreground decoration-foreground/30 underline-offset-4 group-hover:underline">
+                {post.data.title}
+              </h2>
+              <p class="mt-3 max-w-2xl text-base leading-relaxed text-pretty text-muted-foreground">
+                {post.data.description}
+              </p>
             </div>
-          )}
-        </div>
-
-        <div class="flex min-w-0 flex-1 flex-col gap-2.5">
-          <h2 class="line-clamp-4 text-pretty text-xl leading-snug font-semibold tracking-tight text-foreground md:text-[1.75rem] md:leading-tight">
-            {post.data.title}
-          </h2>
-
-          <p class="line-clamp-5 text-pretty text-[0.95rem] leading-relaxed text-muted-foreground">
-            {post.data.description}
-          </p>
-
-          <div class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-            <span class="flex items-center gap-1.5">
-              <Icon name="lucide:calendar" class="size-4 shrink-0" />
-              <time
-                datetime={post.data.date.toISOString()}
-                class="tabular-nums"
-              >
-                {post.data.date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </time>
-            </span>
-            <span
-              aria-hidden="true"
-              class="h-1 w-1 rounded-full bg-muted-foreground/50"
-            ></span>
-            <span class="flex items-center gap-1.5">
-              <Icon name="lucide:clock" class="size-4 shrink-0" />
-              <span class="tabular-nums">{readingTime} min read</span>
-            </span>
-            <Icon
-              name="lucide:arrow-up-right"
-              class="ml-auto size-4 shrink-0 opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 motion-reduce:transition-none"
-            />
-          </div>
-        </div>
-      </Card>
+            {post.data.thumbnail && (
+              <div class="order-first overflow-hidden rounded-xl ring-1 ring-border/50 md:order-last">
+                <Image
+                  src={post.data.thumbnail}
+                  alt=""
+                  sizes="(min-width: 896px) 389px, (min-width: 768px) calc((100vw - 80px) / 2.1), calc(100vw - 48px)"
+                  priority={index === 0}
+                  class="aspect-video w-full object-cover"
+                />
+              </div>
+            )}
+          </a>
+        </article>
+      </li>
     )
   })}
-</div>
+</ul>
