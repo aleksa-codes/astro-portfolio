@@ -1,12 +1,10 @@
 ---
 import { Icon } from "astro-icon/components"
-import Badge from "@/components/ui/badge.astro"
 import Button from "@/components/ui/button.astro"
 import CopyButton from "@/components/copy-button.astro"
 import { games, getModelBadge } from "@/lib/games"
 
-// One badge per model, rendered up front so the script can clone the real
-// Badge markup instead of rebuilding it by hand
+// Render model attributions up front so dialogs can reuse the same markup.
 const models = [...new Set(games.map((game) => game.model))]
 ---
 
@@ -22,11 +20,11 @@ const models = [...new Set(games.map((game) => game.model))]
     class="flex max-h-[85dvh] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
   >
     <!-- Header -->
-    <div class="flex items-center gap-3 border-b border-border px-4 py-3">
-      <div class="flex min-w-0 flex-1 items-center gap-2">
+    <div class="flex items-start gap-3 border-b border-border px-4 py-3">
+      <div class="flex min-w-0 flex-1 flex-col items-start gap-2">
         <h2
           id="prompt-modal-title"
-          class="truncate text-base font-semibold text-foreground"
+          class="text-base font-semibold text-pretty text-foreground"
         ></h2>
         <span id="prompt-modal-model" class="contents"></span>
       </div>
@@ -36,7 +34,7 @@ const models = [...new Set(games.map((game) => game.model))]
         size="icon-lg"
         title="Close (Esc)"
         aria-label="Close"
-        class="-mr-1 text-muted-foreground"
+        class="-mr-1 size-11 text-muted-foreground"
       >
         <Icon name="lucide:x" />
       </Button>
@@ -46,7 +44,7 @@ const models = [...new Set(games.map((game) => game.model))]
     <div class="min-h-0 flex-1 overflow-y-auto px-4 py-4">
       <p
         id="prompt-modal-text"
-        class="font-mono text-xs leading-relaxed whitespace-pre-wrap text-muted-foreground sm:text-[13px]"
+        class="font-mono text-base leading-relaxed whitespace-pre-wrap text-foreground/80"
       ></p>
     </div>
 
@@ -62,13 +60,14 @@ const models = [...new Set(games.map((game) => game.model))]
 
   {models.map((model) => (
     <template data-model-badge={model}>
-      <Badge variant="secondary" size="lg" class="shrink-0">
+      <span class="inline-flex shrink-0 items-center gap-2 text-sm text-muted-foreground">
         <Icon
           name={getModelBadge(model).icon}
+          class="size-4 shrink-0"
           style={`color: ${getModelBadge(model).color};`}
         />
         {model}
-      </Badge>
+      </span>
     </template>
   ))}
 </div>

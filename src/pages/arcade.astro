@@ -2,6 +2,8 @@
 import ArcadeGrid from "@/components/arcade-grid.astro"
 import GamePlayer from "@/components/game-player.astro"
 import PromptModal from "@/components/prompt-modal.astro"
+import Button from "@/components/ui/button.astro"
+import { Icon } from "astro-icon/components"
 import { sortedGames } from "@/lib/arcade"
 import BaseLayout from "@/layouts/base-layout.astro"
 
@@ -12,7 +14,7 @@ const ogImage = new URL("/open-graph/arcade.png", Astro.site).toString()
 ---
 
 <BaseLayout {title} {description} {ogImage}>
-  <div class="flex flex-col gap-8">
+  <div class="flex flex-col gap-12">
     <div class="flex flex-col items-start">
       <h1 class="mb-3 text-3xl font-bold tracking-tighter text-foreground md:text-4xl">
         The{" "}
@@ -20,8 +22,8 @@ const ogImage = new URL("/open-graph/arcade.png", Astro.site).toString()
           Arcade.
         </span>
       </h1>
-      <p class="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-        Free browser games written by AI from a single prompt, playable right
+      <p class="max-w-2xl text-base leading-relaxed text-pretty text-muted-foreground">
+        Small browser games written by AI from a single prompt, playable right
         here. Every card shows the model and the exact prompt behind it, so you
         can watch them improve over time.
       </p>
@@ -29,17 +31,18 @@ const ogImage = new URL("/open-graph/arcade.png", Astro.site).toString()
 
     <ArcadeGrid games={sortedGames} priority />
 
-    <p class="text-center text-sm text-muted-foreground">
-      More games get added whenever a model does something fun. Got an idea for
-      one?{" "}
-      <a
+    <div class="flex justify-center">
+      <Button
         href="/contact"
-        class="font-medium text-foreground underline underline-offset-4"
+        variant="outline"
+        size="xl"
+        class="h-11 gap-2.5 px-5 text-base transition-colors hover:border-foreground/20 motion-reduce:transition-none"
       >
-        Tell me
-      </a>
-      .
-    </p>
+        <Icon name="lucide:lightbulb" class="size-5" />
+        Suggest a game
+        <Icon name="lucide:arrow-right" class="size-4 text-muted-foreground" />
+      </Button>
+    </div>
   </div>
 
   <GamePlayer />
