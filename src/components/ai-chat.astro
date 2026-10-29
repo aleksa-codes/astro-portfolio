@@ -272,7 +272,7 @@ const suggestions = [
         const bubble = messageEl.querySelector(".message-bubble-wrapper")
         if (bubble) {
           bubble.className =
-            "text-base text-foreground leading-relaxed bg-muted border border-border/40 px-5 py-4 rounded-3xl rounded-tl-sm shadow-sm break-words [&_a]:break-all message-bubble-wrapper message-bubble-content prose prose-sm dark:prose-invert max-w-none"
+            "text-base text-foreground leading-relaxed bg-muted border border-border/40 px-5 py-4 rounded-3xl rounded-tl-sm shadow-sm break-words [&_a]:break-all message-bubble-wrapper message-bubble-content prose dark:prose-invert max-w-none"
           bubble.innerHTML = "" // clear thinking dots
         }
       }
@@ -299,7 +299,7 @@ const suggestions = [
         // Added "message-bubble-wrapper" to user bubble for consistent querying
         bubble.className = isUser
           ? `text-base bg-foreground text-background selection:bg-background selection:text-foreground px-5 py-4 rounded-3xl rounded-tr-sm shadow-sm break-words message-bubble-wrapper`
-          : `text-base text-foreground leading-relaxed bg-muted border border-border/40 px-5 py-4 rounded-3xl rounded-tl-sm shadow-sm break-words [&_a]:break-all message-bubble-wrapper message-bubble-content prose prose-sm dark:prose-invert max-w-none`
+          : `text-base text-foreground leading-relaxed bg-muted border border-border/40 px-5 py-4 rounded-3xl rounded-tl-sm shadow-sm break-words [&_a]:break-all message-bubble-wrapper message-bubble-content prose dark:prose-invert max-w-none`
 
         messageEl.appendChild(header)
         messageEl.appendChild(bubble)

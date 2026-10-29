@@ -1,9 +1,6 @@
 ---
 import { Icon } from "astro-icon/components"
 import { Image } from "astro:assets"
-import Badge from "@/components/ui/badge.astro"
-import Button from "@/components/ui/button.astro"
-import Card from "@/components/ui/card.astro"
 import { techMap } from "@/lib/tech"
 import { cn } from "@/lib/utils"
 import type { projects } from "@/lib/projects"
@@ -11,121 +8,121 @@ import type { projects } from "@/lib/projects"
 interface Props {
   project: (typeof projects)[number]
   priority?: boolean
+  headingTag?: "h2" | "h3"
 }
 
-const { project, priority = false }: Props = Astro.props
+const { project, priority = false, headingTag: Heading = "h3" } = Astro.props
+const projectActionClass =
+  "inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-colors duration-150 hover:border-foreground/20 hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring motion-reduce:transition-none"
 ---
 
-<Card
-  class="group p-3 transition-[border-color] duration-200 ease-out"
-  contentClass="flex flex-col gap-4 md:flex-row md:items-center"
->
+<article class="flex min-w-0 flex-col">
   <a
     href={
-      project.demo ||
-      project.github ||
-      project.huggingface ||
-      project.replicate ||
-      "#"
+      project.demo || project.github || project.huggingface || project.replicate
     }
     target="_blank"
     rel="noopener noreferrer"
-    class="group relative w-full min-w-0 flex-1 overflow-hidden rounded-xl border border-border/50"
+    aria-label={`View ${project.title}`}
+    class="block min-w-0 overflow-hidden rounded-xl ring-1 ring-border/50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
   >
     <Image
       src={project.image}
       alt={project.title}
-      format={"webp"}
-      quality={"high"}
-      sizes="(min-width: 768px) 384px, calc(100vw - 4rem)"
+      format="webp"
+      quality="high"
       priority={priority}
-      class="h-auto w-full object-cover"
+      sizes="(min-width: 896px) 404px, (min-width: 768px) calc((100vw - 88px) / 2), calc(100vw - 48px)"
+      class="aspect-[4/3] w-full object-cover object-top"
     />
   </a>
 
-  <div class="flex w-full min-w-0 flex-1 flex-col justify-center">
-    <h3 class="text-2xl font-bold tracking-tight text-foreground">
-      {project.title}
-    </h3>
+  <div class="mt-5 flex min-w-0 flex-1 flex-col">
+    <div class="flex items-start justify-between gap-3">
+      <Heading class="min-w-0 flex-1 pt-1 text-2xl leading-tight font-semibold tracking-tight text-balance text-foreground">
+        {project.title}
+      </Heading>
 
-    <div class="mt-2 flex flex-wrap items-center gap-2">
-      {project.tags.map((tag) => {
-        const key = tag.toLowerCase()
-        const info = techMap[key]
-        return (
-          <Badge
-            variant="secondary"
-            size="lg"
-            class="group-hover:border-foreground/10"
+      <div class="flex shrink-0 items-center gap-1.5">
+        {project.github && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View ${project.title} source code`}
+            title="Source code on GitHub"
+            class={projectActionClass}
           >
-            <Icon
-              name={info ? info.icon : "lucide:tag"}
-              class={cn(info ? info.color : "text-muted-foreground")}
-            />
-            <span>{tag}</span>
-          </Badge>
-        )
-      })}
+            <Icon name="lucide:github" class="size-4" />
+          </a>
+        )}
+        {project.demo && (
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Visit ${project.title}`}
+            title={`Visit ${project.title}`}
+            class={projectActionClass}
+          >
+            <Icon name="lucide:external-link" class="size-4" />
+          </a>
+        )}
+        {project.huggingface && (
+          <a
+            href={project.huggingface}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View ${project.title} on Hugging Face`}
+            title="View on Hugging Face"
+            class={projectActionClass}
+          >
+            <Icon name="simple-icons:huggingface" class="size-4" />
+          </a>
+        )}
+        {project.replicate && (
+          <a
+            href={project.replicate}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View ${project.title} on Replicate`}
+            title="View on Replicate"
+            class={projectActionClass}
+          >
+            <Icon name="simple-icons:replicate" class="size-4" />
+          </a>
+        )}
+      </div>
     </div>
 
     <p
-      class="mt-4 line-clamp-4 text-base leading-relaxed text-muted-foreground"
+      class="mt-3 text-base leading-relaxed text-pretty text-muted-foreground"
       set:html={project.description}
     />
 
-    <div class="mt-4 flex flex-wrap items-center gap-2">
-      {project.github && (
-        <Button
-          variant="outline"
-          size="lg"
-          href={project.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`View ${project.title} source code`}
-        >
-          <Icon name="lucide:github" />
-          <span>Code</span>
-        </Button>
-      )}
-      {project.demo && (
-        <Button
-          variant="outline"
-          size="lg"
-          href={project.demo}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Visit ${project.title}`}
-        >
-          <Icon name="lucide:external-link" />
-          <span>Demo</span>
-        </Button>
-      )}
-      {project.huggingface && (
-        <Button
-          variant="outline"
-          size="lg"
-          href={project.huggingface}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="View on HuggingFace"
-        >
-          <Icon name="simple-icons:huggingface" />
-          <span>HuggingFace</span>
-        </Button>
-      )}
-      {project.replicate && (
-        <Button
-          variant="outline"
-          size="lg"
-          href={project.replicate}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="View on Replicate"
-        >
-          <Icon name="simple-icons:replicate" />
-          <span>Replicate</span>
-        </Button>
-      )}
+    <div
+      role="group"
+      tabindex="0"
+      aria-label={`${project.title} technologies`}
+      class="mt-4 -mx-1 overflow-x-auto overscroll-x-contain rounded-sm px-1 py-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+    >
+      <ul class="flex min-w-100 flex-wrap items-center gap-1.5 text-sm leading-5 text-foreground/80">
+        {project.tags.map((tag) => {
+          const tech = techMap[tag.toLowerCase()]
+          return (
+            <li class="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border/70 bg-muted/30 px-1.5 py-0.5 whitespace-nowrap">
+              <Icon
+                name={tech ? tech.icon : "lucide:tag"}
+                class={cn(
+                  "size-3.5 shrink-0",
+                  tech ? tech.color : "text-muted-foreground"
+                )}
+              />
+              <span>{tag}</span>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   </div>
-</Card>
+</article>

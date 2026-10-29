@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components"
+import { cn } from "@/lib/utils"
 
 interface Props {
   username?: string
@@ -33,53 +34,97 @@ try {
 }
 ---
 
-<div class="flex w-full flex-col gap-2 p-4">
-  <div id="gh-labels" class="relative h-4 w-full"></div>
-  <div id="gh-graph" data-username={username} class="flex w-full gap-0.75">
-    {Array.from({ length: 22 }).map(() => (
-      <div class="flex min-w-0 flex-1 flex-col gap-0.75">
-        {Array.from({ length: 7 }).map(() => (
-          <div class="aspect-square w-full animate-pulse rounded-[2px] bg-secondary/60" />
+<div class="flex h-full flex-col gap-3">
+  <div class="flex items-center justify-between gap-3">
+    <a
+      href={`https://github.com/${username}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex w-fit items-center gap-2 rounded-sm text-sm text-foreground underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+    >
+      <Icon name="lucide:github" class="size-4" />
+      {username}
+      <Icon
+        name="lucide:arrow-up-right"
+        class="size-3.5 text-muted-foreground"
+      />
+    </a>
+  </div>
+
+  <div id="gh-calendar-scroll">
+    <div id="gh-calendar" class="flex min-w-0 flex-col gap-2">
+      <div id="gh-labels" class="relative h-5 w-full"></div>
+      <div
+        id="gh-graph"
+        data-username={username}
+        role="img"
+        aria-label="GitHub contribution activity"
+        class="flex w-full gap-0.75"
+      >
+        {Array.from({ length: 26 }).map(() => (
+          <div class="flex min-w-0 flex-1 flex-col gap-0.75">
+            {Array.from({ length: 7 }).map(() => (
+              <div class="aspect-square w-full rounded-[2px] bg-secondary/60" />
+            ))}
+          </div>
         ))}
       </div>
-    ))}
+    </div>
   </div>
-  <p id="gh-error" class="hidden text-center text-xs text-muted-foreground/60">
-    Could not load contribution data
+  <p id="gh-error" class="hidden text-sm text-muted-foreground">
+    Contribution data is unavailable. View activity on GitHub.
   </p>
-</div>
-
-<div
-  id="gh-stats"
-  class="flex shrink-0 flex-wrap items-center justify-center gap-x-3 gap-y-2 px-4 py-3"
->
-  {fetchError ? (
-    <p class="text-sm text-red-500/80">Failed to load stats.</p>
-  ) : (
-    <>
-      <div class="flex min-w-0 items-center gap-1.5">
-        <Icon name="lucide:star" class="h-4 w-4 text-muted-foreground/70" />
-        <span class="text-sm font-semibold text-foreground">{totalStars}</span>
-        <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+  <div
+    id="gh-legend"
+    class="flex items-center justify-between gap-4 text-sm text-muted-foreground"
+  >
+    <span>Past six months</span>
+    <div class="flex items-center gap-1.5" aria-hidden="true">
+      <span class="mr-1">Less</span>
+      {[
+        "bg-[var(--gh-0)]",
+        "bg-[var(--gh-1)]",
+        "bg-[var(--gh-2)]",
+        "bg-[var(--gh-3)]",
+        "bg-[var(--gh-4)]",
+      ].map((color) => (
+        <span class={cn("size-2.5 rounded-[2px]", color)} />
+      ))}
+      <span class="ml-1">More</span>
+    </div>
+  </div>
+  <div
+    id="gh-stats"
+    class="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pt-2 text-sm text-muted-foreground"
+  >
+    {fetchError ? (
+      <p>Stats unavailable</p>
+    ) : (
+      <>
+        <span class="inline-flex items-center gap-1.5">
+          <Icon name="lucide:star" class="size-3.5" />
+          <span class="text-base font-medium text-foreground tabular-nums">
+            {totalStars}
+          </span>
           Stars
         </span>
-      </div>
-      <div class="flex min-w-0 items-center gap-1.5">
-        <Icon name="lucide:users" class="h-4 w-4 text-muted-foreground/70" />
-        <span class="text-sm font-semibold text-foreground">{followers}</span>
-        <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+        <span class="inline-flex items-center gap-1.5">
+          <Icon name="lucide:users" class="size-3.5" />
+          <span class="text-base font-medium text-foreground tabular-nums">
+            {followers}
+          </span>
           Followers
         </span>
-      </div>
-      <div class="flex min-w-0 items-center gap-1.5">
-        <Icon name="lucide:book" class="h-4 w-4 text-muted-foreground/70" />
-        <span class="text-sm font-semibold text-foreground">{publicRepos}</span>
-        <span class="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+        <span class="inline-flex items-center gap-1.5">
+          <Icon name="lucide:book" class="size-3.5" />
+          <span class="text-base font-medium text-foreground tabular-nums">
+            {publicRepos}
+          </span>
           Repos
         </span>
-      </div>
-    </>
-  )}
+      </>
+    )}
+  </div>
 </div>
 
 <script>
@@ -123,7 +168,7 @@ try {
         contributions.map((c: any) => [c.date, c.count])
       )
 
-      const cols = 22,
+      const cols = 26,
         rows = 7
       const start = new Date()
       start.setDate(start.getDate() - start.getDay() - (cols - 1) * 7)
@@ -143,11 +188,9 @@ try {
         if (colDate.getMonth() !== lastMonth && i - lastLabeled >= 2) {
           lastMonth = colDate.getMonth()
           lastLabeled = i
-          const atEnd =
-            i > cols - 3
-              ? "transform:translateX(-100%);left:100%;"
-              : `left:${(i / cols) * 100}%;`
-          labelsHtml += `<span class="absolute top-0 text-xs font-medium whitespace-nowrap text-muted-foreground" style="${atEnd}">${months[lastMonth]}</span>`
+          const atEnd = i > cols - 3
+          const left = atEnd ? 100 : (i / cols) * 100
+          labelsHtml += `<span class="absolute top-0 text-sm font-medium whitespace-nowrap text-muted-foreground" style="left:${left}%;${atEnd ? "transform:translateX(-100%);" : ""}">${months[lastMonth]}</span>`
         }
 
         graphHtml += `<div class="flex min-w-0 flex-1 flex-col gap-0.75">`
@@ -155,7 +198,12 @@ try {
           const d = new Date(colDate)
           d.setDate(d.getDate() + j)
 
-          const count = contribMap.get(d.toISOString().split("T")[0]) || 0
+          if (d > new Date()) {
+            graphHtml += '<div class="aspect-square w-full"></div>'
+            continue
+          }
+          const dateKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
+          const count = contribMap.get(dateKey) || 0
           const int =
             count === 0
               ? 0
@@ -278,7 +326,7 @@ try {
       if (!tooltip) {
         document.body.insertAdjacentHTML(
           "beforeend",
-          `<div id="gh-tooltip" class="pointer-events-none fixed z-[100] whitespace-nowrap rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground opacity-0 shadow-md transition-opacity duration-200 flex flex-col items-center justify-center"><div class="absolute top-full left-1/2 -translate-x-1/2 h-0 w-0 border-4 border-transparent border-t-primary"></div><span id="gh-tooltip-content"></span></div>`
+          `<div id="gh-tooltip" class="pointer-events-none fixed z-[100] whitespace-nowrap rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground opacity-0 shadow-md transition-opacity duration-200 flex flex-col items-center justify-center"><div class="absolute top-full left-1/2 -translate-x-1/2 h-0 w-0 border-4 border-transparent border-t-primary"></div><span id="gh-tooltip-content"></span></div>`
         )
         tooltip = document.getElementById("gh-tooltip")!
       }
@@ -293,7 +341,7 @@ try {
         content.textContent = cell.dataset.tooltip!
         tooltip!.style.opacity = "1"
         const rect = cell.getBoundingClientRect()
-        tooltip!.style.left = `${rect.left + rect.width / 2 - tooltip!.offsetWidth / 2}px`
+        tooltip!.style.left = `${Math.max(8, Math.min(rect.left + rect.width / 2 - tooltip!.offsetWidth / 2, innerWidth - tooltip!.offsetWidth - 8))}px`
         tooltip!.style.top = `${rect.top - tooltip!.offsetHeight - 8}px`
       })
 
@@ -302,6 +350,8 @@ try {
         () => (tooltip!.style.opacity = "0")
       )
     } catch {
+      document.getElementById("gh-calendar-scroll")?.classList.add("hidden")
+      document.getElementById("gh-legend")?.classList.add("hidden")
       document.getElementById("gh-error")?.classList.remove("hidden")
     }
   })()

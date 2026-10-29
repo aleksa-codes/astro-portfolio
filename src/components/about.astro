@@ -1,7 +1,6 @@
 ---
 import { Icon } from "astro-icon/components"
 import GitHubActivity from "@/components/github-activity.astro"
-import WindowCard from "@/components/window-card.astro"
 import { cn } from "@/lib/utils"
 
 // figlet -f "Standard" (true lowercase glyphs)
@@ -65,81 +64,78 @@ const interests = [
     </p>
   </div>
 
-  <WindowCard title="Terminal" icon="lucide:terminal">
-    <div class="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-2">
+  <div
+    id="about-terminal"
+    role="region"
+    aria-label="Interactive terminal"
+    class="scroll-mt-24 border-y border-border"
+  >
+    <div
+      id="whoami-term"
+      class="relative flex h-152 min-h-0 flex-col overflow-hidden font-mono text-base md:h-88"
+    >
       <div
-        id="whoami-term"
-        class="relative flex h-67 min-h-0 flex-col font-mono text-sm"
+        id="term-output"
+        class="flex min-h-0 flex-1 flex-col overflow-y-auto py-5"
       >
-        <div
-          id="term-output"
-          class="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-3"
-        >
-          <!-- Static no-JS fallback; cleared and replayed by the script -->
-          <div class="flex items-center gap-3 py-0.5">
-            <span
-              class="w-3.5 shrink-0 text-green-500 select-none"
-              aria-hidden="true"
-            >
-              $
-            </span>
-            <span class="text-foreground">whoami</span>
-          </div>
-          <pre
-            class="mb-0.5 text-[8px] leading-[1.15] whitespace-pre text-foreground"
+        <div class="flex items-center gap-3">
+          <span
+            class="w-4 shrink-0 text-green-600 select-none dark:text-green-400"
             aria-hidden="true"
-          >{ART_BANNER.join("\n")}</pre>
-          {interests.map((item) => (
-            <div class="flex items-center gap-3 py-0.5">
-              <Icon
-                name={item.icon}
-                class={cn("h-4 w-4 shrink-0", item.color)}
-                aria-hidden="true"
-              />
-              <span class="text-muted-foreground">{item.text}</span>
+          >
+            $
+          </span>
+          <span class="text-foreground">whoami</span>
+        </div>
+        <div class="mt-4 grid gap-6 md:grid-cols-2 md:gap-10">
+          <div class="flex min-w-0 flex-col">
+            <pre
+              class="text-[8px] leading-[1.2] whitespace-pre text-foreground md:text-[9px]"
+              aria-hidden="true"
+            >{ART_BANNER.join("\n")}</pre>
+            <div class="mt-4 flex flex-col gap-2">
+              {interests.map((item) => (
+                <div class="flex items-center gap-3">
+                  <Icon
+                    name={item.icon}
+                    class={cn("size-4 shrink-0", item.color)}
+                    aria-hidden="true"
+                  />
+                  <span class="text-muted-foreground">{item.text}</span>
+                </div>
+              ))}
             </div>
-          ))}
-          <div class="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1">
-            <a
-              href="https://github.com/aleksa-codes"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-sm whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
-            >
-              github.com/aleksa-codes
-            </a>
-            <span aria-hidden="true" class="text-sm text-muted-foreground/60">
-              ·
-            </span>
-            <a
-              href="mailto:hello@aleksa.codes"
-              class="text-sm whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
-            >
-              hello@aleksa.codes
-            </a>
+            <div class="mt-auto pt-4">
+              <a
+                href="mailto:hello@aleksa.codes"
+                class="rounded-sm text-sm text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              >
+                hello@aleksa.codes
+              </a>
+            </div>
           </div>
+          <aside
+            id="gh-panel"
+            aria-label="GitHub activity"
+            class="min-w-0 border-t border-border pt-5 md:border-t-0 md:pt-0"
+          >
+            <GitHubActivity />
+          </aside>
         </div>
       </div>
-
-      <aside
-        id="gh-panel"
-        class="order-first flex min-w-0 flex-col justify-center font-mono md:order-0"
-      >
-        <GitHubActivity />
-      </aside>
     </div>
 
     <div
       id="term-input-row"
-      class="flex shrink-0 items-center gap-3 border-t border-border/60 px-4 py-3 font-mono text-sm"
+      class="flex min-h-14 items-center gap-3 border-t border-border py-3 font-mono text-base focus-within:bg-muted/40"
     >
       <span
-        class="w-3.5 shrink-0 text-green-500 select-none"
+        class="w-4 shrink-0 text-green-600 select-none dark:text-green-400"
         aria-hidden="true"
       >
         $
       </span>
-      <div class="relative flex min-w-0 flex-1 items-center">
+      <div class="relative flex min-h-6 min-w-0 flex-1 items-center">
         <span id="term-before" class="text-foreground"></span>
         <span
           id="term-cursor"
@@ -149,9 +145,9 @@ const interests = [
         <span id="term-after" class="text-foreground"></span>
         <span
           id="term-placeholder"
-          class="pointer-events-none absolute left-0 text-muted-foreground/40 select-none"
+          class="pointer-events-none absolute left-0 text-muted-foreground select-none"
         >
-          type 'help'
+          type 'help' to explore
         </span>
         <input
           id="term-input"
@@ -160,11 +156,18 @@ const interests = [
           autocapitalize="off"
           spellcheck="false"
           aria-label="Terminal command input"
-          class="absolute inset-0 h-full w-full cursor-text bg-transparent text-transparent caret-transparent outline-none"
+          class="absolute inset-0 h-full w-full cursor-text bg-transparent text-base text-transparent caret-transparent outline-none"
         />
       </div>
+      <span
+        class="hidden items-center gap-4 text-sm text-muted-foreground select-none sm:flex"
+        aria-hidden="true"
+      >
+        <span>↑↓ history</span>
+        <span>↵ run</span>
+      </span>
     </div>
-  </WindowCard>
+  </div>
 </section>
 
 <style>
@@ -211,39 +214,8 @@ const interests = [
     const input: HTMLInputElement = inputEl
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
-    const PROMPT = "w-3.5 shrink-0 text-green-500 select-none"
+    const PROMPT = "w-4 shrink-0 text-green-600 dark:text-green-400 select-none"
     let busy = true // locked until the intro finishes
-
-    // Mirrors of the frontmatter data for replays
-    const ART_BANNER = [
-      "        _      _                             _           ",
-      "   __ _| | ___| | _____  __ _   ___ ___   __| | ___  ___ ",
-      "  / _` | |/ _ \\ |/ / __|/ _` | / __/ _ \\ / _` |/ _ \\/ __|",
-      " | (_| | |  __/   <\\__ \\ (_| || (_| (_) | (_| |  __/\\__ \\",
-      "  \\__,_|_|\\___|_|\\_\\___/\\__,_(_)___\\___/ \\__,_|\\___||___/",
-    ]
-    const INTERESTS = [
-      {
-        icon: "lucide:brain-circuit",
-        text: "Building things with AI & code",
-        color: "text-pink-500",
-      },
-      {
-        icon: "iconoir:basketball",
-        text: "Love hooping & watching NBA",
-        color: "text-orange-500",
-      },
-      {
-        icon: "lucide:gamepad",
-        text: "Casual gamer in my free time",
-        color: "text-blue-500",
-      },
-      {
-        icon: "lucide:coffee",
-        text: "Fueled by coffee & curiosity",
-        color: "text-amber-700 dark:text-amber-500",
-      },
-    ]
 
     const scroll = () => (output.scrollTop = output.scrollHeight)
 
@@ -275,75 +247,13 @@ const interests = [
       scroll()
     }
 
-    // Snapshot SSR interest rows (with real icon SVGs) so replays can reuse them
+    // Keep the live nodes so replays preserve GitHub data and event listeners.
     const introRows = Array.from(output.children)
-      .filter((n) => n.querySelector("svg"))
-      .map((n) => n.cloneNode(true) as HTMLElement)
-    // Map "text" -> colored icon SVG so dynamically replayed rows get their icons
-    const snapshotIcons = new Map<string, SVGElement>()
-    for (const row of introRows) {
-      const text = row.children[1]?.textContent?.trim() ?? ""
-      const svg = row.querySelector("svg")
-      if (svg) snapshotIcons.set(text, svg.cloneNode(true) as SVGElement)
-    }
 
     async function runIntro() {
-      output.innerHTML = ""
-      const rows: HTMLElement[] = []
-
-      // $ whoami
-      const line = document.createElement("div")
-      line.className = "flex items-center gap-3 py-0.5"
-      line.innerHTML = `<span class="${PROMPT}" aria-hidden="true">$</span><span class="text-foreground">whoami</span>`
-      rows.push(line)
-
-      // ASCII banner
-      const pre = document.createElement("pre")
-      pre.setAttribute("aria-hidden", "true")
-      pre.className =
-        "mb-1 whitespace-pre text-[8px] leading-[1.15] text-foreground"
-      pre.textContent = ART_BANNER.join("\n")
-      rows.push(pre)
-
-      // Interest lines: the icon acts as the prompt glyph
-      for (const item of INTERESTS) {
-        const div = document.createElement("div")
-        div.className = "flex items-center gap-3 py-0.5"
-        const icon = document.createElement("span")
-        icon.className = `h-4 w-4 shrink-0 ${item.color}`
-        // Reuse the SSR icon SVG (with its color) so replays aren't icon-less
-        const src = snapshotIcons.get(item.text)
-        if (src) icon.appendChild(src.cloneNode(true))
-        const label = document.createElement("span")
-        label.className = "min-w-0 text-muted-foreground"
-        label.textContent = item.text
-        div.append(icon, label)
-        rows.push(div)
-      }
-
-      // Contact footer — matches the terminal's muted link style
-      const foot = document.createElement("div")
-      foot.className = "mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1"
-      const gh = document.createElement("a")
-      gh.href = "https://github.com/aleksa-codes"
-      gh.target = "_blank"
-      gh.rel = "noopener noreferrer"
-      gh.className =
-        "text-sm whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
-      gh.textContent = "github.com/aleksa-codes"
-      const sep = document.createElement("span")
-      sep.setAttribute("aria-hidden", "true")
-      sep.className = "text-sm text-muted-foreground/60"
-      sep.textContent = "·"
-      const mail = document.createElement("a")
-      mail.href = "mailto:hello@aleksa.codes"
-      mail.className =
-        "text-sm whitespace-nowrap text-muted-foreground underline underline-offset-2 hover:text-foreground"
-      mail.textContent = "hello@aleksa.codes"
-      foot.append(gh, sep, mail)
-      rows.push(foot)
-
-      rows.forEach((row) => output.appendChild(row))
+      const rows = introRows
+      output.replaceChildren(...rows)
+      output.style.opacity = ""
 
       // Reduced motion: just show everything, no reveal
       if (reduced) return
@@ -352,6 +262,7 @@ const interests = [
       const DURATION = 420
       const STAGGER = 75
       rows.forEach((row, i) => {
+        if (!(row instanceof HTMLElement)) return
         row.animate(
           [
             { opacity: 0, transform: "translateY(6px)", filter: "blur(2px)" },
@@ -387,6 +298,8 @@ const interests = [
       const cmd = raw.trim().toLowerCase()
       if (!cmd || busy) return
       busy = true
+      const tooltip = document.getElementById("gh-tooltip")
+      if (tooltip) tooltip.style.opacity = "0"
       promptLine(raw.trim())
       if (cmd === "help") {
         print(HELP_TEXT)
@@ -501,7 +414,7 @@ const interests = [
     if (reduced) {
       busy = false
     } else {
-      output.innerHTML = ""
+      output.style.opacity = "0"
       const io = new IntersectionObserver(
         (entries) => {
           if (entries.some((e) => e.isIntersecting)) {

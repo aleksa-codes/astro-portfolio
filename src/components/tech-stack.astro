@@ -76,35 +76,40 @@ const groups: { label: string; names: string[] }[] = [
   </h2>
   <dl class="flex flex-col gap-3 md:gap-4">
     {groups.map(({ label, names }) => (
-      <div class="grid gap-1 sm:grid-cols-[128px_1fr] sm:gap-4">
-        <dt class="pt-0 text-xs font-medium tracking-widest text-muted-foreground/70 uppercase sm:pt-2">
+      <div class="grid gap-1 sm:grid-cols-[128px_1fr] sm:items-start sm:gap-4">
+        <dt class="flex h-7 items-center text-sm font-medium tracking-wide text-muted-foreground uppercase">
           {label}
         </dt>
-        <dd class="-ml-1.5 min-w-0 flex-1 text-pretty leading-8">
-          {names.map((name) => {
-            const tech = byName.get(name)
-            if (!tech) return null
-            return (
-              <>
+        <dd
+          tabindex="0"
+          aria-label={`${label} technologies`}
+          class="-mx-1 min-w-0 overflow-x-auto overscroll-x-contain rounded-sm px-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        >
+          <div
+            class={cn(
+              "flex flex-wrap items-center gap-x-1.5 gap-y-1",
+              names.length > 6 && "min-w-[42rem]"
+            )}
+          >
+            {names.map((name) => {
+              const tech = byName.get(name)
+              if (!tech) return null
+              return (
                 <a
                   href={tech.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex min-w-0 items-center gap-2 rounded-md px-1.5 py-0.5 text-[15px] text-foreground/80 outline-none transition-[background-color,color] duration-150 ease-out hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 motion-reduce:transition-none"
+                  class="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-md px-1 text-base leading-6 whitespace-nowrap text-foreground/80 outline-none transition-[background-color,color] duration-150 ease-out hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-inset motion-reduce:transition-none"
                 >
-                  <span class="flex size-6 shrink-0 items-center justify-center">
-                    <Icon
-                      name={tech.icon}
-                      class={cn("size-5 shrink-0", tech.color)}
-                    />
-                  </span>
-                  <span class="min-w-0 flex-1 leading-snug tracking-tight">
-                    {tech.name}
-                  </span>
-                </a>{" "}
-              </>
-            )
-          })}
+                  <Icon
+                    name={tech.icon}
+                    class={cn("size-4 shrink-0", tech.color)}
+                  />
+                  <span>{tech.name}</span>
+                </a>
+              )
+            })}
+          </div>
         </dd>
       </div>
     ))}

@@ -4,25 +4,30 @@ import ProjectCard from "@/components/project-card.astro"
 import { projects } from "@/lib/projects"
 
 const featuredProjects = projects.filter((p) => p.featured).slice(0, 4)
+const projectLinkClass =
+  "inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-medium text-foreground underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
 ---
 
-<section id="projects-section" class="flex flex-col space-y-8">
-  <h2 class="text-sm font-medium tracking-widest text-muted-foreground uppercase">
-    Selected Projects
-  </h2>
+<section
+  id="projects-section"
+  aria-labelledby="selected-projects-heading"
+  class="flex scroll-mt-24 flex-col gap-8"
+>
+  <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+    <h2
+      id="selected-projects-heading"
+      class="text-sm font-medium tracking-widest text-muted-foreground uppercase"
+    >
+      Selected Projects
+    </h2>
+    <a href="/projects" class={projectLinkClass}>
+      View all projects <Icon name="lucide:arrow-right" class="size-4" />
+    </a>
+  </div>
 
-  <div class="flex flex-col gap-8">
+  <div class="grid gap-x-10 gap-y-12 md:grid-cols-2 md:gap-y-16">
     {featuredProjects.map((project) => (
       <ProjectCard project={project} />
     ))}
-  </div>
-
-  <div class="flex justify-center">
-    <a
-      href="/projects"
-      class="flex items-center gap-2 text-base font-medium text-foreground underline-offset-4 hover:underline"
-    >
-      View all projects <Icon name="lucide:arrow-right" class="h-5 w-5" />
-    </a>
   </div>
 </section>
