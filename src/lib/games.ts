@@ -1,10 +1,12 @@
 import AngryBirdsPro from "@/assets/games/angry-birds-pro.png"
+import Asphalt4 from "@/assets/games/asphalt-4.png"
 import CozyCoveFishing from "@/assets/games/cozy-cove-fishing.png"
 import CsFySnow from "@/assets/games/cs-fy-snow.png"
 import DoodleJump from "@/assets/games/doodle-jump.png"
 import DxBall from "@/assets/games/dx-ball.png"
 import FlappyBird from "@/assets/games/flappy-bird.png"
 import FruitNinjaFlash from "@/assets/games/fruit-ninja-flash.png"
+import Minecraft from "@/assets/games/minecraft.png"
 import MiniGolf from "@/assets/games/mini-golf.png"
 import SunsetHoops from "@/assets/games/sunset-hoops.png"
 import WhackAMole from "@/assets/games/whack-a-mole.png"
@@ -36,8 +38,8 @@ const providerBadges: Record<string, ModelBadge> = {
   anthropic: { icon: "simple-icons:anthropic", color: "#D97757" },
   deepseek: { icon: "simple-icons:deepseek", color: "#4D6BFE" },
   gemini: { icon: "simple-icons:googlegemini", color: "#1C7CF4" },
-  openai: { icon: "simple-icons:openai", color: "#10A37F" },
-  gpt: { icon: "simple-icons:openai", color: "#10A37F" },
+  openai: { icon: "simple-icons:openai", color: "#FFFFFF" },
+  gpt: { icon: "simple-icons:openai", color: "#FFFFFF" },
   ollama: { icon: "simple-icons:ollama", color: "#6B7280" },
 }
 
@@ -52,6 +54,30 @@ export function getModelBadge(model: string): ModelBadge {
 }
 
 export const games: Game[] = [
+  {
+    slug: "minecraft",
+    title: "Minecraft Clone: Little Shores",
+    description:
+      "A small voxel world to make your own. Mine, build, craft, and fish from a lakeside dock, with a visible bobber, timed bites, and a journal of your catches.",
+    model: "GPT-6.1 Sol",
+    prompt:
+      'Build your best playable Minecraft-inspired sandbox as one HTML file using Three.js from a pinned CDN URL. Call it "Minecraft Clone: Little Shores". All textures, models, icons, and sounds must be procedural, with no external assets other than Three.js. Treat this as an unofficial fan-made game, with original artwork.\n\nCreate a 96 by 96 block island with layered grass, dirt, stone, sand, coal ore, indestructible bedrock, trees with logs and leaves, flowers, underground pockets, a large fishable lake, and water around the island. Add a small wooden cabin with glass windows, a crafting table, a chest, and a dock where the player starts with a fishing rod selected. Make it feel like a proper little voxel world with a nearest-filtered pixel texture atlas, visible-face chunk meshing, directional face shading, blue sky, block clouds, warm sunlight, fog, wandering block sheep, and visible fish under the lake surface. Keep rendering lightweight and resize correctly on phones and Retina displays.\n\nFirst-person play with pointer-lock mouse look, WASD or arrows to walk, space to jump or swim upward, and shift to sprint. Use fixed 60Hz movement, gravity, grounded jumping, voxel collision on all axes, and buoyancy in water. Do not let the player walk through blocks or place a solid block inside their own body. Provide a fallback with drag-to-look and on-screen controls if pointer lock is unavailable. Pause simulation when focus or mouse capture is lost, and clear held inputs when paused or touches are cancelled.\n\nA nine-slot hotbar: eight assignable block slots and a fishing rod in slot 9. Number keys or the mouse wheel select slots. Hold left click or Q to mine the targeted block, with a selection outline, progressive cracks, material-dependent break times, sound, particles, and drops into the backpack. Right click or F places the selected block against the targeted face, spending inventory. Start with enough building supplies to enjoy the sandbox immediately. Include planks, glass, torches with a small pool of actual nearby lights, flowers, a crafting table, and a chest. Rebuild only edited chunks and affected neighbors, and dispose replaced geometries.\n\nE opens a backpack with block counts, click-to-equip hotbar assignment, simple log-to-planks and log-plus-coal-to-torches recipes, and a fishing journal. Display actual recipes and do not allow crafting without ingredients. A chest or crafting table can open the backpack. Keep menus keyboard accessible.\n\nFishing should feel like Minecraft fishing, not a detached minigame. Render a first-person rod, a physical red-and-white bobber cast on a gravity arc, and a curved line connected to the rod tip. Cast with right click, F, or the touch Cast button. Only actual open water accepts a cast. Show landing splashes, a floating bobber, approach ripples and nibbles, a distinct dip and bite sound, and a roughly 1.25-second reel-in window. Reel at the right moment to catch cod, salmon, pufferfish, tropical fish, or a rare old compass, with weighted rarity and fish weights. The caught item should arc back toward the player. Missed bites allow another fish to approach; reeling early simply retrieves the line. Cancel a cast when switching tools or walking too far away. Track catch counts, best weights, and a small fishing XP bar.\n\nPersist the world seed, block edits, player position, inventory, hotbar, fishing journal, and XP in localStorage. Validate loaded data and gracefully handle unavailable or full storage without losing the in-memory world. Autosave, save on pause and page hiding, offer a return-to-dock rescue, and require confirmation before replacing the saved world.\n\nTouch support needs independent movement joystick and look gestures, jump and hold-to-mine buttons, a contextual place/cast/reel button, tappable hotbar, multi-pointer handling, pointer capture, and proper cancellation. Use safe-area padding, no page scrolling, and readable controls on a roughly 390px portrait screen or desktop landscape. Synthesise sounds with Web Audio after user interaction, with a mute button. Respect reduced-motion preferences for head bob and cosmetic movement. Provide an informative load screen with CDN and WebGL failure states, a focused start screen, a pause screen, and a backpack screen. Stop the animation loop while menus are open. The overall feel should be peaceful, tactile, and recognizably blocky rather than a generic dashboard.',
+    file: "/arcade/minecraft.html",
+    image: Minecraft,
+    date: "2026-10",
+  },
+  {
+    slug: "asphalt-4",
+    title: "Asphalt 4 Clone: Coastline Rush",
+    description:
+      "A tribute to pocket-sized street racing. Take on five rivals along a sunset coast, drift to refill nitro, dodge traffic, and chase a two-lap personal best.",
+    model: "GPT-6.1 Sol",
+    prompt:
+      'Build a complete, playable Asphalt 4: Elite Racing-inspired arcade racer as one self-contained HTML file with vanilla JavaScript and Canvas 2D. Call it "Asphalt 4 Clone: Coastline Rush". Treat it as an unofficial fan-made tribute with original procedural artwork and fictional cars, not a reproduction of licensed cars, logos, music, or assets. No dependencies, external images, fonts, or audio files.\n\nCapture the feel of 2008 mobile racing with a pseudo-3D chase camera, a winding coastal highway, sunset sky, blue sea, distant mountains and skyline, roadside palms, red-and-white shoulders, lane markings, and a checkered start/finish line. Draw detailed rear-view sports cars, not plain rectangles. Fit both portrait and landscape windows, stay sharp on Retina displays, and keep the road readable on a phone. Render scenery and cars independently of subpixel road-strip culling so they never flicker. Fade overtaken cars out behind the player before their perspective scale can explode.\n\nA two-lap race against five AI rivals with different paces, plus slower civilian traffic. Start with a three-second countdown. Show actual race position, lap, elapsed time, speed in km/h, nitro remaining, and race progress. Track actual finish order and stop the race at the line. Let the player choose between three fictional cars: a balanced red GT, a blue grip-focused car, and a faster yellow car.\n\nManual acceleration: hold up/W to accelerate, release to coast, and down/S to brake. A/D or left/right arrows steer, space holds nitro while accelerating, and shift plus steering drifts. Do not accelerate automatically or allow steering while stationary. Touch controls include a hold-to-accelerate Gas button and support simultaneous inputs with Pointer Events, pointer capture, and proper pointer cancellation. Nitro gives a meaningful speed boost and drains a visible reservoir. Drifting sacrifices speed for control and nitro refill. Add collectible nitro bottles and near-miss bonuses. Curves pull the car outward; the shoulder slows it down but never accelerates a stopped car. Collisions slow the player and separate vehicles, with smoothly decaying lateral knockback rather than instant lane jumps. Resolve rear-end contact so the player cannot drive through a slower car, and trigger impact effects only once per contact. AI cars ease into evasive lane changes rather than snapping sideways.\n\nRun gameplay on a fixed 60Hz timestep independent of display refresh rate. Use lightweight synthesized Web Audio engine and event sounds, activated only after user interaction, plus a mute button. Pause on P/Escape, a pause button, focus loss, or tab hiding, and resume explicitly. R restarts. Clear held inputs on pause and handle cancelled touches. Stop animation and engine audio when paused, in the garage, or after finishing. Respect reduced-motion preferences for speed streaks, car vibration, and impact effects.\n\nMake a focused start screen with car selection and controls, a pause screen with resume/restart/garage, and a results screen with position, race time, best lap, and per-car personal bests saved in localStorage. Handle unavailable storage without breaking the game. Make all menus keyboard accessible, keep touch controls clear of safe areas, and use a bold, compact, warm-white racing HUD with red and cyan accents.',
+    file: "/arcade/asphalt-4.html",
+    image: Asphalt4,
+    date: "2026-10",
+  },
   {
     slug: "cozy-cove-fishing",
     title: "Cozy Cove Fishing",

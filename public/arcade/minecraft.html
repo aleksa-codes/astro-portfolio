@@ -1,0 +1,3087 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#253c32" />
+    <title>Minecraft Clone: Little Shores</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "Courier New", monospace;
+        color: #fff8e5;
+        background: #253c32;
+        --green: #73a64b;
+        --paper: #fff8e5;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        overscroll-behavior: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        height: 100dvh;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        color: inherit;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: pointer;
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid #ffe098;
+        outline-offset: 3px;
+      }
+      button:active {
+        transform: translateY(2px);
+      }
+      [hidden] {
+        display: none !important;
+      }
+      #world {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        touch-action: none;
+      }
+      .screen {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        display: grid;
+        place-items: center;
+        padding: max(24px, env(safe-area-inset-top)) 24px
+          max(24px, env(safe-area-inset-bottom));
+        background: #182b21a6;
+        overflow-y: auto;
+      }
+      .panel {
+        width: min(510px, 100%);
+        margin: auto;
+      }
+      .title {
+        margin: 0;
+        font-family: Impact, "Arial Black", sans-serif;
+        font-size: clamp(46px, 9vw, 82px);
+        line-height: 0.95;
+        letter-spacing: -0.025em;
+        color: #eee8dc;
+        text-shadow:
+          0 4px #5a625a,
+          3px 7px #1b2722;
+        text-align: center;
+      }
+      .subtitle {
+        margin: 18px 0 28px;
+        font-size: clamp(20px, 4vw, 30px);
+        font-weight: 700;
+        color: #f8db88;
+        text-align: center;
+      }
+      .description {
+        max-width: 440px;
+        margin: 0 auto 24px;
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.7;
+        text-wrap: pretty;
+        color: #f0eeda;
+      }
+      .button {
+        display: block;
+        width: 100%;
+        border: 3px solid #18271c;
+        background: #6b795e;
+        box-shadow:
+          inset 2px 2px #ffffff45,
+          inset -2px -2px #0005,
+          0 3px #15231d;
+        padding: 13px 16px;
+        min-height: 48px;
+        font-weight: 700;
+        font-size: 15px;
+        text-shadow: 1px 2px #263b29;
+      }
+      .button.primary {
+        background: #618e40;
+      }
+      .button + .button {
+        margin-top: 10px;
+      }
+      .button:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+      .help {
+        margin: 24px auto 0;
+        font-size: 12px;
+        line-height: 1.9;
+        color: #dce7d0;
+        text-align: center;
+      }
+      .fine {
+        margin: 20px 0 0;
+        font-size: 11px;
+        color: #c3d1b8;
+        text-align: center;
+        line-height: 1.6;
+      }
+      .status {
+        margin: 16px 0;
+        text-align: center;
+        font-size: 13px;
+        color: #ffdf99;
+        line-height: 1.6;
+      }
+      .toolbar {
+        position: absolute;
+        top: max(16px, env(safe-area-inset-top));
+        left: max(16px, env(safe-area-inset-left));
+        right: max(16px, env(safe-area-inset-right));
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 12px;
+        pointer-events: none;
+      }
+      .world-name {
+        font-size: 15px;
+        font-weight: 700;
+        text-shadow: 1px 2px #263b29;
+      }
+      .world-info {
+        font-size: 11px;
+        margin-top: 5px;
+        text-shadow: 1px 2px #263b29;
+      }
+      .top-actions {
+        display: flex;
+        gap: 6px;
+        pointer-events: auto;
+      }
+      .small-button {
+        padding: 9px 11px;
+        min-height: 40px;
+        border: 2px solid #18271c;
+        background: #344a3bdd;
+        box-shadow: inset 1px 1px #ffffff35;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      #crosshair {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 18px;
+        height: 18px;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        filter: drop-shadow(1px 1px #18271c);
+      }
+      #crosshair::before,
+      #crosshair::after {
+        content: "";
+        position: absolute;
+        background: #fff8e5;
+      }
+      #crosshair::before {
+        width: 2px;
+        height: 16px;
+        left: 8px;
+        top: 1px;
+      }
+      #crosshair::after {
+        width: 16px;
+        height: 2px;
+        top: 8px;
+        left: 1px;
+      }
+      #mining {
+        position: absolute;
+        left: calc(50% - 30px);
+        top: calc(50% + 22px);
+        height: 4px;
+        width: 60px;
+        background: #18271c99;
+        pointer-events: none;
+      }
+      #mining-fill {
+        height: 100%;
+        width: 0;
+        background: #fff8e5;
+      }
+      #hint {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        top: calc(50% + 44px);
+        text-align: center;
+        font-size: 12px;
+        color: #fff8e5;
+        text-shadow: 1px 2px #18271c;
+        pointer-events: none;
+      }
+      #toast {
+        position: absolute;
+        top: 19%;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: min(90%, 520px);
+        width: max-content;
+        padding: 10px 16px;
+        background: #20382deb;
+        border: 2px solid #8fa77a;
+        font-size: 14px;
+        line-height: 1.5;
+        text-align: center;
+        pointer-events: none;
+      }
+      .bottom-hud {
+        position: absolute;
+        left: 50%;
+        bottom: max(18px, env(safe-area-inset-bottom));
+        transform: translateX(-50%);
+        width: min(540px, calc(100% - 24px));
+      }
+      #selected-name {
+        margin-bottom: 9px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 700;
+        text-shadow: 1px 2px #18271c;
+      }
+      .xp-line {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 4px 6px;
+        font-size: 11px;
+        text-shadow: 1px 2px #18271c;
+      }
+      .xp-track {
+        height: 5px;
+        background: #223527c9;
+        flex: 1;
+        border: 1px solid #132119;
+      }
+      #xp-fill {
+        height: 100%;
+        width: 0;
+        background: #a4cd4b;
+      }
+      .hotbar {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        padding: 4px;
+        gap: 3px;
+        background: #28372eea;
+        border: 2px solid #17271e;
+        box-shadow: inset 1px 1px #ffffff40;
+      }
+      .slot {
+        height: 49px;
+        position: relative;
+        border: 2px solid #111b16;
+        background: #6c7566;
+        box-shadow:
+          inset 2px 2px #0005,
+          inset -1px -1px #ffffff30;
+        padding: 2px;
+      }
+      .slot[aria-pressed="true"] {
+        border-color: #fff8e5;
+        background: #919783;
+        box-shadow: 0 0 0 1px #18271c;
+      }
+      .slot canvas {
+        width: 32px;
+        height: 32px;
+        image-rendering: pixelated;
+        display: block;
+        margin: 3px auto;
+        pointer-events: none;
+      }
+      .slot-key {
+        position: absolute;
+        top: 2px;
+        left: 3px;
+        font-size: 9px;
+        color: #fff8e5;
+        text-shadow: 1px 1px #000;
+      }
+      .slot-count {
+        position: absolute;
+        bottom: 2px;
+        right: 3px;
+        font-size: 12px;
+        text-shadow: 1px 2px #000;
+      }
+      #underwater {
+        position: absolute;
+        inset: 0;
+        background: #2a789566;
+        pointer-events: none;
+      }
+      #touch {
+        display: none;
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .touch-mode #touch {
+        display: block;
+      }
+      .touch-mode .desktop-help {
+        display: none;
+      }
+      body:not(.touch-mode) .touch-help {
+        display: none;
+      }
+      #joystick {
+        position: absolute;
+        left: max(20px, env(safe-area-inset-left));
+        bottom: calc(112px + env(safe-area-inset-bottom));
+        width: 112px;
+        height: 112px;
+        background: #223d2866;
+        border: 2px solid #fff8e566;
+        border-radius: 50%;
+        touch-action: none;
+        pointer-events: auto;
+      }
+      #joystick-knob {
+        position: absolute;
+        left: 34px;
+        top: 34px;
+        width: 40px;
+        height: 40px;
+        background: #fff8e56b;
+        border: 2px solid #fff8e5aa;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      .touch-actions {
+        position: absolute;
+        right: max(16px, env(safe-area-inset-right));
+        bottom: calc(114px + env(safe-area-inset-bottom));
+        display: grid;
+        grid-template-columns: 58px 58px;
+        gap: 8px;
+      }
+      .touch-button {
+        height: 54px;
+        border: 2px solid #fff8e566;
+        background: #233d31b8;
+        font-size: 11px;
+        font-weight: 700;
+        pointer-events: auto;
+        touch-action: none;
+      }
+      #touch-use {
+        grid-column: 1 / -1;
+        background: #416f3dcf;
+      }
+      .inventory-panel {
+        width: min(660px, 100%);
+        background: #c4c4af;
+        border: 4px solid #17271e;
+        box-shadow:
+          inset 3px 3px #ececdb,
+          inset -3px -3px #7b8272;
+        padding: 22px;
+        color: #24362a;
+      }
+      .inventory-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .inventory-header .small-button {
+        color: #fff8e5;
+      }
+      .inventory-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+      }
+      .item {
+        position: relative;
+        min-width: 0;
+        padding: 8px 2px;
+        background: #909985;
+        border: 2px solid #67715f;
+        box-shadow:
+          inset 2px 2px #0002,
+          inset -1px -1px #eef2da;
+        font-size: 10px;
+        color: #14261b;
+      }
+      .item canvas {
+        display: block;
+        width: 32px;
+        height: 32px;
+        margin: 0 auto 4px;
+        image-rendering: pixelated;
+      }
+      .item small {
+        display: block;
+        font-size: 11px;
+        margin-top: 4px;
+        font-weight: 700;
+      }
+      .inventory-note {
+        font-size: 12px;
+        line-height: 1.6;
+        margin: 14px 0 18px;
+      }
+      .crafting {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .crafting .button {
+        margin: 0;
+        font-size: 12px;
+        min-height: 48px;
+      }
+      .journal {
+        margin-top: 20px;
+        border-top: 2px solid #839078;
+        padding-top: 14px;
+      }
+      .journal h3 {
+        font-size: 15px;
+        margin: 0 0 10px;
+      }
+      #fish-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 18px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .danger {
+        background: #805047;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        button:hover {
+          filter: brightness(1.12);
+        }
+      }
+      @media (max-width: 560px) {
+        .toolbar {
+          top: 12px;
+          left: 12px;
+          right: 12px;
+        }
+        .world-name {
+          font-size: 13px;
+        }
+        .top-actions {
+          gap: 4px;
+        }
+        .small-button {
+          font-size: 10px;
+          padding: 8px;
+        }
+        .slot {
+          height: 41px;
+        }
+        .slot canvas {
+          width: 25px;
+          height: 25px;
+          margin-top: 5px;
+        }
+        .hotbar {
+          gap: 2px;
+          padding: 3px;
+        }
+        .slot-key {
+          display: none;
+        }
+        .slot-count {
+          font-size: 10px;
+        }
+        .inventory-panel {
+          padding: 16px;
+        }
+        .inventory-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+        .description {
+          font-size: 13px;
+        }
+      }
+      @media (max-height: 500px) {
+        .screen {
+          padding: 18px 24px;
+        }
+        .title {
+          font-size: 46px;
+        }
+        .subtitle {
+          margin: 12px 0;
+          font-size: 22px;
+        }
+        .description {
+          margin-bottom: 12px;
+          font-size: 12px;
+        }
+        .help {
+          margin-top: 12px;
+        }
+        .fine {
+          display: none;
+        }
+        .bottom-hud {
+          width: 420px;
+          bottom: 10px;
+        }
+        .slot {
+          height: 39px;
+        }
+        .slot canvas {
+          width: 26px;
+          height: 26px;
+          margin-top: 2px;
+        }
+        .touch-actions {
+          bottom: 80px;
+        }
+        #joystick {
+          bottom: 80px;
+          width: 100px;
+          height: 100px;
+        }
+        #joystick-knob {
+          left: 28px;
+          top: 28px;
+        }
+        .inventory-panel {
+          margin-block: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas
+      id="world"
+      aria-label="A first-person voxel world with mining, building, and fishing"
+    ></canvas>
+    <div id="underwater" hidden></div>
+    <div id="hud" hidden>
+      <div class="toolbar">
+        <div>
+          <div class="world-name">Little Shores</div>
+          <div class="world-info" id="world-info">A place to make your own</div>
+        </div>
+        <div class="top-actions">
+          <button
+            class="small-button"
+            id="inventory-button"
+            aria-keyshortcuts="E"
+          >
+            Backpack<span class="desktop-help"> [E]</span></button
+          ><button
+            class="small-button"
+            id="mute-button"
+            aria-pressed="false"
+            aria-keyshortcuts="M"
+            title="Toggle sound (M)"
+          >
+            Sound on</button
+          ><button
+            class="small-button"
+            id="pause-button"
+            aria-keyshortcuts="Escape"
+          >
+            Pause<span class="desktop-help"> [Esc]</span>
+          </button>
+        </div>
+      </div>
+      <div id="crosshair"></div>
+      <div id="mining" hidden><div id="mining-fill"></div></div>
+      <div id="hint"></div>
+      <div class="bottom-hud">
+        <div id="selected-name">Fishing rod</div>
+        <div class="xp-line">
+          <span id="catch-count">0 catches</span>
+          <div class="xp-track"><div id="xp-fill"></div></div>
+          <span id="level">Lv. 1</span>
+        </div>
+        <div class="hotbar" id="hotbar" aria-label="Hotbar"></div>
+      </div>
+      <div id="touch">
+        <div id="joystick" aria-label="Movement joystick">
+          <div id="joystick-knob"></div>
+        </div>
+        <div class="touch-actions">
+          <button class="touch-button" id="touch-break">Break</button
+          ><button class="touch-button" id="touch-jump">Jump</button
+          ><button class="touch-button" id="touch-use">Cast</button>
+        </div>
+      </div>
+    </div>
+    <div id="toast" role="status" hidden></div>
+    <section class="screen" id="menu" aria-labelledby="game-title">
+      <div class="panel">
+        <h1 class="title" id="game-title">MINECRAFT</h1>
+        <p class="subtitle">Little Shores</p>
+        <p class="description">
+          A lake, a fishing rod, and a world made of blocks.<br />Build a cabin.
+          Dig a tunnel. Catch something good.
+        </p>
+        <button class="button primary" id="play" disabled>
+          Growing your world...
+        </button>
+        <p class="status" id="load-status">Loading Three.js</p>
+        <div class="help">
+          <span class="desktop-help"
+            >WASD move &nbsp; Space jump &nbsp; Shift sprint<br />Hold left
+            click to mine &nbsp; Right click to place / fish<br />1-9 select
+            &nbsp; E backpack &nbsp; F use &nbsp; Esc pause</span
+          ><span class="touch-help"
+            >Left thumb to move. Drag the world to look.<br />Tap a hotbar slot,
+            then use the action buttons.</span
+          >
+        </div>
+        <p class="fine">
+          An unofficial Minecraft-inspired sandbox. Original procedural
+          assets.<br />Your world and catches are saved on this device.
+        </p>
+      </div>
+    </section>
+    <section
+      class="screen"
+      id="pause-screen"
+      aria-labelledby="pause-title"
+      hidden
+    >
+      <div class="panel">
+        <h2 class="title" id="pause-title">A LITTLE BREAK</h2>
+        <p class="subtitle">The lake can wait.</p>
+        <button class="button primary" id="resume">Back to the world</button
+        ><button class="button" id="pause-inventory">
+          Backpack &amp; catches</button
+        ><button class="button" id="return-dock">Return to the dock</button
+        ><button class="button danger" id="reset-prompt">
+          Start a new world
+        </button>
+        <p class="status" id="save-status">World saved</p>
+        <p class="help desktop-help">
+          WASD move &nbsp; Space jump &nbsp; Shift sprint<br />Left click mine
+          &nbsp; Right click build / fish<br />9 fishing rod &nbsp; E backpack
+          &nbsp; F use
+        </p>
+      </div>
+    </section>
+    <section
+      class="screen"
+      id="inventory"
+      aria-labelledby="inventory-title"
+      hidden
+    >
+      <div class="inventory-panel">
+        <div class="inventory-header">
+          <h2 id="inventory-title">Backpack</h2>
+          <button class="small-button" id="close-inventory">Done</button>
+        </div>
+        <div class="inventory-grid" id="inventory-grid"></div>
+        <p class="inventory-note">
+          Select a block to put it in your current hotbar slot. The fishing rod
+          always lives in slot 9.
+        </p>
+        <div class="crafting">
+          <button class="button" id="craft-planks">1 log = 4 planks</button
+          ><button class="button" id="craft-torches">
+            1 log + 1 coal = 4 torches
+          </button>
+        </div>
+        <div class="journal">
+          <h3 id="journal-title">Fishing journal</h3>
+          <div id="fish-list"></div>
+        </div>
+        <p class="inventory-note" id="inventory-status">
+          Fish from open water. Reel when the bobber dips.
+        </p>
+      </div>
+    </section>
+    <section
+      class="screen"
+      id="confirm-reset"
+      aria-labelledby="reset-title"
+      hidden
+    >
+      <div class="panel">
+        <h2 id="reset-title">Leave this world behind?</h2>
+        <p class="description" style="text-align: left; margin-top: 18px">
+          This replaces your saved builds, supplies, and fishing journal with a
+          fresh island. It cannot be undone.
+        </p>
+        <button class="button danger" id="confirm-new">
+          Create a fresh world</button
+        ><button class="button" id="cancel-new">Keep this world</button>
+      </div>
+    </section>
+    <script>
+      async function boot() {
+        "use strict"
+        const $ = (id) => document.getElementById(id)
+        const canvas = $("world")
+        let THREE
+        try {
+          THREE =
+            await import("https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js")
+        } catch {
+          $("load-status").textContent =
+            "Three.js could not load. Check your connection and reload."
+          $("play").textContent = "Reload game"
+          $("play").disabled = false
+          $("play").onclick = () => location.reload()
+          return
+        }
+        $("load-status").textContent = "Shaping the shore and planting trees"
+        const SIZE = 96,
+          HEIGHT = 40,
+          CHUNK = 16,
+          WATER = 9,
+          RADIUS = 0.28,
+          BODY = 1.78,
+          EYE = 1.62,
+          STEP = 1 / 60
+        const AIR = 0,
+          GRASS = 1,
+          DIRT = 2,
+          STONE = 3,
+          LOG = 4,
+          LEAVES = 5,
+          SAND = 6,
+          PLANKS = 7,
+          GLASS = 8,
+          LIQUID = 9,
+          BEDROCK = 10,
+          TORCH = 11,
+          COAL = 12,
+          POPPY = 13,
+          DAISY = 14,
+          BENCH = 15,
+          CHEST = 16
+        const definitions = {
+          1: {
+            name: "Grass",
+            tile: 0,
+            side: 1,
+            bottom: 2,
+            color: "#7f9f4d",
+            hard: 0.35,
+          },
+          2: { name: "Dirt", tile: 2, color: "#8c6847", hard: 0.3 },
+          3: { name: "Stone", tile: 3, color: "#89918e", hard: 0.8 },
+          4: { name: "Oak log", tile: 4, side: 5, color: "#8d714c", hard: 0.7 },
+          5: { name: "Leaves", tile: 6, color: "#4f823d", hard: 0.18 },
+          6: { name: "Sand", tile: 7, color: "#d8c590", hard: 0.3 },
+          7: { name: "Oak planks", tile: 8, color: "#b39460", hard: 0.5 },
+          8: { name: "Glass", tile: 9, color: "#c4e5df", hard: 0.2 },
+          9: { name: "Water", tile: 10, color: "#4c96b6", hard: Infinity },
+          10: { name: "Bedrock", tile: 11, color: "#48514c", hard: Infinity },
+          11: { name: "Torch", tile: 12, color: "#ffc76d", hard: 0.12 },
+          12: { name: "Coal ore", tile: 13, color: "#565e59", hard: 0.9 },
+          13: { name: "Poppy", tile: 14, color: "#c65b48", hard: 0.1 },
+          14: { name: "Daisy", tile: 15, color: "#f0e0a1", hard: 0.1 },
+          15: {
+            name: "Crafting table",
+            tile: 16,
+            side: 17,
+            color: "#9c774d",
+            hard: 0.6,
+          },
+          16: { name: "Chest", tile: 18, color: "#b68c4e", hard: 0.6 },
+        }
+        const species = [
+          { name: "Cod", color: 0xb3a071, chance: 0.48, min: 0.3, max: 2.2 },
+          { name: "Salmon", color: 0xdb806c, chance: 0.3, min: 0.8, max: 4.8 },
+          {
+            name: "Pufferfish",
+            color: 0xdab84c,
+            chance: 0.14,
+            min: 0.1,
+            max: 0.7,
+          },
+          {
+            name: "Tropical fish",
+            color: 0xf3a051,
+            chance: 0.065,
+            min: 0.1,
+            max: 0.5,
+          },
+          {
+            name: "Old compass",
+            color: 0x84c4bc,
+            chance: 0.015,
+            min: 0,
+            max: 0,
+          },
+        ]
+        const reducedMotion = matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches
+        let touchMode = matchMedia("(pointer: coarse)").matches,
+          fallbackLook = false
+        document.body.classList.toggle("touch-mode", touchMode)
+        const keys = new Set(),
+          held = new Map(),
+          edits = new Map(),
+          chunks = new Map(),
+          dirtyChunks = new Set()
+        const world = new Uint8Array(SIZE * SIZE * HEIGHT),
+          surfaces = new Int16Array(SIZE * SIZE)
+        let mode = "menu",
+          ready = false,
+          resetting = false,
+          seed = 28471,
+          selected = 8,
+          hotbar = [GRASS, DIRT, STONE, LOG, PLANKS, SAND, GLASS, TORCH, AIR]
+        let inventory = {
+          1: 24,
+          2: 32,
+          3: 32,
+          4: 16,
+          5: 0,
+          6: 24,
+          7: 64,
+          8: 16,
+          11: 8,
+          12: 0,
+          13: 0,
+          14: 0,
+          15: 1,
+          16: 1,
+        }
+        let journal = {},
+          xp = 0,
+          clock = 90,
+          savedPosition = null,
+          saveAvailable = true,
+          dirtySave = false
+        let yaw = 0,
+          pitch = -0.17,
+          velocityY = 0,
+          grounded = false,
+          swimming = false,
+          walkPhase = 0,
+          actionSwing = 0
+        let last = 0,
+          accumulator = 0,
+          framePending = false,
+          toastTime = 0,
+          hudTime = 0,
+          saveTime = 0,
+          useCooldown = 0,
+          footstepTime = 0
+        let miningKey = "",
+          miningTime = 0,
+          miningStage = -1,
+          lookPointer = null,
+          lookX = 0,
+          lookY = 0,
+          joyPointer = null,
+          joyX = 0,
+          joyY = 0
+        let audio,
+          muted = false,
+          saved = null,
+          fishState = null,
+          flyingCatch = null,
+          particlePool = [],
+          waterRipples = [],
+          sheep = [],
+          fishSchools = []
+        const position = new THREE.Vector3(48.5, 10.001, 52.5),
+          direction = new THREE.Vector3(),
+          move = new THREE.Vector3(),
+          temp = new THREE.Vector3()
+        const clamp = (n, a, b) => Math.max(a, Math.min(b, n))
+        const index = (x, y, z) => x + SIZE * (z + SIZE * y)
+        const inBounds = (x, y, z) =>
+          x >= 0 && z >= 0 && y >= 0 && x < SIZE && z < SIZE && y < HEIGHT
+        const block = (x, y, z) =>
+          inBounds(x, y, z)
+            ? world[index(x, y, z)]
+            : y < 0 || x < 0 || z < 0 || x >= SIZE || z >= SIZE
+              ? BEDROCK
+              : AIR
+        const solid = (id) =>
+          id !== AIR &&
+          id !== LIQUID &&
+          id !== TORCH &&
+          id !== POPPY &&
+          id !== DAISY
+        const put = (x, y, z, id) => {
+          if (inBounds(x, y, z)) world[index(x, y, z)] = id
+        }
+        function hash(x, z, salt = 0) {
+          let n =
+            Math.imul(x ^ seed, 374761393) ^ Math.imul(z + salt, 668265263)
+          n = Math.imul(n ^ (n >>> 13), 1274126177)
+          return ((n ^ (n >>> 16)) >>> 0) / 4294967295
+        }
+        function noise(x, z, salt = 0) {
+          const ix = Math.floor(x),
+            iz = Math.floor(z),
+            fx = x - ix,
+            fz = z - iz
+          const u = fx * fx * (3 - 2 * fx),
+            v = fz * fz * (3 - 2 * fz)
+          return THREE.MathUtils.lerp(
+            THREE.MathUtils.lerp(hash(ix, iz, salt), hash(ix + 1, iz, salt), u),
+            THREE.MathUtils.lerp(
+              hash(ix, iz + 1, salt),
+              hash(ix + 1, iz + 1, salt),
+              u
+            ),
+            v
+          )
+        }
+        try {
+          const data = JSON.parse(
+            localStorage.getItem("little-shores-world-v1") || "null"
+          )
+          if (data && data.version === 1 && Number.isInteger(data.seed)) {
+            saved = data
+            seed = data.seed
+          }
+        } catch {
+          saveAvailable = false
+        }
+        let renderer
+        try {
+          renderer = new THREE.WebGLRenderer({
+            canvas,
+            antialias: false,
+            powerPreference: "high-performance",
+          })
+        } catch {
+          $("load-status").textContent =
+            "WebGL is unavailable. Try a browser with hardware acceleration enabled."
+          $("play").textContent = "3D graphics unavailable"
+          return
+        }
+        renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75))
+        renderer.setSize(innerWidth, innerHeight)
+        renderer.outputColorSpace = THREE.SRGBColorSpace
+        renderer.toneMapping = THREE.ACESFilmicToneMapping
+        renderer.toneMappingExposure = 1.1
+        const scene = new THREE.Scene()
+        scene.background = new THREE.Color(0xa5d2e0)
+        scene.fog = new THREE.Fog(0xa5d2e0, 40, 115)
+        const camera = new THREE.PerspectiveCamera(
+          72,
+          innerWidth / innerHeight,
+          0.04,
+          200
+        )
+        camera.rotation.order = "YXZ"
+        scene.add(camera)
+        const hemi = new THREE.HemisphereLight(0xe2f0ff, 0x60714b, 2.2)
+        scene.add(hemi)
+        const sun = new THREE.DirectionalLight(0xffe1ac, 2.4)
+        sun.position.set(-30, 70, 20)
+        scene.add(sun)
+        const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+        const simpleMaterials = new Map()
+        function material(color) {
+          if (!simpleMaterials.has(color))
+            simpleMaterials.set(color, new THREE.MeshLambertMaterial({ color }))
+          return simpleMaterials.get(color)
+        }
+        function cube(parent, color, x, y, z, sx, sy, sz) {
+          const mesh = new THREE.Mesh(boxGeometry, material(color))
+          mesh.position.set(x, y, z)
+          mesh.scale.set(sx, sy, sz)
+          parent.add(mesh)
+          return mesh
+        }
+        const atlas = document.createElement("canvas")
+        atlas.width = 128
+        atlas.height = 64
+        const paint = atlas.getContext("2d"),
+          TILE = 16,
+          COLS = 8,
+          ROWS = 4
+        function tileFill(tile, color, variation = 20) {
+          const x = (tile % COLS) * TILE,
+            y = Math.floor(tile / COLS) * TILE,
+            base = new THREE.Color(color)
+          paint.fillStyle = color
+          paint.fillRect(x, y, TILE, TILE)
+          for (let py = 0; py < TILE; py++)
+            for (let px = 0; px < TILE; px++) {
+              const shade = (hash(px + tile * 31, py, 97) - 0.5) * variation
+              paint.fillStyle = `rgb(${clamp(Math.round(base.r ** (1 / 2.2) * 255 + shade), 0, 255)},${clamp(Math.round(base.g ** (1 / 2.2) * 255 + shade), 0, 255)},${clamp(Math.round(base.b ** (1 / 2.2) * 255 + shade), 0, 255)})`
+              paint.fillRect(x + px, y + py, 1, 1)
+            }
+        }
+        function drawAtlas() {
+          paint.clearRect(0, 0, atlas.width, atlas.height)
+          const palette = [
+            "#77a548",
+            "#8e6846",
+            "#8e6846",
+            "#8a938c",
+            "#b1935d",
+            "#7c603d",
+            "#4d823d",
+            "#dcca96",
+            "#b89a67",
+            "#bdd9d7",
+            "#559bad",
+            "#46534d",
+            "#92663d",
+            "#89918b",
+            "#000000",
+            "#000000",
+            "#977044",
+            "#a38154",
+            "#b48a4d",
+          ]
+          palette.forEach((color, tile) =>
+            tileFill(tile, color, tile === 10 ? 10 : 28)
+          )
+          const at = (tile, color, x, y, w, h) => {
+            paint.fillStyle = color
+            paint.fillRect(
+              (tile % COLS) * TILE + x,
+              Math.floor(tile / COLS) * TILE + y,
+              w,
+              h
+            )
+          }
+          for (let x = 0; x < 16; x++)
+            at(1, "#78a04b", x, 0, 1, 3 + Math.floor(hash(x, 2) * 4))
+          for (let x = 0; x < 16; x += 4) {
+            at(5, "#5b462e", x, 0, 1, 16)
+            at(5, "#a18050", x + 2, 0, 1, 16)
+          }
+          for (let r = 2; r < 8; r += 2) {
+            paint.strokeStyle = r % 4 ? "#82653e" : "#c4a16b"
+            paint.strokeRect(4 * 16 + r, r, 16 - r * 2, 16 - r * 2)
+          }
+          for (let y = 0; y < 16; y += 4) {
+            at(8, "#78613e", 0, y, 16, 1)
+            at(8, "#78613e", ((y / 4) % 2) * 8, y, 1, 4)
+          }
+          paint.clearRect(16, 16, 16, 16)
+          at(9, "#bedfdf20", 0, 0, 16, 16)
+          at(9, "#e4f5e9", 0, 0, 16, 1)
+          at(9, "#e4f5e9", 0, 0, 1, 16)
+          at(9, "#e4f5e9", 15, 0, 1, 16)
+          at(9, "#e4f5e9", 0, 15, 16, 1)
+          at(9, "#effbf1", 3, 3, 2, 5)
+          at(9, "#effbf1", 5, 2, 2, 2)
+          for (let i = 0; i < 10; i++)
+            at(
+              13,
+              "#343b36",
+              Math.floor(hash(i, 15) * 14),
+              Math.floor(hash(i, 18) * 14),
+              2,
+              2
+            )
+          at(12, "#f7ce6a", 0, 0, 16, 5)
+          at(12, "#f1a74e", 0, 4, 16, 3)
+          for (const tile of [14, 15]) {
+            paint.clearRect(
+              (tile % COLS) * TILE,
+              Math.floor(tile / COLS) * TILE,
+              16,
+              16
+            )
+            at(tile, "#4d7c36", 7, 6, 2, 10)
+            at(tile, "#629640", 4, 9, 4, 2)
+            at(tile, tile === 14 ? "#cc5144" : "#fff0bb", 4, 2, 8, 6)
+            at(tile, "#e6bd57", 7, 4, 2, 2)
+          }
+          for (const tile of [16, 17]) {
+            at(tile, "#67472e", 0, 0, 16, 2)
+            at(tile, "#67472e", 0, 14, 16, 2)
+            for (let i = 3; i < 16; i += 5) at(tile, "#65462e", i, 2, 1, 12)
+          }
+          at(18, "#60492e", 0, 0, 16, 2)
+          at(18, "#60492e", 0, 6, 16, 2)
+          at(18, "#60492e", 0, 14, 16, 2)
+          at(18, "#e4d49d", 7, 5, 2, 5)
+        }
+        drawAtlas()
+        const texture = new THREE.CanvasTexture(atlas)
+        texture.magFilter = THREE.NearestFilter
+        texture.minFilter = THREE.NearestFilter
+        texture.generateMipmaps = false
+        texture.colorSpace = THREE.SRGBColorSpace
+        const blockMaterial = new THREE.MeshLambertMaterial({
+          map: texture,
+          vertexColors: true,
+          alphaTest: 0.25,
+        })
+        const waterMaterial = new THREE.MeshLambertMaterial({
+          map: texture,
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.58,
+          depthWrite: false,
+          side: THREE.DoubleSide,
+        })
+        const faces = [
+          {
+            n: [1, 0, 0],
+            v: [
+              [1, 0, 1],
+              [1, 0, 0],
+              [1, 1, 1],
+              [1, 1, 0],
+            ],
+            shade: 0.83,
+          },
+          {
+            n: [-1, 0, 0],
+            v: [
+              [0, 0, 0],
+              [0, 0, 1],
+              [0, 1, 0],
+              [0, 1, 1],
+            ],
+            shade: 0.72,
+          },
+          {
+            n: [0, 1, 0],
+            v: [
+              [0, 1, 1],
+              [1, 1, 1],
+              [0, 1, 0],
+              [1, 1, 0],
+            ],
+            shade: 1,
+          },
+          {
+            n: [0, -1, 0],
+            v: [
+              [0, 0, 0],
+              [1, 0, 0],
+              [0, 0, 1],
+              [1, 0, 1],
+            ],
+            shade: 0.55,
+          },
+          {
+            n: [0, 0, 1],
+            v: [
+              [0, 0, 1],
+              [1, 0, 1],
+              [0, 1, 1],
+              [1, 1, 1],
+            ],
+            shade: 0.87,
+          },
+          {
+            n: [0, 0, -1],
+            v: [
+              [1, 0, 0],
+              [0, 0, 0],
+              [1, 1, 0],
+              [0, 1, 0],
+            ],
+            shade: 0.77,
+          },
+        ]
+        function generate() {
+          world.fill(0)
+          for (let z = 0; z < SIZE; z++)
+            for (let x = 0; x < SIZE; x++) {
+              const d = Math.hypot((x - 48) / 1.08, (z - 43) / 0.95)
+              const edge = Math.min(x, z, SIZE - x - 1, SIZE - z - 1)
+              let h = Math.floor(
+                10 + noise(x / 22, z / 22) * 8 + noise(x / 8, z / 8, 2) * 3
+              )
+              if (d < 18) h = Math.floor(5 + (d / 18) ** 2 * 3)
+              else if (d < 23) h = Math.floor(9 + ((h - 9) * (d - 18)) / 5)
+              if (edge < 9) h = Math.min(h, Math.floor(5 + edge * 0.65))
+              surfaces[x + z * SIZE] = h
+              for (let y = 0; y <= h; y++) {
+                let id =
+                  y === 0
+                    ? BEDROCK
+                    : y < h - 3
+                      ? STONE
+                      : y === h
+                        ? h < WATER + 1
+                          ? SAND
+                          : GRASS
+                        : DIRT
+                if (id === STONE && hash(x + y * 71, z, 14) > 0.955) id = COAL
+                if (
+                  y > 2 &&
+                  y < h - 3 &&
+                  d > 24 &&
+                  noise(x / 7 + y * 0.11, z / 7, 58) > 0.72 &&
+                  Math.abs(y - (5 + noise(x / 14, z / 14, 29) * 6)) < 1.6
+                )
+                  id = AIR
+                put(x, y, z, id)
+              }
+              for (let y = h + 1; y < WATER; y++) put(x, y, z, LIQUID)
+            }
+          for (let z = 5; z < SIZE - 5; z++)
+            for (let x = 5; x < SIZE - 5; x++) {
+              const h = surfaces[x + z * SIZE]
+              if (
+                block(x, h, z) !== GRASS ||
+                (x > 42 && x < 65 && z > 48 && z < 75)
+              )
+                continue
+              if (hash(x, z, 7) > 0.92 && x % 3 === 0 && z % 3 === 0) {
+                const trunk = 4 + Math.floor(hash(x, z, 8) * 2)
+                for (let y = 1; y <= trunk; y++) put(x, h + y, z, LOG)
+                for (let dy = trunk - 2; dy <= trunk + 1; dy++)
+                  for (let dz = -2; dz <= 2; dz++)
+                    for (let dx = -2; dx <= 2; dx++) {
+                      if (
+                        Math.abs(dx) + Math.abs(dz) >
+                        (dy === trunk + 1 ? 1 : 3)
+                      )
+                        continue
+                      if (block(x + dx, h + dy, z + dz) === AIR)
+                        put(x + dx, h + dy, z + dz, LEAVES)
+                    }
+              } else if (hash(x, z, 33) > 0.94)
+                put(x, h + 1, z, hash(x, z, 34) > 0.5 ? POPPY : DAISY)
+            }
+          for (let z = 61; z <= 74; z++)
+            for (let x = 43; x <= 64; x++) {
+              for (let y = 1; y < HEIGHT; y++)
+                put(x, y, z, y <= 8 ? DIRT : y === 9 ? GRASS : AIR)
+              surfaces[x + z * SIZE] = 9
+            }
+          for (let z = 50; z <= 65; z++)
+            for (let x = 47; x <= 49; x++) {
+              put(x, 9, z, PLANKS)
+              for (let y = 10; y < HEIGHT; y++) put(x, y, z, AIR)
+              if (z % 5 === 0 && x !== 48) {
+                for (let y = 6; y <= 10; y++) put(x, y, z, LOG)
+              }
+            }
+          put(47, 11, 50, TORCH)
+          put(49, 11, 50, TORCH)
+          for (let z = 64; z <= 70; z++)
+            for (let x = 55; x <= 61; x++) {
+              put(x, 9, z, PLANKS)
+              const edge = x === 55 || x === 61 || z === 64 || z === 70
+              for (let y = 10; y <= 12; y++)
+                put(
+                  x,
+                  y,
+                  z,
+                  edge
+                    ? (x === 55 || x === 61) && (z === 64 || z === 70)
+                      ? LOG
+                      : PLANKS
+                    : AIR
+                )
+            }
+          for (const x of [56, 57, 59, 60]) put(x, 11, 64, GLASS)
+          for (const z of [66, 67, 68]) {
+            put(55, 11, z, GLASS)
+            put(61, 11, z, GLASS)
+          }
+          put(58, 10, 64, AIR)
+          put(58, 11, 64, AIR)
+          for (let z = 63; z <= 71; z++)
+            for (let x = 54; x <= 62; x++) put(x, 13, z, PLANKS)
+          for (let z = 64; z <= 70; z++)
+            for (let x = 55; x <= 61; x++) put(x, 14, z, PLANKS)
+          put(56, 10, 68, BENCH)
+          put(60, 10, 68, CHEST)
+          put(56, 10, 65, TORCH)
+        }
+        function restore() {
+          if (!saved) return
+          if (Array.isArray(saved.edits))
+            for (const item of saved.edits) {
+              if (!Array.isArray(item) || item.length !== 2) continue
+              const [key, id] = item
+              if (
+                Number.isInteger(key) &&
+                key >= SIZE * SIZE &&
+                key < world.length &&
+                Number.isInteger(id) &&
+                (id === AIR || definitions[id]) &&
+                id !== BEDROCK &&
+                id !== LIQUID
+              ) {
+                world[key] = id
+                edits.set(key, id)
+              }
+            }
+          if (saved.inventory && typeof saved.inventory === "object")
+            for (const id of Object.keys(inventory))
+              if (
+                Number.isInteger(saved.inventory[id]) &&
+                saved.inventory[id] >= 0 &&
+                saved.inventory[id] <= 99999
+              )
+                inventory[id] = saved.inventory[id]
+          if (saved.journal && typeof saved.journal === "object")
+            for (const fish of species) {
+              const entry = saved.journal[fish.name]
+              if (
+                entry &&
+                Number.isInteger(entry.count) &&
+                entry.count >= 0 &&
+                Number.isFinite(entry.best) &&
+                entry.best >= 0
+              )
+                journal[fish.name] = { count: entry.count, best: entry.best }
+            }
+          if (Number.isFinite(saved.xp) && saved.xp >= 0) xp = saved.xp
+          if (Number.isFinite(saved.clock) && saved.clock >= 0)
+            clock = saved.clock
+          if (
+            Array.isArray(saved.position) &&
+            saved.position.length === 3 &&
+            saved.position.every(Number.isFinite)
+          )
+            savedPosition = saved.position
+          if (Number.isFinite(saved.yaw)) yaw = saved.yaw
+          if (Number.isFinite(saved.pitch))
+            pitch = clamp(saved.pitch, -1.45, 1.45)
+          if (Array.isArray(saved.hotbar) && saved.hotbar.length === 9)
+            for (let i = 0; i < 8; i++)
+              if (
+                definitions[saved.hotbar[i]] &&
+                saved.hotbar[i] !== BEDROCK &&
+                saved.hotbar[i] !== LIQUID &&
+                saved.hotbar[i] !== COAL
+              )
+                hotbar[i] = saved.hotbar[i]
+        }
+        function appendFace(
+          data,
+          x,
+          y,
+          z,
+          face,
+          tile,
+          shade,
+          scale = [1, 1, 1],
+          offset = [0, 0, 0]
+        ) {
+          const uv = [
+              [0, 0],
+              [1, 0],
+              [0, 1],
+              [1, 1],
+            ],
+            order = [0, 1, 2, 2, 1, 3]
+          for (const i of order) {
+            const v = face.v[i]
+            data.p.push(
+              x + offset[0] + v[0] * scale[0],
+              y + offset[1] + v[1] * scale[1],
+              z + offset[2] + v[2] * scale[2]
+            )
+            data.n.push(...face.n)
+            data.uv.push(
+              ((tile % COLS) + 0.002 + uv[i][0] * 0.996) / COLS,
+              1 -
+                (Math.floor(tile / COLS) + 0.002 + (1 - uv[i][1]) * 0.996) /
+                  ROWS
+            )
+            data.c.push(shade, shade, shade)
+          }
+        }
+        function makeChunk(cx, cz) {
+          const key = cx + "," + cz,
+            old = chunks.get(key)
+          if (old) {
+            scene.remove(old)
+            old.traverse((o) => {
+              if (o.geometry) o.geometry.dispose()
+            })
+          }
+          const group = new THREE.Group(),
+            opaque = { p: [], n: [], uv: [], c: [] },
+            water = { p: [], n: [], uv: [], c: [] }
+          for (let z = cz * CHUNK; z < (cz + 1) * CHUNK; z++)
+            for (let x = cx * CHUNK; x < (cx + 1) * CHUNK; x++)
+              for (let y = 0; y < HEIGHT; y++) {
+                const id = block(x, y, z)
+                if (!id) continue
+                const def = definitions[id]
+                if (id === POPPY || id === DAISY) {
+                  const cross = [
+                    {
+                      n: [0, 0, 1],
+                      v: [
+                        [0.1, 0, 0.5],
+                        [0.9, 0, 0.5],
+                        [0.1, 1, 0.5],
+                        [0.9, 1, 0.5],
+                      ],
+                    },
+                    {
+                      n: [0, 0, -1],
+                      v: [
+                        [0.9, 0, 0.5],
+                        [0.1, 0, 0.5],
+                        [0.9, 1, 0.5],
+                        [0.1, 1, 0.5],
+                      ],
+                    },
+                    {
+                      n: [1, 0, 0],
+                      v: [
+                        [0.5, 0, 0.9],
+                        [0.5, 0, 0.1],
+                        [0.5, 1, 0.9],
+                        [0.5, 1, 0.1],
+                      ],
+                    },
+                    {
+                      n: [-1, 0, 0],
+                      v: [
+                        [0.5, 0, 0.1],
+                        [0.5, 0, 0.9],
+                        [0.5, 1, 0.1],
+                        [0.5, 1, 0.9],
+                      ],
+                    },
+                  ]
+                  for (const face of cross)
+                    appendFace(opaque, x, y, z, face, def.tile, 1)
+                  continue
+                }
+                if (id === TORCH) {
+                  for (const face of faces)
+                    appendFace(
+                      opaque,
+                      x,
+                      y,
+                      z,
+                      face,
+                      def.tile,
+                      1.4,
+                      [0.13, 0.7, 0.13],
+                      [0.435, 0, 0.435]
+                    )
+                  continue
+                }
+                for (let f = 0; f < 6; f++) {
+                  const face = faces[f],
+                    neighbor = block(
+                      x + face.n[0],
+                      y + face.n[1],
+                      z + face.n[2]
+                    )
+                  if (
+                    id === LIQUID
+                      ? neighbor === LIQUID || solid(neighbor)
+                      : solid(neighbor) && neighbor !== GLASS
+                  )
+                    continue
+                  if (id === GLASS && neighbor === GLASS) continue
+                  const tile =
+                    f === 2
+                      ? def.tile
+                      : f === 3
+                        ? (def.bottom ?? def.tile)
+                        : (def.side ?? def.tile)
+                  const shade =
+                    face.shade * (0.94 + hash(x, z + y * 113, 41) * 0.06)
+                  appendFace(
+                    id === LIQUID ? water : opaque,
+                    x,
+                    y,
+                    z,
+                    face,
+                    tile,
+                    shade
+                  )
+                }
+              }
+          for (const [data, mat] of [
+            [opaque, blockMaterial],
+            [water, waterMaterial],
+          ]) {
+            if (!data.p.length) continue
+            const geometry = new THREE.BufferGeometry()
+            geometry.setAttribute(
+              "position",
+              new THREE.Float32BufferAttribute(data.p, 3)
+            )
+            geometry.setAttribute(
+              "normal",
+              new THREE.Float32BufferAttribute(data.n, 3)
+            )
+            geometry.setAttribute(
+              "uv",
+              new THREE.Float32BufferAttribute(data.uv, 2)
+            )
+            geometry.setAttribute(
+              "color",
+              new THREE.Float32BufferAttribute(data.c, 3)
+            )
+            geometry.computeBoundingSphere()
+            group.add(new THREE.Mesh(geometry, mat))
+          }
+          chunks.set(key, group)
+          scene.add(group)
+        }
+        const torchLights = Array.from({ length: 6 }, () => {
+          const light = new THREE.PointLight(0xffbf65, 0, 9, 2)
+          scene.add(light)
+          return light
+        })
+        function updateTorches() {
+          const list = []
+          for (
+            let z = Math.max(0, Math.floor(position.z - 12));
+            z < Math.min(SIZE, position.z + 12);
+            z++
+          )
+            for (
+              let x = Math.max(0, Math.floor(position.x - 12));
+              x < Math.min(SIZE, position.x + 12);
+              x++
+            )
+              for (
+                let y = Math.max(0, Math.floor(position.y - 7));
+                y < Math.min(HEIGHT, position.y + 8);
+                y++
+              )
+                if (block(x, y, z) === TORCH)
+                  list.push({
+                    x,
+                    y,
+                    z,
+                    d: (position.x - x) ** 2 + (position.z - z) ** 2,
+                  })
+          list.sort((a, b) => a.d - b.d)
+          torchLights.forEach((light, i) => {
+            if (list[i]) {
+              light.position.set(
+                list[i].x + 0.5,
+                list[i].y + 0.7,
+                list[i].z + 0.5
+              )
+              light.intensity = 7
+            } else light.intensity = 0
+          })
+        }
+        function changeBlock(x, y, z, id) {
+          if (!inBounds(x, y, z) || y === 0) return
+          put(x, y, z, id)
+          edits.set(index(x, y, z), id)
+          const cx = Math.floor(x / CHUNK),
+            cz = Math.floor(z / CHUNK)
+          dirtyChunks.add(cx + "," + cz)
+          if (x % CHUNK === 0 && cx > 0) dirtyChunks.add(cx - 1 + "," + cz)
+          if (x % CHUNK === CHUNK - 1 && cx < SIZE / CHUNK - 1)
+            dirtyChunks.add(cx + 1 + "," + cz)
+          if (z % CHUNK === 0 && cz > 0) dirtyChunks.add(cx + "," + (cz - 1))
+          if (z % CHUNK === CHUNK - 1 && cz < SIZE / CHUNK - 1)
+            dirtyChunks.add(cx + "," + (cz + 1))
+          dirtySave = true
+          updateTorches()
+        }
+        generate()
+        restore()
+        for (let cz = 0; cz < SIZE / CHUNK; cz++)
+          for (let cx = 0; cx < SIZE / CHUNK; cx++) makeChunk(cx, cz)
+        const outerWaterMaterial = new THREE.MeshLambertMaterial({
+          color: 0x4b94b1,
+          transparent: true,
+          opacity: 0.82,
+        })
+        for (const [x, z, w, d] of [
+          [48, -48, 288, 96],
+          [48, 144, 288, 96],
+          [-48, 48, 96, 96],
+          [144, 48, 96, 96],
+        ]) {
+          const outerWater = new THREE.Mesh(
+            new THREE.PlaneGeometry(w, d),
+            outerWaterMaterial
+          )
+          outerWater.rotation.x = -Math.PI / 2
+          outerWater.position.set(x, WATER - 0.025, z)
+          scene.add(outerWater)
+        }
+        const cloudMaterial = new THREE.MeshLambertMaterial({
+          color: 0xfffbeb,
+          transparent: true,
+          opacity: 0.9,
+        })
+        const clouds = new THREE.Group()
+        scene.add(clouds)
+        for (let i = 0; i < 16; i++) {
+          const cloud = new THREE.Mesh(boxGeometry, cloudMaterial)
+          cloud.position.set(
+            hash(i, 1, 50) * 180 - 40,
+            31 + hash(i, 2, 50) * 6,
+            hash(i, 3, 50) * 180 - 40
+          )
+          cloud.scale.set(6 + hash(i, 4) * 10, 0.8, 3 + hash(i, 5) * 4)
+          clouds.add(cloud)
+        }
+        const sunMesh = new THREE.Mesh(
+          new THREE.PlaneGeometry(10, 10),
+          new THREE.MeshBasicMaterial({ color: 0xfff3bc, fog: false })
+        )
+        sunMesh.position.set(-65, 60, -70)
+        sunMesh.lookAt(48, 0, 48)
+        scene.add(sunMesh)
+        const selection = new THREE.LineSegments(
+          new THREE.EdgesGeometry(new THREE.BoxGeometry(1.008, 1.008, 1.008)),
+          new THREE.LineBasicMaterial({
+            color: 0x222a20,
+            transparent: true,
+            opacity: 0.8,
+          })
+        )
+        scene.add(selection)
+        selection.visible = false
+        const crackMaterials = Array.from({ length: 8 }, (_, stage) => {
+          const c = document.createElement("canvas")
+          c.width = c.height = 32
+          const p = c.getContext("2d")
+          p.strokeStyle = "#233026"
+          p.lineWidth = 1.5
+          for (let n = 0; n <= stage + 2; n++) {
+            p.beginPath()
+            p.moveTo(16, 16)
+            const angle = n * 2.399
+            p.lineTo(
+              16 + Math.cos(angle) * (6 + stage * 1.8),
+              16 + Math.sin(angle) * (6 + stage * 1.8)
+            )
+            p.lineTo(
+              16 + Math.cos(angle + 0.35) * (10 + stage * 2),
+              16 + Math.sin(angle + 0.35) * (10 + stage * 2)
+            )
+            p.stroke()
+          }
+          const t = new THREE.CanvasTexture(c)
+          t.magFilter = THREE.NearestFilter
+          t.minFilter = THREE.NearestFilter
+          return new THREE.MeshBasicMaterial({
+            map: t,
+            transparent: true,
+            depthWrite: false,
+            polygonOffset: true,
+            polygonOffsetFactor: -2,
+          })
+        })
+        const cracks = new THREE.Mesh(
+          new THREE.BoxGeometry(1.006, 1.006, 1.006),
+          crackMaterials[0]
+        )
+        cracks.visible = false
+        scene.add(cracks)
+        const hand = new THREE.Group()
+        camera.add(hand)
+        hand.position.set(0.4, -0.38, -0.65)
+        const arm = cube(hand, 0xd2a27a, 0.06, -0.06, 0.03, 0.18, 0.4, 0.18)
+        arm.rotation.z = -0.18
+        const sleeve = cube(hand, 0x609c93, 0.08, -0.24, 0.04, 0.19, 0.2, 0.19)
+        const heldBlock = new THREE.Mesh(
+          new THREE.BoxGeometry(0.25, 0.25, 0.25),
+          material(0xb89a67)
+        )
+        heldBlock.position.set(0.04, 0.12, -0.07)
+        heldBlock.rotation.set(0.1, 0.5, 0.1)
+        hand.add(heldBlock)
+        const rod = new THREE.Group()
+        hand.add(rod)
+        const rodStick = cube(rod, 0x735032, 0, 0.22, -0.03, 0.035, 0.72, 0.035)
+        rodStick.rotation.z = -0.35
+        const rodGrip = cube(
+          rod,
+          0x453926,
+          -0.07,
+          -0.03,
+          -0.03,
+          0.06,
+          0.22,
+          0.06
+        )
+        rodGrip.rotation.z = -0.35
+        const rodTip = new THREE.Object3D()
+        rodTip.position.set(0.13, 0.56, -0.03)
+        rod.add(rodTip)
+        cube(rod, 0xc5c7b0, 0.02, 0.13, -0.02, 0.08, 0.09, 0.08)
+        const bobber = new THREE.Group()
+        cube(bobber, 0xf2e5c5, 0, 0, 0, 0.14, 0.13, 0.14)
+        cube(bobber, 0xc55343, 0, 0.08, 0, 0.12, 0.07, 0.12)
+        cube(bobber, 0x3d4239, 0, 0.15, 0, 0.025, 0.08, 0.025)
+        scene.add(bobber)
+        bobber.visible = false
+        const linePoints = new Float32Array(24 * 3),
+          lineGeometry = new THREE.BufferGeometry()
+        lineGeometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(linePoints, 3)
+        )
+        const fishingLine = new THREE.Line(
+          lineGeometry,
+          new THREE.LineBasicMaterial({ color: 0x302d25 })
+        )
+        fishingLine.frustumCulled = false
+        fishingLine.visible = false
+        scene.add(fishingLine)
+        const rippleGeometry = new THREE.RingGeometry(0.14, 0.19, 16)
+        rippleGeometry.rotateX(-Math.PI / 2)
+        function ripple(x, z, size = 1) {
+          const mesh = new THREE.Mesh(
+            rippleGeometry,
+            new THREE.MeshBasicMaterial({
+              color: 0xd5eee4,
+              transparent: true,
+              opacity: 0.6,
+              depthWrite: false,
+              side: THREE.DoubleSide,
+            })
+          )
+          mesh.position.set(x, WATER + 0.025, z)
+          scene.add(mesh)
+          waterRipples.push({ mesh, age: 0, size })
+        }
+        function splash(point, color = 0xa8d6df, count = 10) {
+          for (let i = 0; i < count; i++) {
+            const mesh = new THREE.Mesh(boxGeometry, material(color))
+            mesh.scale.setScalar(0.035 + Math.random() * 0.04)
+            mesh.position.copy(point)
+            scene.add(mesh)
+            particlePool.push({
+              mesh,
+              velocity: new THREE.Vector3(
+                (Math.random() - 0.5) * 2,
+                1 + Math.random() * 2,
+                (Math.random() - 0.5) * 2
+              ),
+              age: 0,
+            })
+          }
+        }
+        function fishModel(color, size = 1) {
+          const g = new THREE.Group()
+          cube(g, color, 0, 0, 0, 0.36, 0.16, 0.12)
+          cube(g, color, -0.22, 0, 0, 0.13, 0.23, 0.07)
+          cube(g, 0x242d26, 0.12, 0.025, 0.065, 0.025, 0.025, 0.015)
+          g.scale.setScalar(size)
+          return g
+        }
+        for (let i = 0; i < 9; i++) {
+          const mesh = fishModel(i % 2 ? 0x9d9275 : 0xd48c72)
+          scene.add(mesh)
+          fishSchools.push({
+            mesh,
+            angle: i * 0.7,
+            radius: 4 + i * 0.7,
+            depth: 6.5 + (i % 3) * 0.4,
+            speed: 0.13 + i * 0.012,
+          })
+        }
+        function groundAt(x, z) {
+          for (let y = HEIGHT - 1; y >= 0; y--)
+            if (solid(block(Math.floor(x), y, Math.floor(z)))) return y + 1
+          return 1
+        }
+        for (let i = 0; i < 5; i++) {
+          const g = new THREE.Group()
+          cube(g, 0xd9dfcb, 0, 0.7, 0, 0.85, 0.65, 0.5)
+          cube(g, 0x696657, 0.49, 0.85, 0, 0.35, 0.37, 0.32)
+          for (const x of [-0.25, 0.25])
+            for (const z of [-0.16, 0.16])
+              cube(g, 0x645d50, x, 0.25, z, 0.11, 0.45, 0.11)
+          cube(g, 0x202821, 0.67, 0.89, -0.1, 0.025, 0.045, 0.045)
+          cube(g, 0x202821, 0.67, 0.89, 0.1, 0.025, 0.045, 0.045)
+          const x = [27, 31, 69, 73, 36][i],
+            z = [64, 68, 58, 64, 75][i]
+          g.position.set(x, groundAt(x, z), z)
+          scene.add(g)
+          sheep.push({
+            mesh: g,
+            angle: hash(i, 3) * Math.PI * 2,
+            timer: 2 + i,
+            moving: true,
+          })
+        }
+        function intersectsPlayer(x, y, z) {
+          return (
+            position.x + RADIUS > x &&
+            position.x - RADIUS < x + 1 &&
+            position.z + RADIUS > z &&
+            position.z - RADIUS < z + 1 &&
+            position.y + BODY > y &&
+            position.y < y + 1
+          )
+        }
+        function canStand(x, y, z) {
+          for (
+            let bx = Math.floor(x - RADIUS);
+            bx <= Math.floor(x + RADIUS);
+            bx++
+          )
+            for (
+              let by = Math.floor(y + 0.001);
+              by <= Math.floor(y + BODY - 0.001);
+              by++
+            )
+              for (
+                let bz = Math.floor(z - RADIUS);
+                bz <= Math.floor(z + RADIUS);
+                bz++
+              )
+                if (solid(block(bx, by, bz))) return false
+          return true
+        }
+        if (
+          savedPosition &&
+          savedPosition[0] > 1 &&
+          savedPosition[0] < SIZE - 1 &&
+          savedPosition[2] > 1 &&
+          savedPosition[2] < SIZE - 1 &&
+          savedPosition[1] > 0 &&
+          savedPosition[1] < HEIGHT &&
+          canStand(...savedPosition)
+        )
+          position.set(...savedPosition)
+        function notify(text, duration = 3) {
+          $("toast").textContent = text
+          $("toast").hidden = false
+          toastTime = duration
+        }
+        function initAudio() {
+          if (!audio) {
+            try {
+              audio = new AudioContext()
+            } catch {
+              muted = true
+              $("mute-button").textContent = "Sound unavailable"
+              return
+            }
+          }
+          if (audio.state === "suspended")
+            audio.resume().catch(() => {
+              muted = true
+              $("mute-button").textContent = "Sound unavailable"
+            })
+        }
+        function tone(
+          frequency,
+          duration = 0.1,
+          volume = 0.035,
+          end = frequency
+        ) {
+          if (!audio || muted || audio.state !== "running") return
+          const o = audio.createOscillator(),
+            g = audio.createGain()
+          o.type = "triangle"
+          o.frequency.setValueAtTime(frequency, audio.currentTime)
+          o.frequency.exponentialRampToValueAtTime(
+            Math.max(20, end),
+            audio.currentTime + duration
+          )
+          g.gain.setValueAtTime(volume, audio.currentTime)
+          g.gain.exponentialRampToValueAtTime(
+            0.001,
+            audio.currentTime + duration
+          )
+          o.connect(g)
+          g.connect(audio.destination)
+          o.start()
+          o.stop(audio.currentTime + duration)
+        }
+        function noiseSound(duration = 0.12, frequency = 700, volume = 0.04) {
+          if (!audio || muted || audio.state !== "running") return
+          const buffer = audio.createBuffer(
+              1,
+              Math.ceil(audio.sampleRate * duration),
+              audio.sampleRate
+            ),
+            data = buffer.getChannelData(0)
+          for (let i = 0; i < data.length; i++)
+            data[i] = (Math.random() * 2 - 1) * (1 - i / data.length)
+          const source = audio.createBufferSource(),
+            filter = audio.createBiquadFilter(),
+            gain = audio.createGain()
+          source.buffer = buffer
+          filter.type = "lowpass"
+          filter.frequency.value = frequency
+          gain.gain.value = volume
+          source.connect(filter)
+          filter.connect(gain)
+          gain.connect(audio.destination)
+          source.start()
+        }
+        function saveWorld() {
+          if (!ready || resetting) return
+          const data = {
+            version: 1,
+            seed,
+            edits: [...edits],
+            inventory,
+            hotbar,
+            journal,
+            xp,
+            clock,
+            position: position.toArray(),
+            yaw,
+            pitch,
+          }
+          try {
+            localStorage.setItem("little-shores-world-v1", JSON.stringify(data))
+            dirtySave = false
+            saveAvailable = true
+            $("save-status").textContent = "World saved on this device"
+          } catch {
+            saveAvailable = false
+            $("save-status").textContent =
+              "Storage unavailable. Keep this tab open to retain your world."
+          }
+        }
+        function totalCatches() {
+          return Object.values(journal).reduce(
+            (sum, item) => sum + item.count,
+            0
+          )
+        }
+        function icon(id) {
+          const c = document.createElement("canvas")
+          c.width = c.height = 32
+          const p = c.getContext("2d")
+          p.imageSmoothingEnabled = false
+          if (id === AIR) {
+            p.fillStyle = "#7c5836"
+            for (let n = 0; n < 5; n++) p.fillRect(7 + n * 3, 25 - n * 4, 3, 7)
+            p.strokeStyle = "#d8dac4"
+            p.lineWidth = 1
+            p.beginPath()
+            p.moveTo(22, 5)
+            p.lineTo(27, 23)
+            p.lineTo(24, 26)
+            p.stroke()
+            p.fillStyle = "#c9cbb8"
+            p.fillRect(10, 20, 6, 5)
+            return c
+          }
+          const def = definitions[id],
+            tile = def.side ?? def.tile
+          p.drawImage(
+            atlas,
+            (tile % COLS) * TILE,
+            Math.floor(tile / COLS) * TILE,
+            TILE,
+            TILE,
+            5,
+            9,
+            22,
+            20
+          )
+          p.fillStyle = def.color
+          p.beginPath()
+          p.moveTo(5, 9)
+          p.lineTo(11, 3)
+          p.lineTo(31, 3)
+          p.lineTo(27, 9)
+          p.closePath()
+          p.fill()
+          p.fillStyle = "#20332644"
+          p.fillRect(22, 9, 5, 20)
+          if (id === TORCH) {
+            p.clearRect(0, 0, 32, 32)
+            p.fillStyle = "#805832"
+            p.fillRect(14, 10, 5, 20)
+            p.fillStyle = "#ffd06b"
+            p.fillRect(12, 3, 9, 10)
+          }
+          return c
+        }
+        const slotElements = hotbar.map((id, i) => {
+          const button = document.createElement("button")
+          button.className = "slot"
+          button.setAttribute(
+            "aria-label",
+            `${i + 1}: ${id ? definitions[id].name : "Fishing rod"}`
+          )
+          button.setAttribute("aria-pressed", String(i === selected))
+          const key = document.createElement("span")
+          key.className = "slot-key"
+          key.textContent = i + 1
+          button.append(key, icon(id))
+          const count = document.createElement("span")
+          count.className = "slot-count"
+          button.append(count)
+          button.onclick = () => selectSlot(i)
+          $("hotbar").append(button)
+          return button
+        })
+        function refreshHotbar() {
+          slotElements.forEach((button, i) => {
+            button.setAttribute("aria-pressed", String(i === selected))
+            button.setAttribute(
+              "aria-label",
+              `${i + 1}: ${hotbar[i] ? definitions[hotbar[i]].name : "Fishing rod"}`
+            )
+            button.querySelector(".slot-count").textContent = hotbar[i]
+              ? inventory[hotbar[i]] || 0
+              : ""
+          })
+          $("selected-name").textContent = hotbar[selected]
+            ? definitions[hotbar[selected]].name
+            : "Fishing rod"
+          rod.visible = selected === 8
+          heldBlock.visible = selected !== 8
+          if (heldBlock.visible)
+            heldBlock.material = material(definitions[hotbar[selected]].color)
+          const catches = totalCatches()
+          $("catch-count").textContent =
+            `${catches} ${catches === 1 ? "catch" : "catches"}`
+          $("level").textContent = `Lv. ${1 + Math.floor(xp / 10)}`
+          $("xp-fill").style.width = `${(xp % 10) * 10}%`
+          $("touch-use").textContent =
+            selected === 8 ? (fishState ? "Reel in" : "Cast") : "Place"
+        }
+        function selectSlot(i) {
+          if (i !== selected) cancelFishing()
+          selected = i
+          miningTime = 0
+          refreshHotbar()
+          tone(260 + i * 20, 0.025, 0.01)
+        }
+        function ray(reach = 6, includeWater = false) {
+          camera.getWorldDirection(direction)
+          const origin = camera.position
+          let x = Math.floor(origin.x),
+            y = Math.floor(origin.y),
+            z = Math.floor(origin.z),
+            t = 0,
+            normal = [0, 0, 0]
+          const sx = direction.x >= 0 ? 1 : -1,
+            sy = direction.y >= 0 ? 1 : -1,
+            sz = direction.z >= 0 ? 1 : -1
+          const tx = Math.abs(1 / direction.x),
+            ty = Math.abs(1 / direction.y),
+            tz = Math.abs(1 / direction.z)
+          let mx = Math.abs(((sx > 0 ? x + 1 : x) - origin.x) / direction.x),
+            my = Math.abs(((sy > 0 ? y + 1 : y) - origin.y) / direction.y),
+            mz = Math.abs(((sz > 0 ? z + 1 : z) - origin.z) / direction.z)
+          if (!Number.isFinite(mx)) mx = Infinity
+          if (!Number.isFinite(my)) my = Infinity
+          if (!Number.isFinite(mz)) mz = Infinity
+          while (t <= reach) {
+            if (inBounds(x, y, z)) {
+              const id = block(x, y, z)
+              if (id && (includeWater || id !== LIQUID))
+                return { x, y, z, id, normal, distance: t }
+            }
+            if (mx < my && mx < mz) {
+              x += sx
+              t = mx
+              mx += tx
+              normal = [-sx, 0, 0]
+            } else if (my < mz) {
+              y += sy
+              t = my
+              my += ty
+              normal = [0, -sy, 0]
+            } else {
+              z += sz
+              t = mz
+              mz += tz
+              normal = [0, 0, -sz]
+            }
+          }
+          return null
+        }
+        function cancelFishing() {
+          fishState = null
+          bobber.visible = false
+          bobber.rotation.set(0, 0, 0)
+          fishingLine.visible = false
+          if (ready) refreshHotbar()
+        }
+        function use() {
+          if (mode !== "play" || useCooldown > 0) return
+          useCooldown = 0.22
+          actionSwing = 1
+          if (selected === 8) {
+            if (fishState) {
+              if (fishState.phase === "bite") catchFish()
+              else {
+                notify(
+                  fishState.phase === "waiting"
+                    ? "A little patience. Wait for the bobber to dip."
+                    : "Line reeled in.",
+                  2
+                )
+                cancelFishing()
+                noiseSound(0.08, 900, 0.02)
+              }
+              return
+            }
+            camera.getWorldDirection(direction)
+            bobber.position
+              .copy(camera.position)
+              .addScaledVector(direction, 0.6)
+            fishState = {
+              phase: "flying",
+              age: 0,
+              velocity: direction
+                .clone()
+                .multiplyScalar(11)
+                .add(new THREE.Vector3(0, 3.8, 0)),
+              wait: 3.5 + Math.random() * 5,
+              nibbles: 0,
+              rippleTime: 0,
+            }
+            bobber.visible = true
+            fishingLine.visible = true
+            tone(380, 0.15, 0.025, 180)
+            refreshHotbar()
+            return
+          }
+          const hit = ray()
+          if (!hit) return
+          if (hit.id === CHEST || hit.id === BENCH) {
+            openInventory()
+            return
+          }
+          const id = hotbar[selected],
+            x = hit.x + hit.normal[0],
+            y = hit.y + hit.normal[1],
+            z = hit.z + hit.normal[2]
+          if (!inventory[id]) {
+            notify("Out of this block. Mine some more or check your backpack.")
+            return
+          }
+          if (
+            !inBounds(x, y, z) ||
+            y === 0 ||
+            (block(x, y, z) !== AIR && block(x, y, z) !== LIQUID)
+          )
+            return
+          if (solid(id) && intersectsPlayer(x, y, z)) {
+            notify("Give yourself a little room to place that.", 1.5)
+            return
+          }
+          if (
+            (id === TORCH || id === POPPY || id === DAISY) &&
+            !solid(block(x, y - 1, z))
+          ) {
+            notify("Place it on a solid surface.", 1.5)
+            return
+          }
+          changeBlock(x, y, z, id)
+          inventory[id]--
+          refreshHotbar()
+          noiseSound(0.07, 500, 0.04)
+        }
+        function catchFish() {
+          let roll = Math.random(),
+            fish = species[0]
+          for (const candidate of species) {
+            roll -= candidate.chance
+            if (roll <= 0) {
+              fish = candidate
+              break
+            }
+          }
+          const weight = fish.min + Math.random() * (fish.max - fish.min),
+            entry = journal[fish.name] || { count: 0, best: 0 }
+          entry.count++
+          entry.best = Math.max(entry.best, weight)
+          journal[fish.name] = entry
+          xp += fish.name === "Old compass" ? 10 : 2
+          dirtySave = true
+          const start = bobber.position.clone()
+          splash(start, 0xb3d9d9, 14)
+          ripple(start.x, start.z, 2)
+          if (flyingCatch) scene.remove(flyingCatch.mesh)
+          const mesh = fishModel(fish.color, 1.3)
+          mesh.position.copy(start)
+          scene.add(mesh)
+          flyingCatch = { mesh, start, age: 0 }
+          notify(
+            `${fish.name}${weight ? " / " + weight.toFixed(2) + " kg" : " / rare treasure!"}`,
+            4
+          )
+          cancelFishing()
+          actionSwing = 1.5
+          noiseSound(0.22, 1000, 0.07)
+          tone(660, 0.17, 0.05, 990)
+          refreshHotbar()
+          saveWorld()
+        }
+        function updateFishing(dt) {
+          if (!fishState) return
+          fishState.age += dt
+          if (bobber.position.distanceTo(camera.position) > 28) {
+            notify("The line went slack. Cast a little closer.")
+            cancelFishing()
+            return
+          }
+          if (fishState.phase === "flying") {
+            fishState.velocity.y -= 12 * dt
+            const next = bobber.position
+              .clone()
+              .addScaledVector(fishState.velocity, dt)
+            const x = Math.floor(next.x),
+              y = Math.floor(next.y),
+              z = Math.floor(next.z)
+            if (
+              inBounds(x, WATER - 1, z) &&
+              block(x, WATER - 1, z) === LIQUID &&
+              next.y <= WATER + 0.08 &&
+              fishState.velocity.y < 0
+            ) {
+              bobber.position.set(next.x, WATER + 0.07, next.z)
+              fishState.phase = "waiting"
+              fishState.age = 0
+              fishState.anchor = bobber.position.clone()
+              ripple(next.x, next.z)
+              splash(bobber.position, 0xa8d4dc, 7)
+              noiseSound(0.16, 900, 0.045)
+              notify("Watch the bobber. Reel when it dips.", 2.5)
+            } else if (
+              solid(block(x, y, z)) ||
+              next.y < 0 ||
+              next.x < 1 ||
+              next.z < 1 ||
+              next.x >= SIZE - 1 ||
+              next.z >= SIZE - 1 ||
+              fishState.age > 5
+            ) {
+              notify("Find open water and cast past the shore.")
+              cancelFishing()
+            } else bobber.position.copy(next)
+          } else {
+            const remaining = fishState.wait - fishState.age
+            bobber.position.copy(fishState.anchor)
+            bobber.position.y += Math.sin(clock * 3.4) * 0.035
+            fishState.rippleTime += dt
+            if (fishState.rippleTime > 1.1) {
+              ripple(bobber.position.x, bobber.position.z)
+              fishState.rippleTime = 0
+            }
+            if (fishState.phase === "waiting" && remaining < 1.5) {
+              const progress = 1 - Math.max(0, remaining) / 1.5,
+                angle = clock * 2
+              if (fishState.rippleTime < dt * 1.5)
+                ripple(
+                  bobber.position.x + Math.cos(angle) * (1 - progress) * 1.5,
+                  bobber.position.z + Math.sin(angle) * (1 - progress) * 1.5,
+                  0.5
+                )
+              bobber.rotation.z = Math.sin(clock * 19) * 0.16
+            }
+            if (fishState.phase === "waiting" && remaining <= 0) {
+              fishState.phase = "bite"
+              fishState.biteLeft = 1.25
+              bobber.position.y -= 0.2
+              ripple(bobber.position.x, bobber.position.z, 1.8)
+              splash(bobber.position, 0xd0eeee, 6)
+              noiseSound(0.16, 1300, 0.09)
+              tone(950, 0.12, 0.045)
+              notify("Bite! Reel in!", 1.25)
+              $("touch-use").textContent = "Reel NOW"
+            }
+            if (fishState.phase === "bite") {
+              fishState.biteLeft -= dt
+              bobber.position.y = WATER - 0.13 + Math.sin(clock * 24) * 0.025
+              if (fishState.biteLeft <= 0) {
+                fishState.phase = "waiting"
+                fishState.wait = fishState.age + 3 + Math.random() * 4
+                bobber.rotation.z = 0
+                notify("That one got away. Another will come.", 2)
+                $("touch-use").textContent = "Reel in"
+              }
+            }
+          }
+        }
+        function updateLine() {
+          if (!fishState) return
+          rodTip.getWorldPosition(temp)
+          for (let i = 0; i < 24; i++) {
+            const t = i / 23
+            linePoints[i * 3] = THREE.MathUtils.lerp(
+              temp.x,
+              bobber.position.x,
+              t
+            )
+            linePoints[i * 3 + 1] =
+              THREE.MathUtils.lerp(temp.y, bobber.position.y + 0.15, t) -
+              Math.sin(t * Math.PI) *
+                (fishState.phase === "flying" ? 0.4 : 0.65)
+            linePoints[i * 3 + 2] = THREE.MathUtils.lerp(
+              temp.z,
+              bobber.position.z,
+              t
+            )
+          }
+          lineGeometry.attributes.position.needsUpdate = true
+        }
+        function isHeld(action) {
+          return [...held.values()].includes(action)
+        }
+        function moveAxis(axis, amount) {
+          if (!amount) return
+          position[axis] += amount
+          const minX = Math.floor(position.x - RADIUS),
+            maxX = Math.floor(position.x + RADIUS),
+            minY = Math.floor(position.y + 0.001),
+            maxY = Math.floor(position.y + BODY - 0.001),
+            minZ = Math.floor(position.z - RADIUS),
+            maxZ = Math.floor(position.z + RADIUS)
+          for (let x = minX; x <= maxX; x++)
+            for (let y = minY; y <= maxY; y++)
+              for (let z = minZ; z <= maxZ; z++) {
+                if (!solid(block(x, y, z))) continue
+                if (axis === "x")
+                  position.x =
+                    amount > 0
+                      ? Math.min(position.x, x - RADIUS - 0.001)
+                      : Math.max(position.x, x + 1 + RADIUS + 0.001)
+                if (axis === "z")
+                  position.z =
+                    amount > 0
+                      ? Math.min(position.z, z - RADIUS - 0.001)
+                      : Math.max(position.z, z + 1 + RADIUS + 0.001)
+                if (axis === "y") {
+                  if (amount < 0) {
+                    position.y = Math.max(position.y, y + 1)
+                    grounded = true
+                  } else position.y = Math.min(position.y, y - BODY - 0.001)
+                  velocityY = 0
+                }
+              }
+        }
+        function updatePlayer(dt) {
+          const forward =
+            Number(keys.has("KeyW") || keys.has("ArrowUp")) -
+            Number(keys.has("KeyS") || keys.has("ArrowDown")) -
+            joyY
+          const strafe =
+            Number(keys.has("KeyD") || keys.has("ArrowRight")) -
+            Number(keys.has("KeyA") || keys.has("ArrowLeft")) +
+            joyX
+          swimming =
+            block(
+              Math.floor(position.x),
+              Math.floor(position.y + 0.7),
+              Math.floor(position.z)
+            ) === LIQUID
+          const pace = swimming
+            ? 3.4
+            : keys.has("ShiftLeft") || keys.has("ShiftRight")
+              ? 6.2
+              : 4.3
+          move.set(
+            strafe * Math.cos(yaw) - forward * Math.sin(yaw),
+            0,
+            -forward * Math.cos(yaw) - strafe * Math.sin(yaw)
+          )
+          if (move.lengthSq() > 1) move.normalize()
+          move.multiplyScalar(pace)
+          moveAxis("x", move.x * dt)
+          moveAxis("z", move.z * dt)
+          const jumping = keys.has("Space") || isHeld("jump")
+          if (swimming) {
+            velocityY += ((WATER - position.y - 1.2) * 11 - velocityY * 4) * dt
+            if (jumping) velocityY = 4.2
+          } else {
+            if (jumping && grounded) {
+              velocityY = 7.8
+              grounded = false
+              tone(170, 0.055, 0.015, 130)
+            }
+            velocityY -= 22 * dt
+          }
+          grounded = false
+          moveAxis("y", velocityY * dt)
+          if (position.y < -5 || !Number.isFinite(position.y))
+            returnToDock(false)
+          if (move.lengthSq() > 0.2 && (grounded || swimming)) {
+            walkPhase += dt * pace * 2.2
+            footstepTime += dt
+            if (footstepTime > (swimming ? 0.7 : (0.46 * 4.3) / pace)) {
+              noiseSound(0.055, swimming ? 1000 : 280, 0.022)
+              footstepTime = 0
+            }
+          }
+          dirtySave = true
+        }
+        function updateMining(dt) {
+          if (
+            selected === 8 ||
+            !(keys.has("KeyQ") || isHeld("mine") || keys.has("MouseLeft"))
+          ) {
+            miningTime = 0
+            miningKey = ""
+            cracks.visible = false
+            $("mining").hidden = true
+            return
+          }
+          const hit = ray()
+          if (!hit || hit.id === BEDROCK || hit.id === LIQUID) {
+            miningTime = 0
+            miningKey = ""
+            cracks.visible = false
+            $("mining").hidden = true
+            return
+          }
+          const key = `${hit.x},${hit.y},${hit.z}`
+          if (key !== miningKey) {
+            miningTime = 0
+            miningStage = -1
+            miningKey = key
+          }
+          miningTime += dt
+          actionSwing = Math.max(actionSwing, 0.4)
+          const progress = miningTime / definitions[hit.id].hard,
+            stage = Math.min(7, Math.floor(progress * 8))
+          cracks.position.set(hit.x + 0.5, hit.y + 0.5, hit.z + 0.5)
+          cracks.visible = true
+          if (stage !== miningStage) {
+            cracks.material = crackMaterials[stage]
+            miningStage = stage
+            noiseSound(0.045, hit.id === LOG ? 450 : 700, 0.02)
+          }
+          $("mining").hidden = false
+          $("mining-fill").style.width = `${Math.min(100, progress * 100)}%`
+          if (progress >= 1) {
+            const drop =
+              hit.id === GRASS ? DIRT : hit.id === COAL ? COAL : hit.id
+            inventory[drop] = (inventory[drop] || 0) + 1
+            changeBlock(hit.x, hit.y, hit.z, AIR)
+            const above = block(hit.x, hit.y + 1, hit.z)
+            if (above === TORCH || above === POPPY || above === DAISY) {
+              inventory[above] = (inventory[above] || 0) + 1
+              changeBlock(hit.x, hit.y + 1, hit.z, AIR)
+            }
+            splash(
+              new THREE.Vector3(hit.x + 0.5, hit.y + 0.5, hit.z + 0.5),
+              definitions[hit.id].color,
+              8
+            )
+            noiseSound(0.12, 500, 0.055)
+            refreshHotbar()
+            miningTime = 0
+            cracks.visible = false
+          }
+        }
+        function updateCreatures(dt) {
+          for (const fish of fishSchools) {
+            const angle = clock * fish.speed + fish.angle
+            fish.mesh.position.set(
+              48 + Math.cos(angle) * fish.radius,
+              fish.depth + Math.sin(clock * 0.8 + fish.angle) * 0.12,
+              43 + Math.sin(angle) * fish.radius * 0.65
+            )
+            fish.mesh.rotation.y = -angle - Math.PI / 2
+          }
+          for (const animal of sheep) {
+            animal.timer -= dt
+            if (animal.timer <= 0) {
+              animal.angle += (Math.random() - 0.5) * 2.5
+              animal.timer = 2 + Math.random() * 5
+              animal.moving = Math.random() > 0.3
+            }
+            if (!animal.moving) continue
+            const x =
+                animal.mesh.position.x + Math.cos(animal.angle) * dt * 0.5,
+              z = animal.mesh.position.z + Math.sin(animal.angle) * dt * 0.5,
+              y = groundAt(x, z)
+            if (
+              x > 2 &&
+              z > 2 &&
+              x < SIZE - 2 &&
+              z < SIZE - 2 &&
+              y > WATER &&
+              Math.abs(y - animal.mesh.position.y) <= 1.1 &&
+              block(Math.floor(x), y, Math.floor(z)) !== LOG
+            ) {
+              animal.mesh.position.x = x
+              animal.mesh.position.z = z
+              animal.mesh.position.y = THREE.MathUtils.lerp(
+                animal.mesh.position.y,
+                y,
+                dt * 5
+              )
+              animal.mesh.rotation.y = -animal.angle
+            } else {
+              animal.angle += Math.PI * 0.7
+              animal.timer = 2
+            }
+          }
+        }
+        function update(dt) {
+          clock += dt
+          useCooldown = Math.max(0, useCooldown - dt)
+          actionSwing = Math.max(0, actionSwing - dt * 3)
+          updatePlayer(dt)
+          updateCamera()
+          updateMining(dt)
+          updateFishing(dt)
+          updateCreatures(dt)
+          if (keys.has("MouseRight") && selected !== 8) use()
+          if (toastTime > 0) {
+            toastTime -= dt
+            if (toastTime <= 0) $("toast").hidden = true
+          }
+          for (let i = waterRipples.length - 1; i >= 0; i--) {
+            const r = waterRipples[i]
+            r.age += dt
+            r.mesh.scale.setScalar((1 + r.age * 2.4) * r.size)
+            r.mesh.material.opacity = Math.max(0, 0.55 - r.age * 0.5)
+            if (r.age > 1.1) {
+              scene.remove(r.mesh)
+              r.mesh.material.dispose()
+              waterRipples.splice(i, 1)
+            }
+          }
+          for (let i = particlePool.length - 1; i >= 0; i--) {
+            const p = particlePool[i]
+            p.age += dt
+            p.velocity.y -= 6 * dt
+            p.mesh.position.addScaledVector(p.velocity, dt)
+            p.mesh.scale.multiplyScalar(Math.exp(-dt * 1.4))
+            if (p.age > 0.75) {
+              scene.remove(p.mesh)
+              particlePool.splice(i, 1)
+            }
+          }
+          if (flyingCatch) {
+            flyingCatch.age += dt
+            const t = Math.min(1, flyingCatch.age / 0.75)
+            camera.getWorldDirection(direction)
+            temp.copy(camera.position).addScaledVector(direction, 0.85)
+            temp.y -= 0.25
+            flyingCatch.mesh.position.lerpVectors(flyingCatch.start, temp, t)
+            flyingCatch.mesh.position.y += Math.sin(t * Math.PI) * 1.6
+            flyingCatch.mesh.rotation.z += dt * 8
+            flyingCatch.mesh.scale.setScalar(1.3 * (1 - t * 0.8))
+            if (t >= 1) {
+              scene.remove(flyingCatch.mesh)
+              flyingCatch = null
+            }
+          }
+          hudTime += dt
+          saveTime += dt
+          if (hudTime >= 0.2) {
+            updateHUD()
+            hudTime = 0
+          }
+          if (saveTime >= 8) {
+            if (dirtySave) saveWorld()
+            saveTime = 0
+            updateTorches()
+          }
+          for (const key of [...dirtyChunks].slice(0, 2)) {
+            const [x, z] = key.split(",").map(Number)
+            makeChunk(x, z)
+            dirtyChunks.delete(key)
+          }
+        }
+        function updateCamera() {
+          camera.position.copy(position)
+          camera.position.y +=
+            EYE +
+            (reducedMotion || swimming || !grounded || move.lengthSq() < 0.2
+              ? 0
+              : Math.sin(walkPhase) * 0.035)
+          camera.rotation.set(pitch, yaw, 0, "YXZ")
+          camera.updateMatrixWorld()
+        }
+        function updateHUD() {
+          const underwater =
+            camera.position.y < WATER &&
+            block(
+              Math.floor(position.x),
+              Math.floor(camera.position.y),
+              Math.floor(position.z)
+            ) === LIQUID
+          $("underwater").hidden = !underwater
+          const hours = (8 + clock / 50) % 24,
+            hour = Math.floor(hours),
+            minute = Math.floor((hours % 1) * 60)
+          const timeLabel = `Day ${1 + Math.floor(clock / 1200)} / ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`
+          $("world-info").textContent =
+            innerWidth < 560
+              ? timeLabel
+              : `${timeLabel} / ${Math.floor(position.x)}, ${Math.floor(position.y)}, ${Math.floor(position.z)}`
+          const hit = selected !== 8 ? ray() : null
+          selection.visible = Boolean(hit && hit.id !== LIQUID)
+          if (hit) selection.position.set(hit.x + 0.5, hit.y + 0.5, hit.z + 0.5)
+          const hint =
+            selected === 8
+              ? fishState
+                ? fishState.phase === "bite"
+                  ? "Reel now!"
+                  : "Wait for a dip, then reel in"
+                : touchMode || fallbackLook
+                  ? "Tap Cast to fish"
+                  : "Right click or F to cast into water"
+              : hit
+                ? `${definitions[hit.id].name}${hit.id === BEDROCK ? " / unbreakable" : touchMode || fallbackLook ? " / hold Break" : " / hold left click to mine"}`
+                : "Find a block to build against"
+          if ($("hint").textContent !== hint) $("hint").textContent = hint
+        }
+        function render() {
+          updateCamera()
+          const bob = reducedMotion ? 0 : Math.sin(walkPhase) * 0.012
+          hand.position.set(
+            camera.aspect < 1 ? camera.aspect * 0.18 : 0.4,
+            -0.4 + bob - Math.sin(actionSwing * Math.PI) * 0.08,
+            -0.65
+          )
+          hand.rotation.set(
+            -Math.sin(actionSwing * Math.PI) * 0.28,
+            0,
+            Math.sin(actionSwing * Math.PI) * 0.18
+          )
+          camera.updateMatrixWorld()
+          updateLine()
+          const daylight = 0.8 + Math.sin(clock / 190) * 0.2
+          hemi.intensity = 1.5 + daylight * 0.6
+          sun.intensity = 1.3 + daylight * 0.9
+          clouds.position.x = reducedMotion ? 0 : clock * 0.009
+          renderer.render(scene, camera)
+        }
+        function requestFrame() {
+          if (!framePending && mode === "play") {
+            framePending = true
+            requestAnimationFrame(frame)
+          }
+        }
+        function frame(now) {
+          framePending = false
+          if (mode !== "play") return
+          const dt = Math.min(0.1, (now - last) / 1000)
+          last = now
+          accumulator += dt
+          while (accumulator >= STEP) {
+            update(STEP)
+            accumulator -= STEP
+          }
+          render()
+          requestFrame()
+        }
+        function clearInput() {
+          keys.clear()
+          held.clear()
+          joyX = 0
+          joyY = 0
+          joyPointer = null
+          lookPointer = null
+          $("joystick-knob").style.transform = ""
+          miningTime = 0
+          cracks.visible = false
+          $("mining").hidden = true
+        }
+        function captureMouse() {
+          if (touchMode || fallbackLook) return
+          try {
+            const pending = canvas.requestPointerLock()
+            if (pending && typeof pending.catch === "function")
+              pending.catch(() => enableFallback())
+          } catch {
+            enableFallback()
+          }
+        }
+        function enableFallback() {
+          fallbackLook = true
+          document.body.classList.add("touch-mode")
+          notify(
+            "Mouse capture unavailable. Drag to look and use the on-screen controls.",
+            5
+          )
+        }
+        function startPlay() {
+          if (!ready) return
+          initAudio()
+          mode = "play"
+          clearInput()
+          for (const id of [
+            "menu",
+            "pause-screen",
+            "inventory",
+            "confirm-reset",
+          ])
+            $(id).hidden = true
+          $("hud").hidden = false
+          last = performance.now()
+          accumulator = 0
+          captureMouse()
+          canvas.focus()
+          requestFrame()
+        }
+        function pause() {
+          if (mode !== "play") return
+          mode = "paused"
+          clearInput()
+          saveWorld()
+          $("pause-screen").hidden = false
+          if (document.pointerLockElement === canvas) document.exitPointerLock()
+          $("resume").focus()
+          render()
+        }
+        function openInventory() {
+          if (!ready) return
+          mode = "inventory"
+          clearInput()
+          saveWorld()
+          $("pause-screen").hidden = true
+          $("inventory").hidden = false
+          if (document.pointerLockElement === canvas) document.exitPointerLock()
+          refreshInventory()
+          $("close-inventory").focus()
+        }
+        function refreshInventory() {
+          $("inventory-grid").replaceChildren()
+          for (const key of Object.keys(inventory)) {
+            const id = Number(key),
+              button = document.createElement("button")
+            button.className = "item"
+            button.append(icon(id))
+            const name = document.createElement("span")
+            name.textContent = id === COAL ? "Coal" : definitions[id].name
+            const count = document.createElement("small")
+            count.textContent = inventory[id]
+            button.append(name, count)
+            button.setAttribute(
+              "aria-label",
+              `${name.textContent}: ${inventory[id]}`
+            )
+            button.onclick = () => {
+              if (id === COAL) {
+                $("inventory-status").textContent =
+                  "Coal is for crafting torches. Mine it from speckled stone."
+                return
+              }
+              const slot = selected === 8 ? 0 : selected
+              hotbar[slot] = id
+              selected = slot
+              slotElements[slot].querySelector("canvas").replaceWith(icon(id))
+              refreshHotbar()
+              dirtySave = true
+              $("inventory-status").textContent =
+                `${definitions[id].name} equipped in slot ${slot + 1}.`
+            }
+            $("inventory-grid").append(button)
+          }
+          $("fish-list").replaceChildren()
+          for (const fish of species) {
+            const entry = journal[fish.name],
+              row = document.createElement("div")
+            row.textContent = entry
+              ? `${fish.name}: ${entry.count}${entry.best ? " / " + entry.best.toFixed(2) + " kg best" : ""}`
+              : `${fish.name}: not caught yet`
+            $("fish-list").append(row)
+          }
+          $("journal-title").textContent =
+            `Fishing journal / ${totalCatches()} catches`
+          $("craft-planks").disabled = !inventory[LOG]
+          $("craft-torches").disabled = !inventory[LOG] || !inventory[COAL]
+        }
+        function returnToDock(resume = true) {
+          cancelFishing()
+          position.set(48.5, groundAt(48.5, 52.5), 52.5)
+          yaw = 0
+          pitch = -0.17
+          velocityY = 0
+          if (!canStand(position.x, position.y, position.z))
+            position.y = Math.min(
+              HEIGHT - BODY,
+              groundAt(position.x, position.z) + 0.01
+            )
+          dirtySave = true
+          saveWorld()
+          if (resume) startPlay()
+          notify("Back at the dock. Your supplies are safe.")
+        }
+        function resize() {
+          renderer.setSize(innerWidth, innerHeight)
+          camera.aspect = innerWidth / innerHeight
+          camera.updateProjectionMatrix()
+          if (ready && mode !== "play") render()
+        }
+        canvas.tabIndex = -1
+        canvas.addEventListener("contextmenu", (event) =>
+          event.preventDefault()
+        )
+        canvas.addEventListener("pointerdown", (event) => {
+          if (mode !== "play") return
+          if (event.pointerType === "touch" || fallbackLook) {
+            if (lookPointer !== null) return
+            lookPointer = event.pointerId
+            lookX = event.clientX
+            lookY = event.clientY
+            canvas.setPointerCapture(event.pointerId)
+            return
+          }
+          if (document.pointerLockElement !== canvas) {
+            captureMouse()
+            return
+          }
+          if (event.button === 0) {
+            if (selected === 8) use()
+            else keys.add("MouseLeft")
+          }
+          if (event.button === 2) {
+            use()
+            keys.add("MouseRight")
+          }
+        })
+        window.addEventListener("pointermove", (event) => {
+          if (mode !== "play") return
+          let dx = 0,
+            dy = 0
+          if (
+            document.pointerLockElement === canvas &&
+            event.pointerType !== "touch"
+          ) {
+            dx = event.movementX
+            dy = event.movementY
+          } else if (event.pointerId === lookPointer) {
+            dx = (event.clientX - lookX) * 1.2
+            dy = (event.clientY - lookY) * 1.2
+            lookX = event.clientX
+            lookY = event.clientY
+          }
+          yaw -= dx * 0.0025
+          pitch = clamp(pitch - dy * 0.0025, -1.45, 1.45)
+        })
+        function releasePointer(event) {
+          if (event.pointerId === lookPointer) lookPointer = null
+          if (event.button === 0) keys.delete("MouseLeft")
+          if (event.button === 2) keys.delete("MouseRight")
+          held.delete(event.pointerId)
+        }
+        window.addEventListener("pointerup", releasePointer)
+        window.addEventListener("pointercancel", releasePointer)
+        canvas.addEventListener("lostpointercapture", releasePointer)
+        canvas.addEventListener(
+          "wheel",
+          (event) => {
+            if (mode === "play") {
+              event.preventDefault()
+              selectSlot((selected + (event.deltaY > 0 ? 1 : 8)) % 9)
+            }
+          },
+          { passive: false }
+        )
+        window.addEventListener("keydown", (event) => {
+          if (event.target instanceof HTMLInputElement) return
+          if (
+            [
+              "Space",
+              "ArrowUp",
+              "ArrowDown",
+              "ArrowLeft",
+              "ArrowRight",
+              "KeyE",
+              "KeyF",
+              "KeyQ",
+            ].includes(event.code)
+          )
+            event.preventDefault()
+          if (event.code === "Escape") {
+            if (mode === "play") pause()
+            else if (mode === "inventory" || mode === "paused") startPlay()
+            return
+          }
+          if (event.repeat) return
+          if (event.code === "KeyE") {
+            if (mode === "inventory") startPlay()
+            else if (mode === "play") openInventory()
+            return
+          }
+          if (mode !== "play") return
+          keys.add(event.code)
+          if (/^Digit[1-9]$/.test(event.code))
+            selectSlot(Number(event.code.slice(-1)) - 1)
+          if (event.code === "KeyF") use()
+          if (event.code === "KeyM") $("mute-button").click()
+        })
+        window.addEventListener("keyup", (event) => keys.delete(event.code))
+        document.addEventListener("pointerlockchange", () => {
+          if (
+            document.pointerLockElement !== canvas &&
+            mode === "play" &&
+            !touchMode &&
+            !fallbackLook
+          )
+            pause()
+        })
+        document.addEventListener("pointerlockerror", enableFallback)
+        window.addEventListener("blur", pause)
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            pause()
+            saveWorld()
+          }
+        })
+        window.addEventListener("pagehide", saveWorld)
+        canvas.addEventListener("webglcontextlost", (event) => {
+          event.preventDefault()
+          pause()
+          $("save-status").textContent =
+            "Graphics paused. Reload to restore your saved world."
+        })
+        const joystick = $("joystick")
+        function joystickMove(event) {
+          if (event.pointerId !== joyPointer) return
+          const rect = joystick.getBoundingClientRect(),
+            dx = event.clientX - rect.left - rect.width / 2,
+            dy = event.clientY - rect.top - rect.height / 2,
+            length = Math.hypot(dx, dy),
+            limit = rect.width * 0.3,
+            scale = Math.min(1, limit / Math.max(1, length))
+          joyX = (dx * scale) / limit
+          joyY = (dy * scale) / limit
+          $("joystick-knob").style.transform =
+            `translate(${dx * scale}px, ${dy * scale}px)`
+        }
+        joystick.addEventListener("pointerdown", (event) => {
+          if (mode !== "play" || joyPointer !== null) return
+          joyPointer = event.pointerId
+          joystick.setPointerCapture(event.pointerId)
+          joystickMove(event)
+        })
+        joystick.addEventListener("pointermove", joystickMove)
+        const releaseJoy = (event) => {
+          if (event.pointerId === joyPointer) {
+            joyPointer = null
+            joyX = joyY = 0
+            $("joystick-knob").style.transform = ""
+          }
+        }
+        joystick.addEventListener("pointerup", releaseJoy)
+        joystick.addEventListener("pointercancel", releaseJoy)
+        joystick.addEventListener("lostpointercapture", releaseJoy)
+        for (const [id, action] of [
+          ["touch-break", "mine"],
+          ["touch-jump", "jump"],
+        ]) {
+          const button = $(id)
+          button.addEventListener("pointerdown", (event) => {
+            if (mode !== "play") return
+            event.preventDefault()
+            button.setPointerCapture(event.pointerId)
+            held.set(event.pointerId, action)
+          })
+          const release = (event) => held.delete(event.pointerId)
+          button.addEventListener("pointerup", release)
+          button.addEventListener("pointercancel", release)
+          button.addEventListener("lostpointercapture", release)
+        }
+        $("touch-use").onclick = use
+        $("play").onclick = startPlay
+        $("resume").onclick = startPlay
+        $("pause-button").onclick = pause
+        $("inventory-button").onclick = openInventory
+        $("pause-inventory").onclick = openInventory
+        $("close-inventory").onclick = startPlay
+        $("return-dock").onclick = () => returnToDock()
+        $("mute-button").onclick = () => {
+          muted = !muted
+          $("mute-button").textContent = muted ? "Sound off" : "Sound on"
+          $("mute-button").setAttribute("aria-pressed", String(muted))
+        }
+        $("craft-planks").onclick = () => {
+          if (!inventory[LOG]) return
+          inventory[LOG]--
+          inventory[PLANKS] += 4
+          dirtySave = true
+          refreshInventory()
+          refreshHotbar()
+          tone(430, 0.08, 0.025)
+        }
+        $("craft-torches").onclick = () => {
+          if (!inventory[LOG] || !inventory[COAL]) return
+          inventory[LOG]--
+          inventory[COAL]--
+          inventory[TORCH] += 4
+          dirtySave = true
+          refreshInventory()
+          refreshHotbar()
+          tone(560, 0.08, 0.025)
+        }
+        $("reset-prompt").onclick = () => {
+          $("pause-screen").hidden = true
+          $("confirm-reset").hidden = false
+          $("cancel-new").focus()
+        }
+        $("cancel-new").onclick = () => {
+          $("confirm-reset").hidden = true
+          $("pause-screen").hidden = false
+          $("resume").focus()
+        }
+        $("confirm-new").onclick = () => {
+          try {
+            localStorage.removeItem("little-shores-world-v1")
+          } catch {
+            $("save-status").textContent =
+              "Cannot replace the saved world while storage is unavailable."
+            $("cancel-new").click()
+            return
+          }
+          resetting = true
+          location.reload()
+        }
+        window.addEventListener("resize", resize)
+        ready = true
+        refreshHotbar()
+        updateCamera()
+        updateTorches()
+        updateHUD()
+        render()
+        $("play").textContent = saved
+          ? "Continue your world"
+          : "Step into your world"
+        $("play").disabled = false
+        $("load-status").textContent = saveAvailable
+          ? "Start on the dock. Your fishing rod is already selected."
+          : "Storage unavailable. This world will last for this session."
+      }
+      boot().catch((error) => {
+        console.error(error)
+        document.getElementById("load-status").textContent =
+          "The world could not start. Reload to try again."
+      })
+    </script>
+  </body>
+</html>

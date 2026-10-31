@@ -1,0 +1,1651 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#172c3b" />
+    <title>Asphalt 4 Clone: Coastline Rush</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: "Arial", sans-serif;
+        color: #fff6e7;
+        background: #172c3b;
+        --red: #f4543c;
+        --blue: #70d8ee;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        overscroll-behavior: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        height: 100dvh;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+      }
+      button:focus-visible {
+        outline: 3px solid var(--blue);
+        outline-offset: 4px;
+      }
+      button:active {
+        transform: translateY(2px);
+      }
+      [hidden] {
+        display: none !important;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+      }
+      .hud {
+        position: absolute;
+        inset: max(18px, env(safe-area-inset-top))
+          max(20px, env(safe-area-inset-right)) auto
+          max(20px, env(safe-area-inset-left));
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 12px;
+        pointer-events: none;
+        text-shadow: 0 2px 8px #132b3d;
+      }
+      .position {
+        font-size: clamp(38px, 6vw, 64px);
+        font-weight: 900;
+        font-style: italic;
+        line-height: 0.95;
+      }
+      .position small {
+        font-size: 20px;
+        opacity: 0.7;
+      }
+      .race-info {
+        display: flex;
+        gap: 22px;
+        margin-top: 9px;
+        font-size: 14px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+      }
+      .tools {
+        display: flex;
+        gap: 8px;
+        pointer-events: auto;
+      }
+      .tool {
+        background: #142b3bd9;
+        border: 1px solid #ffffff40;
+        border-radius: 6px;
+        padding: 10px 13px;
+        min-height: 44px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .dashboard {
+        position: absolute;
+        right: max(24px, env(safe-area-inset-right));
+        bottom: 24px;
+        text-align: right;
+        pointer-events: none;
+        text-shadow: 0 2px 8px #132b3d;
+      }
+      #speed {
+        font-size: clamp(48px, 7vw, 82px);
+        font-weight: 900;
+        font-style: italic;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+      }
+      .unit {
+        font-size: 13px;
+        opacity: 0.85;
+      }
+      .nitro-label {
+        display: flex;
+        justify-content: space-between;
+        margin: 12px 0 6px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .nitro-track {
+        width: 170px;
+        height: 8px;
+        background: #132b3dbb;
+        transform: skewX(-15deg);
+        border: 1px solid #ffffff60;
+      }
+      #nitro-fill {
+        height: 100%;
+        width: 75%;
+        background: var(--blue);
+      }
+      .progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: #102b3c;
+      }
+      #progress-fill {
+        height: 100%;
+        width: 0;
+        background: var(--red);
+      }
+      #callout {
+        position: absolute;
+        top: 24%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: clamp(24px, 5vw, 44px);
+        font-weight: 900;
+        font-style: italic;
+        text-shadow: 0 3px 12px #102b3c;
+        pointer-events: none;
+      }
+      #countdown {
+        position: absolute;
+        top: 35%;
+        width: 100%;
+        text-align: center;
+        font-size: clamp(80px, 15vw, 140px);
+        font-weight: 900;
+        font-style: italic;
+        text-shadow:
+          0 4px 0 #af422b,
+          0 8px 30px #142b3b;
+        pointer-events: none;
+      }
+      .screen {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        background: linear-gradient(
+          90deg,
+          #102737f5 0%,
+          #102737ce 42%,
+          #10273720 100%
+        );
+        overflow-y: auto;
+        padding: max(28px, env(safe-area-inset-top))
+          max(32px, env(safe-area-inset-right))
+          max(28px, env(safe-area-inset-bottom))
+          max(40px, env(safe-area-inset-left));
+      }
+      .screen-content {
+        width: min(490px, 100%);
+        margin-block: auto;
+      }
+      .edition {
+        font-size: 14px;
+        font-weight: 700;
+        color: #91c4d1;
+        margin: 0 0 14px;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(52px, 9vw, 100px);
+        line-height: 0.8;
+        letter-spacing: -0.07em;
+        font-weight: 900;
+        font-style: italic;
+        text-wrap: balance;
+      }
+      h1 span {
+        color: var(--red);
+      }
+      .subtitle {
+        margin: 18px 0 24px;
+        font-size: 20px;
+        font-style: italic;
+        font-weight: 700;
+      }
+      .intro {
+        color: #c7d5d9;
+        font-size: 14px;
+        line-height: 1.6;
+        max-width: 340px;
+        text-wrap: pretty;
+      }
+      .garage {
+        display: flex;
+        gap: 8px;
+        margin: 22px 0 10px;
+      }
+      .car-choice {
+        flex: 1;
+        max-width: 140px;
+        padding: 12px 10px;
+        background: #ffffff08;
+        border: 1px solid #ffffff30;
+        border-radius: 5px;
+        text-align: left;
+      }
+      .car-choice[aria-pressed="true"] {
+        background: #ffffff14;
+        border-color: var(--red);
+        box-shadow: inset 0 -3px var(--red);
+      }
+      .car-choice strong {
+        display: block;
+        font-size: 14px;
+      }
+      .car-choice small {
+        display: block;
+        color: #b1c5cc;
+        font-size: 12px;
+        margin-top: 6px;
+      }
+      .primary {
+        margin-top: 18px;
+        padding: 16px 32px;
+        border: 0;
+        border-radius: 4px;
+        background: var(--red);
+        color: #fff9ee;
+        font-size: 18px;
+        font-weight: 900;
+        font-style: italic;
+        min-width: 180px;
+        box-shadow: 0 4px 0 #a83226;
+      }
+      .controls-help {
+        margin-top: 24px;
+        font-size: 12px;
+        color: #b1c5cc;
+        line-height: 1.9;
+      }
+      .controls-help b {
+        color: #fff6e7;
+      }
+      .fine {
+        font-size: 11px;
+        color: #91aab5;
+        margin-top: 14px;
+        line-height: 1.5;
+      }
+      h2 {
+        font-size: clamp(36px, 7vw, 64px);
+        letter-spacing: -0.04em;
+        font-style: italic;
+        margin: 0 0 12px;
+      }
+      .results {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin: 24px 0 8px;
+      }
+      .results dt {
+        color: #b1c5cc;
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+      .results dd {
+        font-size: 26px;
+        font-weight: 800;
+        margin: 0;
+        font-variant-numeric: tabular-nums;
+      }
+      .secondary {
+        margin: 18px 0 0 8px;
+        background: transparent;
+        border: 1px solid #ffffff60;
+        border-radius: 4px;
+        padding: 15px 20px;
+        font-size: 14px;
+        min-height: 48px;
+      }
+      #touch-controls {
+        position: absolute;
+        bottom: max(22px, env(safe-area-inset-bottom));
+        left: max(16px, env(safe-area-inset-left));
+        right: max(16px, env(safe-area-inset-right));
+        display: none;
+        justify-content: space-between;
+        align-items: end;
+        pointer-events: none;
+      }
+      .touch-group {
+        display: flex;
+        gap: 8px;
+        align-items: end;
+      }
+      .pedal {
+        width: 60px;
+        height: 60px;
+        border: 1px solid #ffffff70;
+        border-radius: 12px;
+        background: #112c40b8;
+        font-size: 24px;
+        font-weight: 800;
+        pointer-events: auto;
+        touch-action: none;
+      }
+      .pedal[data-action="nitro"] {
+        height: 78px;
+        color: var(--blue);
+        font-size: 13px;
+        border-color: var(--blue);
+      }
+      .pedal[data-action="drift"],
+      .pedal[data-action="accelerate"] {
+        font-size: 12px;
+      }
+      .pedal[data-action="accelerate"] {
+        height: 78px;
+        background: #325e52dd;
+        border-color: #b9d7c1;
+      }
+      .pedal[data-held="true"] {
+        background: #e9f8ff50;
+      }
+      @media (pointer: coarse) {
+        #touch-controls {
+          display: flex;
+        }
+        .dashboard {
+          bottom: 120px;
+          right: 20px;
+        }
+        .keyboard-help {
+          display: none;
+        }
+      }
+      @media (pointer: fine) {
+        .touch-help {
+          display: none;
+        }
+      }
+      @media (hover: hover) and (pointer: fine) {
+        button:hover {
+          filter: brightness(1.15);
+        }
+      }
+      @media (max-width: 520px) {
+        .screen {
+          padding: 26px 24px;
+          background: #102737d9;
+        }
+        h1 {
+          font-size: 70px;
+        }
+        .subtitle {
+          font-size: 18px;
+        }
+        .garage {
+          margin-top: 18px;
+        }
+        .race-info {
+          gap: 12px;
+          font-size: 12px;
+        }
+        .tools {
+          gap: 5px;
+        }
+        .tool {
+          padding: 10px;
+          font-size: 12px;
+        }
+        .nitro-track {
+          width: 130px;
+        }
+        .pedal {
+          width: 52px;
+        }
+      }
+      @media (max-height: 500px) {
+        .screen {
+          padding: 20px 28px;
+        }
+        .screen-content {
+          width: 580px;
+        }
+        h1 {
+          font-size: 58px;
+        }
+        .edition,
+        .intro,
+        .fine {
+          display: none;
+        }
+        .subtitle {
+          margin: 12px 0;
+        }
+        .garage {
+          margin: 12px 0 0;
+        }
+        .car-choice {
+          padding: 9px;
+        }
+        .primary {
+          padding: 12px 28px;
+          margin-top: 12px;
+        }
+        .controls-help {
+          margin-top: 12px;
+        }
+        .dashboard {
+          bottom: 100px;
+        }
+        #speed {
+          font-size: 42px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas
+      id="game"
+      aria-label="Coastal racing circuit. Hold up or W to accelerate, left and right to steer, space for nitro, and shift to drift."
+      >Your browser needs Canvas to run this game.</canvas
+    >
+    <div class="hud" id="hud" hidden>
+      <div>
+        <div class="position">
+          <span id="position">6</span><small> / 6</small>
+        </div>
+        <div class="race-info">
+          <span id="lap">Lap 1 / 2</span><span id="time">0:00.00</span>
+        </div>
+      </div>
+      <div class="tools">
+        <button class="tool" id="mute" aria-pressed="false">Sound on</button
+        ><button class="tool" id="pause">Pause</button>
+      </div>
+    </div>
+    <div class="dashboard" id="dashboard" hidden>
+      <div><span id="speed">0</span> <span class="unit">km/h</span></div>
+      <div class="nitro-label">
+        <span>Nitro</span><span id="nitro-percent">75%</span>
+      </div>
+      <div class="nitro-track"><div id="nitro-fill"></div></div>
+    </div>
+    <div id="callout" aria-live="polite"></div>
+    <div id="countdown" aria-live="polite"></div>
+    <div class="progress" id="progress" hidden>
+      <div id="progress-fill"></div>
+    </div>
+    <div id="touch-controls" hidden>
+      <div class="touch-group">
+        <button class="pedal" data-action="left" aria-label="Steer left">
+          &#9664;</button
+        ><button class="pedal" data-action="right" aria-label="Steer right">
+          &#9654;
+        </button>
+      </div>
+      <div class="touch-group">
+        <button class="pedal" data-action="drift">Drift</button
+        ><button class="pedal" data-action="nitro">Nitro</button
+        ><button
+          class="pedal"
+          data-action="accelerate"
+          aria-label="Hold to accelerate"
+        >
+          Gas
+        </button>
+      </div>
+    </div>
+    <section class="screen" id="menu" aria-labelledby="title">
+      <div class="screen-content">
+        <p class="edition">A tribute to mobile racing, circa 2008</p>
+        <h1 id="title">ASPHALT <span>4</span></h1>
+        <p class="subtitle">Coastline Rush</p>
+        <p class="intro">
+          Two laps. Five rivals. A coastal highway built for questionable
+          speeds. Drift to earn nitro. Save it for the straight.
+        </p>
+        <div class="garage" aria-label="Choose your car">
+          <button class="car-choice" data-car="0" aria-pressed="true">
+            <strong>Rosso GT</strong><small>Balanced</small></button
+          ><button class="car-choice" data-car="1" aria-pressed="false">
+            <strong>Azure R</strong><small>More grip</small></button
+          ><button class="car-choice" data-car="2" aria-pressed="false">
+            <strong>Solar RS</strong><small>More speed</small>
+          </button>
+        </div>
+        <button class="primary" id="start">Race the coast</button>
+        <div class="controls-help">
+          <span class="keyboard-help"
+            ><b>Up / W</b> accelerate &nbsp;
+            <b>A / D or arrows</b> steer<br /><b>Space</b> nitro &nbsp;
+            <b>Shift</b> drift &nbsp; <b>Down / S</b> brake &nbsp;
+            <b>P</b> pause &nbsp; <b>R</b> restart</span
+          ><span class="touch-help"
+            >Hold Gas to accelerate. Hold the arrows to steer.<br />Release Gas
+            to coast. Hold Drift through a turn.</span
+          >
+        </div>
+        <p class="fine">
+          Unofficial fan-made tribute. Original procedural art, no licensed cars
+          or game assets.
+        </p>
+      </div>
+    </section>
+    <section
+      class="screen"
+      id="pause-screen"
+      aria-labelledby="pause-title"
+      hidden
+    >
+      <div class="screen-content">
+        <h2 id="pause-title">Taking a pit stop.</h2>
+        <p class="intro">Your race is right where you left it.</p>
+        <button class="primary" id="resume">Resume race</button
+        ><button class="secondary" id="restart">Restart</button
+        ><button class="secondary" id="back">Garage</button>
+      </div>
+    </section>
+    <section class="screen" id="finish" aria-labelledby="finish-title" hidden>
+      <div class="screen-content">
+        <p class="edition">Coastline Rush / Race results</p>
+        <h2 id="finish-title">Across the line.</h2>
+        <p id="finish-message" class="intro"></p>
+        <dl class="results">
+          <div>
+            <dt>Position</dt>
+            <dd id="result-place"></dd>
+          </div>
+          <div>
+            <dt>Race time</dt>
+            <dd id="result-time"></dd>
+          </div>
+          <div>
+            <dt>Best lap</dt>
+            <dd id="result-lap"></dd>
+          </div>
+          <div>
+            <dt>Personal best</dt>
+            <dd id="result-best"></dd>
+          </div>
+        </dl>
+        <button class="primary" id="again">Race again</button
+        ><button class="secondary" id="garage">Garage</button>
+        <p id="storage-note" class="fine" hidden>
+          Storage is unavailable. Records last for this session only.
+        </p>
+      </div>
+    </section>
+    <script>
+      "use strict"
+      const $ = (id) => document.getElementById(id)
+      const canvas = $("game")
+      const ctx = canvas.getContext("2d")
+      const SEGMENT = 200,
+        COUNT = 720,
+        LENGTH = SEGMENT * COUNT
+      const ROAD = 2000,
+        CAMERA = 1000,
+        DEPTH = 0.9,
+        PLAYER_Z = CAMERA * DEPTH
+      const STEP = 1 / 60,
+        LAPS = 2
+      const cars = [
+        {
+          name: "Rosso GT",
+          color: "#f4543c",
+          top: 8500,
+          grip: 1.85,
+          acceleration: 2600,
+        },
+        {
+          name: "Azure R",
+          color: "#4ebde2",
+          top: 8200,
+          grip: 2.15,
+          acceleration: 2900,
+        },
+        {
+          name: "Solar RS",
+          color: "#ffc34e",
+          top: 9000,
+          grip: 1.65,
+          acceleration: 2300,
+        },
+      ]
+      const input = new Set(),
+        heldPointers = new Map(),
+        keyboardHeld = new Set()
+      const reducedMotion = matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches
+      let width = 0,
+        height = 0,
+        selected = 0,
+        state = "menu",
+        beforePause = "race"
+      let distance = 0,
+        speed = 0,
+        playerX = 0,
+        steering = 0,
+        nitro = 75,
+        boosting = false,
+        drifting = false
+      let elapsed = 0,
+        countdown = 3,
+        cooldown = 0,
+        knockback = 0,
+        flash = 0,
+        driftTime = 0,
+        lapStart = 0,
+        lapTimes = [],
+        completedLaps = 0
+      let opponents = [],
+        traffic = [],
+        pickups = [],
+        particles = [],
+        messageTime = 0,
+        last = 0,
+        accumulator = 0,
+        ambient = 0
+      let audio,
+        engine,
+        engineGain,
+        muted = false,
+        records = {},
+        storageAvailable = true,
+        finishPlace = 6
+      const track = Array.from({ length: COUNT }, (_, index) => {
+        const section = Math.floor(index / 90),
+          local = (index % 90) / 90
+        const curves = [0, 0.85, 0, -1.1, 0.65, 0, -0.8, 0]
+        return {
+          index,
+          curve: curves[section] * Math.sin(local * Math.PI) ** 2,
+          scenery: index % 9 === 0,
+          p1: null,
+          p2: null,
+          clip: 0,
+        }
+      })
+      try {
+        const saved = JSON.parse(
+          localStorage.getItem("coastline-rush-records") || "{}"
+        )
+        if (saved && typeof saved === "object") records = saved
+      } catch {
+        storageAvailable = false
+      }
+      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v))
+      const mod = (n, d) => ((n % d) + d) % d
+      const mix = (a, b, t) => a + (b - a) * t
+      const ahead = (z) => mod(z - mod(distance, LENGTH), LENGTH)
+      const formatTime = (t) =>
+        `${Math.floor(t / 60)}:${(t % 60).toFixed(2).padStart(5, "0")}`
+      const ordinal = (n) => ["", "1st", "2nd", "3rd", "4th", "5th", "6th"][n]
+      function resize() {
+        width = innerWidth
+        height = innerHeight
+        const dpr = Math.min(devicePixelRatio || 1, 2)
+        canvas.width = Math.round(width * dpr)
+        canvas.height = Math.round(height * dpr)
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+        if (state !== "race" && state !== "countdown") render()
+      }
+      function initAudio() {
+        if (!audio) {
+          audio = new AudioContext()
+          engine = audio.createOscillator()
+          engine.type = "sawtooth"
+          const filter = audio.createBiquadFilter()
+          filter.type = "lowpass"
+          filter.frequency.value = 400
+          engineGain = audio.createGain()
+          engineGain.gain.value = 0
+          engine.connect(filter)
+          filter.connect(engineGain)
+          engineGain.connect(audio.destination)
+          engine.start()
+        }
+        if (audio.state === "suspended")
+          audio.resume().catch(() => {
+            $("mute").textContent = "Sound unavailable"
+          })
+      }
+      function sound(
+        frequency,
+        duration = 0.1,
+        volume = 0.04,
+        end = frequency
+      ) {
+        if (!audio || muted || audio.state !== "running") return
+        const oscillator = audio.createOscillator(),
+          gain = audio.createGain()
+        oscillator.type = "triangle"
+        oscillator.frequency.setValueAtTime(frequency, audio.currentTime)
+        oscillator.frequency.exponentialRampToValueAtTime(
+          Math.max(20, end),
+          audio.currentTime + duration
+        )
+        gain.gain.setValueAtTime(volume, audio.currentTime)
+        gain.gain.exponentialRampToValueAtTime(
+          0.001,
+          audio.currentTime + duration
+        )
+        oscillator.connect(gain)
+        gain.connect(audio.destination)
+        oscillator.start()
+        oscillator.stop(audio.currentTime + duration)
+      }
+      function notify(text, seconds = 1.4) {
+        if ($("callout").textContent !== text) $("callout").textContent = text
+        messageTime = seconds
+      }
+      function clearInput() {
+        input.clear()
+        heldPointers.clear()
+        keyboardHeld.clear()
+        document.querySelectorAll(".pedal").forEach((button) => {
+          button.dataset.held = "false"
+        })
+      }
+      function startRace() {
+        initAudio()
+        clearInput()
+        distance = 0
+        speed = 0
+        playerX = 0
+        steering = 0
+        nitro = 75
+        elapsed = 0
+        countdown = 3
+        cooldown = 0
+        knockback = 0
+        flash = 0
+        driftTime = 0
+        lapStart = 0
+        lapTimes = []
+        completedLaps = 0
+        particles = []
+        boosting = false
+        drifting = false
+        opponents = Array.from({ length: 5 }, (_, i) => ({
+          distance: 1900 + i * 1500,
+          x: [-0.65, 0.55, -0.2, 0.15, 0.7][i],
+          baseX: [-0.65, 0.55, -0.2, 0.15, 0.7][i],
+          pace: [7400, 7550, 7700, 7900, 8100][i],
+          color: ["#f5c14e", "#b9d7d7", "#7cb987", "#6395db", "#e78eaf"][i],
+          finished: false,
+          finishTime: Infinity,
+        }))
+        traffic = Array.from({ length: 17 }, (_, i) => ({
+          z: 14000 + i * 7300,
+          x: [-0.7, 0, 0.7][i % 3],
+          pace: 3400 + (i % 4) * 240,
+          color: ["#c9bb9d", "#74a5b0", "#d59c6a"][i % 3],
+        }))
+        pickups = Array.from({ length: 18 }, (_, i) => ({
+          z: 6500 + i * 7600,
+          x: [-0.65, 0.65, 0][i % 3],
+          lap: -1,
+        }))
+        for (const id of ["menu", "finish", "pause-screen"]) $(id).hidden = true
+        for (const id of ["hud", "dashboard", "touch-controls", "progress"])
+          $(id).hidden = false
+        $("callout").textContent = ""
+        messageTime = 0
+        state = "countdown"
+        $("pause").disabled = false
+        accumulator = 0
+        last = performance.now()
+        requestFrame()
+      }
+      function pause() {
+        if (state !== "race" && state !== "countdown") return
+        beforePause = state
+        state = "paused"
+        clearInput()
+        $("pause-screen").hidden = false
+        $("resume").focus()
+        if (engineGain)
+          engineGain.gain.setTargetAtTime(0, audio.currentTime, 0.03)
+        render()
+      }
+      function resume() {
+        if (state !== "paused") return
+        initAudio()
+        state = beforePause
+        $("pause-screen").hidden = true
+        last = performance.now()
+        accumulator = 0
+        requestFrame()
+        canvas.focus()
+      }
+      function garage() {
+        state = "menu"
+        clearInput()
+        boosting = false
+        drifting = false
+        speed = 0
+        for (const id of [
+          "pause-screen",
+          "finish",
+          "hud",
+          "dashboard",
+          "touch-controls",
+          "progress",
+        ])
+          $(id).hidden = true
+        $("menu").hidden = false
+        $("callout").textContent = ""
+        $("countdown").textContent = ""
+        if (engineGain)
+          engineGain.gain.setTargetAtTime(0, audio.currentTime, 0.03)
+        render()
+        $("start").focus()
+      }
+      function finishRace() {
+        state = "finished"
+        boosting = false
+        drifting = false
+        clearInput()
+        finishPlace =
+          1 +
+          opponents.filter((o) => o.finished && o.finishTime <= elapsed).length
+        const key = cars[selected].name,
+          previous = records[key]
+        const isBest = typeof previous !== "number" || elapsed < previous
+        if (isBest) {
+          records[key] = elapsed
+          try {
+            localStorage.setItem(
+              "coastline-rush-records",
+              JSON.stringify(records)
+            )
+          } catch {
+            storageAvailable = false
+          }
+        }
+        $("finish-title").textContent =
+          finishPlace === 1 ? "The coast is yours." : "Across the line."
+        $("finish-message").textContent = isBest
+          ? "New personal best. There is always a cleaner line."
+          : "Drift through the bends. Spend that nitro on the straights."
+        $("result-place").textContent = `${ordinal(finishPlace)} / 6`
+        $("result-time").textContent = formatTime(elapsed)
+        $("result-lap").textContent = formatTime(Math.min(...lapTimes))
+        $("result-best").textContent = formatTime(records[key])
+        $("storage-note").hidden = storageAvailable
+        $("finish").hidden = false
+        $("touch-controls").hidden = true
+        $("pause").disabled = true
+        $("callout").textContent = ""
+        $("again").focus()
+        sound(660, 0.4, 0.05, 990)
+        if (engineGain)
+          engineGain.gain.setTargetAtTime(0, audio.currentTime, 0.06)
+      }
+      function hit(otherX, rearEnd) {
+        if (cooldown > 0) return
+        speed *= rearEnd ? 0.94 : 0.86
+        knockback = (playerX >= otherX ? 1 : -1) * (rearEnd ? 0.45 : 1.1)
+        cooldown = 0.45
+        flash = 0.12
+        notify("Collision", 0.7)
+        sound(100, 0.22, 0.1, 25)
+        for (let i = 0; i < (reducedMotion ? 0 : 12); i++)
+          particles.push({
+            x: width / 2,
+            y: height * 0.78,
+            vx: (Math.random() - 0.5) * 450,
+            vy: -Math.random() * 220,
+            life: 0.5,
+            color: "#ffdc79",
+          })
+      }
+      function collide(vehicle, gap, pace) {
+        const side = Math.abs(vehicle.x - playerX)
+        if (Math.abs(gap) > 900 || side > 0.35) vehicle.contact = false
+        if (gap < -180 || gap > 550 || side >= 0.25) return
+        const rearEnd = gap > 180
+        if (rearEnd && speed > pace) {
+          distance -= 550 - gap
+          speed = Math.min(speed, pace * (vehicle.contact ? 1 : 0.88))
+        }
+        if (!vehicle.contact) {
+          vehicle.contact = true
+          hit(vehicle.x, rearEnd)
+        }
+      }
+      function update(dt) {
+        if (state === "countdown") {
+          const previous = Math.ceil(countdown)
+          countdown -= dt
+          const current = Math.ceil(countdown)
+          $("countdown").textContent =
+            current > 0 ? String(Math.min(3, current)) : "GO!"
+          if (previous !== current) sound(current > 0 ? 440 : 880, 0.15)
+          if (countdown <= 0) {
+            state = "race"
+            countdown = -0.65
+          }
+          return
+        }
+        if (state !== "race") return
+        if (countdown > -1) {
+          countdown -= dt
+          if (countdown <= -1) $("countdown").textContent = ""
+        }
+        elapsed += dt
+        cooldown = Math.max(0, cooldown - dt)
+        flash = Math.max(0, flash - dt)
+        const car = cars[selected],
+          curve = track[Math.floor(mod(distance, LENGTH) / SEGMENT)].curve
+        const axis = Number(input.has("right")) - Number(input.has("left"))
+        steering = mix(steering, axis, Math.min(1, dt * 9))
+        drifting =
+          input.has("drift") && Math.abs(steering) > 0.2 && speed > 3600
+        boosting =
+          input.has("nitro") &&
+          input.has("accelerate") &&
+          nitro > (boosting ? 0.2 : 8) &&
+          !drifting &&
+          !input.has("brake")
+        const top = car.top * (boosting ? 1.32 : drifting ? 0.87 : 1)
+        if (input.has("brake")) speed = Math.max(0, speed - 6500 * dt)
+        else if (!input.has("accelerate"))
+          speed = Math.max(0, speed - 1700 * dt)
+        else if (speed < top)
+          speed = Math.min(
+            top,
+            speed + car.acceleration * (boosting ? 1.8 : 1) * dt
+          )
+        else speed = Math.max(top, speed - 2800 * dt)
+        const ratio = speed / car.top
+        playerX +=
+          steering *
+          car.grip *
+          dt *
+          Math.min(1.3, ratio) *
+          (drifting ? 1.15 : 1)
+        playerX -= curve * ratio * ratio * dt * (drifting ? 0.28 : 0.65)
+        playerX += knockback * dt
+        knockback *= Math.exp(-7 * dt)
+        if (Math.abs(playerX) > 1.02) {
+          speed = Math.max(0, speed - 5600 * dt)
+          nitro = Math.max(0, nitro - 2 * dt)
+        }
+        playerX = clamp(playerX, -1.55, 1.55)
+        if (boosting) nitro = Math.max(0, nitro - 23 * dt)
+        else nitro = Math.min(100, nitro + (drifting ? 16 : 2.4) * dt)
+        if (drifting) {
+          driftTime += dt
+          if (driftTime > 0.55)
+            notify(`Drift +${Math.floor(driftTime * 16)} nitro`, 0.15)
+        } else driftTime = 0
+        const previousDistance = distance
+        distance += speed * dt
+        for (const opponent of opponents) {
+          if (opponent.finished) continue
+          const bend =
+            track[Math.floor(mod(opponent.distance, LENGTH) / SEGMENT)].curve
+          const pace = opponent.pace * (1 - Math.abs(bend) * 0.17)
+          opponent.distance += pace * dt
+          let targetX =
+            opponent.baseX +
+            Math.sin(opponent.distance / 8000 + opponent.pace) * 0.13
+          for (const t of traffic) {
+            const gap = mod(t.z - mod(opponent.distance, LENGTH), LENGTH)
+            if (gap < 2800 && Math.abs(t.x - targetX) < 0.3)
+              targetX = clamp(
+                targetX + (t.x > 0 ? -0.7 : 0.7) * (1 - gap / 2800),
+                -0.85,
+                0.85
+              )
+          }
+          const playerAhead = distance - opponent.distance
+          if (
+            playerAhead > 0 &&
+            playerAhead < 2200 &&
+            Math.abs(targetX - playerX) < 0.35
+          )
+            targetX = clamp(playerX + (playerX > 0 ? -0.55 : 0.55), -0.85, 0.85)
+          opponent.x = mix(opponent.x, targetX, 4 * dt)
+          if (opponent.distance >= LAPS * LENGTH) {
+            opponent.finished = true
+            opponent.finishTime =
+              elapsed - (opponent.distance - LAPS * LENGTH) / pace
+          }
+          const gap = opponent.distance - distance
+          collide(opponent, gap, pace)
+        }
+        for (const t of traffic) {
+          const oldGap = mod(t.z - mod(previousDistance, LENGTH), LENGTH)
+          t.z = mod(t.z + t.pace * dt, LENGTH)
+          const gap = ahead(t.z),
+            side = Math.abs(playerX - t.x)
+          collide(t, gap > LENGTH / 2 ? gap - LENGTH : gap, t.pace)
+          if (
+            oldGap < LENGTH / 2 &&
+            gap > LENGTH / 2 &&
+            side >= 0.24 &&
+            side < 0.46 &&
+            speed > 4500
+          ) {
+            nitro = Math.min(100, nitro + 8)
+            notify("Near miss +8 nitro")
+            sound(700, 0.1, 0.025, 1000)
+          }
+        }
+        const lap = Math.floor(distance / LENGTH)
+        for (const pickup of pickups) {
+          const gap = ahead(pickup.z)
+          if (
+            pickup.lap !== lap &&
+            (gap < 500 || gap > LENGTH - 200) &&
+            Math.abs(playerX - pickup.x) < 0.3
+          ) {
+            pickup.lap = lap
+            nitro = Math.min(100, nitro + 25)
+            notify("Nitro +25")
+            sound(550, 0.18, 0.04, 1100)
+          }
+        }
+        if (lap > completedLaps) {
+          const crossingTime =
+            elapsed - (distance - lap * LENGTH) / Math.max(speed, 1)
+          lapTimes.push(crossingTime - lapStart)
+          lapStart = crossingTime
+          completedLaps = lap
+          if (lap >= LAPS) {
+            elapsed = crossingTime
+            finishRace()
+            return
+          }
+          notify("Final lap", 2)
+          sound(880, 0.3, 0.04, 1320)
+        }
+        if (messageTime > 0) {
+          messageTime -= dt
+          if (messageTime <= 0) $("callout").textContent = ""
+        }
+        for (const p of particles) {
+          p.x += p.vx * dt
+          p.y += p.vy * dt
+          p.vy += 500 * dt
+          p.life -= dt
+        }
+        particles = particles.filter((p) => p.life > 0)
+        if (engine && audio.state === "running") {
+          engine.frequency.setTargetAtTime(
+            45 + ratio * 110 + (boosting ? 35 : 0),
+            audio.currentTime,
+            0.08
+          )
+          engineGain.gain.setTargetAtTime(
+            muted ? 0 : 0.018 + ratio * 0.018,
+            audio.currentTime,
+            0.05
+          )
+        }
+      }
+      function polygon(color, points) {
+        ctx.fillStyle = color
+        ctx.beginPath()
+        ctx.moveTo(points[0], points[1])
+        for (let i = 2; i < points.length; i += 2)
+          ctx.lineTo(points[i], points[i + 1])
+        ctx.closePath()
+        ctx.fill()
+      }
+      function project(x, z) {
+        const scale = DEPTH / z
+        return {
+          x: Math.round(width * 0.5 + scale * x * width * 0.5),
+          y: Math.round(height * 0.43 + scale * CAMERA * height * 0.5),
+          w: Math.round(scale * ROAD * width * 0.5),
+          scale,
+        }
+      }
+      function background() {
+        const horizon = height * 0.43
+        const sky = ctx.createLinearGradient(0, 0, 0, horizon)
+        sky.addColorStop(0, "#477c9a")
+        sky.addColorStop(0.6, "#e8aa85")
+        sky.addColorStop(1, "#ffcf8f")
+        ctx.fillStyle = sky
+        ctx.fillRect(0, 0, width, horizon)
+        ctx.fillStyle = "#ffe5a6"
+        ctx.beginPath()
+        ctx.arc(
+          width * 0.72 - playerX * 12,
+          horizon * 0.62,
+          height * 0.065,
+          0,
+          Math.PI * 2
+        )
+        ctx.fill()
+        ctx.fillStyle = "#418c9c"
+        ctx.fillRect(0, horizon, width, height - horizon)
+        for (let layer = 0; layer < 2; layer++) {
+          const points = [0, horizon + 12]
+          for (let i = 0; i <= 18; i++)
+            points.push(
+              (i / 18) * width,
+              horizon -
+                (Math.sin(i * 1.9 + layer * 3) * 0.5 + 0.5) *
+                  height *
+                  (0.08 + layer * 0.03)
+            )
+          points.push(width, horizon + 12)
+          polygon(layer ? "#597f88" : "#86a3a0", points)
+        }
+        ctx.fillStyle = "#4a737e"
+        for (let i = 0; i < 22; i++) {
+          const x = width * 0.04 + i * width * 0.018 - playerX * 5
+          const h = ((18 + ((i * 31) % 47)) * height) / 800
+          ctx.fillRect(x, horizon - h, width * 0.014, h)
+        }
+      }
+      function drawRoad() {
+        const cameraZ = mod(distance - PLAYER_Z, LENGTH),
+          base = Math.floor(cameraZ / SEGMENT),
+          fraction = mod(cameraZ, SEGMENT) / SEGMENT
+        let x = 0,
+          dx = -track[base].curve * fraction,
+          maxY = height
+        const visible = []
+        for (let n = 0; n < 155; n++) {
+          const segment = track[(base + n) % COUNT]
+          const z = n * SEGMENT - fraction * SEGMENT
+          const p1 = project(x - playerX * ROAD, Math.max(1, z))
+          const p2 = project(x + dx - playerX * ROAD, Math.max(1, z + SEGMENT))
+          x += dx
+          dx += segment.curve
+          segment.p1 = p1
+          segment.p2 = p2
+          segment.clip = maxY
+          segment.fade = clamp((155 - n) / 20, 0, 1)
+          if (z > DEPTH) visible.push(segment)
+          if (z <= DEPTH || p2.y >= maxY || p1.y <= p2.y) continue
+          const stripe = Math.floor(segment.index / 3) % 2 === 0
+          ctx.fillStyle = stripe ? "#418c9c" : "#438e9d"
+          ctx.fillRect(0, p2.y, width, p1.y - p2.y)
+          polygon(stripe ? "#c9b08a" : "#c4a880", [
+            p1.x - p1.w * 1.4,
+            p1.y,
+            width,
+            p1.y,
+            width,
+            p2.y,
+            p2.x - p2.w * 1.4,
+            p2.y,
+          ])
+          polygon(stripe ? "#f4e1bf" : "#bc5340", [
+            p1.x - p1.w * 1.08,
+            p1.y,
+            p1.x + p1.w * 1.08,
+            p1.y,
+            p2.x + p2.w * 1.08,
+            p2.y,
+            p2.x - p2.w * 1.08,
+            p2.y,
+          ])
+          polygon(stripe ? "#414c55" : "#45505a", [
+            p1.x - p1.w,
+            p1.y,
+            p1.x + p1.w,
+            p1.y,
+            p2.x + p2.w,
+            p2.y,
+            p2.x - p2.w,
+            p2.y,
+          ])
+          if (stripe)
+            for (const lane of [-1 / 3, 1 / 3])
+              polygon("#e4d8bc", [
+                p1.x + p1.w * (lane - 0.007),
+                p1.y,
+                p1.x + p1.w * (lane + 0.007),
+                p1.y,
+                p2.x + p2.w * (lane + 0.007),
+                p2.y,
+                p2.x + p2.w * (lane - 0.007),
+                p2.y,
+              ])
+          if (segment.index < 3) {
+            for (let col = 0; col < 14; col++)
+              polygon((col + segment.index) % 2 ? "#172c3b" : "#fff6e7", [
+                p1.x - p1.w + (col / 7) * p1.w,
+                p1.y,
+                p1.x - p1.w + ((col + 1) / 7) * p1.w,
+                p1.y,
+                p2.x - p2.w + ((col + 1) / 7) * p2.w,
+                p2.y,
+                p2.x - p2.w + (col / 7) * p2.w,
+                p2.y,
+              ])
+          }
+          maxY = p2.y
+        }
+        return visible
+      }
+      function drawCar(
+        x,
+        y,
+        w,
+        color,
+        tilt = 0,
+        flame = false,
+        isPlayer = false
+      ) {
+        const h = w * 0.54
+        ctx.save()
+        ctx.translate(x, y)
+        ctx.rotate(tilt)
+        ctx.fillStyle = "#10253655"
+        ctx.beginPath()
+        ctx.ellipse(0, -h * 0.02, w * 0.62, h * 0.19, 0, 0, Math.PI * 2)
+        ctx.fill()
+        if (flame) {
+          for (const side of [-1, 1]) {
+            polygon("#70d8ee", [
+              side * w * 0.29 - w * 0.06,
+              -h * 0.05,
+              side * w * 0.29 + w * 0.06,
+              -h * 0.05,
+              side * w * 0.29,
+              h * (0.3 + Math.sin(ambient * 35) * 0.06),
+            ])
+            polygon("#fff6e7", [
+              side * w * 0.29 - w * 0.025,
+              -h * 0.04,
+              side * w * 0.29 + w * 0.025,
+              -h * 0.04,
+              side * w * 0.29,
+              h * 0.16,
+            ])
+          }
+        }
+        ctx.fillStyle = "#172531"
+        ctx.fillRect(-w * 0.51, -h * 0.54, w * 0.16, h * 0.54)
+        ctx.fillRect(w * 0.35, -h * 0.54, w * 0.16, h * 0.54)
+        polygon(color, [
+          -w * 0.49,
+          -h * 0.08,
+          -w * 0.5,
+          -h * 0.53,
+          -w * 0.35,
+          -h * 0.72,
+          -w * 0.28,
+          -h,
+          w * 0.28,
+          -h,
+          w * 0.35,
+          -h * 0.72,
+          w * 0.5,
+          -h * 0.53,
+          w * 0.49,
+          -h * 0.08,
+        ])
+        polygon("#b8e7eb", [
+          -w * 0.27,
+          -h * 0.91,
+          w * 0.27,
+          -h * 0.91,
+          w * 0.34,
+          -h * 0.57,
+          -w * 0.34,
+          -h * 0.57,
+        ])
+        polygon("#183f55", [
+          -w * 0.23,
+          -h * 0.87,
+          w * 0.23,
+          -h * 0.87,
+          w * 0.29,
+          -h * 0.62,
+          -w * 0.29,
+          -h * 0.62,
+        ])
+        polygon("#ffffff24", [
+          -w * 0.46,
+          -h * 0.5,
+          w * 0.46,
+          -h * 0.5,
+          w * 0.39,
+          -h * 0.37,
+          -w * 0.39,
+          -h * 0.37,
+        ])
+        ctx.fillStyle = "#172531"
+        ctx.fillRect(-w * 0.37, -h * 0.23, w * 0.74, h * 0.12)
+        ctx.fillStyle = "#ff725f"
+        ctx.fillRect(-w * 0.44, -h * 0.37, w * 0.22, h * 0.09)
+        ctx.fillRect(w * 0.22, -h * 0.37, w * 0.22, h * 0.09)
+        ctx.fillStyle = "#fff6e7"
+        ctx.fillRect(-w * 0.075, -h * 0.2, w * 0.15, h * 0.055)
+        if (isPlayer) {
+          ctx.fillStyle = "#172531"
+          ctx.fillRect(-w * 0.43, -h * 0.54, w * 0.86, h * 0.055)
+        }
+        ctx.restore()
+      }
+      function palm(x, y, size) {
+        polygon("#785d43", [
+          x - size * 0.04,
+          y,
+          x + size * 0.04,
+          y,
+          x + size * 0.14,
+          y - size,
+          x + size * 0.09,
+          y - size,
+        ])
+        for (let i = 0; i < 5; i++) {
+          const angle = Math.PI + i * 0.65
+          const endX = x + size * 0.12 + Math.cos(angle) * size * 0.5,
+            endY = y - size + Math.sin(angle) * size * 0.26
+          polygon(i % 2 ? "#3b6650" : "#315947", [
+            x + size * 0.12,
+            y - size,
+            endX,
+            endY,
+            endX + size * 0.12,
+            endY + size * 0.1,
+          ])
+        }
+      }
+      function sprites(visible) {
+        const bySegment = new Map()
+        const add = (z, object) => {
+          const index = Math.floor(mod(z, LENGTH) / SEGMENT)
+          if (!bySegment.has(index)) bySegment.set(index, [])
+          bySegment.get(index).push({ ...object, z: mod(z, LENGTH) })
+        }
+        for (const o of opponents)
+          if (Math.abs(o.distance - distance) < LENGTH * 0.5)
+            add(o.distance, { type: "car", x: o.x, color: o.color })
+        for (const t of traffic)
+          add(t.z, { type: "car", x: t.x, color: t.color })
+        for (const p of pickups)
+          if (p.lap !== Math.floor(distance / LENGTH))
+            add(p.z, { type: "pickup", x: p.x })
+        for (let i = visible.length - 1; i >= 0; i--) {
+          const s = visible[i],
+            p = s.p1
+          ctx.save()
+          ctx.globalAlpha = s.fade
+          ctx.beginPath()
+          ctx.rect(0, 0, width, s.clip)
+          ctx.clip()
+          if (s.scenery) {
+            palm(p.x - p.w * 1.24, p.y, p.w * 0.65)
+            if (s.index % 18 === 0) palm(p.x + p.w * 1.65, p.y, p.w * 0.85)
+          }
+          if (s.index % 90 === 70) {
+            const signX = p.x + p.w * 1.22,
+              size = p.w * 0.3
+            ctx.fillStyle = "#d5cbb4"
+            ctx.fillRect(signX, p.y - size * 1.5, size * 0.04, size * 1.5)
+            ctx.fillStyle = "#f1c16b"
+            ctx.fillRect(
+              signX - size * 0.45,
+              p.y - size * 1.8,
+              size,
+              size * 0.6
+            )
+            ctx.fillStyle = "#263d49"
+            ctx.font = `900 ${Math.max(1, size * 0.5)}px Arial`
+            ctx.textAlign = "center"
+            ctx.fillText(
+              s.index < 360 ? ">>" : "<<",
+              signX + size * 0.05,
+              p.y - size * 1.34
+            )
+          }
+          for (const object of (bySegment.get(s.index) || []).sort(
+            (a, b) => b.z - a.z
+          )) {
+            const t = mod(object.z, SEGMENT) / SEGMENT
+            const w = mix(s.p1.w, s.p2.w, t),
+              x = mix(s.p1.x, s.p2.x, t) + w * object.x,
+              y = mix(s.p1.y, s.p2.y, t)
+            if (object.type === "car") {
+              const gap =
+                mod(object.z - mod(distance, LENGTH) + LENGTH / 2, LENGTH) -
+                LENGTH / 2
+              if (gap < -400) continue
+              ctx.globalAlpha = s.fade * clamp((gap + 400) / 300, 0, 1)
+              drawCar(x, y, w * 0.24, object.color)
+              ctx.globalAlpha = s.fade
+            } else {
+              const size = w * 0.095,
+                bob = reducedMotion
+                  ? 0
+                  : Math.sin(ambient * 4 + object.z) * size * 0.12
+              ctx.fillStyle = "#70d8ee"
+              ctx.fillRect(
+                x - size * 0.4,
+                y - size * 1.9 + bob,
+                size * 0.8,
+                size * 1.3
+              )
+              ctx.fillStyle = "#e9fcff"
+              ctx.fillRect(
+                x - size * 0.2,
+                y - size * 2.1 + bob,
+                size * 0.4,
+                size * 0.25
+              )
+              polygon("#173e58", [
+                x + size * 0.08,
+                y - size * 1.8 + bob,
+                x - size * 0.2,
+                y - size * 1.2 + bob,
+                x + size * 0.02,
+                y - size * 1.2 + bob,
+                x - size * 0.05,
+                y - size * 0.75 + bob,
+                x + size * 0.23,
+                y - size * 1.4 + bob,
+                x,
+                y - size * 1.4 + bob,
+              ])
+            }
+          }
+          ctx.restore()
+        }
+      }
+      function render() {
+        background()
+        const visible = drawRoad()
+        sprites(visible)
+        const carWidth = Math.min(width * 0.25, height * 0.31, 240),
+          carY = height * 0.87
+        const isMenu = state === "menu",
+          x = isMenu ? width * 0.72 : width * 0.5
+        if (drifting && !reducedMotion) {
+          ctx.strokeStyle = "#12242e70"
+          ctx.lineWidth = carWidth * 0.055
+          for (const side of [-1, 1]) {
+            ctx.beginPath()
+            ctx.moveTo(x + side * carWidth * 0.4, carY)
+            ctx.lineTo(
+              x + side * carWidth * 0.4 - steering * carWidth * 0.3,
+              height
+            )
+            ctx.stroke()
+          }
+        }
+        drawCar(
+          x,
+          carY + (reducedMotion ? 0 : (Math.sin(ambient * 40) * speed) / 12000),
+          isMenu ? carWidth * 1.5 : carWidth,
+          cars[selected].color,
+          isMenu ? -0.08 : -steering * (drifting ? 0.18 : 0.035),
+          boosting,
+          true
+        )
+        if (boosting && !reducedMotion) {
+          ctx.strokeStyle = "#d0f7ff80"
+          ctx.lineWidth = 2
+          for (let i = 0; i < 14; i++) {
+            const phase = mod(ambient * 1.5 + i * 0.173, 1),
+              side = i % 2 ? 1 : -1
+            const startX = width / 2 + side * width * (0.24 + phase * 0.4),
+              startY = height * (0.42 + phase * 0.6)
+            ctx.beginPath()
+            ctx.moveTo(startX, startY)
+            ctx.lineTo(startX + side * width * 0.08, startY + height * 0.08)
+            ctx.stroke()
+          }
+        }
+        for (const p of particles) {
+          ctx.fillStyle = p.color
+          ctx.globalAlpha = clamp(p.life * 2, 0, 1)
+          ctx.fillRect(p.x, p.y, 4, 3)
+        }
+        ctx.globalAlpha = 1
+        if (flash > 0) {
+          ctx.fillStyle = `rgba(244,84,60,${flash * (reducedMotion ? 0.2 : 0.8)})`
+          ctx.fillRect(0, 0, width, height)
+        }
+        $("speed").textContent = String(Math.round(speed / 34))
+        $("time").textContent = formatTime(elapsed)
+        $("lap").textContent =
+          `Lap ${Math.min(LAPS, Math.floor(distance / LENGTH) + 1)} / ${LAPS}`
+        $("position").textContent =
+          state === "finished"
+            ? String(finishPlace)
+            : String(1 + opponents.filter((o) => o.distance > distance).length)
+        $("nitro-fill").style.width = `${nitro}%`
+        $("nitro-percent").textContent = `${Math.round(nitro)}%`
+        $("progress-fill").style.width =
+          `${Math.min(100, (distance / (LENGTH * LAPS)) * 100)}%`
+      }
+      let framePending = false
+      function requestFrame() {
+        if (!framePending) {
+          framePending = true
+          requestAnimationFrame(frame)
+        }
+      }
+      function frame(now) {
+        framePending = false
+        if (state !== "race" && state !== "countdown") return
+        const delta = Math.min((now - last) / 1000, 0.1)
+        last = now
+        accumulator += delta
+        ambient += delta
+        while (accumulator >= STEP) {
+          update(STEP)
+          accumulator -= STEP
+        }
+        render()
+        if (state === "race" || state === "countdown") requestFrame()
+      }
+      const keys = {
+        ArrowUp: "accelerate",
+        KeyW: "accelerate",
+        ArrowLeft: "left",
+        KeyA: "left",
+        ArrowRight: "right",
+        KeyD: "right",
+        ArrowDown: "brake",
+        KeyS: "brake",
+        Space: "nitro",
+        ShiftLeft: "drift",
+        ShiftRight: "drift",
+      }
+      function syncInput() {
+        input.clear()
+        for (const key of keyboardHeld) if (keys[key]) input.add(keys[key])
+        for (const action of heldPointers.values()) input.add(action)
+      }
+      window.addEventListener("keydown", (event) => {
+        if (keys[event.code] && (state === "race" || state === "countdown")) {
+          event.preventDefault()
+          keyboardHeld.add(event.code)
+          syncInput()
+        }
+        if (event.repeat) return
+        if (event.code === "KeyP" || event.code === "Escape") {
+          if (state === "paused") resume()
+          else pause()
+        }
+        if (event.code === "KeyR" && (state === "race" || state === "paused"))
+          startRace()
+        if (event.code === "KeyM") toggleMute()
+      })
+      window.addEventListener("keyup", (event) => {
+        keyboardHeld.delete(event.code)
+        syncInput()
+      })
+      document.querySelectorAll(".pedal").forEach((button) => {
+        button.addEventListener("pointerdown", (event) => {
+          event.preventDefault()
+          button.setPointerCapture(event.pointerId)
+          heldPointers.set(event.pointerId, button.dataset.action)
+          button.dataset.held = "true"
+          syncInput()
+        })
+        const release = (event) => {
+          heldPointers.delete(event.pointerId)
+          button.dataset.held = String(
+            [...heldPointers.values()].includes(button.dataset.action)
+          )
+          syncInput()
+        }
+        button.addEventListener("pointerup", release)
+        button.addEventListener("pointercancel", release)
+        button.addEventListener("lostpointercapture", release)
+      })
+      function toggleMute() {
+        muted = !muted
+        $("mute").textContent = muted ? "Sound off" : "Sound on"
+        $("mute").setAttribute("aria-pressed", String(muted))
+        if (engineGain && muted)
+          engineGain.gain.setTargetAtTime(0, audio.currentTime, 0.02)
+      }
+      document.querySelectorAll(".car-choice").forEach((button) => {
+        button.addEventListener("click", () => {
+          selected = Number(button.dataset.car)
+          document
+            .querySelectorAll(".car-choice")
+            .forEach((choice) =>
+              choice.setAttribute("aria-pressed", String(choice === button))
+            )
+          render()
+        })
+      })
+      $("start").onclick = startRace
+      $("again").onclick = startRace
+      $("restart").onclick = startRace
+      $("pause").onclick = pause
+      $("resume").onclick = resume
+      $("back").onclick = garage
+      $("garage").onclick = garage
+      $("mute").onclick = toggleMute
+      window.addEventListener("resize", resize)
+      window.addEventListener("blur", pause)
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) pause()
+      })
+      canvas.tabIndex = -1
+      resize()
+    </script>
+  </body>
+</html>
