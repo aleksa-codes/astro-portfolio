@@ -14,36 +14,34 @@ interface Props {
 
 const { statusText, showStatus = true, class: className } = Astro.props
 
+const AVATAR_IMAGE_SIZE = 512
+
 const defaultAvatar = await getImage({
   src: AvatarDefault,
   format: "webp",
-  width: 128,
-  height: 128,
-  quality: "max",
+  width: AVATAR_IMAGE_SIZE,
+  height: AVATAR_IMAGE_SIZE,
 })
 
 const halloweenAvatar = await getImage({
   src: AvatarHalloween,
   format: "webp",
-  width: 128,
-  height: 128,
-  quality: "max",
+  width: AVATAR_IMAGE_SIZE,
+  height: AVATAR_IMAGE_SIZE,
 })
 
 const santaAvatar = await getImage({
   src: AvatarSanta,
   format: "webp",
-  width: 128,
-  height: 128,
-  quality: "max",
+  width: AVATAR_IMAGE_SIZE,
+  height: AVATAR_IMAGE_SIZE,
 })
 
 const summerAvatar = await getImage({
   src: AvatarSummer,
   format: "webp",
-  width: 128,
-  height: 128,
-  quality: "max",
+  width: AVATAR_IMAGE_SIZE,
+  height: AVATAR_IMAGE_SIZE,
 })
 ---
 
@@ -52,8 +50,8 @@ const summerAvatar = await getImage({
     <img
       src={defaultAvatar.src}
       alt="Avatar of Aleksa"
-      width={128}
-      height={128}
+      width={AVATAR_IMAGE_SIZE}
+      height={AVATAR_IMAGE_SIZE}
       loading="eager"
       data-avatar-default={defaultAvatar.src}
       data-avatar-halloween={halloweenAvatar.src}
