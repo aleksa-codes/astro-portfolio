@@ -15,6 +15,7 @@ const SITE = import.meta.env.PROD
 // https://astro.build/config
 export default defineConfig({
   site: SITE,
+  compressHTML: true,
   server: {
     port: 3000,
   },
