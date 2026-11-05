@@ -3,7 +3,9 @@ import { Icon } from "astro-icon/components"
 import ProjectCard from "@/components/project-card.astro"
 import { projects } from "@/lib/projects"
 
-const featuredProjects = projects.filter((p) => p.featured).slice(0, 4)
+const featuredProjects = projects
+  .filter((project) => project.featuredOrder !== undefined)
+  .sort((a, b) => a.featuredOrder - b.featuredOrder)
 const projectLinkClass =
   "inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-medium text-foreground underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
 ---
